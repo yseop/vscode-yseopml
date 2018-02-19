@@ -43,14 +43,16 @@ let maxNumberOfProblems;
 // as well.
 connection.onDidChangeConfiguration((change) => {
     let settings = change.settings;
-    maxNumberOfProblems = settings.lspSample.maxNumberOfProblems || 100;
+    maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
     // Revalidate any open text documents
     documents.all().forEach(validateTextDocument);
 });
+
 function evaluateKaoFile(ctx, diagnostics) {
     let visitor = new YmlToBdlVisitorImpl_1.YmlToBdlVisitorImpl(diagnostics);
     visitor.visit(ctx);
 }
+
 function validateTextDocument(textDocument) {
     let diagnostics = [];
     let problems = 0;
@@ -74,8 +76,7 @@ connection.onCompletion((_textDocumentPosition) => {
     // The pass parameter contains the position of the text document in
     // which code complete got requested. For the example we ignore this
     // info and always provide the same completion items.
-    return [
-        {
+    return [{
             label: 'TypeScript',
             kind: vscode_languageserver_1.CompletionItemKind.Text,
             data: 1
@@ -93,8 +94,7 @@ connection.onCompletionResolve((item) => {
     if (item.data === 1) {
         item.detail = 'TypeScript details',
             item.documentation = 'TypeScript documentation';
-    }
-    else if (item.data === 2) {
+    } else if (item.data === 2) {
         item.detail = 'JavaScript details',
             item.documentation = 'JavaScript documentation';
     }

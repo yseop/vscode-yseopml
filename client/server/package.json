@@ -1,15 +1,14 @@
 {
-    "name": "lsp-sample",
-    "description": "Example implementation of a language server in node.",
+    "name": "vscode-yseopml",
+    "description": "Implementation of YML language server in node.",
     "version": "0.0.1",
-    "author": "Microsoft Corporation",
-    "license": "MIT",
+    "author": "Yseop",
     "engines": {
         "node": "*"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Microsoft/vscode-extension-samples"
+        "url": "https://github.com/yseop/vscode-yseopml"
     },
     "dependencies": {
         "vscode-languageserver": "^3.4.2"
@@ -18,6 +17,6 @@
         "installServer": "installServerIntoExtension ../client ./package.json ./tsconfig.json",
         "compile": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -p .",
         "watch": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -w -p .",
-        "antlr4ts": "antlr4ts -visitor src/grammar/YmlToBdl.g4"
+        "antlr4ts": "antlr4ts -visitor src/YmlToBdl.g4"
     }
 }
