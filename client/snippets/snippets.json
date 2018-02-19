@@ -1,0 +1,43 @@
+{
+    "Granule": {
+        "prefix": "granule",
+        "body": [
+            "\\(",
+            "\t$0",
+            "\\)"
+        ],
+        "description": "For Loop"
+    },
+    "Field": {
+        "prefix": "field",
+        "body": [
+            "field ${1:attribute name}",
+            "--> ${2:option name} ${3:option value}"
+        ],
+        "description": "Yml Class attribute"
+    },
+    "Instance": {
+        "prefix": "instance",
+        "body": [
+            "${1:instance type} ${2:instance name}",
+            "--> ${3:option name} ${4:option value}",
+            "$0",
+            ";"
+        ],
+        "description": "Object Instance"
+    },
+    "Textualization Attribute": {
+        "prefix": "textu",
+        "body": [
+            "--> dsl -> Textualization",
+            "\t--> language \"${1:fr or en}\"",
+            "\t--> root \"${2:root string}\"",
+            "\t--> number \"${3:SINGULAR or PLURAL}\"",
+            "\t--> gender \"${4:FEMININE or MASCULINE}\"",
+            "\t--> hasDeterminer ${5:true or false}",
+            ";",
+            "$0"
+        ],
+        "description": "Textualization Attribute"
+    }
+}

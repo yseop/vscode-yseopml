@@ -1,0 +1,28 @@
+{  
+    scopeName = 'source.yml';
+    fileTypes = ( );
+    foldingStartMarker = '\{\s*$';
+    foldingStopMarker = '^\s*\}';
+    patterns = (
+        {  
+            name = 'keyword.control.yml';
+            match = '\b(if|while|for|return|switch|case|default|ifExpr|then|else)\b';
+        },
+        {  
+            name = 'string.quoted.double.yml';
+            begin = '"';
+            end = '"';
+            patterns = ( 
+                {  
+                    name = 'constant.character.escape.yml';
+                    match = '\\.';
+                }
+            );
+        },
+        {
+            name = 'string.interpolated.yml';
+            begin = '\(';
+            end = '\(';
+        }
+    );
+}
