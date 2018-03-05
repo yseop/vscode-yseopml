@@ -1,0 +1,89 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Yseop Markup Language",
+    "patterns": [
+        { "include": "#keywords" },
+        { "include": "#strings" },
+        { "include": "#granules" },
+        { "include": "#documentationString" },
+        { "include": "#constants" },
+        { "include": "#comments" },
+        { "include": "#operators" },
+        { "include": "#functions" }
+    ],
+    "repository": {
+        "keywords": {
+            "patterns": [{
+                "name": "keyword.control.yml",
+                "match": "\\b(if|while|for|return|foreach|switch|switchExpr|belongsTo|default|case|interface|class|implements|private|extends|overrides)\\b",
+                "comment": "All YML keywords that should be highlighted."
+            }]
+        },
+        "constants": {
+            "patterns": [{
+                    "name": "constant.numeric.yml",
+                    "match": "\\b(\\d+)\\b"
+                },
+                {
+                    "name": "constant.language.yml",
+                    "match": "\\b(true|false)\\b"
+                }
+            ]
+        },
+        "strings": {
+            "name": "string.quoted.double.yml",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [{
+                "name": "constant.character.escape.yml",
+                "match": "\\\\."
+            }]
+        },
+        "documentationString": {
+            "name": "string.quoted.triple.yml",
+            "begin": "\"\"\"",
+            "end": "\"\"\"",
+            "patterns": [{
+                "name": "constant.character.escape.yml",
+                "match": "\\\\."
+            }]
+        },
+        "granules": {
+            "patterns": [{
+                "name": "string.interpolated.yml",
+                "begin": "\\\\\\(",
+                "end": "\\\\\\)",
+                "comment": "Text Granule blocks."
+            }]
+        },
+        "comments": {
+            "patterns": [{
+                    "match": "(//).*",
+                    "name": "comment.line.double-slash.yml",
+                    "comment": "Single line comment."
+                },
+                {
+                    "begin": "/\\*",
+                    "end": "\\*/",
+                    "name": "comment.block.yml",
+                    "comment": "Multilines comments."
+                }
+            ]
+        },
+        "operators": {
+            "patterns": [{
+                "match": "(--?>|/|\\+|-|\\*|&&?|\\|\\|?|==?)",
+                "name": "keyword.operator.yml",
+                "comment": "Some of the operators that can be find in YML."
+            }]
+        },
+        "functions": {
+            "patterns": [{
+                "match": "\\w+\\(\\)",
+                "name": "entity.name.function.yml",
+                "comment": "Any succession of letters followed by empty parenthesis."
+            }]
+        }
+    },
+    "scopeName": "source.yseop"
+}

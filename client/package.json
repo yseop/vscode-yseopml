@@ -63,7 +63,7 @@
         }],
         "grammars": [{
             "language": "yml",
-            "scopeName": "source.yml",
+            "scopeName": "source.yseop",
             "path": "./syntaxes/yml.tmLanguage.json"
         }],
         "snippets": [{
