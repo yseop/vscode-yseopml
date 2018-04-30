@@ -46,6 +46,8 @@ export class YmlToBdlVisitorImpl implements YmlToBdlVisitor<void> {
 
     }
     visitField(node: FieldContext) : void {
+        // disable diagnostics for now
+        /*
         this.diagnostics.push({
             severity: DiagnosticSeverity.Warning,
 				range: {
@@ -55,5 +57,6 @@ export class YmlToBdlVisitorImpl implements YmlToBdlVisitor<void> {
 				message: `"${node.text}" is a field`,
 				source: 'ex'
         })
+         */
     }
 }

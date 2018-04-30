@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const vscode_languageserver_1 = require("vscode-languageserver");
 const YmlToBdlParser_1 = require("./YmlToBdlParser");
 class YmlToBdlVisitorImpl {
     constructor(diagnostics) {
@@ -30,15 +29,18 @@ class YmlToBdlVisitorImpl {
     visitFieldValue(node) {
     }
     visitField(node) {
+        // disable diagnostics for now
+        /*
         this.diagnostics.push({
-            severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
-            range: {
-                start: { line: node.start.line - 1, character: node.start.charPositionInLine },
-                end: { line: node.stop.line - 1, character: node.stop.charPositionInLine + (node.stop.stopIndex - node.stop.startIndex) + 1 }
-            },
-            message: `"${node.text}" is a field`,
-            source: 'ex'
-        });
+            severity: DiagnosticSeverity.Warning,
+                range: {
+                    start: { line: node.start.line - 1, character: node.start.charPositionInLine },
+                    end: { line: node.stop.line - 1, character: node.stop.charPositionInLine + (node.stop.stopIndex - node.stop.startIndex) + 1 }
+                },
+                message: `"${node.text}" is a field`,
+                source: 'ex'
+        })
+         */
     }
 }
 exports.YmlToBdlVisitorImpl = YmlToBdlVisitorImpl;
