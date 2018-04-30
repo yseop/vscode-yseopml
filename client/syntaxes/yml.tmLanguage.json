@@ -72,7 +72,7 @@
         },
         "operators": {
             "patterns": [{
-                "match": "(--?>|/|\\+|-|\\*|&&?|\\|\\|?|==?)",
+                "match": "(==>|--?>|/|\\+|-|\\*|&&?|\\|\\|?|==?)",
                 "name": "keyword.operator.yml",
                 "comment": "Some of the operators that can be find in YML."
             }]
