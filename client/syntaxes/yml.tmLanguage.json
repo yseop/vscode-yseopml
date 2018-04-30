@@ -13,12 +13,11 @@
         { "include": "#functions" }
     ],
     "repository": {
-        "preprocessing": {
+        "tag": {
             "patterns": [{
-                "name": "comment.block.yml",
-                "begin": "\\b@if\\b",
-                "end": "\\b@endif\\b",
-                "comment": "preprocessing"
+                "name": "keyword.control.granule.yml",
+                "match": "\\\\\\w+",
+                "comment": "All YML keywords that should be highlighted."
             }]
         },
         "keywords": {
@@ -31,13 +30,23 @@
         "constants": {
             "patterns": [{
                     "name": "constant.numeric.yml",
-                    "match": "\\b(\\d+)\\b"
+                    "match": "\\b\\d+(\\.\\d+)?\\b",
+                    "comment": "A simple integer or a decimal number"
                 },
                 {
                     "name": "constant.language.yml",
-                    "match": "\\b(true|false)\\b"
+                    "match": "\\b(true|false|null)\\b",
+                    "comment": "Pure constants."
                 }
             ]
+        },
+        "preprocessing": {
+            "patterns": [{
+                "name": "comment.block.yml",
+                "begin": "\\b@if\\b",
+                "end": "\\b@endif\\b"
+            }],
+            "comment": "Preprocessing stuff"
         },
         "strings": {
             "name": "string.quoted.double.yml",
@@ -46,7 +55,9 @@
             "patterns": [{
                 "name": "constant.character.escape.yml",
                 "match": "\\\\."
-            }]
+            }],
+            "comment": "All simple strings"
+
         },
         "documentationString": {
             "name": "string.quoted.triple.yml",
@@ -57,40 +68,38 @@
                 "match": "\\\\."
             }]
         },
+        "textgranule-functions": {
+            "patterns": [{
+                "begin": "\\\\\\w+(::?\\w+)*\\s*\\(",
+                "end": "\\)",
+                "name": "entity.name.function.granule.yml",
+                "comment": "A tag with arguments.",
+                "patterns": [{
+                        "match": "\\b(\\w+)\\b",
+                        "name": "variable.parameter.yml",
+                        "comment": "A parameter is just a string or a number"
+                    },
+                    { "include": "#strings" },
+                    { "include": "#constants" }
+                ]
+            }]
+        },
         "granules": {
             "patterns": [{
                 "name": "source.granule.yml",
                 "begin": "\\\\\\(",
                 "end": "\\\\\\)",
-                "patterns": [{
-                        "match": "\\\\\\w+(:\\w+)*",
-                        "name": "entity.name.function.granule.yml",
-                        "comment": "A tag without arguments."
-                    },
-                    {
-                        "begin": "\\\\\\w+(::?\\w+)*\\s*\\(",
-                        "end": "\\)",
-                        "name": "entity.name.function.granule.yml",
-                        "comment": "A tag with arguments.",
-                        "patterns": [{
-                            "match": "\\b(\\w+|\\d+)\\b",
-                            "name": "variable.parameter.yml",
-                            "comment": "A parameter is just a string or a number"
-                        }]
-                    },
-                    { "include": "#preprocessing" },
+                "patterns": [
+                    { "include": "#textgranule-functions" },
+                    { "include": "#tag" },
                     { "include": "#keywords" },
                     { "include": "#strings" },
-                    { "include": "#granules" },
-                    { "include": "#documentationString" },
                     { "include": "#constants" },
                     { "include": "#comments" },
                     { "include": "#operators" }
-                ],
-
-
-                "comment": "Text Granule blocks."
-            }]
+                ]
+            }],
+            "comment": "Text Granule blocks."
         },
         "comments": {
             "patterns": [{

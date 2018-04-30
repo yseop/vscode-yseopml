@@ -27,3 +27,9 @@ The language server is located in the 'server' folder.
 * if not already the case, install `ANTLR tool` as explained [here](http://www.antlr.org/download.html) and [here](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md)
 * modify `YmlToBdl.g4` grammar file
 * `npm run antlr4ts` to generate tokens, lexer and parser files
+
+## How to update Syntax Coloring
+
+In order to update the syntax coloring, you must modify the file `yml.tmLanguage.json` accordingly to the [TextMate Manual](http://manual.macromates.com/en/language_grammars#language_grammars).
+
+The format available in this manual is a little bit different than the one we are using (json). However it is easy to understand how to change it to fit our needs.
