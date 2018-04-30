@@ -6,7 +6,7 @@
             "\t$0",
             "\\)"
         ],
-        "description": "For Loop"
+        "description": "Text Granule"
     },
     "Field": {
         "prefix": "field",
@@ -30,10 +30,10 @@
         "prefix": "textu",
         "body": [
             "--> dsl -> Textualization",
-            "\t--> language \"${1:fr or en}\"",
+            "\t--> language ${1:LANG_fr or LANG_en}",
             "\t--> root \"${2:root string}\"",
-            "\t--> number \"${3:SINGULAR or PLURAL}\"",
-            "\t--> gender \"${4:FEMININE or MASCULINE}\"",
+            "\t--> number ${3:SINGULAR or PLURAL}",
+            "\t--> gender ${4:FEMININE or MASCULINE}",
             "\t--> hasDeterminer ${5:true or false}",
             ";",
             "$0"

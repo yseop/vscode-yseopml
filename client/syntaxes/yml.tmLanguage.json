@@ -12,10 +12,11 @@
         { "include": "#functions" }
     ],
     "repository": {
+
         "keywords": {
             "patterns": [{
                 "name": "keyword.control.yml",
-                "match": "\\b(if|while|for|return|foreach|switch|switchExpr|belongsTo|default|case|interface|class|implements|private|extends|overrides)\\b",
+                "match": "\\b(if|while|for|return|foreach|switch|switchExpr|switchExprExclusive|belongsTo|default|case|interface|class|implementation|private|extends|override|complete|field|method|function|static|classProperties|ifExpr|then|else)\\b",
                 "comment": "All YML keywords that should be highlighted."
             }]
         },
@@ -50,9 +51,28 @@
         },
         "granules": {
             "patterns": [{
-                "name": "string.interpolated.yml",
+                "name": "string.unquoted.yml",
                 "begin": "\\\\\\(",
                 "end": "\\\\\\)",
+                "patterns": [{
+                        "match": "\\\\\\w+(:\\w+)*",
+                        "name": "entity.name.function.yml",
+                        "comment": "A tag without arguments."
+                    },
+                    {
+                        "begin": "\\\\\\w+(::?\\w+)*\\s*\\(",
+                        "end": "\\)",
+                        "name": "entity.name.function.yml",
+                        "comment": "A tag with arguments.",
+                        "patterns": [{
+                            "match": "\\b(\\w+|\\d+)\\b",
+                            "name": "variable.parameter.yml",
+                            "comment": "A parameter is just a string or a number"
+                        }]
+                    }
+                ],
+
+
                 "comment": "Text Granule blocks."
             }]
         },
@@ -67,23 +87,36 @@
                     "end": "\\*/",
                     "name": "comment.block.yml",
                     "comment": "Multilines comments."
+                },
+                {
+                    "name": "comment.block.preprocessing.yml",
+                    "begin": "\\b@if\\b",
+                    "end": "\\b@endif\\b",
+                    "comment": "preprocessing"
                 }
             ]
         },
         "operators": {
             "patterns": [{
-                "match": "(==>|--?>|/|\\+|-|\\*|&&?|\\|\\|?|==?)",
+                "match": "(>|>=|<|<=|==|!=|==>|--?>|/|\\+|-|\\*|&&?|\\|\\|?|==?)",
                 "name": "keyword.operator.yml",
                 "comment": "Some of the operators that can be find in YML."
             }]
         },
         "functions": {
             "patterns": [{
-                "match": "\\w+\\(\\)",
+                "begin": "\\w+(::?\\w+)*\\s*\\(",
+                "end": "\\)",
+                "patterns": [{
+                    "match": "\\b(\\w+|\\d+)\\b",
+                    "name": "variable.parameter.yml",
+                    "comment": "A parameter is just a string or a number"
+                }],
                 "name": "entity.name.function.yml",
-                "comment": "Any succession of letters followed by empty parenthesis."
+                "comment": "A function call in YML."
             }]
         }
+
     },
     "scopeName": "source.yseop"
 }
