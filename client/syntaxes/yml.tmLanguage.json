@@ -2,6 +2,7 @@
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
     "name": "Yseop Markup Language",
     "patterns": [
+        { "include": "#preprocessing" },
         { "include": "#keywords" },
         { "include": "#strings" },
         { "include": "#granules" },
@@ -12,7 +13,14 @@
         { "include": "#functions" }
     ],
     "repository": {
-
+        "preprocessing": {
+            "patterns": [{
+                "name": "comment.block.yml",
+                "begin": "\\b@if\\b",
+                "end": "\\b@endif\\b",
+                "comment": "preprocessing"
+            }]
+        },
         "keywords": {
             "patterns": [{
                 "name": "keyword.control.yml",
@@ -51,25 +59,33 @@
         },
         "granules": {
             "patterns": [{
-                "name": "string.unquoted.yml",
+                "name": "source.granule.yml",
                 "begin": "\\\\\\(",
                 "end": "\\\\\\)",
                 "patterns": [{
                         "match": "\\\\\\w+(:\\w+)*",
-                        "name": "entity.name.function.yml",
+                        "name": "entity.name.function.granule.yml",
                         "comment": "A tag without arguments."
                     },
                     {
                         "begin": "\\\\\\w+(::?\\w+)*\\s*\\(",
                         "end": "\\)",
-                        "name": "entity.name.function.yml",
+                        "name": "entity.name.function.granule.yml",
                         "comment": "A tag with arguments.",
                         "patterns": [{
                             "match": "\\b(\\w+|\\d+)\\b",
                             "name": "variable.parameter.yml",
                             "comment": "A parameter is just a string or a number"
                         }]
-                    }
+                    },
+                    { "include": "#preprocessing" },
+                    { "include": "#keywords" },
+                    { "include": "#strings" },
+                    { "include": "#granules" },
+                    { "include": "#documentationString" },
+                    { "include": "#constants" },
+                    { "include": "#comments" },
+                    { "include": "#operators" }
                 ],
 
 
@@ -87,12 +103,6 @@
                     "end": "\\*/",
                     "name": "comment.block.yml",
                     "comment": "Multilines comments."
-                },
-                {
-                    "name": "comment.block.preprocessing.yml",
-                    "begin": "\\b@if\\b",
-                    "end": "\\b@endif\\b",
-                    "comment": "preprocessing"
                 }
             ]
         },
@@ -108,10 +118,13 @@
                 "begin": "\\w+(::?\\w+)*\\s*\\(",
                 "end": "\\)",
                 "patterns": [{
-                    "match": "\\b(\\w+|\\d+)\\b",
-                    "name": "variable.parameter.yml",
-                    "comment": "A parameter is just a string or a number"
-                }],
+                        "match": "\\b(\\w+|\\d+)\\b",
+                        "name": "variable.parameter.yml",
+                        "comment": "A parameter is just a string or a number"
+                    },
+                    { "include": "#strings" },
+                    { "include": "#constants" }
+                ],
                 "name": "entity.name.function.yml",
                 "comment": "A function call in YML."
             }]
