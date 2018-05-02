@@ -1,0 +1,201 @@
+/* Tests pour le businessObjectEditor */
+
+// ---------------------------------------------------------------------
+// ---------------------  City --------------------------------------
+// ---------------------------------------------------------------------
+
+interface	City
+	field	name
+	--> domains	String 
+
+	field	country
+	--> domains	String
+classProperties
+
+--> dsl -> Textualization 
+		--> root "City"
+		--> language LANG_fr
+		--> gender FEMININE
+		--> number SINGULAR
+		;
+--> hasAccessorFunction true
+;
+
+
+implementation	City
+;
+
+
+// ---------------------------------------------------------------------
+// ---------------------  Address --------------------------------------
+// ---------------------------------------------------------------------
+
+interface	Address
+	field	zipCode
+	--> domains	String
+
+	field	city
+	--> domains	City
+classProperties
+
+--> dsl -> Textualization 
+		--> root "Adresse"
+		--> language LANG_fr
+		--> gender FEMININE
+		--> number SINGULAR
+		;
+--> hasAccessorFunction true
+;
+
+implementation	Address
+;
+
+// ---------------------------------------------------------------------
+// ---------------------  Person --------------------------------------
+// ---------------------------------------------------------------------
+
+interface	Person
+
+	field	address
+	--> domains	Address
+
+	field	city
+	--> domains	Text
+
+	field	firstName	
+	--> domains	Text
+
+	field	lastName	
+	--> domains	Text
+
+	field	colleague	
+	--> multivalued		true
+	--> domains			Person
+	
+	field	birthday
+	--> domains Date
+	
+classProperties
+
+--> dsl -> Textualization 
+		--> root "Personne"
+		--> language LANG_fr
+		--> gender FEMININE
+		--> number SINGULAR
+		;
+--> hasAccessorFunction true
+;
+
+implementation	Person
+;
+
+Person ALBERT_EINSTEIN
+--> birthday 'd:1879-03-14'
+
+//NOTE_AK : usage d'un objet inline NlgRepresentant avec []
+--> i18nName_fr	-> NlgRepresentant
+				--> referential [	"Albert Enstein",
+									"Alberta Enstein"
+								]
+				--> anaphor		PERSONAL_PRONOUN
+			;
+
+//NOTE_AK : usage d'un objet inline et donc enchassement par le businessObjectEditor
+--> address		-> Address
+				--> zipCode "33000"
+
+				//NOTE_AK ; double enchassement
+				--> city	-> City
+							--> name	"Vienne"
+							--> country	"Autriche"
+							;
+				;
+					
+;
+
+Person CEDRIC_VILLANI
+//NOTE_AK : usage d'un objet inline NlgRepresentant avec {}
+--> i18nName_fr	-> NlgRepresentant
+				--> referential {	"Cedric Villani",
+									"Cedrick Le Vilain"
+								 }
+				--> anaphor		PERSONAL_PRONOUN
+			;
+;
+
+City LYON
+--> name	"Lyon"
+--> country	"France"
+;
+
+	Address OLIVIER_GENVO_ADDRESS
+	--> zipCode "69000"
+	--> city	LYON
+	;
+
+//NOTE_AK : usage d'un TextGranule inline (premiere syntaxe) en valeur de champ
+Person OLIVIER_GENVO
+--> i18nName_fr	\( Olivier \value("Genvo") \)
+--> address		OLIVIER_GENVO_ADDRESS
+;
+
+Person CELINE_VIERGE
+
+//NOTE_AK : usage d'un MultilingualExpression
+--> firstName	-> MultilingualExpression
+
+				//NOTE_AK : usage d'un TextGranule inline (seconde syntaxe) en valeur de champ
+                // zone mal gérée à cause de la condition en plein milieu
+				--> fr		-> TextGranule
+								\(	Celine fr \)
+
+							//NOTE_AK : usage d'une condition
+							--> condition	LYON.name == "Lyon"
+							; // fin de zone mal gérée
+
+				--> en		"Celine en"
+				--> en_US	"Celine en_US"
+				--> defaultValue	"Céline Default"
+				;
+
+//NOTE_AK : usage d'un identifier ajoute a un objet inline
+--> address		-> Address CELINE_VIERGE_ADDRESS
+				--> zipCode "69010"
+				--> city	LYON
+				;
+					
+;
+
+//NOTE_AK : premier usage de l'operateur synonym
+Person ALEXANDRE_GROTHENDIECK
+--> i18nName_fr	synonym{	"Alexandre Grothendieck",
+							"Alexander Grothendieck"
+						}
+;
+
+//NOTE_AK : usage d'un complete
+complete ALEXANDRE_GROTHENDIECK
+--> address		-> Address
+				--> zipCode "75012"
+				--> city	-> City
+							--> name	"Paris"
+							--> country	"France"
+							;
+				;
+--> colleague ALBERT_EINSTEIN
+;
+
+List	PIERRE_DELIGNE_NAMES
+--> values	"Pierre Deligne",
+			"Pietro Deligna"
+;
+
+//NOTE_AK : usage d'un extends
+Person PIERRE_DELIGNE extends ALEXANDRE_GROTHENDIECK
+    
+    //NOTE_AK : second usage de l'operateur synonym
+    --> i18nName_fr	synonym(PIERRE_DELIGNE_NAMES)
+    
+    //NOTE_AK : usage de l'operateur ==>
+    ==> colleague OLIVIER_GENVO
+;
