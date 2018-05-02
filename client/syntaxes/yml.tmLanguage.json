@@ -2,6 +2,7 @@
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
     "name": "Yseop Markup Language",
     "patterns": [
+        { "include": "#option" },
         { "include": "#preprocessing" },
         { "include": "#keywords" },
         { "include": "#strings" },
@@ -22,9 +23,127 @@
         },
         "keywords": {
             "patterns": [{
-                "name": "keyword.control.yml",
-                "match": "\\b(if|while|for|return|foreach|switch|switchExpr|switchExprExclusive|belongsTo|default|case|interface|class|implementation|private|extends|override|complete|field|method|function|static|classProperties|ifExpr|then|else)\\b",
-                "comment": "All YML keywords that should be highlighted."
+                    "name": "keyword.control.yml",
+                    "match": "\\b(if|while|for|return|foreach|switch|switchExpr|switchExprExclusive|belongsTo|default|case|interface|class|implementation|private|extends|override|complete|field|method|function|static|classProperties|ifExpr|then|else)\\b",
+                    "comment": "All YML keywords that should be highlighted."
+                },
+                { "include": "#comments" },
+                { "include": "#constants" },
+                { "include": "#operators" },
+                { "include": "#strings" },
+                {
+                    "begin": "\\\\if",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIf",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{
+                        "match": "\\\\else",
+                        "name": "keyword.control.yml"
+                    }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginSynonym",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endSynonym",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{
+                        "match": "\\\\choice",
+                        "name": "keyword.control.yml"
+                    }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                },
+                {
+                    "begin": "\\\\switch",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endSwitch",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{
+                        "match": "(\\\\case|\\\\default)",
+                        "name": "keyword.control.yml"
+                    }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }
+            ]
+        },
+        "option": {
+            "patterns": [{
+                "begin": "(?x)(-->|\\+\\+\\+|---|==>)\\s+(\\w+)\\s+",
+                "end": "\\n+",
+                "captures": {
+                    "1": {
+                        "name": "keyword.operator.yseop"
+                    },
+                    "2": {
+                        "name": "entity.other.attribute-name"
+                    }
+                },
+                "patterns": [
+                    { "include": "#constants" },
+                    { "include": "#inlineInstance" },
+                    { "include": "#comments" },
+                    { "include": "#strings" },
+                    { "include": "#documentationString" },
+                    { "include": "#granules" },
+                    { "include": "#keywords" },
+                    { "include": "#constants" },
+                    { "include": "#operators" },
+                    {
+                        "begin": "\\{",
+                        "end": "\\}",
+                        "patterns": [
+                            { "include": "#constants" },
+                            { "include": "#comments" },
+                            { "include": "#strings" },
+                            { "include": "#keywords" },
+                            { "include": "#granules" },
+                            { "include": "#constants" },
+                            { "include": "#operators" }
+                        ]
+                    }
+                ]
+            }]
+        },
+        "inlineInstance": {
+            "patterns": [{
+                "begin": "(?x) (->) \\s* \\b(\\w+)\\b (\\s+\\b(\\w+)\\b)?",
+                "end": "(?=;)\\n*",
+                "name": "entity.other.yseop",
+                "captures": {
+                    "1": {
+                        "name": "keyword.operator.yseop"
+                    },
+                    "2": {
+                        "name": "entity.name.type.yseop"
+                    },
+                    "4": {
+                        "name": "entity.name.yseop"
+                    }
+                },
+                "patterns": [
+                    { "include": "#option" },
+                    { "include": "#comments" }
+                ]
             }]
         },
         "constants": {
@@ -47,9 +166,29 @@
         },
         "preprocessing": {
             "patterns": [{
-                "name": "comment.block.yml",
-                "begin": "\\b@if\\b",
-                "end": "\\b@endif\\b"
+                "begin": "@if",
+                "end": "@endif",
+                "beginCaptures": {
+                    "0": {
+                        "name": "meta.preprocessor.yseop"
+                    }
+                },
+                "endCaptures": {
+                    "0": {
+                        "name": "meta.preprocessor.yseop"
+                    }
+                },
+                "patterns": [{
+                        "match": "@else",
+                        "name": "meta.preprocessor.yseop"
+                    },
+                    { "include": "#keywords" },
+                    { "include": "#strings" },
+                    { "include": "#constants" },
+                    { "include": "#comments" },
+                    { "include": "#operators" },
+                    { "include": "#functions" }
+                ]
             }],
             "comment": "Preprocessing stuff"
         },
@@ -95,9 +234,9 @@
                 "begin": "\\\\\\(",
                 "end": "\\\\\\)",
                 "patterns": [
+                    { "include": "#keywords" },
                     { "include": "#textgranule-functions" },
                     { "include": "#tag" },
-                    { "include": "#keywords" },
                     { "include": "#strings" },
                     { "include": "#constants" },
                     { "include": "#comments" },
@@ -122,14 +261,14 @@
         },
         "operators": {
             "patterns": [{
-                "match": "(>|>=|<|<=|==|!=|==>|--?>|/|\\+|-|\\*|&&?|\\|\\|?|==?)",
+                "match": "(\\+\\+\\+|>|>=|<|<=|==|!=|==>|--?>|/|\\+|-|\\*|&&?|\\|\\|?|==?)",
                 "name": "keyword.operator.yml",
                 "comment": "Some of the operators that can be find in YML."
             }]
         },
         "functions": {
             "patterns": [{
-                "begin": "\\w+(::?\\w+)*\\s*\\(",
+                "begin": "\\b\\w+(::?\\w+)*\\s*\\(",
                 "end": "\\)",
                 "patterns": [{
                         "match": "\\b(\\w+|\\d+)\\b",
