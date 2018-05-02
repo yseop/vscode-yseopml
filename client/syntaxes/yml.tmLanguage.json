@@ -29,6 +29,11 @@
         },
         "constants": {
             "patterns": [{
+                    "name": "constant.other.yml",
+                    "match": "'d:\\d{4}-\\d{2}-\\d{2}'",
+                    "comment": "Dates"
+                },
+                {
                     "name": "constant.numeric.yml",
                     "match": "\\b\\d+(\\.\\d+)?\\b",
                     "comment": "A simple integer or a decimal number"
