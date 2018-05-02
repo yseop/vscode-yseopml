@@ -33,3 +33,23 @@ The language server is located in the 'server' folder.
 In order to update the syntax coloring, you must modify the file `yml.tmLanguage.json` accordingly to the [TextMate Manual](http://manual.macromates.com/en/language_grammars#language_grammars).
 
 The format available in this manual is a little bit different than the one we are using (json). However it is easy to understand how to change it to fit our needs.
+
+## Package the extension
+
+To package the extension, you will first need `typescript` installed as well as `vsce`.
+
+```[bash]
+npm install -g vsce
+npm install -g typescript
+```
+
+Once done do the following in your terminal:
+
+```[bash]
+npm install
+npm run compile
+cd client
+vsce package
+```
+
+You should now have a new file with `.vsix` file extension. This is the packaged extension to provide for installation.

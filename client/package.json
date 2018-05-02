@@ -1,10 +1,11 @@
 {
     "name": "vscode-yseopml",
-    "description": "Implementation of YML language server in node.",
+    "description": "Yseop Markup Language support extension.",
     "version": "0.0.1",
     "author": "Yseop",
     "license": "SEE LICENSE IN Lisense.txt",
     "publisher": "Yseop",
+    "readme": "README.md",
     "repository": {
         "type": "git",
         "url": "https://github.com/yseop/vscode-yseopml"
@@ -14,11 +15,16 @@
     },
     "categories": [
         "Languages",
-        "Other"
+        "Snippets"
     ],
     "activationEvents": [
         "onLanguage:yml"
     ],
+    "icon": "images/compose-icon.png",
+    "galleryBanner": {
+        "color": "#C80000",
+        "theme": "dark"
+    },
     "main": "./out/src/extension",
     "contributes": {
         "configuration": {
@@ -44,38 +50,32 @@
                 }
             }
         },
-        "languages": [
-            {
-                "id": "yml",
-                "aliases": [
-                    "Yseop Markup Language",
-                    "yml"
-                ],
-                "extensions": [
-                    ".kao",
-                    ".yclass",
-                    ".ytextfunction",
-                    ".yobject",
-                    ".ycomplete",
-                    ".dcl",
-                    ".yml"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "yml",
-                "scopeName": "source.yseop",
-                "path": "./syntaxes/yml.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "yml",
-                "path": "./snippets/snippets.json"
-            }
-        ]
+        "languages": [{
+            "id": "yml",
+            "aliases": [
+                "Yseop Markup Language",
+                "yml"
+            ],
+            "extensions": [
+                ".kao",
+                ".yclass",
+                ".ytextfunction",
+                ".yobject",
+                ".ycomplete",
+                ".dcl",
+                ".yml"
+            ],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "yml",
+            "scopeName": "source.yseop",
+            "path": "./syntaxes/yml.tmLanguage.json"
+        }],
+        "snippets": [{
+            "language": "yml",
+            "path": "./snippets/snippets.json"
+        }]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
