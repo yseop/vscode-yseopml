@@ -36,14 +36,7 @@ The format available in this manual is a little bit different than the one we ar
 
 ## Package the extension
 
-To package the extension, you will first need `typescript` installed as well as `vsce`.
-
-```[bash]
-npm install -g vsce
-npm install -g typescript
-```
-
-Once done do the following in your terminal:
+Do the following in your terminal:
 
 ```[bash]
 npm install
