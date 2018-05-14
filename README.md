@@ -39,10 +39,15 @@ The format available in this manual is a little bit different than the one we ar
 Do the following in your terminal:
 
 ```[bash]
-npm install
-npm run compile
-cd client
-vsce package
+npm run package
 ```
 
-You should now have a new file with `.vsix` file extension. This is the packaged extension to provide for installation.
+You should now have a new file with `.vsix` file extension in the `client` directory. This is the packaged extension to provide for installation.
+
+## Install the extension
+
+- Open the vscode command console with `ctrl + shift + P`
+- Search `Install Extension from VSIX` 
+- Select the extension and validate
+- Reload vscode
+- Open client/test/test.kao to validate the installation

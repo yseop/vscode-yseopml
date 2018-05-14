@@ -16,7 +16,8 @@
         "watch:client": "tsc -w -p client/tsconfig.json",
         "compile:server": "cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
         "watch:server": "cd server && npm run installServer && cd .. && tsc -w -p server/tsconfig.json",
-        "antlr4ts": "cd server && npm run antlr4ts && cd .."
+        "antlr4ts": "cd server && npm run antlr4ts && cd ..",
+        "package": "npm install && npm run compile && cd client && vsce package && cd .."
     },
     "devDependencies": {
         "@types/mocha": "^2.2.42",
