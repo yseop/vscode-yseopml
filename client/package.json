@@ -1,7 +1,7 @@
 {
     "name": "vscode-yseopml",
     "description": "Yseop Markup Language support extension.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "Yseop",
     "license": "SEE LICENSE IN Lisense.txt",
     "publisher": "Yseop",
