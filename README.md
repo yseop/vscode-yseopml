@@ -47,7 +47,7 @@ You should now have a new file with `.vsix` file extension in the `client` direc
 ## Install the extension
 
 - Open the vscode command console with `ctrl + shift + P`
-- Search `Install Extension from VSIX` 
+- Search `Install Extension from VSIX`
 - Select the extension and validate
 - Reload vscode
 - Open client/test/test.kao to validate the installation
