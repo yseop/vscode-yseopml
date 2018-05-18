@@ -11,7 +11,7 @@ This extension provides a YseopML basic support for VS Code.
 
 ## Release Notes
 
-### 0.0.2 ()
+### 0.0.2 (2018-05-14)
 
 - Better class attributes coloring support
 - Better inner Text Granule coloring
