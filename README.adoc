@@ -2,12 +2,9 @@
 
 ## This is the README for the "vscode-yseopml" project
 
--------------------
+This folder contains the VS code extension that runs a YML (Yseop Markup Language) language server.
 
-This folder contains the VS code extension that runs a YML (Yseop Markup Language) language server
-
-The extension observes all 'yml' documents (documents from all editors associated to YML language - kao files, yclass files, etc.)
-and uses the server to provide validation and completion proposals.
+The extension observes all 'yml' documents (documents from all editors associated to YML language – kao files, yclass files, etc.) and uses the server to provide validation and completion proposals.
 
 The code for the extension is in the 'client' folder. It uses the 'vscode-languageclient' node module to launch the language server.
 
