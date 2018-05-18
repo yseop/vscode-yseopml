@@ -43,6 +43,14 @@ You should now have a new file with `.vsix` file extension in the `client` direc
 
 ## Install the extension
 
+### From the command line
+
+```[bash]
+code --install-extension EXTENSION_FILE.vsix
+```
+
+### Via the GUI
+
 - Open the vscode command console with `ctrl + shift + P`
 - Search `Install Extension from VSIX` 
 - Select the extension and validate
