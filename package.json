@@ -1,13 +1,17 @@
 {
     "name": "vscode-yseopml",
+    "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "0.0.2",
-    "author": "Yseop",
-    "license": "SEE LICENSE IN Lisense.txt",
+    "version": "0.0.3",
+    "author": "Yseop Inc.",
+    "license": "MIT",
     "publisher": "Yseop",
     "repository": {
         "type": "git",
         "url": "https://github.com/yseop/vscode-yseopml"
+    },
+    "bugs": {
+        "url": "https://github.com/yseop/vscode-yseopml/issues"
     },
     "scripts": {
         "postinstall": "cd server && npm install && cd ../client && npm install && cd ..",
