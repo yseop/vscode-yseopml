@@ -24,9 +24,11 @@ import {
 } from './YmlToBdlVisitorImpl';
 
 
+let toggle_allowValidation : Boolean = true;
+
 // Create a connection for the server. The connection uses Node's IPC as a transport
 let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
-
+let completionItems: CompletionItem[] = [];
 // Create a simple text document manager. The text document manager
 // supports full document sync only
 let documents: TextDocuments = new TextDocuments();
@@ -49,6 +51,7 @@ connection.onInitialize((_params): InitializeResult => {
 	}
 });
 
+
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
@@ -57,12 +60,12 @@ documents.onDidChangeContent((change) => {
 
 // The settings interface describe the server relevant settings part
 interface Settings {
-	yseopml: ExampleSettings;
+	yseopml: ServerSettings;
 }
 
 // These are the example settings we defined in the client's package.json
 // file
-interface ExampleSettings {
+interface ServerSettings {
 	maxNumberOfProblems: number;
 }
 
@@ -78,25 +81,36 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 function evaluateKaoFile(ctx: KaoFileContext, diagnostics: Diagnostic[]): void {
-	let visitor = new YmlToBdlVisitorImpl(diagnostics);
+	let visitor = new YmlToBdlVisitorImpl(diagnostics, completionItems);
 	visitor.visit(ctx);
+
 }
 
+
+
 function validateTextDocument(textDocument: TextDocument): void {
-	let diagnostics: Diagnostic[] = [];
-	let problems = 0;
-	// Create the lexer and parser
-	let inputStream = new ANTLRInputStream(textDocument.getText());
-	let lexer = new YmlToBdlLexer(inputStream);
-	let tokenStream = new CommonTokenStream(lexer);
-	let parser = new YmlToBdlParser(tokenStream);
+	if(toggle_allowValidation) {
+		let diagnostics: Diagnostic[] = [];
 		
-	// Parse the input, where `compilationUnit` is whatever entry point you defined
-	let result = parser.kaoFile();
-	evaluateKaoFile(result, diagnostics);
-	// Send the computed diagnostics to VSCode.
-	connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+		let problems = 0;
+		// Create the lexer and parser
+		let inputStream = new ANTLRInputStream(textDocument.getText());
+		let lexer = new YmlToBdlLexer(inputStream);
+		let tokenStream = new CommonTokenStream(lexer);
+		let parser = new YmlToBdlParser(tokenStream);
+			
+		// Parse the input, where `compilationUnit` is whatever entry point you defined
+		let result = parser.kaoFile();
+		console.log(`File ${textDocument.uri} being processed`);
+		if(parser.errorHandler.inErrorRecoveryMode) {
+			parser.errorHandler.reportError;
+		}
+		evaluateKaoFile(result, diagnostics);
+		// Send the computed diagnostics to VSCode.
+		connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+	}
 }
+
 
 connection.onDidChangeWatchedFiles((_change) => {
 	// Monitored files have change in VSCode
@@ -106,33 +120,12 @@ connection.onDidChangeWatchedFiles((_change) => {
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-	// The pass parameter contains the position of the text document in
-	// which code complete got requested. For the example we ignore this
-	// info and always provide the same completion items.
-	return [
-		{
-			label: 'TypeScript',
-			kind: CompletionItemKind.Text,
-			data: 1
-		},
-		{
-			label: 'JavaScript',
-			kind: CompletionItemKind.Text,
-			data: 2
-		}
-	]
+	return completionItems;
 });
 
 // This handler resolve additional information for the item selected in
 // the completion list.
 connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
-	if (item.data === 1) {
-		item.detail = 'TypeScript details',
-			item.documentation = 'TypeScript documentation'
-	} else if (item.data === 2) {
-		item.detail = 'JavaScript details',
-			item.documentation = 'JavaScript documentation'
-	}
 	return item;
 });
 

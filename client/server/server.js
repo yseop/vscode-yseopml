@@ -10,8 +10,10 @@ const antlr4ts_1 = require("antlr4ts");
 const YmlToBdlLexer_1 = require("./YmlToBdlLexer");
 const YmlToBdlParser_1 = require("./YmlToBdlParser");
 const YmlToBdlVisitorImpl_1 = require("./YmlToBdlVisitorImpl");
+let toggle_allowValidation = true;
 // Create a connection for the server. The connection uses Node's IPC as a transport
 let connection = vscode_languageserver_1.createConnection(new vscode_languageserver_1.IPCMessageReader(process), new vscode_languageserver_1.IPCMessageWriter(process));
+let completionItems = [];
 // Create a simple text document manager. The text document manager
 // supports full document sync only
 let documents = new vscode_languageserver_1.TextDocuments();
@@ -48,22 +50,28 @@ connection.onDidChangeConfiguration((change) => {
     documents.all().forEach(validateTextDocument);
 });
 function evaluateKaoFile(ctx, diagnostics) {
-    let visitor = new YmlToBdlVisitorImpl_1.YmlToBdlVisitorImpl(diagnostics);
+    let visitor = new YmlToBdlVisitorImpl_1.YmlToBdlVisitorImpl(diagnostics, completionItems);
     visitor.visit(ctx);
 }
 function validateTextDocument(textDocument) {
-    let diagnostics = [];
-    let problems = 0;
-    // Create the lexer and parser
-    let inputStream = new antlr4ts_1.ANTLRInputStream(textDocument.getText());
-    let lexer = new YmlToBdlLexer_1.YmlToBdlLexer(inputStream);
-    let tokenStream = new antlr4ts_1.CommonTokenStream(lexer);
-    let parser = new YmlToBdlParser_1.YmlToBdlParser(tokenStream);
-    // Parse the input, where `compilationUnit` is whatever entry point you defined
-    let result = parser.kaoFile();
-    evaluateKaoFile(result, diagnostics);
-    // Send the computed diagnostics to VSCode.
-    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+    if (toggle_allowValidation) {
+        let diagnostics = [];
+        let problems = 0;
+        // Create the lexer and parser
+        let inputStream = new antlr4ts_1.ANTLRInputStream(textDocument.getText());
+        let lexer = new YmlToBdlLexer_1.YmlToBdlLexer(inputStream);
+        let tokenStream = new antlr4ts_1.CommonTokenStream(lexer);
+        let parser = new YmlToBdlParser_1.YmlToBdlParser(tokenStream);
+        // Parse the input, where `compilationUnit` is whatever entry point you defined
+        let result = parser.kaoFile();
+        console.log(`File ${textDocument.uri} being processed`);
+        if (parser.errorHandler.inErrorRecoveryMode) {
+            parser.errorHandler.reportError;
+        }
+        evaluateKaoFile(result, diagnostics);
+        // Send the computed diagnostics to VSCode.
+        connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+    }
 }
 connection.onDidChangeWatchedFiles((_change) => {
     // Monitored files have change in VSCode
@@ -71,33 +79,11 @@ connection.onDidChangeWatchedFiles((_change) => {
 });
 // This handler provides the initial list of the completion items.
 connection.onCompletion((_textDocumentPosition) => {
-    // The pass parameter contains the position of the text document in
-    // which code complete got requested. For the example we ignore this
-    // info and always provide the same completion items.
-    return [
-        {
-            label: 'TypeScript',
-            kind: vscode_languageserver_1.CompletionItemKind.Text,
-            data: 1
-        },
-        {
-            label: 'JavaScript',
-            kind: vscode_languageserver_1.CompletionItemKind.Text,
-            data: 2
-        }
-    ];
+    return completionItems;
 });
 // This handler resolve additional information for the item selected in
 // the completion list.
 connection.onCompletionResolve((item) => {
-    if (item.data === 1) {
-        item.detail = 'TypeScript details',
-            item.documentation = 'TypeScript documentation';
-    }
-    else if (item.data === 2) {
-        item.detail = 'JavaScript details',
-            item.documentation = 'JavaScript documentation';
-    }
     return item;
 });
 /*
