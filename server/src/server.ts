@@ -113,6 +113,7 @@ function evaluateKaoFile(ctx: KaoFileContext, diagnostics: Diagnostic[]): void {
 
 }
 
+
 connection.onDidChangeWatchedFiles((_change) => {
 	// Monitored files have change in VSCode
 	console.log('Yseop.vscode-yseopml − We received a file change event');
