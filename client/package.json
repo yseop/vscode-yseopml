@@ -3,7 +3,7 @@
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Yseop Markup Language support extension − coloring and code folding for YML",
     "version": "0.0.2",
-    "author": "Yseop",
+    "author": "Yseop Inc.",
     "license": "MIT",
     "publisher": "Yseop",
     "readme": "README.md",
@@ -14,6 +14,7 @@
     "bugs": {
         "url": "https://github.com/yseop/vscode-yseopml/issues"
     },
+    "homepage": "https://github.com/yseop/vscode-yseopml/blob/master/README.adoc",
     "engines": {
         "vscode": "^1.20.0"
     },
@@ -26,7 +27,7 @@
     ],
     "icon": "images/compose-icon.png",
     "galleryBanner": {
-        "color": "#C80000",
+        "color": "#27aae1",
         "theme": "dark"
     },
     "main": "./out/src/extension",
