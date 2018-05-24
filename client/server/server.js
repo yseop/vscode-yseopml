@@ -1,9 +1,8 @@
-"use strict";
 /* --------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
-//'use strict';
+'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_languageserver_1 = require("vscode-languageserver");
 const antlr4ts_1 = require("antlr4ts");
@@ -12,6 +11,7 @@ const YmlToBdlParser_1 = require("./YmlToBdlParser");
 const YmlToBdlVisitorImpl_1 = require("./YmlToBdlVisitorImpl");
 let toggle_allowValidation = true;
 // Create a connection for the server. The connection uses Node's IPC as a transport
+console.log("Yseop.vscode-yseopml − Creating connection with client/server.");
 let connection = vscode_languageserver_1.createConnection(new vscode_languageserver_1.IPCMessageReader(process), new vscode_languageserver_1.IPCMessageWriter(process));
 let completionItems = [];
 // Create a simple text document manager. The text document manager
@@ -23,6 +23,7 @@ documents.listen(connection);
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
 connection.onInitialize((_params) => {
+    console.log("Yseop.vscode-yseopml − Initializing server.");
     return {
         capabilities: {
             // Tell the client that the server works in FULL text document sync mode
@@ -49,12 +50,9 @@ connection.onDidChangeConfiguration((change) => {
     // Revalidate any open text documents
     documents.all().forEach(validateTextDocument);
 });
-function evaluateKaoFile(ctx, diagnostics) {
-    let visitor = new YmlToBdlVisitorImpl_1.YmlToBdlVisitorImpl(diagnostics, completionItems);
-    visitor.visit(ctx);
-}
 function validateTextDocument(textDocument) {
     if (toggle_allowValidation) {
+        console.log(`Yseop.vscode-yseopml − Validating ${textDocument.uri}`);
         let diagnostics = [];
         let problems = 0;
         // Create the lexer and parser
@@ -64,18 +62,18 @@ function validateTextDocument(textDocument) {
         let parser = new YmlToBdlParser_1.YmlToBdlParser(tokenStream);
         // Parse the input, where `compilationUnit` is whatever entry point you defined
         let result = parser.kaoFile();
-        console.log(`File ${textDocument.uri} being processed`);
-        if (parser.errorHandler.inErrorRecoveryMode) {
-            parser.errorHandler.reportError;
-        }
         evaluateKaoFile(result, diagnostics);
         // Send the computed diagnostics to VSCode.
         connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
     }
 }
+function evaluateKaoFile(ctx, diagnostics) {
+    let visitor = new YmlToBdlVisitorImpl_1.YmlToBdlVisitorImpl(diagnostics, completionItems);
+    visitor.visit(ctx);
+}
 connection.onDidChangeWatchedFiles((_change) => {
     // Monitored files have change in VSCode
-    connection.console.log('We received an file change event');
+    console.log('Yseop.vscode-yseopml − We received a file change event');
 });
 // This handler provides the initial list of the completion items.
 connection.onCompletion((_textDocumentPosition) => {

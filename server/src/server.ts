@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
-//'use strict';
+'use strict';
 
 import {
 	IPCMessageReader, IPCMessageWriter, createConnection, IConnection, TextDocuments, TextDocument,
@@ -27,6 +27,8 @@ import {
 let toggle_allowValidation : Boolean = true;
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
+console.log("Yseop.vscode-yseopml − Creating connection with client/server.");
+
 let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
 let completionItems: CompletionItem[] = [];
 // Create a simple text document manager. The text document manager
@@ -34,11 +36,14 @@ let completionItems: CompletionItem[] = [];
 let documents: TextDocuments = new TextDocuments();
 // Make the text document manager listen on the connection
 // for open, change and close text document events
+
 documents.listen(connection);
 
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
 connection.onInitialize((_params): InitializeResult => {
+	console.log("Yseop.vscode-yseopml − Initializing server.");
+	
 	return {
 		capabilities: {
 			// Tell the client that the server works in FULL text document sync mode
@@ -80,16 +85,10 @@ connection.onDidChangeConfiguration((change) => {
 	documents.all().forEach(validateTextDocument);
 });
 
-function evaluateKaoFile(ctx: KaoFileContext, diagnostics: Diagnostic[]): void {
-	let visitor = new YmlToBdlVisitorImpl(diagnostics, completionItems);
-	visitor.visit(ctx);
-
-}
-
-
-
 function validateTextDocument(textDocument: TextDocument): void {
 	if(toggle_allowValidation) {
+		console.log(`Yseop.vscode-yseopml − Validating ${textDocument.uri}`);
+		
 		let diagnostics: Diagnostic[] = [];
 		
 		let problems = 0;
@@ -101,20 +100,22 @@ function validateTextDocument(textDocument: TextDocument): void {
 			
 		// Parse the input, where `compilationUnit` is whatever entry point you defined
 		let result = parser.kaoFile();
-		console.log(`File ${textDocument.uri} being processed`);
-		if(parser.errorHandler.inErrorRecoveryMode) {
-			parser.errorHandler.reportError;
-		}
+
 		evaluateKaoFile(result, diagnostics);
 		// Send the computed diagnostics to VSCode.
 		connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 	}
 }
 
+function evaluateKaoFile(ctx: KaoFileContext, diagnostics: Diagnostic[]): void {
+	let visitor = new YmlToBdlVisitorImpl(diagnostics, completionItems);
+	visitor.visit(ctx);
+
+}
 
 connection.onDidChangeWatchedFiles((_change) => {
 	// Monitored files have change in VSCode
-	connection.console.log('We received an file change event');
+	console.log('Yseop.vscode-yseopml − We received a file change event');
 });
 
 
