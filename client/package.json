@@ -2,8 +2,8 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Yseop Markup Language support extension − coloring and code folding for YML",
-    "version": "0.0.3",
-    "author": "Yseop Inc.",
+    "version": "1.0.0",
+    "author": "Yseop",
     "license": "MIT",
     "publisher": "Yseop",
     "readme": "README.md",
@@ -55,38 +55,32 @@
                 }
             }
         },
-        "languages": [
-            {
-                "id": "yml",
-                "aliases": [
-                    "Yseop Markup Language",
-                    "yml"
-                ],
-                "extensions": [
-                    ".kao",
-                    ".yclass",
-                    ".ytextfunction",
-                    ".yobject",
-                    ".ycomplete",
-                    ".dcl",
-                    ".yml"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "yml",
-                "scopeName": "source.yseop",
-                "path": "./syntaxes/yml.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "yml",
-                "path": "./snippets/snippets.json"
-            }
-        ]
+        "languages": [{
+            "id": "yml",
+            "aliases": [
+                "Yseop Markup Language",
+                "yml"
+            ],
+            "extensions": [
+                ".kao",
+                ".yclass",
+                ".ytextfunction",
+                ".yobject",
+                ".ycomplete",
+                ".dcl",
+                ".yml"
+            ],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "yml",
+            "scopeName": "source.yseop",
+            "path": "./syntaxes/yml.tmLanguage.json"
+        }],
+        "snippets": [{
+            "language": "yml",
+            "path": "./snippets/snippets.json"
+        }]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",

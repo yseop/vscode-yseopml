@@ -1,5 +1,10 @@
 # Release Notes
 
+## 1.0.0 (2018-05-24)
+
+- Fix KB class attribute completion
+  - Server-side was missing some modules
+
 ## 0.0.3 (2018-05-24)
 
 - Add KB class attributes completion

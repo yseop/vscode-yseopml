@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Copyright (c) Yseop. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 'use strict';
@@ -112,6 +112,7 @@ function evaluateKaoFile(ctx: KaoFileContext, diagnostics: Diagnostic[]): void {
 	visitor.visit(ctx);
 
 }
+
 
 connection.onDidChangeWatchedFiles((_change) => {
 	// Monitored files have change in VSCode
