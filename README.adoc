@@ -1,45 +1,52 @@
+:vsc: VS{nbsp}Code
+
 # README
 
-## This is the README for the "vscode-yseopml" project
+## This is the README for the “vscode-yseopml” project
 
-This folder contains the VS code extension that runs a YML (Yseop Markup Language) language server.
+This folder contains the {vsc}{nbsp}extension that runs a YML (Yseop Markup Language) language server.
 
-The extension observes all 'yml' documents (documents from all editors associated to YML language – kao files, yclass files, etc.) and uses the server to provide validation and completion proposals.
+The extension observes all “yml”{nbsp}documents (documents from all editors associated to the YML{nbsp}language –{nbsp}kao{nbsp}files, yclass{nbsp}files, etc.) and uses the server to provide validation and completion suggestions.
 
-The code for the extension is in the 'client' folder. It uses the 'vscode-languageclient' node module to launch the language server.
+The code for the extension is in the `client`{nbsp}directory. It uses the `vscode-languageclient`{nbsp}node module to launch the language server.
 
-The language server is located in the 'server' folder.
+The language server is located in the `server`{nbsp}directory.
+
 
 ## How to run locally
 
-* `npm install` to initialize the extension and the server
-* `npm run compile` to compile the extension and the server
-* open this folder in VS Code. In the Debug viewlet, run “Launch Client” from drop-down to launch the extension and attach to the extension.
-* open `test.kao` which is in the `client/test` folder.
-* to debug the server use the 'Attach to Server' launch config.
-* set breakpoints in the client or the server.
+* Run `npm install` to initialize the extension and the server.
+* Run `npm run compile` to compile the extension and the server.
+* Open this folder in {vsc}. In the Debug viewlet, run “Launch Client” from drop-down to launch the extension and attach to the extension.
+* Open `test.kao` which is in the `client/test` folder.
+* To debug the server, use the “Attach to Server” launch config.
+* Set breakpoints in the client or the server.
+
 
 ## How to generate antlr4 files
 
-* if not already the case, install `ANTLR tool` as explained [here](http://www.antlr.org/download.html) and [here](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md)
-* modify `YmlToBdl.g4` grammar file
-* `npm run antlr4ts` to generate tokens, lexer and parser files
+* If you did not already, install `ANTLR tool` as explained http://www.antlr.org/download.html[here] and https://github.com/antlr/antlr4/blob/master/doc/getting-started.md[here].
+* Edit the `YmlToBdl.g4` grammar file.
+* Run `npm run antlr4ts` to generate tokens, lexer and parser files.
 
-## How to update Syntax Coloring
 
-In order to update the syntax coloring, you must modify the file `yml.tmLanguage.json` accordingly to the [TextMate Manual](http://manual.macromates.com/en/language_grammars#language_grammars).
+## How to update Syntax Highlighting
+
+In order to update the syntax highlighting, you must edit `yml.tmLanguage.json` according to the http://manual.macromates.com/en/language_grammars#language_grammars[TextMate Manual].
 
 The format available in this manual is a little bit different than the one we are using (json). However it is easy to understand how to change it to fit our needs.
 
+
 ## Package the extension
 
-Do the following in your terminal:
+Run the following command in your terminal:
 
 ```[bash]
 npm run package
 ```
 
-You should now have a new file with `.vsix` file extension in the `client` directory. This is the packaged extension to provide for installation.
+You should now have a new file with `.vsix`{nbsp}file extension in the `client`{nbsp}directory. This is the packaged extension to provide for installation.
+
 
 ## Install the extension
 
@@ -51,8 +58,8 @@ code --install-extension EXTENSION_FILE.vsix
 
 ### Via the GUI
 
-- Open the vscode command console with `ctrl + shift + P`
-- Search `Install Extension from VSIX`
-- Select the extension and validate
-- Reload vscode
-- Open client/test/test.kao to validate the installation
+. Open the {vsc}{nbsp}command console with `ctrl + shift + P`
+. Search `Install Extension from VSIX`
+. Select the extension and validate
+. Reload {vsc}.
+. Open `client/test/test.kao` to check that the extension is working properly.
