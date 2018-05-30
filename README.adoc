@@ -39,6 +39,17 @@ The format available in this manual is a little bit different than the one we ar
 
 ## Package the extension
 
+### Prerequisites
+
+Make sure you have installed the `vsce` node package:
+
+```[bash]
+sudo npm install -g vsce
+```
+
+
+### Commands
+
 Run the following command in your terminal:
 
 ```[bash]
@@ -46,6 +57,23 @@ npm run package
 ```
 
 You should now have a new file with `.vsix`{nbsp}file extension in the `client`{nbsp}directory. This is the packaged extension to provide for installation.
+
+
+### Notes / ToDo
+
+If something fails along the way and you get a message like…
+
+```
+npm ERR! Failed at the vscode-yseopml@1.0.0 package script 'npm install && npm run compile && cd client && vsce package && cd ..'.
+```
+
+… it might be worth trying to run the specified command yourself, as it sometimes actually works for some reason.
+
+```[bash]
+npm install && npm run compile && cd client && vsce package && cd ..
+[…]
+Created: /home/mminot/dev/vscode-yseopml/client/vscode-yseopml-1.0.0.vsix
+```
 
 
 ## Install the extension
