@@ -6,38 +6,38 @@
             "\t$0",
             "\\)"
         ],
-        "description": "Text Granule"
+        "description": "Text granule"
     },
     "Field": {
         "prefix": "field",
         "body": [
-            "field ${1:attribute name}",
-            "--> ${2:option name} ${3:option value}"
+            "field ${1:attribute_name}",
+            "\t--> ${2:option_name} ${3:option_value}"
         ],
-        "description": "Yml Class attribute"
+        "description": "Yml class attribute"
     },
     "Instance": {
         "prefix": "instance",
         "body": [
-            "${1:instance type} ${2:instance name}",
-            "--> ${3:option name} ${4:option value}",
-            "$0",
+            "${1:instance_type} ${2:instance_name}",
+            "\t--> ${3:option_name} ${4:option_value}",
+            "\t$0",
             ";"
         ],
-        "description": "Object Instance"
+        "description": "Object instance"
     },
     "Textualization Attribute": {
         "prefix": "textu",
         "body": [
             "--> dsl -> Textualization",
-            "\t--> language ${1:LANG_fr or LANG_en}",
-            "\t--> root \"${2:root string}\"",
-            "\t--> number ${3:SINGULAR or PLURAL}",
-            "\t--> gender ${4:FEMININE or MASCULINE}",
-            "\t--> hasDeterminer ${5:true or false}",
+            "\t--> language ${1|LANG_fr,LANG_en|}",
+            "\t--> root \"${2:root_string}\"",
+            "\t--> number ${3|SINGULAR,PLURAL|}",
+            "\t--> gender ${4|FEMININE,MASCULINE|}",
+            "\t--> hasDeterminer ${5|true,false|}",
             ";",
             "$0"
         ],
-        "description": "Textualization Attribute"
+        "description": "Textualization attribute"
     }
 }
