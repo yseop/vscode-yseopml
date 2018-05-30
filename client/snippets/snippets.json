@@ -30,11 +30,11 @@
         "prefix": "textu",
         "body": [
             "--> dsl -> Textualization",
-            "\t--> language ${1:LANG_fr or LANG_en}",
+            "\t--> language ${1|LANG_fr,LANG_en|}",
             "\t--> root \"${2:root_string}\"",
-            "\t--> number ${3:SINGULAR or PLURAL}",
-            "\t--> gender ${4:FEMININE or MASCULINE}",
-            "\t--> hasDeterminer ${5:true or false}",
+            "\t--> number ${3|SINGULAR,PLURAL|}",
+            "\t--> gender ${4|FEMININE,MASCULINE|}",
+            "\t--> hasDeterminer ${5|true,false|}",
             ";",
             "$0"
         ],
