@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Yseop Markup Language support extension − coloring and code folding for YML",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Yseop",
     "license": "MIT",
     "publisher": "Yseop",
@@ -55,32 +55,38 @@
                 }
             }
         },
-        "languages": [{
-            "id": "yml",
-            "aliases": [
-                "Yseop Markup Language",
-                "yml"
-            ],
-            "extensions": [
-                ".kao",
-                ".yclass",
-                ".ytextfunction",
-                ".yobject",
-                ".ycomplete",
-                ".dcl",
-                ".yml"
-            ],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "yml",
-            "scopeName": "source.yseop",
-            "path": "./syntaxes/yml.tmLanguage.json"
-        }],
-        "snippets": [{
-            "language": "yml",
-            "path": "./snippets/snippets.json"
-        }]
+        "languages": [
+            {
+                "id": "yml",
+                "aliases": [
+                    "Yseop Markup Language",
+                    "yml"
+                ],
+                "extensions": [
+                    ".kao",
+                    ".yclass",
+                    ".ytextfunction",
+                    ".yobject",
+                    ".ycomplete",
+                    ".dcl",
+                    ".yml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "yml",
+                "scopeName": "source.yseop",
+                "path": "./syntaxes/yml.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "yml",
+                "path": "./snippets/snippets.json"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
