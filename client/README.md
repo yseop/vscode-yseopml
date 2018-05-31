@@ -16,3 +16,4 @@ This extension provides a Yseop Markup Language (YML) basic support for VS Code.
 
 [comment]: # (The snippet list can be updated using:)
 [comment]: # ( jq -c '.[] | {prefix, description}' client/snippets/snippets.json | sort -V | jq -r '.[]' | xargs -d '\n' -n 2 printf '* `%s`: %s\n' )
+[comment]: # (jq is a JSON parser that can be obtained through most Linux package repositories or on https://stedolan.github.io/jq/.)
