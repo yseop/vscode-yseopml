@@ -6,6 +6,13 @@ This extension provides a Yseop Markup Language (YML) basic support for VS Code.
 
 - Syntax coloring for classic code
 - Syntax coloring for text granules and inside text granules
-- Snippets for textualization objects, granules, class fields, instances
+- Snippets:
+    * `field`: Yml class attribute
+    * `granule`: Text granule
+    * `instance`: Object instance
+    * `textu`: Textualization attribute
 - Code folding
-- KB class attributes completion (needs class to be openned at least once)
+- KB class attributes completion (needs class to be opened at least once)
+
+[comment]: # (The snippet list can be updated using:)
+[comment]: # ( jq -c '.[] | {prefix, description}' client/snippets/snippets.json | sort -V | jq -r '.[]' | xargs -d '\n' -n 2 printf '* `%s`: %s\n' )
