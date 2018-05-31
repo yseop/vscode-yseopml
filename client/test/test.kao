@@ -111,11 +111,11 @@ Person ALBERT_EINSTEIN
 					
 ;
 
-Person CEDRIC_VILLANI
+Person CEDRIC_V
 //NOTE_AK : usage d'un objet inline NlgRepresentant avec {}
 --> i18nName_fr	-> NlgRepresentant
-				--> referential {	"Cedric Villani",
-									"Cedrick Le Vilain"
+				--> referential {	"Cédric V.",
+									"Cedrick V."
 								 }
 				--> anaphor		PERSONAL_PRONOUN
 			;
