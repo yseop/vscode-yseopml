@@ -1,6 +1,6 @@
 # Release Notes
 
-## ?.?.? (2018-??-??)
+## 1.0.1 (2018-05-31)
 
 - Cleaner code snippets
 
