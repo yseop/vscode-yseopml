@@ -165,14 +165,14 @@ Person MARIE_CURIE
 ;
 
 //NOTE_AK : premier usage de l'operateur synonym
-Person ALEXANDRE_GROTHENDIECK
---> i18nName_fr	synonym{	"Alexandre Grothendieck",
-							"Alexander Grothendieck"
+Person ALEXANDRE_G
+--> i18nName_fr	synonym{	"Alexandre G.",
+							"Alexander"
 						}
 ;
 
 //NOTE_AK : usage d'un complete
-complete ALEXANDRE_GROTHENDIECK
+complete ALEXANDRE_G
 --> address		-> Address
 				--> zipCode "75012"
 				--> city	-> City
@@ -183,16 +183,16 @@ complete ALEXANDRE_GROTHENDIECK
 --> colleague ALBERT_EINSTEIN
 ;
 
-List	PIERRE_DELIGNE_NAMES
---> values	"Pierre Deligne",
-			"Pietro Deligna"
+List	PIERRE_D_NAMES
+--> values	"Pierre D.",
+			"Pierre"
 ;
 
 //NOTE_AK : usage d'un extends
-Person PIERRE_DELIGNE extends ALEXANDRE_GROTHENDIECK
+Person PIERRE_D extends ALEXANDRE_G
     
     //NOTE_AK : second usage de l'operateur synonym
-    --> i18nName_fr	synonym(PIERRE_DELIGNE_NAMES)
+    --> i18nName_fr	synonym(PIERRE_D_NAMES)
     
     //NOTE_AK : usage de l'operateur ==>
     ==> colleague MARIE_CURIE
