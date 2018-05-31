@@ -55,38 +55,32 @@
                 }
             }
         },
-        "languages": [
-            {
-                "id": "yml",
-                "aliases": [
-                    "Yseop Markup Language",
-                    "yml"
-                ],
-                "extensions": [
-                    ".kao",
-                    ".yclass",
-                    ".ytextfunction",
-                    ".yobject",
-                    ".ycomplete",
-                    ".dcl",
-                    ".yml"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "yml",
-                "scopeName": "source.yseop",
-                "path": "./syntaxes/yml.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "yml",
-                "path": "./snippets/snippets.json"
-            }
-        ]
+        "languages": [{
+            "id": "yml",
+            "aliases": [
+                "Yseop Markup Language",
+                "yml"
+            ],
+            "extensions": [
+                ".kao",
+                ".yclass",
+                ".ytextfunction",
+                ".yobject",
+                ".ycomplete",
+                ".dcl",
+                ".yml"
+            ],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "yml",
+            "scopeName": "source.yseop",
+            "path": "./syntaxes/yml.tmLanguage.json"
+        }],
+        "snippets": [{
+            "language": "yml",
+            "path": "./snippets/snippets.json"
+        }]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
