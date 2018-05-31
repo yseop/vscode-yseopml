@@ -14,19 +14,20 @@
         "url": "https://github.com/yseop/vscode-yseopml/issues"
     },
     "scripts": {
-        "postinstall": "cd server && npm install && cd ../client && npm install && cd ..",
-        "compile": "tsc -p client/tsconfig.json && cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
+        "postinstall": "(cd server && npm install) && cd client && npm install",
+        "compile": "tsc -p client/tsconfig.json && (cd server && npm run installServer) && tsc -p server/tsconfig.json",
         "compile:client": "tsc -p client/tsconfig.json",
         "watch:client": "tsc -w -p client/tsconfig.json",
-        "compile:server": "cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
-        "watch:server": "cd server && npm run installServer && cd .. && tsc -w -p server/tsconfig.json",
-        "antlr4ts": "cd server && npm run antlr4ts && cd ..",
-        "package": "npm install && npm run compile && cd client && vsce package && cd .."
+        "compile:server": "(cd server && npm run installServer) && tsc -p server/tsconfig.json",
+        "watch:server": "(cd server && npm run installServer) && tsc -w -p server/tsconfig.json",
+        "antlr4ts": "cd server && npm run antlr4ts",
+        "package": "npm install && npm run compile && cd client && vsce package"
     },
     "devDependencies": {
         "@types/mocha": "^2.2.42",
         "@types/node": "^6.0.88",
         "antlr4ts-cli": "^0.4.0-alpha.4",
-        "typescript": "^2.5.2"
+        "typescript": "^2.5.2",
+        "vsce": "^1.41.0"
     }
 }
