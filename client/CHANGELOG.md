@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.0.1 (2018-05-31)
+
+- Cleaner code snippets
+
 ## 1.0.0 (2018-05-24)
 
 - Fix KB class attribute completion
