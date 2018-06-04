@@ -1,5 +1,3 @@
-/* Tests pour le businessObjectEditor */
-
 // ---------------------------------------------------------------------
 // ---------------------  City --------------------------------------
 // ---------------------------------------------------------------------
@@ -113,11 +111,11 @@ Person ALBERT_EINSTEIN
 					
 ;
 
-Person CEDRIC_VILLANI
+Person CEDRIC_V
 //NOTE_AK : usage d'un objet inline NlgRepresentant avec {}
 --> i18nName_fr	-> NlgRepresentant
-				--> referential {	"Cedric Villani",
-									"Cedrick Le Vilain"
+				--> referential {	"Cédric V.",
+									"Cedrick V."
 								 }
 				--> anaphor		PERSONAL_PRONOUN
 			;
@@ -128,18 +126,18 @@ City LYON
 --> country	"France"
 ;
 
-	Address OLIVIER_GENVO_ADDRESS
+	Address SHELDON_COOPER_ADDRESS
 	--> zipCode "69000"
 	--> city	LYON
 	;
 
 //NOTE_AK : usage d'un TextGranule inline (premiere syntaxe) en valeur de champ
-Person OLIVIER_GENVO
---> i18nName_fr	\( Olivier \value("Genvo") \)
---> address		OLIVIER_GENVO_ADDRESS
+Person SHELDON_COOPER
+--> i18nName_fr	\( Sheldon \value("Cooper") \)
+--> address		SHELDON_COOPER_ADDRESS
 ;
 
-Person CELINE_VIERGE
+Person MARIE_CURIE
 
 //NOTE_AK : usage d'un MultilingualExpression
 --> firstName	-> MultilingualExpression
@@ -147,19 +145,19 @@ Person CELINE_VIERGE
 				//NOTE_AK : usage d'un TextGranule inline (seconde syntaxe) en valeur de champ
                 // zone mal gérée à cause de la condition en plein milieu
 				--> fr		-> TextGranule
-								\(	Celine fr \)
+								\(	Marie fr \)
 
 							//NOTE_AK : usage d'une condition
 							--> condition	LYON.name == "Lyon"
 							; // fin de zone mal gérée
 
-				--> en		"Celine en"
-				--> en_US	"Celine en_US"
-				--> defaultValue	"Céline Default"
+				--> en		"Marie en"
+				--> en_US	"Marie en_US"
+				--> defaultValue	"Marie Default"
 				;
 
 //NOTE_AK : usage d'un identifier ajoute a un objet inline
---> address		-> Address CELINE_VIERGE_ADDRESS
+--> address		-> Address MARIE_CURIE_ADDRESS
 				--> zipCode "69010"
 				--> city	LYON
 				;
@@ -167,14 +165,14 @@ Person CELINE_VIERGE
 ;
 
 //NOTE_AK : premier usage de l'operateur synonym
-Person ALEXANDRE_GROTHENDIECK
---> i18nName_fr	synonym{	"Alexandre Grothendieck",
-							"Alexander Grothendieck"
+Person ALEXANDRE_G
+--> i18nName_fr	synonym{	"Alexandre G.",
+							"Alexander"
 						}
 ;
 
 //NOTE_AK : usage d'un complete
-complete ALEXANDRE_GROTHENDIECK
+complete ALEXANDRE_G
 --> address		-> Address
 				--> zipCode "75012"
 				--> city	-> City
@@ -185,17 +183,17 @@ complete ALEXANDRE_GROTHENDIECK
 --> colleague ALBERT_EINSTEIN
 ;
 
-List	PIERRE_DELIGNE_NAMES
---> values	"Pierre Deligne",
-			"Pietro Deligna"
+List	PIERRE_D_NAMES
+--> values	"Pierre D.",
+			"Pierre"
 ;
 
 //NOTE_AK : usage d'un extends
-Person PIERRE_DELIGNE extends ALEXANDRE_GROTHENDIECK
+Person PIERRE_D extends ALEXANDRE_G
     
     //NOTE_AK : second usage de l'operateur synonym
-    --> i18nName_fr	synonym(PIERRE_DELIGNE_NAMES)
+    --> i18nName_fr	synonym(PIERRE_D_NAMES)
     
     //NOTE_AK : usage de l'operateur ==>
-    ==> colleague OLIVIER_GENVO
+    ==> colleague MARIE_CURIE
 ;
