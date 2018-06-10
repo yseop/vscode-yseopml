@@ -22,7 +22,9 @@ import {
 import {
 	YmlToBdlVisitorImpl
 } from './YmlToBdlVisitorImpl';
-
+import {
+	EngineModel
+} from './EngineModel';
 
 let toggle_allowValidation : Boolean = true;
 
@@ -38,13 +40,6 @@ let documents: TextDocuments = new TextDocuments();
 // for open, change and close text document events
 
 documents.listen(connection);
-
-var fs = require('fs'),
-    xml2js = require('xml2js');
- 
-var parser = new xml2js.Parser();
-
-
 
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
@@ -81,7 +76,7 @@ interface ServerSettings {
 	maxNumberOfProblems: number;
 	pathToPredefinedObjectsYml: string;
 }
-
+let engineModel: EngineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems: number;
 let pathToPredefinedObjectsYml: string;
@@ -90,61 +85,15 @@ let pathToPredefinedObjectsYml: string;
 connection.onDidChangeConfiguration((change) => {
 	let settings = <Settings>change.settings;
 	maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
-	// Revalidate any open text documents
 	pathToPredefinedObjectsYml = settings.yseopml.pathToPredefinedObjectsYml;
-	if(fs.existsSync(pathToPredefinedObjectsYml)) {
-		parsePredefinedObjects(pathToPredefinedObjectsYml);
+	if(engineModel == null) {
+		engineModel = new EngineModel(pathToPredefinedObjectsYml, completionItems);
 	} else {
-		console.warn("File pointed by path pathToPredefinedObjectsYml doesn't exist. Path: “" + pathToPredefinedObjectsYml + "”");
-		
+		engineModel.reload(pathToPredefinedObjectsYml, completionItems);
 	}
+	// Revalidate any open text documents
 	documents.all().forEach(validateTextDocument);
 });
-
-function parsePredefinedObjects(path: string): void {
-	console.log(`Parsing definition file: ${path}`);
-
-	fs.readFile(path, function(err, data) {
-		parser.parseString(data, function (err, result) {
-			if(err != null || result == null) {
-				console.error("Something went wrong during YE model import:\n" + err);
-			} else {
-				try {
-					console.log("Importing classes from Yseop Engine model.");
-					var classesByPackage = result['data-and-features']["classes"][0]["package"];
-					classesByPackage.forEach(ypackage => {
-						// empty package
-						if(ypackage["class"] != null) {
-							ypackage["class"].forEach(yclass => {
-								var classyid = yclass["$"]["ident"];
-								addYclassCompletionItem(classyid);
-							});
-						}
-					});
-				} catch (error) {
-					console.error("Something went wrong during YE model import:\n" + error);
-				}
-			}
-			console.log('Done');
-		});
-	});
-}
-
-function addYclassCompletionItem(classyid: string): void {
-	if(! completionItems.find(function(elem, index, self){
-		return elem.data === `id_${classyid}`
-	})) {
-		var completionItem = {
-
-			label: classyid,
-			kind: CompletionItemKind.Class,
-			data: `id_${classyid}`,
-			detail: `Yseop Engine type: “${classyid}”.`
-			//,documentation: "Its documentation can come from predefinedObjects.xml"
-		};
-		completionItems.push(completionItem);
-	}
-}
 
 function validateTextDocument(textDocument: TextDocument): void {
 	if(toggle_allowValidation) {

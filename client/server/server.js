@@ -9,6 +9,7 @@ const antlr4ts_1 = require("antlr4ts");
 const YmlToBdlLexer_1 = require("./YmlToBdlLexer");
 const YmlToBdlParser_1 = require("./YmlToBdlParser");
 const YmlToBdlVisitorImpl_1 = require("./YmlToBdlVisitorImpl");
+const EngineModel_1 = require("./EngineModel");
 let toggle_allowValidation = true;
 // Create a connection for the server. The connection uses Node's IPC as a transport
 console.log("Yseop.vscode-yseopml − Creating connection with client/server.");
@@ -20,8 +21,6 @@ let documents = new vscode_languageserver_1.TextDocuments();
 // Make the text document manager listen on the connection
 // for open, change and close text document events
 documents.listen(connection);
-var fs = require('fs'), xml2js = require('xml2js');
-var parser = new xml2js.Parser();
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
 connection.onInitialize((_params) => {
@@ -42,6 +41,7 @@ connection.onInitialize((_params) => {
 documents.onDidChangeContent((change) => {
     validateTextDocument(change.document);
 });
+let engineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems;
 let pathToPredefinedObjectsYml;
@@ -50,59 +50,16 @@ let pathToPredefinedObjectsYml;
 connection.onDidChangeConfiguration((change) => {
     let settings = change.settings;
     maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
-    // Revalidate any open text documents
     pathToPredefinedObjectsYml = settings.yseopml.pathToPredefinedObjectsYml;
-    if (fs.existsSync(pathToPredefinedObjectsYml)) {
-        parsePredefinedObjects(pathToPredefinedObjectsYml);
+    if (engineModel == null) {
+        engineModel = new EngineModel_1.EngineModel(pathToPredefinedObjectsYml, completionItems);
     }
     else {
-        console.warn("File pointed by path pathToPredefinedObjectsYml doesn't exist. Path: “" + pathToPredefinedObjectsYml + "”");
+        engineModel.reload(pathToPredefinedObjectsYml, completionItems);
     }
+    // Revalidate any open text documents
     documents.all().forEach(validateTextDocument);
 });
-function parsePredefinedObjects(path) {
-    console.log(`Parsing definition file: ${path}`);
-    fs.readFile(path, function (err, data) {
-        parser.parseString(data, function (err, result) {
-            if (err != null || result == null) {
-                console.error("Something went wrong during YE model import:\n" + err);
-            }
-            else {
-                try {
-                    console.log("Importing classes from Yseop Engine model.");
-                    var classesByPackage = result['data-and-features']["classes"][0]["package"];
-                    classesByPackage.forEach(ypackage => {
-                        // empty package
-                        if (ypackage["class"] != null) {
-                            ypackage["class"].forEach(yclass => {
-                                var classyid = yclass["$"]["ident"];
-                                addYclassCompletionItem(classyid);
-                            });
-                        }
-                    });
-                }
-                catch (error) {
-                    console.error("Something went wrong during YE model import:\n" + error);
-                }
-            }
-            console.log('Done');
-        });
-    });
-}
-function addYclassCompletionItem(classyid) {
-    if (!completionItems.find(function (elem, index, self) {
-        return elem.data === `id_${classyid}`;
-    })) {
-        var completionItem = {
-            label: classyid,
-            kind: vscode_languageserver_1.CompletionItemKind.Class,
-            data: `id_${classyid}`,
-            detail: `Yseop Engine type: “${classyid}”.`
-            //,documentation: "Its documentation can come from predefinedObjects.xml"
-        };
-        completionItems.push(completionItem);
-    }
-}
 function validateTextDocument(textDocument) {
     if (toggle_allowValidation) {
         console.log(`Yseop.vscode-yseopml − Validating ${textDocument.uri}`);
