@@ -74,22 +74,22 @@ interface Settings {
 // file
 interface ServerSettings {
 	maxNumberOfProblems: number;
-	pathToPredefinedObjectsYml: string;
+	pathToPredefinedObjectsXml: string;
 }
 let engineModel: EngineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems: number;
-let pathToPredefinedObjectsYml: string;
+let pathToPredefinedObjectsXml: string;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
 	let settings = <Settings>change.settings;
 	maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
-	pathToPredefinedObjectsYml = settings.yseopml.pathToPredefinedObjectsYml;
+	pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
 	if(engineModel == null) {
-		engineModel = new EngineModel(pathToPredefinedObjectsYml, completionItems);
+		engineModel = new EngineModel(pathToPredefinedObjectsXml, completionItems);
 	} else {
-		engineModel.reload(pathToPredefinedObjectsYml, completionItems);
+		engineModel.reload(pathToPredefinedObjectsXml, completionItems);
 	}
 	// Revalidate any open text documents
 	documents.all().forEach(validateTextDocument);

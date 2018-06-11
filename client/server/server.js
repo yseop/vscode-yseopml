@@ -44,18 +44,18 @@ documents.onDidChangeContent((change) => {
 let engineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems;
-let pathToPredefinedObjectsYml;
+let pathToPredefinedObjectsXml;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
     let settings = change.settings;
     maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
-    pathToPredefinedObjectsYml = settings.yseopml.pathToPredefinedObjectsYml;
+    pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
     if (engineModel == null) {
-        engineModel = new EngineModel_1.EngineModel(pathToPredefinedObjectsYml, completionItems);
+        engineModel = new EngineModel_1.EngineModel(pathToPredefinedObjectsXml, completionItems);
     }
     else {
-        engineModel.reload(pathToPredefinedObjectsYml, completionItems);
+        engineModel.reload(pathToPredefinedObjectsXml, completionItems);
     }
     // Revalidate any open text documents
     documents.all().forEach(validateTextDocument);
