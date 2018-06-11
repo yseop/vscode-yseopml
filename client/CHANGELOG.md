@@ -2,7 +2,7 @@
 
 ## 1.X.X (yyyy-mm-dd)
 
-- Basic Yseop Engine model based type completion
+- Basic type names completion, based on Yseop Engine's model
   - Uses the new parameter `yseopml.pathToPredefinedObjectsXml`
 
 
