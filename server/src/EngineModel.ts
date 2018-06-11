@@ -15,7 +15,6 @@ export class EngineModel {
     }
 
     loadPredefinedObjects() : void {
-        // load predefined objects
         if(fs.existsSync(this.path)) {
             this.parsePredefinedObjects(this.path, this.completionItems);
         } else {
@@ -35,8 +34,10 @@ export class EngineModel {
     
         fs.readFile(path, function(err, data) {
             parser.parseString(data, function (err, result) {
-                if(err != null || result == null) {
+                if(err != null) {
                     console.error("Something went wrong during YE model import:\n" + err);
+                } else if(result == null) {
+                    console.error("Something went wrong during YE model import. Your file seems empty.");
                 } else {
                     try {
                         console.log("Importing classes from Yseop Engine model.");

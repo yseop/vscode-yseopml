@@ -46,7 +46,7 @@
                     "scope": "window",
                     "type": "string",
                     "default": "",
-                    "description": "Full path to an xml file containing the YML types definition."
+                    "description": "Absolute path to an XML file containing the YML types definition."
                 },
                 "yseopml.trace.server": {
                     "scope": "window",

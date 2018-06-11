@@ -11,7 +11,6 @@ class EngineModel {
         this.loadPredefinedObjects();
     }
     loadPredefinedObjects() {
-        // load predefined objects
         if (fs.existsSync(this.path)) {
             this.parsePredefinedObjects(this.path, this.completionItems);
         }
@@ -28,8 +27,11 @@ class EngineModel {
         console.log(`Parsing definition file: ${path}`);
         fs.readFile(path, function (err, data) {
             parser.parseString(data, function (err, result) {
-                if (err != null || result == null) {
+                if (err != null) {
                     console.error("Something went wrong during YE model import:\n" + err);
+                }
+                else if (result == null) {
+                    console.error("Something went wrong during YE model import. Your file seems empty.");
                 }
                 else {
                     try {
@@ -55,6 +57,11 @@ class EngineModel {
     }
 }
 exports.EngineModel = EngineModel;
+/**
+ * Add a new class id to the completion list as a new completion item.
+ * @param classyid The id of class to add as a completion item.
+ * @param completionItems The completion items list.
+ */
 function addYclassCompletionItem(classyid, completionItems) {
     if (!completionItems.find(function (elem, index, self) {
         return elem.data === `id_${classyid}`;
