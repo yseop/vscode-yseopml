@@ -44,5 +44,18 @@
         "prefix": "\\nounPhrase",
         "body": "\\nounPhrase(\"${1:root}\", _NUMBER: ${2:number})",
         "description": "Noun phrase"
+    },
+    "Function": {
+        "prefix": "function",
+        "body": [
+            "function ${1:funcName}(${2:args})",
+            "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object,Void|}",
+            "--> action",
+            "{",
+            "\t$0",
+            "}",
+            ";"
+        ],
+        "description": "Function"
     }
 }
