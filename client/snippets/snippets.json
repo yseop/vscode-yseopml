@@ -186,6 +186,15 @@
         ],
         "description": "Italic text"
     },
+    "Quoted Text": {
+        "prefix": "\\beginQuote",
+        "body": [
+            "\\beginQuote(_${1|DOUBLE_QUOTE,RAW_DOUBLE_QUOTE,RAW_SINGLE_QUOTE,DOUBLE_QUOTE_EN,DOUBLE_QUOTE_FR,DOUBLE_QUOTE_DE,DOUBLE_QUOTE_JA,DOUBLE_QUOTE_TITLE_JA,SINGLE_QUOTE|})",
+            "\t$0",
+            "\\endQuote"
+        ],
+        "description": "Text placed between quotes"
+    },
     "Round": {
         "prefix": "round",
         "body": "round(${1:amount}, _DECIMALS: ${2|0,1,2,3,4,5,6,7,8,9|})",
