@@ -159,6 +159,33 @@
         ],
         "description": "A case in a “switch” statement"
     },
+    "Styled Text": {
+        "prefix": "\\beginStyle",
+        "body": [
+            "\\beginStyle(${1|BOLD_STYLE,ITALIC_STYLE,STRIKE_STYLE,UNDERLINE_STYLE,SUPERSCRIPT_STYLE,SUBSCRIPT_STYLE,SMALL_CAPPS_STYLE,UPPERCASE_STYLE,LOWERCASE_STYLE,LOWERCASE_AND_CAPITALIZE_STYLE,LOWERCASE_AND_CAPITALIZE_ALL_WORDS_STYLE,LOWERCASE_AND_CAPITALIZE_LAST_WORD_STYLE,CAPITALIZE_STYLE,CAPITALIZE_ALL_WORDS_STYLE,FULLY_SPELLED_OUT_STYLE,FULLY_SPELLED_OUT_ORDINAL_STYLE,INTERPRET_TEXT_TAG_STYLE,URI_STYLE,PARAGRAPH_BREAK_STYLE,END_OF_LINE_STYLE,RIGHT_STYLE,LEFT_STYLE,CENTER_STYLE,JUSTIFY_STYLE|})",
+            "\t$0",
+            "\\endStyle"
+        ],
+        "description": "Styled text"
+    },
+    "Bold Text": {
+        "prefix": "bold",
+        "body": [
+            "\\beginStyle(BOLD_STYLE)",
+            "\t$0",
+            "\\endStyle"
+        ],
+        "description": "Bold text"
+    },
+    "Italic Text": {
+        "prefix": "italic",
+        "body": [
+            "\\beginStyle(ITALIC_STYLE)",
+            "\t$0",
+            "\\endStyle"
+        ],
+        "description": "Italic text"
+    },
     "Round": {
         "prefix": "round",
         "body": "round(${1:amount}, _DECIMALS: ${2|0,1,2,3,4,5,6,7,8,9|})",
