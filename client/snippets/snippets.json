@@ -122,6 +122,31 @@
         ],
         "description": "An alternative in a list of synonyms"
     },
+    "Switch statement": {
+        "prefix": "\\switch",
+        "body": [
+            "\\switch(${1:expr})",
+            "\t\\case(${2:val_1})",
+            "\t\t${3:code_1}",
+            "\t",
+            "\t\\case(${4:val_2})",
+            "\t\t${5:code_2}",
+            "\t",
+            "\t\\case(${6:val_3})",
+            "\t\t${7:code_3}",
+            "\t$0",
+            "\\endSwitch"
+        ],
+        "description": "Handle values differently"
+    },
+    "Switch case item": {
+        "prefix": "\\case",
+        "body": [
+            "\\case(${1:val})",
+            "\t$0"
+        ],
+        "description": "A case in a “switch” statement"
+    },
     "Round": {
         "prefix": "round",
         "body": "round(${1:amount}, _DECIMALS: ${2|0,1,2,3,4,5,6,7,8,9|})",
