@@ -114,7 +114,7 @@
         ],
         "description": "List of alternatives"
     },
-    "Synonym choice": {
+    "Synonym Choice": {
         "prefix": "\\choice",
         "body": [
             "\\choice",
@@ -131,5 +131,20 @@
         "prefix": "\\amount",
         "body": "\\amount(${1:amount}, _DECIMALS_COUNT: ${2|2,1,0|})",
         "description": "Display amount"
+    },
+    "Not Empty String": {
+        "prefix": "\\notEmptyString",
+        "body": "\\notEmptyString",
+        "description": "Make sure a string is not considered empty"
+    },
+    "End of Line": {
+        "prefix": "\\endOfLine",
+        "body": "\\endOfLine",
+        "description": "Force end of line"
+    },
+    "No Contraction": {
+        "prefix": "\\noContraction",
+        "body": "\\noContraction",
+        "description": "Prevent contraction"
     }
 }
