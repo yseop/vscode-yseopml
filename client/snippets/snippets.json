@@ -61,7 +61,7 @@
     "Function": {
         "prefix": "function",
         "body": [
-            "function ${1:funcName}(${2:args})",
+            "function ${1:func_name}(${2:args})",
             "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object,Void|}",
             "--> action",
             "{",
@@ -74,7 +74,7 @@
     "Simple Function": {
         "prefix": "function",
         "body": [
-            "function ${1:funcName}(${2:args})",
+            "function ${1:func_name}(${2:args})",
             "--> return",
             "\t$0",
             ";"
