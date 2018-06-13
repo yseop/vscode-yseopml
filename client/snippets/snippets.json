@@ -39,5 +39,10 @@
             "$0"
         ],
         "description": "Textualization attribute"
+    },
+    "Noun Phrase": {
+        "prefix": "\\nounPhrase",
+        "body": "\\nounPhrase(\"${1:root}\", _NUMBER: ${2:number})",
+        "description": "Noun phrase"
     }
 }
