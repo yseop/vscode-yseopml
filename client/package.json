@@ -42,6 +42,12 @@
                     "default": 100,
                     "description": "Controls the maximum number of problems produced by the server."
                 },
+                "yseopml.pathToPredefinedObjectsXml": {
+                    "scope": "window",
+                    "type": "string",
+                    "default": "",
+                    "description": "Absolute path to an XML file containing the YML types definition."
+                },
                 "yseopml.trace.server": {
                     "scope": "window",
                     "type": "string",
@@ -55,32 +61,38 @@
                 }
             }
         },
-        "languages": [{
-            "id": "yml",
-            "aliases": [
-                "Yseop Markup Language",
-                "yml"
-            ],
-            "extensions": [
-                ".kao",
-                ".yclass",
-                ".ytextfunction",
-                ".yobject",
-                ".ycomplete",
-                ".dcl",
-                ".yml"
-            ],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "yml",
-            "scopeName": "source.yseop",
-            "path": "./syntaxes/yml.tmLanguage.json"
-        }],
-        "snippets": [{
-            "language": "yml",
-            "path": "./snippets/snippets.json"
-        }]
+        "languages": [
+            {
+                "id": "yml",
+                "aliases": [
+                    "Yseop Markup Language",
+                    "yml"
+                ],
+                "extensions": [
+                    ".kao",
+                    ".yclass",
+                    ".ytextfunction",
+                    ".yobject",
+                    ".ycomplete",
+                    ".dcl",
+                    ".yml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "yml",
+                "scopeName": "source.yseop",
+                "path": "./syntaxes/yml.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "yml",
+                "path": "./snippets/snippets.json"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
