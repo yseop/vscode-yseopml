@@ -435,7 +435,10 @@
                             "name": "keyword.control.yml"
                         }
                     },
-                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                    "patterns": [{
+                        "match": "(\\\\nextItem|\\\\default)",
+                        "name": "keyword.control.yml"
+                    }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
                 }, {
                     "begin": "\\\\beginNote",
                     "beginCaptures": {
