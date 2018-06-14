@@ -208,6 +208,17 @@
         ],
         "description": "Styled text"
     },
+    "Style (custom)": {
+        "prefix": "\\beginStyle",
+        "body": [
+            "\\beginStyle(-> Style",
+            "\t--> ${1:attrs}",
+            ";)",
+            "\t$0",
+            "\\endStyle"
+        ],
+        "description": "Text using a custom style"
+    },
     "Bold Text": {
         "prefix": "bold",
         "body": [
