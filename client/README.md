@@ -45,6 +45,12 @@ This extension provides a Yseop Markup Language (YML) basic support for VS Code.
     * `\value`: Display a value
     * `\verb`: Verb
 
+When you start typing a snippet's prefix, the editor should suggest corresponding snippets.
+
+Visual Studio Code uses “tabstops” within snippets in places where code must be written to fill in the blanks. As their name suggest, you can use the tab key to go to the next tabstop.
+
+Some tabstops are associated with a list of predefined values. To use one of them, you can select it using the arrow keys and press `Enter` before using the tab key to proceed as usual if need be.
+
 ![Snippet for textualization Gif.](images/textualization.gif "Snippet for textualization.")
 
 - Code folding
