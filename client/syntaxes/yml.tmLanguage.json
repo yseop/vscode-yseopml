@@ -30,7 +30,483 @@
                 { "include": "#comments" },
                 { "include": "#constants" },
                 { "include": "#operators" },
-                { "include": "#strings" },
+                { "include": "#strings" }, {
+                    "begin": "\\\\beginAnnotation",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endAnnotation",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginBookmark",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endBookmark",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginChooseSynonym",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endChooseSynonym",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginContentTest",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endContentTest",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\forall",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endForall",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\foreach",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endForeach",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginFormat",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endFormat",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginIndent",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIndent",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifBaseLanguage_de",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfBaseLanguage_de",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifBaseLanguage_en",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfBaseLanguage_en",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifBaseLanguage_es",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfBaseLanguage_es",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifBaseLanguage_fr",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfBaseLanguage_fr",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifBaseLanguage_ja",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfBaseLanguage_ja",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifBaseLanguage_nl",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfBaseLanguage_nl",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_de",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_de",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_en",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_en",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_en_GB",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_en_GB",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_en_US",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_en_US",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_es",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_es",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_fr",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_fr",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_fr_BE",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_fr_BE",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_fr_CA",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_fr_CA",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_fr_FR",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_fr_FR",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_ja",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_ja",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\ifLanguage_nl",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIfLanguage_nl",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginIndivisible",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endIndivisible",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginKeepTextAspect",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endKeepTextAspect",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\link",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endLink",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginList",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endList",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginNote",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endNote",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginQuote",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endQuote",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginStyle",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endStyle",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginTimeCounter",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endTimeCounter",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                }, {
+                    "begin": "\\\\beginTitleLevel",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endTitleLevel",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                },
                 {
                     "begin": "\\\\if",
                     "beginCaptures": {
@@ -65,6 +541,21 @@
                         "match": "\\\\choice",
                         "name": "keyword.control.yml"
                     }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
+                },
+                {
+                    "begin": "\\\\while",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "end": "\\\\endWhile",
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.yml"
+                        }
+                    },
+                    "patterns": [{ "include": "#keywords" }, { "include": "#textgranule-functions" }]
                 },
                 {
                     "begin": "\\\\switch",
@@ -126,7 +617,7 @@
         },
         "inlineInstance": {
             "patterns": [{
-                "begin": "(?x) (->) \\s* \\b(\\w+)\\b (\\s+\\b(\\w+)\\b)?",
+                "begin": "(?x) (->) \\s* \\b(\\w+)\\b (\\s+\\b([\\w\\\\:]+)\\b)?",
                 "end": "(?=;)\\n*",
                 "name": "entity.other.yseop",
                 "captures": {
@@ -142,7 +633,8 @@
                 },
                 "patterns": [
                     { "include": "#option" },
-                    { "include": "#comments" }
+                    { "include": "#comments" },
+                    { "include": "#granules" }
                 ]
             }]
         },
@@ -166,30 +658,36 @@
         },
         "preprocessing": {
             "patterns": [{
-                "begin": "@if",
-                "end": "@endif",
-                "beginCaptures": {
-                    "0": {
-                        "name": "meta.preprocessor.yseop"
-                    }
-                },
-                "endCaptures": {
-                    "0": {
-                        "name": "meta.preprocessor.yseop"
-                    }
-                },
-                "patterns": [{
-                        "match": "@else",
-                        "name": "meta.preprocessor.yseop"
+                    "begin": "@if",
+                    "end": "@endif",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "meta.preprocessor.yseop"
+                        }
                     },
-                    { "include": "#keywords" },
-                    { "include": "#strings" },
-                    { "include": "#constants" },
-                    { "include": "#comments" },
-                    { "include": "#operators" },
-                    { "include": "#functions" }
-                ]
-            }],
+                    "endCaptures": {
+                        "0": {
+                            "name": "meta.preprocessor.yseop"
+                        }
+                    },
+                    "patterns": [{
+                            "match": "@else",
+                            "name": "meta.preprocessor.yseop"
+                        },
+                        { "include": "#keywords" },
+                        { "include": "#strings" },
+                        { "include": "#constants" },
+                        { "include": "#comments" },
+                        { "include": "#operators" },
+                        { "include": "#functions" }
+                    ]
+                },
+                {
+                    "match": "@pragma",
+                    "include": "#functions",
+                    "name": "meta.preprocessor.yseop"
+                }
+            ],
             "comment": "Preprocessing stuff"
         },
         "strings": {
