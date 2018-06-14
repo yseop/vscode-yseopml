@@ -235,6 +235,15 @@
         ],
         "description": "Text placed between quotes"
     },
+    "Complete": {
+        "prefix": "complete",
+        "body": [
+            "complete ${1:name}",
+            "--> $0",
+            ";"
+        ],
+        "description": "Complete an instance with values"
+    },
     "Round": {
         "prefix": "round",
         "body": "round(${1:amount}, _DECIMALS: ${2|0,1,2,3,4,5,6,7,8,9|})",
