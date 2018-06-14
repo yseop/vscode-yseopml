@@ -76,10 +76,4 @@ code --install-extension EXTENSION_FILE.vsix
 
 You're free to contribute to this project as long as you respect its guidelines.
 
-If you add a significant feature to the extension, insert a short description of it into the `client/README.md`{nbsp}file. Furthermore, available code snippets should be listed in this client ReadMe to make sure users can know which snippets are available and how to trigger them. This snippet list can be automatically regenerated using a command such as:
-
-```
-jq -c '.[] | {prefix, description}' client/snippets/snippets.json | sort -V | jq -r '.[]' | xargs -d '\n' -n 2 printf '* `%s`: %s\n'
-```
-
-(`jq` is a JSON{nbsp}parser that can be obtained through most Linux package repositories or on https://stedolan.github.io/jq/[stedolan.github.io/jq/].)
+If you add a significant feature to the extension, insert a short description of it into the `client/README.md`{nbsp}file. Furthermore, available code snippets should be listed in this client ReadMe to make sure users can know which snippets are available and how to trigger them. This snippet list can be automatically regenerated using `list-snippets.sh`.
