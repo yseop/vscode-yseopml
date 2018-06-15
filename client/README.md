@@ -78,4 +78,5 @@ Some tabstops are associated with a list of predefined values. To use one of the
 
 * This feature uses the parameter `yseopml.pathToPredefinedObjectsXml` to get the **absolute** path to the `predefinedObjects.xml` file provided with one of the user's Yseop Engine version's.
 * To edit VS Code's settings, use the shortcut `Ctrl + ,` or look for `Preferences: Open Settings` in the command palette.
-* Here, you must add a key / value pair in the [JSON file](https://en.wikipedia.org/wiki/JSON#Example) that holds your custom settings and save: `"yseopml.pathToPredefinedObjectsYml": "/home/USER/…/yseop-engine-X.X.X/predefinedObjects.xml"`
+* Here, you must add a key / value pair in the [JSON file](https://en.wikipedia.org/wiki/JSON#Example) that holds your custom settings and save: `"yseopml.pathToPredefinedObjectsXml": "/home/USER/…/yseop-engine-X.X.X/predefinedObjects.xml"`
+* You should then see suggestions like `IntegerInterval` or `StringBuffer` when you edit YML code.
