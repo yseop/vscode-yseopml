@@ -28,9 +28,13 @@ jq -c '.[] | {prefix, description}' "$FILE" | sort -dfV \
         | jq -r '.[]' | xargs -d '\n' -n 2 printf '    * `%s`: %s\n' \
         | awk -F ' *: *' '
     {
-        if(p && $1 == p)
+        if(p && $1 == p) {
             $1 = "      ***or***"
-        print
+            print
+            $1 = p
+        } else {
+            print
+        }
     }
 
     {
