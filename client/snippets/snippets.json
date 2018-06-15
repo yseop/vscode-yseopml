@@ -75,6 +75,7 @@
         "prefix": "function",
         "body": [
             "function ${1:func_name}(${2:args})",
+            "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object,Void|}",
             "--> return",
             "\t$0",
             ";"
