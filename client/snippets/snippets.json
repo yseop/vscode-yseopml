@@ -62,7 +62,7 @@
         "prefix": "function",
         "body": [
             "function ${1:func_name}(${2:args})",
-            "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object,Void|}",
+            "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object|}",
             "--> action",
             "{",
             "\t$0",
@@ -71,11 +71,29 @@
         ],
         "description": "Function"
     },
+    "Function (custom)": {
+        "prefix": "function",
+        "body": [
+            "function ${1:func_name}",
+            "args {",
+            "\t${2|Boolean,Decimal,Integer,Number,Collection,Text,Object,Void|} ${3:arg_name}",
+            "\t--> option ${4:opt_val}",
+            "\t$0",
+            "}",
+            "--> domains ${5|Boolean,Decimal,Integer,Number,Collection,Text,Object|}",
+            "--> action",
+            "{",
+            "\t// Empty",
+            "}",
+            "; // $1"
+        ],
+        "description": "Function with custom args"
+    },
     "Simple Function": {
         "prefix": "function",
         "body": [
             "function ${1:func_name}(${2:args})",
-            "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object,Void|}",
+            "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object|}",
             "--> return",
             "\t$0",
             ";"
