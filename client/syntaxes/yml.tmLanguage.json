@@ -32,20 +32,20 @@
                 { "include": "#operators" },
                 { "include": "#strings" },
                 {
-                    "begin": "\\\\beginAnnotation|\\\\beginBookmark|\\\\beginChooseSynonym|\\\\beginContentTest|\\\\forall|\\\\foreach|\\\\beginFormat|\\\\beginIndent|\\\\ifBaseLanguage_(de|en|es|fr|ja|nl)|\\\\ifLanguage_(de|en(_US|_GB)?|es|fr(_BE|_CA|_FR)?|ja|nl)|\\\\beginIndivisible|\\\\beginKeepTextAspect|\\\\link|\\\\beginList|\\\\beginNote|\\\\beginQuote|\\\\beginStyle|\\\\beginTimeCounter|\\\\beginTitleLevel|\\\\if|\\\\beginSynonym|\\\\while|\\\\switch",
+                    "begin": "(?x) \\\\ (beginAnnotation|beginBookmark|beginChooseSynonym|beginContentTest|forall|foreach|beginFormat|beginIndent|ifBaseLanguage_(de|en|es|fr|ja|nl)|ifLanguage_(de|en(_US|_GB)?|es|fr(_BE|_CA|_FR)?|ja|nl)|beginIndivisible|beginKeepTextAspect|link|beginList|beginNote|beginQuote|beginStyle|beginTimeCounter|beginTitleLevel|if|beginSynonym|while|switch)",
                     "beginCaptures": {
                         "0": {
                             "name": "keyword.control.yml"
                         }
                     },
-                    "end": "\\\\endAnnotation|\\\\endBookmark|\\\\endChooseSynonym|\\\\endContentTest|\\\\endForall|\\\\endForeach|\\\\endFormat|\\\\endIndent|\\\\endIfBaseLanguage_(de|en|es|fr|ja|nl)|\\\\endIfLanguage_(de|en(_US|_GB)?|es|fr(_BE|_CA|_FR)?|ja|nl)|\\\\endIndivisible|\\\\endKeepTextAspect|\\\\endLink|\\\\endList|\\\\endNote|\\\\endQuote|\\\\endStyle|\\\\endTimeCounter|\\\\endTitleLevel|\\\\endIf|\\\\endSynonym|\\\\endWhile|\\\\endSwitch",
+                    "end": "(?x) \\\\ (endAnnotation|endBookmark|endChooseSynonym|endContentTest|endForall|endForeach|endFormat|endIndent|endIfBaseLanguage_(de|en|es|fr|ja|nl)|endIfLanguage_(de|en(_US|_GB)?|es|fr(_BE|_CA|_FR)?|ja|nl)|endIndivisible|endKeepTextAspect|endLink|endList|endNote|endQuote|endStyle|endTimeCounter|endTitleLevel|endIf|endSynonym|endWhile|endSwitch)",
                     "endCaptures": {
                         "0": {
                             "name": "keyword.control.yml"
                         }
                     },
                     "patterns": [{
-                        "match": "(\\\\nextItem|\\\\default|\\\\case|\\\\else|\\\\choice)",
+                        "match": "(?x) \\\\ (nextItem|default|case|else|choice)",
                         "name": "keyword.control.yml"
                     }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
                 }
