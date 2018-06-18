@@ -30,11 +30,12 @@ The language server is located in the `server`{nbsp}directory.
 . Run `npm run antlr4ts` to generate tokens, lexer and parser files.
 
 
-## How to update Syntax Highlighting
+## How to update syntax highlighting
 
-In order to update the syntax highlighting, you must edit `yml.tmLanguage.json` according to the http://manual.macromates.com/en/language_grammars#language_grammars[TextMate Manual].
+In order to update the syntax highlighting, you must edit `yml.tmLanguage.json` using http://manual.macromates.com/en/language_grammars#language_grammars[the TextMate manual] as reference.
 
-The format available in this manual is a little bit different than the one we are using (json). However it is easy to understand how to change it to fit our needs.
+The format used throughout this manual is slightly different from the one we are using{nbsp}(JSON). It is, however, easy to understand how to adapt examples.
+
 
 
 ## Package the extension
@@ -51,7 +52,7 @@ It should end with a line like:
 Created: /PATH/TO/vscode-yseopml/client/vscode-yseopml-X.X.X.vsix
 ```
 
-This `.vsix`{nbsp}file in the `client`{nbsp}directory is the packaged extension that can be provided to {vsc} to install the extension.
+This `vsix`{nbsp}file in the `client`{nbsp}directory is the packaged extension that can be provided to {vsc} to install the extension.
 
 
 ## Install the extension
@@ -62,6 +63,8 @@ This `.vsix`{nbsp}file in the `client`{nbsp}directory is the packaged extension 
 code --install-extension EXTENSION_FILE.vsix
 ```
 
+While developing and testing, lazy Linux users can also use the local `install.sh`{nbsp}script, which runs `npm run package` and retrieves the `vsix`{nbsp}file to install it immediately.
+
 
 ### Via the GUI
 
@@ -70,3 +73,12 @@ code --install-extension EXTENSION_FILE.vsix
 . Select the extension file and validate.
 . Reload {vsc}.
 . Open `client/test/test.kao` to check that the extension is working properly.
+
+
+## Contributing
+
+You're free to contribute to this project as long as you respect its guidelines.
+
+If you add a significant feature to the extension, insert a short description of it into the `client/README.md`{nbsp}file. Furthermore, available code snippets should be listed in this client ReadMe to make sure users can know which snippets are available and how to trigger them. This snippet list can be automatically regenerated using `list-snippets.sh`.
+
+Documentation on the subject of snippets can be found https://code.visualstudio.com/docs/editor/userdefinedsnippets[here].

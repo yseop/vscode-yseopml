@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "author": "Yseop",
     "license": "MIT",
     "publisher": "Yseop",
@@ -13,13 +13,16 @@
     "bugs": {
         "url": "https://github.com/yseop/vscode-yseopml/issues"
     },
+    "engines": {
+        "vscode": "^1.22.0"
+    },
     "scripts": {
-        "postinstall": "(cd server && npm install) && cd client && npm install",
-        "compile": "tsc -p client/tsconfig.json && (cd server && npm run installServer) && tsc -p server/tsconfig.json",
+        "postinstall": "cd server && npm install && cd ../client && npm install",
+        "compile": "tsc -p client/tsconfig.json && cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
         "compile:client": "tsc -p client/tsconfig.json",
         "watch:client": "tsc -w -p client/tsconfig.json",
-        "compile:server": "(cd server && npm run installServer) && tsc -p server/tsconfig.json",
-        "watch:server": "(cd server && npm run installServer) && tsc -w -p server/tsconfig.json",
+        "compile:server": "cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
+        "watch:server": "cd server && npm run installServer && cd .. && tsc -w -p server/tsconfig.json",
         "antlr4ts": "cd server && npm run antlr4ts",
         "package": "npm install && npm run compile && cd client && vsce package"
     },
@@ -28,6 +31,6 @@
         "@types/node": "^6.0.88",
         "antlr4ts-cli": "^0.4.0-alpha.4",
         "typescript": "^2.5.2",
-        "vsce": "^1.41.0"
+        "vsce": "^1.42.0"
     }
 }

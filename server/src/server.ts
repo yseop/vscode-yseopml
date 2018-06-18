@@ -7,7 +7,7 @@
 import {
 	IPCMessageReader, IPCMessageWriter, createConnection, IConnection, TextDocuments, TextDocument,
 	Diagnostic, DiagnosticSeverity, InitializeResult, TextDocumentPositionParams, CompletionItem,
-	CompletionItemKind
+	CompletionItemKind, PublishDiagnosticsParams
 } from 'vscode-languageserver';
 
 import { ANTLRInputStream, CommonTokenStream } from 'antlr4ts';
@@ -22,7 +22,11 @@ import {
 import {
 	YmlToBdlVisitorImpl
 } from './YmlToBdlVisitorImpl';
+import {
+	EngineModel
+} from './EngineModel';
 
+let toggle_allowValidation : Boolean = true;
 
 let toggle_allowValidation : Boolean = true;
 
@@ -72,15 +76,23 @@ interface Settings {
 // file
 interface ServerSettings {
 	maxNumberOfProblems: number;
+	pathToPredefinedObjectsXml: string;
 }
-
+let engineModel: EngineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems: number;
+let pathToPredefinedObjectsXml: string;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
 	let settings = <Settings>change.settings;
 	maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
+	pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
+	if(engineModel == null) {
+		engineModel = new EngineModel(pathToPredefinedObjectsXml, completionItems);
+	} else {
+		engineModel.reload(pathToPredefinedObjectsXml, completionItems);
+	}
 	// Revalidate any open text documents
 	documents.all().forEach(validateTextDocument);
 });

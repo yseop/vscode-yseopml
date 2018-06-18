@@ -32,55 +32,20 @@
                 { "include": "#operators" },
                 { "include": "#strings" },
                 {
-                    "begin": "\\\\if",
+                    "begin": "(?x) \\\\ (beginAnnotation|beginBookmark|beginChooseSynonym|beginContentTest|forall|foreach|beginFormat|beginIndent|ifBaseLanguage_(de|en|es|fr|ja|nl)|ifLanguage_(de|en(_US|_GB)?|es|fr(_BE|_CA|_FR)?|ja|nl)|beginIndivisible|beginKeepTextAspect|link|beginList|beginNote|beginQuote|beginStyle|beginTimeCounter|beginTitleLevel|if|beginSynonym|while|switch)",
                     "beginCaptures": {
                         "0": {
                             "name": "keyword.control.yml"
                         }
                     },
-                    "end": "\\\\endIf",
+                    "end": "(?x) \\\\ (endAnnotation|endBookmark|endChooseSynonym|endContentTest|endForall|endForeach|endFormat|endIndent|endIfBaseLanguage_(de|en|es|fr|ja|nl)|endIfLanguage_(de|en(_US|_GB)?|es|fr(_BE|_CA|_FR)?|ja|nl)|endIndivisible|endKeepTextAspect|endLink|endList|endNote|endQuote|endStyle|endTimeCounter|endTitleLevel|endIf|endSynonym|endWhile|endSwitch)",
                     "endCaptures": {
                         "0": {
                             "name": "keyword.control.yml"
                         }
                     },
                     "patterns": [{
-                        "match": "\\\\else",
-                        "name": "keyword.control.yml"
-                    }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
-                }, {
-                    "begin": "\\\\beginSynonym",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "keyword.control.yml"
-                        }
-                    },
-                    "end": "\\\\endSynonym",
-                    "endCaptures": {
-                        "0": {
-                            "name": "keyword.control.yml"
-                        }
-                    },
-                    "patterns": [{
-                        "match": "\\\\choice",
-                        "name": "keyword.control.yml"
-                    }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
-                },
-                {
-                    "begin": "\\\\switch",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "keyword.control.yml"
-                        }
-                    },
-                    "end": "\\\\endSwitch",
-                    "endCaptures": {
-                        "0": {
-                            "name": "keyword.control.yml"
-                        }
-                    },
-                    "patterns": [{
-                        "match": "(\\\\case|\\\\default)",
+                        "match": "(?x) \\\\ (nextItem|default|case|else|choice)",
                         "name": "keyword.control.yml"
                     }, { "include": "#keywords" }, { "include": "#textgranule-functions" }]
                 }
@@ -106,7 +71,6 @@
                     { "include": "#documentationString" },
                     { "include": "#granules" },
                     { "include": "#keywords" },
-                    { "include": "#constants" },
                     { "include": "#operators" },
                     {
                         "begin": "\\{",
@@ -117,7 +81,6 @@
                             { "include": "#strings" },
                             { "include": "#keywords" },
                             { "include": "#granules" },
-                            { "include": "#constants" },
                             { "include": "#operators" }
                         ]
                     }
@@ -126,7 +89,8 @@
         },
         "inlineInstance": {
             "patterns": [{
-                "begin": "(?x) (->) \\s* \\b(\\w+)\\b (\\s+\\b(\\w+)\\b)?",
+
+                "begin": "(?x) (->) \\s* \\b(\\w+)\\b (\\s+\\b(\\w+(:\\w+)*(::\\w+)?)\\b)?",
                 "end": "(?=;)\\n*",
                 "name": "entity.other.yseop",
                 "captures": {
@@ -142,7 +106,8 @@
                 },
                 "patterns": [
                     { "include": "#option" },
-                    { "include": "#comments" }
+                    { "include": "#comments" },
+                    { "include": "#granules" }
                 ]
             }]
         },
@@ -166,30 +131,36 @@
         },
         "preprocessing": {
             "patterns": [{
-                "begin": "@if",
-                "end": "@endif",
-                "beginCaptures": {
-                    "0": {
-                        "name": "meta.preprocessor.yseop"
-                    }
-                },
-                "endCaptures": {
-                    "0": {
-                        "name": "meta.preprocessor.yseop"
-                    }
-                },
-                "patterns": [{
-                        "match": "@else",
-                        "name": "meta.preprocessor.yseop"
+                    "begin": "@if",
+                    "end": "@endif",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "meta.preprocessor.yseop"
+                        }
                     },
-                    { "include": "#keywords" },
-                    { "include": "#strings" },
-                    { "include": "#constants" },
-                    { "include": "#comments" },
-                    { "include": "#operators" },
-                    { "include": "#functions" }
-                ]
-            }],
+                    "endCaptures": {
+                        "0": {
+                            "name": "meta.preprocessor.yseop"
+                        }
+                    },
+                    "patterns": [{
+                            "match": "@else",
+                            "name": "meta.preprocessor.yseop"
+                        },
+                        { "include": "#keywords" },
+                        { "include": "#strings" },
+                        { "include": "#constants" },
+                        { "include": "#comments" },
+                        { "include": "#operators" },
+                        { "include": "#functions" }
+                    ]
+                },
+                {
+                    "match": "@pragma",
+                    "include": "#functions",
+                    "name": "meta.preprocessor.yseop"
+                }
+            ],
             "comment": "Preprocessing stuff"
         },
         "strings": {

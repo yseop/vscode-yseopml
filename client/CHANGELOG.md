@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.1.0 (2018-06-18)
+
+- Basic type names completion, based on Yseop Engine's model
+  - Uses the new parameter `yseopml.pathToPredefinedObjectsXml`
+- New code snippets: loops, functions, verbs and more. See the “read me” file for list and usage information.
+
 ## 1.0.1 (2018-05-31)
 
 - Cleaner code snippets

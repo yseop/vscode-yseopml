@@ -9,6 +9,7 @@ const antlr4ts_1 = require("antlr4ts");
 const YmlToBdlLexer_1 = require("./YmlToBdlLexer");
 const YmlToBdlParser_1 = require("./YmlToBdlParser");
 const YmlToBdlVisitorImpl_1 = require("./YmlToBdlVisitorImpl");
+const EngineModel_1 = require("./EngineModel");
 let toggle_allowValidation = true;
 // Create a connection for the server. The connection uses Node's IPC as a transport
 console.log("Yseop.vscode-yseopml − Creating connection with client/server.");
@@ -40,13 +41,22 @@ connection.onInitialize((_params) => {
 documents.onDidChangeContent((change) => {
     validateTextDocument(change.document);
 });
+let engineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems;
+let pathToPredefinedObjectsXml;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
     let settings = change.settings;
     maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
+    pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
+    if (engineModel == null) {
+        engineModel = new EngineModel_1.EngineModel(pathToPredefinedObjectsXml, completionItems);
+    }
+    else {
+        engineModel.reload(pathToPredefinedObjectsXml, completionItems);
+    }
     // Revalidate any open text documents
     documents.all().forEach(validateTextDocument);
 });
