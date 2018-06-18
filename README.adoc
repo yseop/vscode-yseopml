@@ -37,6 +37,7 @@ In order to update the syntax highlighting, you must edit `yml.tmLanguage.json` 
 The format used throughout this manual is slightly different from the one we are using{nbsp}(JSON). It is, however, easy to understand how to adapt examples.
 
 
+
 ## Package the extension
 
 Run the following command in your terminal:
