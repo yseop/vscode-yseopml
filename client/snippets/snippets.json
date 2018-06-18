@@ -26,6 +26,19 @@
         ],
         "description": "Object instance"
     },
+    "Interface": {
+        "prefix": "interface",
+        "body": [
+            "interface ${1:${TM_FILENAME_BASE/ /_/g}}",
+            "\tfield ${2:field_name}",
+            "\t\t--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object|}",
+            "\t",
+            "\tclassProperties",
+            "\t$0",
+            "; // $1"
+        ],
+        "description": "Interface"
+    },
     "Textualization Attribute": {
         "prefix": "textu",
         "body": [
@@ -39,5 +52,303 @@
             "$0"
         ],
         "description": "Textualization attribute"
+    },
+    "Noun Phrase": {
+        "prefix": "\\nounPhrase",
+        "body": "\\nounPhrase(\"${1:root}\", _NUMBER: ${2|integer,SINGULAR,PLURAL|})",
+        "description": "Noun phrase"
+    },
+    "Function": {
+        "prefix": "function",
+        "body": [
+            "function ${1:func_name}(${2:args})",
+            "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object|}",
+            "--> action",
+            "{",
+            "\t$0",
+            "}",
+            "; // $1"
+        ],
+        "description": "Function"
+    },
+    "Function (custom)": {
+        "prefix": "function",
+        "body": [
+            "function ${1:func_name}",
+            "args {",
+            "\t${2|Boolean,Decimal,Integer,Number,Collection,Text,Object,Void|} ${3:arg_name}",
+            "\t--> option ${4:opt_val}",
+            "\t$0",
+            "}",
+            "--> domains ${5|Boolean,Decimal,Integer,Number,Collection,Text,Object|}",
+            "--> action",
+            "{",
+            "\t// Empty",
+            "}",
+            "; // $1"
+        ],
+        "description": "Function with custom args"
+    },
+    "Simple Function": {
+        "prefix": "function",
+        "body": [
+            "function ${1:func_name}(${2:args})",
+            "--> domains ${3|Boolean,Decimal,Integer,Number,Collection,Text,Object|}",
+            "--> return",
+            "\t$0",
+            ";"
+        ],
+        "description": "Function with direct return"
+    },
+    "Text Function": {
+        "prefix": "TextFunction",
+        "body": [
+            "TextFunction ${1:func_name}(${2:args})",
+            "--> text",
+            "\t\\(",
+            "\t\t$0",
+            "\t\\)",
+            "; // $1"
+        ],
+        "description": "Text function"
+    },
+    "Text Function (custom)": {
+        "prefix": "TextFunction",
+        "body": [
+            "TextFunction ${1:func_name}",
+            "args {",
+            "\t${2|Boolean,Decimal,Integer,Number,Collection,Text,Object,Void|} ${3:arg_name}",
+            "\t--> option ${4:opt_val}",
+            "\t$0",
+            "}",
+            "--> text",
+            "\t\\(",
+            "\t\t// Empty",
+            "\t\\)",
+            "; // $1"
+        ],
+        "description": "Text function with custom arguments"
+    },
+    "Verb": {
+        "prefix": "\\verb",
+        "body": "\\verb(VERB_${1|EN,FR,DE,ES,JA,NL,PT|}_${2:VERBNAME}, ${3|PRESENT_INDICATIVE,AUX_MOD,AUX_MOD_CONTINUOUS,AUX_MOD_PAST_PERFECT,AUX_MOD_PAST_PERFECT_CONTINUOUS,AUX_MOD_PERFECT,AUX_MOD_PERFECT_CONTINUOUS,AUX_MOD_PRETERIT,AUX_MOD_PRETERIT_CONTINUOUS,CONDITIONAL,CONJUNCTIVE_ROOT,CONTINUOUS_FUTURE,CONTINUOUS_FUTURE_PERFECT,CONTINUOUS_PAST_CONDITIONAL,CONTINUOUS_PAST_PERFECT,CONTINUOUS_PRESENT,CONTINUOUS_PRESENT_CONDITIONAL,CONTINUOUS_PRESENT_PERFECT,CONTINUOUS_PRETERIT,FUTURE,FUTURE_1_INDICATIVE,FUTURE_2_INDICATIVE,FUTURE_INDICATIVE,FUTURE_PERFECT,FUTURE_PERFECT_INDICATIVE,FUTURE_PERFECT_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE_1,FUTURE_SUBJUNCTIVE_2,GERUNDIVE,IMPERATIVE,IMPERFECT_INDICATIVE,IMPERFECT_SUBJUNCTIVE,INACCOMPLISHED_ROOT,INFINITIVE,INFINITIVE_1,INFINITIVE_2,PARTICIPLE,PARTICIPLE_1,PARTICIPLE_2,PARTICIPLE_3,PAST,PAST_CONDITIONAL,PAST_CONDITIONAL_SECOND_FORM,PAST_GERUNDIVE,PAST_HISTORIC_INDICATIVE,PAST_IMPERATIVE,PAST_INFINITIVE,PAST_PARTICIPLE,PAST_PERFECT,PAST_PERFECT_INDICATIVE,PAST_SUBJUNCTIVE,PAST_SUBJUNCTIVE_1,PAST_SUBJUNCTIVE_2,PERFECT_INDICATIVE,PLU_PERFECT_INDICATIVE,PLU_PERFECT_SUBJUNCTIVE,POTENTIAL,PRESENT,PRESENT_CONDITIONAL,PRESENT_IMPERATIVE,PRESENT_INFINITIVE,PRESENT_OR_FUTURE,PRESENT_PARTICIPLE,PRESENT_PERFECT,PRESENT_PERFECT_INDICATIVE,PRESENT_SUBJONCTIVE_1,PRESENT_SUBJONCTIVE_2,PRESENT_SUBJUNCTIVE,PRETERIT,PRETERIT_INDICATIVE,TE_FORM,VOLITIONAL|}_$1, _SUBJECT_NUMBER: ${4|integer,SINGULAR,PLURAL|})",
+        "description": "Verb"
+    },
+    "For Each with Assembly ID": {
+        "prefix": "\\foreach",
+        "body": [
+            "\\foreach(${1:var}, ${2:in}, ${3:id})",
+            "\t$0",
+            "\\endForeach"
+        ],
+        "description": "“For each” loop with assembly ID"
+    },
+    "For Each": {
+        "prefix": "\\foreach",
+        "body": [
+            "\\foreach(${1:var}, ${2:in})",
+            "\t$0",
+            "\\endForeach"
+        ],
+        "description": "“For each” loop"
+    },
+    "Static List": {
+        "prefix": "\\beginList",
+        "body": [
+            "\\beginList",
+            "\t\\nextItem",
+            "\t\t${1:xxx}",
+            "\t",
+            "\t\\nextItem",
+            "\t\t${2:yyy}",
+            "\t$0",
+            "\\endList"
+        ],
+        "description": "Static List"
+    },
+    "Static List Item": {
+        "prefix": "\\nextItem",
+        "body": [
+            "\\nextItem",
+            "\t$0"
+        ],
+        "description": "An item in a static list"
+    },
+    "Synonyms": {
+        "prefix": "\\beginSynonym",
+        "body": [
+            "\\beginSynonym",
+            "\t\\choice",
+            "\t\t${1:xxx}",
+            "\t",
+            "\t\\choice",
+            "\t\t${2:yyy}",
+            "\t$0",
+            "\\endSynonym"
+        ],
+        "description": "List of alternatives"
+    },
+    "Synonyms (shorthand)": {
+        "prefix": "synonyms",
+        "body": [
+            "\\beginSynonym",
+            "\t\\choice",
+            "\t\t${1:xxx}",
+            "\t",
+            "\t\\choice",
+            "\t\t${2:yyy}",
+            "\t$0",
+            "\\endSynonym"
+        ],
+        "description": "List of alternatives"
+    },
+    "Synonym Choice": {
+        "prefix": "\\choice",
+        "body": [
+            "\\choice",
+            "\t$0"
+        ],
+        "description": "An alternative in a list of synonyms"
+    },
+    "Switch statement": {
+        "prefix": "\\switch",
+        "body": [
+            "\\switch(${1:expr})",
+            "\t\\case(${2:val_1})",
+            "\t\t${3:code_1}",
+            "\t",
+            "\t\\case(${4:val_2})",
+            "\t\t${5:code_2}",
+            "\t",
+            "\t\\case(${6:val_3})",
+            "\t\t${7:code_3}",
+            "\t$0",
+            "\\endSwitch"
+        ],
+        "description": "Handle values differently"
+    },
+    "Switch case item": {
+        "prefix": "\\case",
+        "body": [
+            "\\case(${1:val})",
+            "\t$0"
+        ],
+        "description": "A case in a “switch” statement"
+    },
+    "Styled Text": {
+        "prefix": "\\beginStyle",
+        "body": [
+            "\\beginStyle(${1|BOLD_STYLE,ITALIC_STYLE,STRIKE_STYLE,UNDERLINE_STYLE,SUPERSCRIPT_STYLE,SUBSCRIPT_STYLE,SMALL_CAPPS_STYLE,UPPERCASE_STYLE,LOWERCASE_STYLE,LOWERCASE_AND_CAPITALIZE_STYLE,LOWERCASE_AND_CAPITALIZE_ALL_WORDS_STYLE,LOWERCASE_AND_CAPITALIZE_LAST_WORD_STYLE,CAPITALIZE_STYLE,CAPITALIZE_ALL_WORDS_STYLE,FULLY_SPELLED_OUT_STYLE,FULLY_SPELLED_OUT_ORDINAL_STYLE,INTERPRET_TEXT_TAG_STYLE,URI_STYLE,PARAGRAPH_BREAK_STYLE,END_OF_LINE_STYLE,RIGHT_STYLE,LEFT_STYLE,CENTER_STYLE,JUSTIFY_STYLE|})",
+            "\t$0",
+            "\\endStyle"
+        ],
+        "description": "Styled text"
+    },
+    "Style (custom)": {
+        "prefix": "\\beginStyle",
+        "body": [
+            "\\beginStyle(-> Style",
+            "\t--> ${1:attrs}",
+            ";)",
+            "\t$0",
+            "\\endStyle"
+        ],
+        "description": "Text using a custom style"
+    },
+    "Bold Text": {
+        "prefix": "bold",
+        "body": [
+            "\\beginStyle(BOLD_STYLE)",
+            "\t$0",
+            "\\endStyle"
+        ],
+        "description": "Bold text"
+    },
+    "Italic Text": {
+        "prefix": "italic",
+        "body": [
+            "\\beginStyle(ITALIC_STYLE)",
+            "\t$0",
+            "\\endStyle"
+        ],
+        "description": "Italic text"
+    },
+    "Quoted Text": {
+        "prefix": "\\beginQuote",
+        "body": [
+            "\\beginQuote(_${1|DOUBLE_QUOTE,RAW_DOUBLE_QUOTE,RAW_SINGLE_QUOTE,DOUBLE_QUOTE_EN,DOUBLE_QUOTE_FR,DOUBLE_QUOTE_DE,DOUBLE_QUOTE_JA,DOUBLE_QUOTE_TITLE_JA,SINGLE_QUOTE|})",
+            "\t$0",
+            "\\endQuote"
+        ],
+        "description": "Text placed between quotes"
+    },
+    "Complete": {
+        "prefix": "complete",
+        "body": [
+            "complete ${1:name}",
+            "--> $0",
+            ";"
+        ],
+        "description": "Complete an instance with values"
+    },
+    "First Person Subject Verb": {
+        "prefix": "\\senderAction",
+        "body": "\\senderAction(VERB_${1|EN,FR,DE,ES,JA,NL,PT|}_${2:VERBNAME}, ${3|PRESENT_INDICATIVE,AUX_MOD,AUX_MOD_CONTINUOUS,AUX_MOD_PAST_PERFECT,AUX_MOD_PAST_PERFECT_CONTINUOUS,AUX_MOD_PERFECT,AUX_MOD_PERFECT_CONTINUOUS,AUX_MOD_PRETERIT,AUX_MOD_PRETERIT_CONTINUOUS,CONDITIONAL,CONJUNCTIVE_ROOT,CONTINUOUS_FUTURE,CONTINUOUS_FUTURE_PERFECT,CONTINUOUS_PAST_CONDITIONAL,CONTINUOUS_PAST_PERFECT,CONTINUOUS_PRESENT,CONTINUOUS_PRESENT_CONDITIONAL,CONTINUOUS_PRESENT_PERFECT,CONTINUOUS_PRETERIT,FUTURE,FUTURE_1_INDICATIVE,FUTURE_2_INDICATIVE,FUTURE_INDICATIVE,FUTURE_PERFECT,FUTURE_PERFECT_INDICATIVE,FUTURE_PERFECT_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE_1,FUTURE_SUBJUNCTIVE_2,GERUNDIVE,IMPERATIVE,IMPERFECT_INDICATIVE,IMPERFECT_SUBJUNCTIVE,INACCOMPLISHED_ROOT,INFINITIVE,INFINITIVE_1,INFINITIVE_2,PARTICIPLE,PARTICIPLE_1,PARTICIPLE_2,PARTICIPLE_3,PAST,PAST_CONDITIONAL,PAST_CONDITIONAL_SECOND_FORM,PAST_GERUNDIVE,PAST_HISTORIC_INDICATIVE,PAST_IMPERATIVE,PAST_INFINITIVE,PAST_PARTICIPLE,PAST_PERFECT,PAST_PERFECT_INDICATIVE,PAST_SUBJUNCTIVE,PAST_SUBJUNCTIVE_1,PAST_SUBJUNCTIVE_2,PERFECT_INDICATIVE,PLU_PERFECT_INDICATIVE,PLU_PERFECT_SUBJUNCTIVE,POTENTIAL,PRESENT,PRESENT_CONDITIONAL,PRESENT_IMPERATIVE,PRESENT_INFINITIVE,PRESENT_OR_FUTURE,PRESENT_PARTICIPLE,PRESENT_PERFECT,PRESENT_PERFECT_INDICATIVE,PRESENT_SUBJONCTIVE_1,PRESENT_SUBJONCTIVE_2,PRESENT_SUBJUNCTIVE,PRETERIT,PRETERIT_INDICATIVE,TE_FORM,VOLITIONAL|}_$1)",
+        "description": "Verb using a first person subject"
+    },
+    "First Person Subject Verb with Adjective": {
+        "prefix": "\\senderAction",
+        "body": "\\senderAction(VERB_${1|EN,FR,DE,ES,JA,NL,PT|}_${2:VERBNAME}, ${3|PRESENT_INDICATIVE,AUX_MOD,AUX_MOD_CONTINUOUS,AUX_MOD_PAST_PERFECT,AUX_MOD_PAST_PERFECT_CONTINUOUS,AUX_MOD_PERFECT,AUX_MOD_PERFECT_CONTINUOUS,AUX_MOD_PRETERIT,AUX_MOD_PRETERIT_CONTINUOUS,CONDITIONAL,CONJUNCTIVE_ROOT,CONTINUOUS_FUTURE,CONTINUOUS_FUTURE_PERFECT,CONTINUOUS_PAST_CONDITIONAL,CONTINUOUS_PAST_PERFECT,CONTINUOUS_PRESENT,CONTINUOUS_PRESENT_CONDITIONAL,CONTINUOUS_PRESENT_PERFECT,CONTINUOUS_PRETERIT,FUTURE,FUTURE_1_INDICATIVE,FUTURE_2_INDICATIVE,FUTURE_INDICATIVE,FUTURE_PERFECT,FUTURE_PERFECT_INDICATIVE,FUTURE_PERFECT_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE_1,FUTURE_SUBJUNCTIVE_2,GERUNDIVE,IMPERATIVE,IMPERFECT_INDICATIVE,IMPERFECT_SUBJUNCTIVE,INACCOMPLISHED_ROOT,INFINITIVE,INFINITIVE_1,INFINITIVE_2,PARTICIPLE,PARTICIPLE_1,PARTICIPLE_2,PARTICIPLE_3,PAST,PAST_CONDITIONAL,PAST_CONDITIONAL_SECOND_FORM,PAST_GERUNDIVE,PAST_HISTORIC_INDICATIVE,PAST_IMPERATIVE,PAST_INFINITIVE,PAST_PARTICIPLE,PAST_PERFECT,PAST_PERFECT_INDICATIVE,PAST_SUBJUNCTIVE,PAST_SUBJUNCTIVE_1,PAST_SUBJUNCTIVE_2,PERFECT_INDICATIVE,PLU_PERFECT_INDICATIVE,PLU_PERFECT_SUBJUNCTIVE,POTENTIAL,PRESENT,PRESENT_CONDITIONAL,PRESENT_IMPERATIVE,PRESENT_INFINITIVE,PRESENT_OR_FUTURE,PRESENT_PARTICIPLE,PRESENT_PERFECT,PRESENT_PERFECT_INDICATIVE,PRESENT_SUBJONCTIVE_1,PRESENT_SUBJONCTIVE_2,PRESENT_SUBJUNCTIVE,PRETERIT,PRETERIT_INDICATIVE,TE_FORM,VOLITIONAL|}_$1, _ADJECTIVE: \"${4:adj}\")",
+        "description": "Verb using a first person subject, with adjective"
+    },
+    "Second Person Subject Verb": {
+        "prefix": "\\recipientAction",
+        "body": "\\recipientAction(VERB_${1|EN,FR,DE,ES,JA,NL,PT|}_${2:VERBNAME}, ${3|PRESENT_INDICATIVE,AUX_MOD,AUX_MOD_CONTINUOUS,AUX_MOD_PAST_PERFECT,AUX_MOD_PAST_PERFECT_CONTINUOUS,AUX_MOD_PERFECT,AUX_MOD_PERFECT_CONTINUOUS,AUX_MOD_PRETERIT,AUX_MOD_PRETERIT_CONTINUOUS,CONDITIONAL,CONJUNCTIVE_ROOT,CONTINUOUS_FUTURE,CONTINUOUS_FUTURE_PERFECT,CONTINUOUS_PAST_CONDITIONAL,CONTINUOUS_PAST_PERFECT,CONTINUOUS_PRESENT,CONTINUOUS_PRESENT_CONDITIONAL,CONTINUOUS_PRESENT_PERFECT,CONTINUOUS_PRETERIT,FUTURE,FUTURE_1_INDICATIVE,FUTURE_2_INDICATIVE,FUTURE_INDICATIVE,FUTURE_PERFECT,FUTURE_PERFECT_INDICATIVE,FUTURE_PERFECT_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE_1,FUTURE_SUBJUNCTIVE_2,GERUNDIVE,IMPERATIVE,IMPERFECT_INDICATIVE,IMPERFECT_SUBJUNCTIVE,INACCOMPLISHED_ROOT,INFINITIVE,INFINITIVE_1,INFINITIVE_2,PARTICIPLE,PARTICIPLE_1,PARTICIPLE_2,PARTICIPLE_3,PAST,PAST_CONDITIONAL,PAST_CONDITIONAL_SECOND_FORM,PAST_GERUNDIVE,PAST_HISTORIC_INDICATIVE,PAST_IMPERATIVE,PAST_INFINITIVE,PAST_PARTICIPLE,PAST_PERFECT,PAST_PERFECT_INDICATIVE,PAST_SUBJUNCTIVE,PAST_SUBJUNCTIVE_1,PAST_SUBJUNCTIVE_2,PERFECT_INDICATIVE,PLU_PERFECT_INDICATIVE,PLU_PERFECT_SUBJUNCTIVE,POTENTIAL,PRESENT,PRESENT_CONDITIONAL,PRESENT_IMPERATIVE,PRESENT_INFINITIVE,PRESENT_OR_FUTURE,PRESENT_PARTICIPLE,PRESENT_PERFECT,PRESENT_PERFECT_INDICATIVE,PRESENT_SUBJONCTIVE_1,PRESENT_SUBJONCTIVE_2,PRESENT_SUBJUNCTIVE,PRETERIT,PRETERIT_INDICATIVE,TE_FORM,VOLITIONAL|}_$1)",
+        "description": "Verb using a second person subject"
+    },
+    "Second Person Subject Verb with Adjective": {
+        "prefix": "\\recipientAction",
+        "body": "\\recipientAction(VERB_${1|EN,FR,DE,ES,JA,NL,PT|}_${2:VERBNAME}, ${3|PRESENT_INDICATIVE,AUX_MOD,AUX_MOD_CONTINUOUS,AUX_MOD_PAST_PERFECT,AUX_MOD_PAST_PERFECT_CONTINUOUS,AUX_MOD_PERFECT,AUX_MOD_PERFECT_CONTINUOUS,AUX_MOD_PRETERIT,AUX_MOD_PRETERIT_CONTINUOUS,CONDITIONAL,CONJUNCTIVE_ROOT,CONTINUOUS_FUTURE,CONTINUOUS_FUTURE_PERFECT,CONTINUOUS_PAST_CONDITIONAL,CONTINUOUS_PAST_PERFECT,CONTINUOUS_PRESENT,CONTINUOUS_PRESENT_CONDITIONAL,CONTINUOUS_PRESENT_PERFECT,CONTINUOUS_PRETERIT,FUTURE,FUTURE_1_INDICATIVE,FUTURE_2_INDICATIVE,FUTURE_INDICATIVE,FUTURE_PERFECT,FUTURE_PERFECT_INDICATIVE,FUTURE_PERFECT_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE_1,FUTURE_SUBJUNCTIVE_2,GERUNDIVE,IMPERATIVE,IMPERFECT_INDICATIVE,IMPERFECT_SUBJUNCTIVE,INACCOMPLISHED_ROOT,INFINITIVE,INFINITIVE_1,INFINITIVE_2,PARTICIPLE,PARTICIPLE_1,PARTICIPLE_2,PARTICIPLE_3,PAST,PAST_CONDITIONAL,PAST_CONDITIONAL_SECOND_FORM,PAST_GERUNDIVE,PAST_HISTORIC_INDICATIVE,PAST_IMPERATIVE,PAST_INFINITIVE,PAST_PARTICIPLE,PAST_PERFECT,PAST_PERFECT_INDICATIVE,PAST_SUBJUNCTIVE,PAST_SUBJUNCTIVE_1,PAST_SUBJUNCTIVE_2,PERFECT_INDICATIVE,PLU_PERFECT_INDICATIVE,PLU_PERFECT_SUBJUNCTIVE,POTENTIAL,PRESENT,PRESENT_CONDITIONAL,PRESENT_IMPERATIVE,PRESENT_INFINITIVE,PRESENT_OR_FUTURE,PRESENT_PARTICIPLE,PRESENT_PERFECT,PRESENT_PERFECT_INDICATIVE,PRESENT_SUBJONCTIVE_1,PRESENT_SUBJONCTIVE_2,PRESENT_SUBJUNCTIVE,PRETERIT,PRETERIT_INDICATIVE,TE_FORM,VOLITIONAL|}_$1, _ADJECTIVE: \"${4:adj}\")",
+        "description": "Verb using a second person subject, with adjective"
+    },
+    "Third Person Subject Verb": {
+        "prefix": "\\thirdAction",
+        "body": "\\thirdAction(${1:subject}, VERB_${2|EN,FR,DE,ES,JA,NL,PT|}_${3:VERBNAME}, ${4|PRESENT_INDICATIVE,AUX_MOD,AUX_MOD_CONTINUOUS,AUX_MOD_PAST_PERFECT,AUX_MOD_PAST_PERFECT_CONTINUOUS,AUX_MOD_PERFECT,AUX_MOD_PERFECT_CONTINUOUS,AUX_MOD_PRETERIT,AUX_MOD_PRETERIT_CONTINUOUS,CONDITIONAL,CONJUNCTIVE_ROOT,CONTINUOUS_FUTURE,CONTINUOUS_FUTURE_PERFECT,CONTINUOUS_PAST_CONDITIONAL,CONTINUOUS_PAST_PERFECT,CONTINUOUS_PRESENT,CONTINUOUS_PRESENT_CONDITIONAL,CONTINUOUS_PRESENT_PERFECT,CONTINUOUS_PRETERIT,FUTURE,FUTURE_1_INDICATIVE,FUTURE_2_INDICATIVE,FUTURE_INDICATIVE,FUTURE_PERFECT,FUTURE_PERFECT_INDICATIVE,FUTURE_PERFECT_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE,FUTURE_SUBJUNCTIVE_1,FUTURE_SUBJUNCTIVE_2,GERUNDIVE,IMPERATIVE,IMPERFECT_INDICATIVE,IMPERFECT_SUBJUNCTIVE,INACCOMPLISHED_ROOT,INFINITIVE,INFINITIVE_1,INFINITIVE_2,PARTICIPLE,PARTICIPLE_1,PARTICIPLE_2,PARTICIPLE_3,PAST,PAST_CONDITIONAL,PAST_CONDITIONAL_SECOND_FORM,PAST_GERUNDIVE,PAST_HISTORIC_INDICATIVE,PAST_IMPERATIVE,PAST_INFINITIVE,PAST_PARTICIPLE,PAST_PERFECT,PAST_PERFECT_INDICATIVE,PAST_SUBJUNCTIVE,PAST_SUBJUNCTIVE_1,PAST_SUBJUNCTIVE_2,PERFECT_INDICATIVE,PLU_PERFECT_INDICATIVE,PLU_PERFECT_SUBJUNCTIVE,POTENTIAL,PRESENT,PRESENT_CONDITIONAL,PRESENT_IMPERATIVE,PRESENT_INFINITIVE,PRESENT_OR_FUTURE,PRESENT_PARTICIPLE,PRESENT_PERFECT,PRESENT_PERFECT_INDICATIVE,PRESENT_SUBJONCTIVE_1,PRESENT_SUBJONCTIVE_2,PRESENT_SUBJUNCTIVE,PRETERIT,PRETERIT_INDICATIVE,TE_FORM,VOLITIONAL|}_$2, $0)",
+        "description": "Verb using a third person subject"
+    },
+    "Value": {
+        "prefix": "\\value",
+        "body": "\\value($0)",
+        "description": "Display a value"
+    },
+    "Round": {
+        "prefix": "round",
+        "body": "round(${1:amount}, _DECIMALS: ${2|0,1,2,3,4,5,6,7,8,9|})",
+        "description": "Number rounding"
+    },
+    "Amount": {
+        "prefix": "\\amount",
+        "body": "\\amount(${1:amount}, _DECIMALS_COUNT: ${2|2,1,0|})",
+        "description": "Display amount"
+    },
+    "Not Empty String": {
+        "prefix": "\\notEmptyString",
+        "body": "\\notEmptyString",
+        "description": "Make sure a string is not considered empty"
+    },
+    "End of Line": {
+        "prefix": "\\endOfLine",
+        "body": "\\endOfLine",
+        "description": "Force end of line"
+    },
+    "No Contraction": {
+        "prefix": "\\noContraction",
+        "body": "\\noContraction",
+        "description": "Prevent contraction"
+    },
+    "Numeral Style": {
+        "prefix": "numeralStyle",
+        "body": "numeralStyle ${1|_ARABIC_NUMERAL,_ROMAN_NUMERAL,_CARDINAL_NUMERAL,_ALPHABETIC_NUMERAL,_ORDINAL_NUMERAL,_ORDINAL_NUMERAL_SHORT,_ORDINAL_NUMERAL_WITH_PREFIX,_ORDINAL_RANKING,_ORDINAL_RANKING_WITH_PREFIX|}",
+        "description": "Display style for numbers"
     }
 }
