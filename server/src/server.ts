@@ -28,6 +28,8 @@ import {
 
 let toggle_allowValidation : Boolean = true;
 
+let toggle_allowValidation : Boolean = true;
+
 // Create a connection for the server. The connection uses Node's IPC as a transport
 console.log("Yseop.vscode-yseopml − Creating connection with client/server.");
 
