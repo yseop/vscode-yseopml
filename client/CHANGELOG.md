@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.X.X (yyyy-mm-dd)
+## 1.1.0 (2018-06-18)
 
 - Basic type names completion, based on Yseop Engine's model
   - Uses the new parameter `yseopml.pathToPredefinedObjectsXml`
