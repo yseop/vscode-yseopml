@@ -26,6 +26,24 @@ suite("Extension Tests", function () {
         }));
     });
 
+    test("Test that not activated YML extension is not active.", function(){
+        var ymlExtension = vscode.extensions.all.find(extension => {
+            return extension.id === "Yseop.vscode-yseopml";
+        });
+        assert.notEqual(null, ymlExtension);
+        assert.equal(false, ymlExtension.isActive);
+    });
+
+    test("Test that YML extension activation activates it.", function(){
+        var ymlExtension = vscode.extensions.all.find(extension => {
+            return extension.id === "Yseop.vscode-yseopml";
+        });
+        assert.notEqual(null, ymlExtension);
+        ymlExtension.activate().then(function() {
+            assert.equal(true, ymlExtension.isActive);
+        });
+    });
+    
     test("Test extension adds yml support.", function(){
         vscode.languages.getLanguages().then(function (languages) {
             assert.notEqual(null, languages);
