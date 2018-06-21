@@ -61,39 +61,46 @@
                 }
             }
         },
-        "languages": [{
-            "id": "yml",
-            "aliases": [
-                "Yseop Markup Language",
-                "yml"
-            ],
-            "extensions": [
-                ".kao",
-                ".yclass",
-                ".ytextfunction",
-                ".yobject",
-                ".ycomplete",
-                ".dcl",
-                ".yml"
-            ],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "yml",
-            "scopeName": "source.yseop",
-            "path": "./syntaxes/yml.tmLanguage.json"
-        }],
-        "snippets": [{
-            "language": "yml",
-            "path": "./snippets/snippets.json"
-        }]
+        "languages": [
+            {
+                "id": "yml",
+                "aliases": [
+                    "Yseop Markup Language",
+                    "yml"
+                ],
+                "extensions": [
+                    ".kao",
+                    ".yclass",
+                    ".ytextfunction",
+                    ".yobject",
+                    ".ycomplete",
+                    ".dcl",
+                    ".yml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "yml",
+                "scopeName": "source.yseop",
+                "path": "./syntaxes/yml.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "yml",
+                "path": "./snippets/snippets.json"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
         "compile": "tsc -p ./",
         "watch": "tsc -w -p ./",
         "update-vscode": "node ./node_modules/vscode/bin/install",
-        "postinstall": "node ./node_modules/vscode/bin/install"
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "dependencies": {
         "vscode": "^1.1.5",
