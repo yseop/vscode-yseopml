@@ -2,7 +2,7 @@
 pipeline {
     agent {
         node {
-            label 'java'
+            label 'vscode'
         }        
     }
 
@@ -20,7 +20,9 @@ pipeline {
     stages {
         stage ("Build") {
             steps {
-                sh "npm run package"
+                ansiColor('xterm') {
+                    sh "npm run package"
+                }
             }
             post {
                 success {
