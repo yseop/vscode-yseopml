@@ -17,15 +17,15 @@
         "vscode": "^1.22.0"
     },
     "scripts": {
-        "postinstall": "cd server && npm install && cd ../client && npm install",
+        "postinstall": "cd server && npm install --unsafe-perm && cd ../client && npm install --unsafe-perm",
         "compile": "tsc -p client/tsconfig.json && cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
         "compile:client": "tsc -p client/tsconfig.json",
         "watch:client": "tsc -w -p client/tsconfig.json",
         "compile:server": "cd server && npm run installServer && cd .. && tsc -p server/tsconfig.json",
         "watch:server": "cd server && npm run installServer && cd .. && tsc -w -p server/tsconfig.json",
         "antlr4ts": "cd server && npm run antlr4ts",
-        "package": "npm install && npm run compile && cd client && vsce package",
-        "test": "cd client && npm run test"
+        "package": "npm install --unsafe-perm && npm run compile && cd client && npm run test --silent && vsce package",
+        "test": "cd client && npm run test --silent"
     },
     "devDependencies": {
         "@types/mocha": "^2.2.42",
