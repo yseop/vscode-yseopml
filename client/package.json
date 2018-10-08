@@ -34,7 +34,7 @@
     "contributes": {
         "configuration": {
             "type": "object",
-            "title": "Yseop Markup Language Configuration",
+            "title": "Yseop Markup Language configuration",
             "properties": {
                 "yseopml.maxNumberOfProblems": {
                     "scope": "resource",
