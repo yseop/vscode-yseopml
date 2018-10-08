@@ -65,7 +65,7 @@ Visual Studio Code uses “tabstops” within snippets in places where code must
 
 Some tabstops are associated with a list of predefined values. To use one of them, you can select it using the arrow keys and press `Enter` before using the tab key to proceed as usual if need be.
 
-![Example GIF for snippets](images/textualization.gif "Snippet for textualization.")
+![Example GIF for snippets](https://raw.githubusercontent.com/yseop/vscode-yseopml/master/client/images/textualization.gif "Snippet for textualization.")
 
 
 ### Code folding

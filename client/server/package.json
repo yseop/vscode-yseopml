@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "author": "Yseop",
     "publisher": "Yseop",
     "license": "MIT",
@@ -15,10 +15,10 @@
     },
     "dependencies": {
         "@types/mocha": "^2.2.42",
-        "@types/node": "^6.0.113",
+        "@types/node": "^6.0.88",
         "antlr4ts": "^0.4.1-alpha.0",
         "antlr4ts-cli": "^0.4.0-alpha.4",
-        "typescript": "^2.9.2",
+        "typescript": "^2.5.2",
         "vscode-languageserver": "^3.4.2",
         "xml2js": "^0.4.19"
     },

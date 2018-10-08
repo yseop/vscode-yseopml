@@ -65,3 +65,7 @@ typings/
 
 # vsix
 *.vsix
+
+# tests
+.vscode-test/
+out/

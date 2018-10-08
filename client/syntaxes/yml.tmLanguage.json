@@ -247,7 +247,8 @@
                         "comment": "A parameter is just a string or a number"
                     },
                     { "include": "#strings" },
-                    { "include": "#constants" }
+                    { "include": "#constants" },
+                    { "include": "#comments" }
                 ],
                 "name": "entity.name.function.yml",
                 "comment": "A function call in YML."
