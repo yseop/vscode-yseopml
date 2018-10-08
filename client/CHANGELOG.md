@@ -1,5 +1,10 @@
 # Release Notes
 
+## 1.1.1 (2018-10-08)
+
+- Fix settings title
+- Fix syntax highlighting for comments standing within a function's argument list
+
 ## 1.1.0 (2018-06-18)
 
 - Basic type names completion, based on Yseop Engine's model
