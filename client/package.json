@@ -54,7 +54,7 @@
                     "scope": "window",
                     "type": "string",
                     "default": "",
-                    "description": "Absolute path to Yseop CLI executable (which is in the bin/ directory where Yseop CLI was installed)."
+                    "description": "Absolute path to Yseop CLI executable (“yseop” or “yseop.bat” − see Yseop CLI doc for more info)."
                 },
                 "yseopml.trace.server": {
                     "scope": "window",
