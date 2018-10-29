@@ -60,8 +60,8 @@ export function activate(context: ExtensionContext) {
 }
 
 /**
- * Execute a command of Yseop CLI using the folder from which VSCode has been oppened as the KB directory.
- * @param yseopCliPath The aboslute path to Yseop CLI executable.
+ * Execute a command of Yseop CLI using the folder from which VSCode has been opened as the KB directory.
+ * @param yseopCliPath The absolute path to Yseop CLI executable.
  * @param commandName The Yseop CLI subcommand to use, like ”batch” or ”test”.
  */
 export async function ExecYseopCliCommand(yseopCliPath: string, commandName: string) {
@@ -82,14 +82,14 @@ export async function ExecYseopCliCommand(yseopCliPath: string, commandName: str
 	}
 
 	if(isNullOrUndefined(vscode.workspace) || isNullOrUndefined(vscode.workspace.workspaceFolders)) {
-		vscode.window.showInformationMessage("This command must be used in a folder.");
+		vscode.window.showInformationMessage("This command must be used from within a workspace folder.");
 		return;
 	}
 	
 	const workspaceFolders = vscode.workspace.workspaceFolders;
 	const kbDirectory = workspaceFolders[0].uri.fsPath;
 	
-	const commandLine = `"${yseopCliPath}" ${commandName} ${kbDirectory}`;
+	const commandLine = `"${yseopCliPath}" ${commandName} "${kbDirectory}"`;
 
 	const command = exec(commandLine);
 
