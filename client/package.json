@@ -23,7 +23,9 @@
         "Snippets"
     ],
     "activationEvents": [
-        "onLanguage:yml"
+        "onLanguage:yml",
+        "onCommand:yseopml.batch",
+        "onCommand:yseopml.compile"
     ],
     "icon": "images/compose-icon.png",
     "galleryBanner": {
@@ -48,6 +50,12 @@
                     "default": "",
                     "description": "Absolute path to an XML file containing the YML types definition."
                 },
+                "yseopml.pathToYseopCli": {
+                    "scope": "window",
+                    "type": "string",
+                    "default": "",
+                    "description": "Absolute path to Yseop CLI executable (“yseop” or “yseop.bat” − see Yseop CLI doc for more info)."
+                },
                 "yseopml.trace.server": {
                     "scope": "window",
                     "type": "string",
@@ -61,38 +69,43 @@
                 }
             }
         },
-        "languages": [
+        "commands": [{
+                "command": "yseopml.batch",
+                "title": "Yseop Batch",
+                "category": "Yseop"
+            },
             {
-                "id": "yml",
-                "aliases": [
-                    "Yseop Markup Language",
-                    "yml"
-                ],
-                "extensions": [
-                    ".kao",
-                    ".yclass",
-                    ".ytextfunction",
-                    ".yobject",
-                    ".ycomplete",
-                    ".dcl",
-                    ".yml"
-                ],
-                "configuration": "./language-configuration.json"
+                "command": "yseopml.compile",
+                "title": "Yseop Compile",
+                "category": "Yseop"
             }
         ],
-        "grammars": [
-            {
-                "language": "yml",
-                "scopeName": "source.yseop",
-                "path": "./syntaxes/yml.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "yml",
-                "path": "./snippets/snippets.json"
-            }
-        ]
+        "languages": [{
+            "id": "yml",
+            "aliases": [
+                "Yseop Markup Language",
+                "yml"
+            ],
+            "extensions": [
+                ".kao",
+                ".yclass",
+                ".ytextfunction",
+                ".yobject",
+                ".ycomplete",
+                ".dcl",
+                ".yml"
+            ],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "yml",
+            "scopeName": "source.yseop",
+            "path": "./syntaxes/yml.tmLanguage.json"
+        }],
+        "snippets": [{
+            "language": "yml",
+            "path": "./snippets/snippets.json"
+        }]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
