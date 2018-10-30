@@ -12,6 +12,9 @@ import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } f
 import { exec } from "child_process";
 import { isNullOrUndefined } from 'util';
 
+
+const yseopCliOutputChannel = vscode.window.createOutputChannel("Yseop CLI Output");
+
 export function activate(context: ExtensionContext) {
 	console.log("Yseop.vscode-yseopml − Activating extension.");
 	
@@ -97,6 +100,8 @@ export function activate(context: ExtensionContext) {
  * @param commandName The Yseop CLI subcommand to use, like ”batch” or ”test”.
  */
 export async function ExecYseopCliCommand(yseopCliPath: string, ...words: string[]) {
+	yseopCliOutputChannel.clear();
+
 	const editor = vscode.window.activeTextEditor;
 	
 	if(isNullOrUndefined(editor)) {
@@ -130,18 +135,25 @@ export async function ExecYseopCliCommand(yseopCliPath: string, ...words: string
 	const command = exec(commandLine);
 
 	command.stdout.on('data', (data) => {
-		console.log(data.toString());
+		const message = data.toString();
+		console.log(message);
+		yseopCliOutputChannel.append(message);
 	});
 
 	command.stderr.on('data', (data) => {
 		const message = data.toString();
 		console.error(message);
+		yseopCliOutputChannel.append(message);
 		vscode.window.showErrorMessage(message);
 	});
 
 	command.on('exit', (code) => {
-		const message = `Command “${commandLine}” exited with code ${code}`;
+		var message = `Command “${commandLine}” executed successfully.`;
+		if(code != 0) {
+			message = `Command “${commandLine}” exited with code ${code}`;
+		}
 		console.log(message);
 		vscode.window.showInformationMessage(message);
+		yseopCliOutputChannel.show();
 	});
 }
