@@ -25,7 +25,12 @@
     "activationEvents": [
         "onLanguage:yml",
         "onCommand:yseopml.batch",
-        "onCommand:yseopml.compile"
+        "onCommand:yseopml.compile",
+        "onCommand:yseopml.test",
+        "onCommand:yseopml.clean",
+        "onCommand:yseopml.cleanall",
+        "onCommand:yseopml.package",
+        "onCommand:yseopml.info"
     ],
     "icon": "images/compose-icon.png",
     "galleryBanner": {
@@ -77,6 +82,31 @@
             {
                 "command": "yseopml.compile",
                 "title": "Yseop Compile",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.test",
+                "title": "Yseop Test",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.clean",
+                "title": "Yseop Clean",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.cleanall",
+                "title": "Yseop Clean All",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.package",
+                "title": "Yseop Package",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.info",
+                "title": "Yseop Info",
                 "category": "Yseop"
             }
         ],
