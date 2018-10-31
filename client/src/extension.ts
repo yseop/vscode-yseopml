@@ -97,7 +97,7 @@ export function activate(context: ExtensionContext) {
 /**
  * Execute a command of Yseop CLI using the folder from which VSCode has been opened as the KB directory.
  * @param yseopCliPath The absolute path to Yseop CLI executable.
- * @param commandName The Yseop CLI subcommand to use, like ”batch” or ”test”.
+ * @param words Words to append to the command. The first one will typically be an Yseop CLI subcommand.
  */
 export async function ExecYseopCliCommand(yseopCliPath: string, ...words: string[]) {
 	yseopCliOutputChannel.clear();
@@ -148,9 +148,11 @@ export async function ExecYseopCliCommand(yseopCliPath: string, ...words: string
 	});
 
 	command.on('exit', (code) => {
-		var message = `Command “${commandLine}” executed successfully.`;
-		if(code != 0) {
-			message = `Command “${commandLine}” exited with code ${code}`;
+		var message;
+		if(code == 0) {
+			message = `Command “${commandLine}” executed successfully.`;
+		} else {
+			message = `Command “${commandLine}” exited with error status ${code}.`;
 		}
 		console.log(message);
 		vscode.window.showInformationMessage(message);
