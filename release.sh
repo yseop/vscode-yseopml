@@ -4,6 +4,20 @@ set -e
 
 cd "$(dirname "$(readlink -f -- "$0")")"
 
+declare -r deps=(
+    git
+    jq
+    npm
+)
+for one_dep in "${deps[@]}"
+do
+    if ! type -f "$one_dep" &> /dev/null
+    then
+        printf 'Error: Make sure %s is installed.\n' "$one_dep" >&2
+        exit 1
+    fi
+done
+
 CHANGELOG='client/CHANGELOG.md'
 
 cat << _MSG_
@@ -34,7 +48,7 @@ changes=$(
 if [ -z "$changes" ]
 then
     printf 'Could not set the date in %s. Make sure you have the “YYYY-MM-DD” pattern there.\n' "$CHANGELOG" >&2
-    exit 1
+    exit 2
 fi
 
 printf 'Edited %s: %s\n' "$CHANGELOG" "$changes"
