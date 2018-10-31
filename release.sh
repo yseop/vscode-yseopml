@@ -18,6 +18,21 @@ do
     fi
 done
 
+
+if [ "$1" = 'tag' ]
+then
+    version=${2:?No version number given.}
+    
+    git fetch -p
+    git clean -fdx
+    git reset --hard
+    git tag "v${version}" origin/master
+    git push origin "refs/tags/v${version}"
+    
+    exit
+fi
+
+
 CHANGELOG='client/CHANGELOG.md'
 
 cat << _MSG_
@@ -76,10 +91,9 @@ cat << _MSG_
   The branch ${RELEASE_BRANCH} has been pushed to origin.
   Open, review and validate a pull request to merge it into master.
   
-  Once this is done, run the following commands to tag the new release:
+  Once this is done, run the following command to tag the new release:
   
-    git tag "v${version}" origin/master
-    git push origin "refs/tags/v${version:?}"
+    $(printf '%q' "$0") tag '${version}'
 
   Finally, go to the VSCode marketplace to update the “.vsix” file.
 
