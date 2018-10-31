@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.2.1 (YYYY-MM-DD)
+## 1.2.1 (2018-10-31)
 
 - Improve user experience when using CLI commands.
 
