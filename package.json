@@ -14,7 +14,7 @@
         "url": "https://github.com/yseop/vscode-yseopml/issues"
     },
     "engines": {
-        "vscode": "^1.22.0"
+        "vscode": "^1.28.2"
     },
     "scripts": {
         "postinstall": "cd server && npm install --unsafe-perm && cd ../client && npm install --unsafe-perm",
