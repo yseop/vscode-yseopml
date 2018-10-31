@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Yseop Markup Language support extension − coloring and code folding for YML",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "author": "Yseop",
     "license": "MIT",
     "publisher": "Yseop",
@@ -23,7 +23,14 @@
         "Snippets"
     ],
     "activationEvents": [
-        "onLanguage:yml"
+        "onLanguage:yml",
+        "onCommand:yseopml.batch",
+        "onCommand:yseopml.compile",
+        "onCommand:yseopml.test",
+        "onCommand:yseopml.clean",
+        "onCommand:yseopml.cleanall",
+        "onCommand:yseopml.package",
+        "onCommand:yseopml.info"
     ],
     "icon": "images/compose-icon.png",
     "galleryBanner": {
@@ -48,6 +55,12 @@
                     "default": "",
                     "description": "Absolute path to an XML file containing the YML types definition."
                 },
+                "yseopml.pathToYseopCli": {
+                    "scope": "window",
+                    "type": "string",
+                    "default": "",
+                    "description": "Absolute path to Yseop CLI executable (“yseop” or “yseop.bat” − see Yseop CLI doc for more info)."
+                },
                 "yseopml.trace.server": {
                     "scope": "window",
                     "type": "string",
@@ -61,6 +74,43 @@
                 }
             }
         },
+        "commands": [
+            {
+                "command": "yseopml.batch",
+                "title": "Yseop Batch",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.compile",
+                "title": "Yseop Compile",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.test",
+                "title": "Yseop Test",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.clean",
+                "title": "Yseop Clean",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.cleanall",
+                "title": "Yseop Clean All",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.package",
+                "title": "Yseop Package",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.info",
+                "title": "Yseop Info",
+                "category": "Yseop"
+            }
+        ],
         "languages": [
             {
                 "id": "yml",
@@ -103,9 +153,9 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "dependencies": {
-        "vscode": "^1.1.5",
-        "vscode-languageclient": "^3.4.2",
         "typescript": "^2.8.3",
-        "vsce": "^1.40.0"
+        "vsce": "^1.52.0",
+        "vscode": "^1.1.21",
+        "vscode-languageclient": "^3.4.2"
     }
 }
