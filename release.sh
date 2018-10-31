@@ -93,7 +93,7 @@ cat << _MSG_
   
   Once this is done, run the following command to tag the new release:
   
-    $(printf '%q' "$(basename "$0")") tag '${version}'
+    $(printf '%q' "$0") tag '${version}'
 
   Finally, go to the VSCode marketplace to update the “.vsix” file.
 
