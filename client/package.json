@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Yseop Markup Language support extension − coloring and code folding for YML",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "author": "Yseop",
     "license": "MIT",
     "publisher": "Yseop",
@@ -74,7 +74,8 @@
                 }
             }
         },
-        "commands": [{
+        "commands": [
+            {
                 "command": "yseopml.batch",
                 "title": "Yseop Batch",
                 "category": "Yseop"
@@ -110,32 +111,38 @@
                 "category": "Yseop"
             }
         ],
-        "languages": [{
-            "id": "yml",
-            "aliases": [
-                "Yseop Markup Language",
-                "yml"
-            ],
-            "extensions": [
-                ".kao",
-                ".yclass",
-                ".ytextfunction",
-                ".yobject",
-                ".ycomplete",
-                ".dcl",
-                ".yml"
-            ],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "yml",
-            "scopeName": "source.yseop",
-            "path": "./syntaxes/yml.tmLanguage.json"
-        }],
-        "snippets": [{
-            "language": "yml",
-            "path": "./snippets/snippets.json"
-        }]
+        "languages": [
+            {
+                "id": "yml",
+                "aliases": [
+                    "Yseop Markup Language",
+                    "yml"
+                ],
+                "extensions": [
+                    ".kao",
+                    ".yclass",
+                    ".ytextfunction",
+                    ".yobject",
+                    ".ycomplete",
+                    ".dcl",
+                    ".yml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "yml",
+                "scopeName": "source.yseop",
+                "path": "./syntaxes/yml.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "yml",
+                "path": "./snippets/snippets.json"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
@@ -146,9 +153,9 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "dependencies": {
-        "vscode": "^1.1.5",
-        "vscode-languageclient": "^3.4.2",
         "typescript": "^2.8.3",
-        "vsce": "^1.40.0"
+        "vsce": "^1.52.0",
+        "vscode": "^1.1.21",
+        "vscode-languageclient": "^3.4.2"
     }
 }
