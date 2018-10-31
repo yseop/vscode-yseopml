@@ -13,10 +13,15 @@ import { exec } from "child_process";
 import { isNullOrUndefined } from 'util';
 
 
-const yseopCliOutputChannel = vscode.window.createOutputChannel("Yseop CLI Output");
+let yseopCliOutputChannel : vscode.OutputChannel;
+let yseopCliStatusBarItem : vscode.StatusBarItem;
+let yseopCliPath : string;
 
 export function activate(context: ExtensionContext) {
 	console.log("Yseop.vscode-yseopml − Activating extension.");
+
+	yseopCliOutputChannel = vscode.window.createOutputChannel("Yseop CLI Output");
+	yseopCliStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right);
 	
 	// The server is implemented in node
 	let serverModule = context.asAbsolutePath(path.join('server', 'server.js'));
@@ -42,7 +47,13 @@ export function activate(context: ExtensionContext) {
 		}
 	}
 
-	let yseopCliPath : string = vscode.workspace.getConfiguration('yseopml').get('pathToYseopCli');
+	yseopCliPath = vscode.workspace.getConfiguration('yseopml').get('pathToYseopCli');
+
+	vscode.workspace.onDidChangeConfiguration(event => {
+		if(event.affectsConfiguration("yseopml.pathToYseopCli")) {
+			yseopCliPath = vscode.workspace.getConfiguration('yseopml').get('pathToYseopCli');
+		}
+	});
 
 	const batchCmd = vscode.commands.registerCommand('yseopml.batch', () => {
 		ExecYseopCliCommand(yseopCliPath, "batch");
@@ -101,6 +112,7 @@ export function activate(context: ExtensionContext) {
  */
 export async function ExecYseopCliCommand(yseopCliPath: string, ...words: string[]) {
 	yseopCliOutputChannel.clear();
+	yseopCliStatusBarItem.hide();
 
 	const editor = vscode.window.activeTextEditor;
 	
@@ -108,13 +120,23 @@ export async function ExecYseopCliCommand(yseopCliPath: string, ...words: string
 		return;
 	}
 	if(isNullOrUndefined(yseopCliPath) || yseopCliPath.trim().length == 0) {
-		vscode.window.showInformationMessage("Please fill the Yseop CLI path parameter before using this command.");
+		const thenable = vscode.window.showInformationMessage("Please fill the Yseop CLI path parameter before using this command.", "Update Settings");
+		thenable.then(response => {
+			if(response === "Update Settings") {
+				vscode.commands.executeCommand("workbench.action.openSettings");
+			}
+		});
 		return;
 	}
 
 	var binary_path = path.resolve(yseopCliPath);
 	if(!fs.existsSync(binary_path)) {
-		vscode.window.showInformationMessage(`The path to Yseop CLI in your settings doesn't seem to exist.\n“${binary_path}”`);
+		const thenable = vscode.window.showInformationMessage(`The path to Yseop CLI in your settings doesn't seem to exist.\n“${binary_path}”`, "Update Settings");
+		thenable.then(response => {
+			if(response === "Update Settings") {
+				vscode.commands.executeCommand("workbench.action.openSettings");
+			}
+		});
 		return;
 	}
 
@@ -144,18 +166,24 @@ export async function ExecYseopCliCommand(yseopCliPath: string, ...words: string
 		const message = data.toString();
 		console.error(message);
 		yseopCliOutputChannel.append(message);
-		vscode.window.showErrorMessage(message);
 	});
 
 	command.on('exit', (code) => {
 		var message;
 		if(code == 0) {
 			message = `Command “${commandLine}” executed successfully.`;
+			// greenish color
+			yseopCliStatusBarItem.color = "#73c456"
+			yseopCliStatusBarItem.text = "Yseop CLI status $(check)";
 		} else {
 			message = `Command “${commandLine}” exited with error status ${code}.`;
+			// yellowish color
+			yseopCliStatusBarItem.color = "#edd312";
+			yseopCliStatusBarItem.text = "Yseop CLI status $(alert)";
 		}
+		yseopCliStatusBarItem.tooltip = message;
+		yseopCliStatusBarItem.show();
 		console.log(message);
-		vscode.window.showInformationMessage(message);
 		yseopCliOutputChannel.show();
 	});
 }

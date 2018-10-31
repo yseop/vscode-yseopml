@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.2.1 (2018-10-31)
+
+- Improve user experience when using CLI commands.
+
 ## 1.2.0 (2018-10-31)
 
 - Basic Yseop CLI commands such as `compile`, `batch`, `package`, `test`… can now be used directly as VSCode commands.
