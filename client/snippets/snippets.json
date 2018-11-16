@@ -350,5 +350,19 @@
         "prefix": "numeralStyle",
         "body": "numeralStyle ${1|_ARABIC_NUMERAL,_ROMAN_NUMERAL,_CARDINAL_NUMERAL,_ALPHABETIC_NUMERAL,_ORDINAL_NUMERAL,_ORDINAL_NUMERAL_SHORT,_ORDINAL_NUMERAL_WITH_PREFIX,_ORDINAL_RANKING,_ORDINAL_RANKING_WITH_PREFIX|}",
         "description": "Display style for numbers"
+    },
+    "Debug value": {
+        "prefix": "debug",
+        "body": [
+            "logInfo(\\(",
+            "\t\\debugValue(${1:VALUE_TO_DEBUG}, _ALL_ATTRIBUTES)",
+            "\\));$0"
+        ],
+        "description": "Print a value in the logs as well as its attributes if any"
+    },
+    "Call super class method": {
+        "prefix": "super",
+        "body": "sendMessage(this, _CALL_ANCESTOR_OF, ${1:CURRENT_CLASS}, ${2:PARENT_CLASS}:::${3:PARENT_METHOD}, ${4:METHOD_ARGS});$0",
+        "description": "Call a method of the parent class"
     }
 }
