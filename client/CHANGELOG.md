@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.2.2 (YYYY-MM-DD)
+## 1.2.2 (2018-11-27)
 
 - Fix security issue with `event-stream` version 3.3.6. Old version `3.3.4` set instead.
 - Add new snippets.
