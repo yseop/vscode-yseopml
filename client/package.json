@@ -2,7 +2,7 @@
   "name": "vscode-yseopml",
   "displayName": "YML (Yseop Markup Language) support extension",
   "description": "Yseop Markup Language support extension − coloring and code folding for YML",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "Yseop",
   "license": "MIT",
   "publisher": "Yseop",
@@ -153,6 +153,7 @@
     "test": "npm run compile && node ./node_modules/vscode/bin/test"
   },
   "dependencies": {
+    "event-stream": "^3.3.4",
     "typescript": "^2.8.3",
     "vsce": "^1.52.0",
     "vscode": "^1.1.21",
