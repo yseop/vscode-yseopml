@@ -1,5 +1,10 @@
 # Release Notes
 
+## 1.2.2 (YYYY-MM-DD)
+
+- Fix security issue with `event-stream` version 3.3.6. Old version `3.3.4` set instead.
+- Add new snippets.
+
 ## 1.2.1 (2018-10-31)
 
 - Improve user experience when using CLI commands.
