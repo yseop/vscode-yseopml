@@ -1,5 +1,9 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
+- Class attribute autocompletion also provide documentation, if any.
+
 ## 1.2.2 (2018-11-27)
 
 - Fix security issue with `event-stream` version 3.3.6. Old version `3.3.4` set instead.

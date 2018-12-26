@@ -2,7 +2,7 @@
  * Copyright (c) Yseop. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
-'use strict';
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_languageserver_1 = require("vscode-languageserver");
 const antlr4ts_1 = require("antlr4ts");
@@ -38,7 +38,7 @@ connection.onInitialize((_params) => {
 });
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
-documents.onDidChangeContent((change) => {
+documents.onDidChangeContent(change => {
     validateTextDocument(change.document);
 });
 let engineModel;
@@ -47,7 +47,7 @@ let maxNumberOfProblems;
 let pathToPredefinedObjectsXml;
 // The settings have changed. Is send on server activation
 // as well.
-connection.onDidChangeConfiguration((change) => {
+connection.onDidChangeConfiguration(change => {
     let settings = change.settings;
     maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
     pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
@@ -81,9 +81,9 @@ function evaluateKaoFile(ctx, diagnostics) {
     let visitor = new YmlToBdlVisitorImpl_1.YmlToBdlVisitorImpl(diagnostics, completionItems);
     visitor.visit(ctx);
 }
-connection.onDidChangeWatchedFiles((_change) => {
+connection.onDidChangeWatchedFiles(_change => {
     // Monitored files have change in VSCode
-    console.log('Yseop.vscode-yseopml − We received a file change event');
+    console.log("Yseop.vscode-yseopml − We received a file change event");
 });
 // This handler provides the initial list of the completion items.
 connection.onCompletion((_textDocumentPosition) => {

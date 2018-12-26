@@ -9,7 +9,7 @@ class ClassVisitor {
     }
     visit(node) {
         if (node instanceof YmlToBdlParser_1.YmlIdContext) {
-            this.visitYmlId((node));
+            this.visitYmlId(node);
         }
         else if (node instanceof YmlToBdlParser_1.FieldContext) {
             this.visitField(node);
@@ -36,15 +36,33 @@ class ClassVisitor {
                 if (!this.completionItems.find(function (elem, index, self) {
                     return elem.data === `id_${yidContext.text}_${currentClassId}`;
                 })) {
+                    const documentation = this.getDocumentation(node.field());
                     this.completionItems.push({
                         label: `${yidContext.text}`,
                         kind: vscode_languageserver_1.CompletionItemKind.Property,
                         data: `id_${yidContext.text}_${currentClassId}`,
-                        detail: `Attribute of class ${currentClassId}.`
-                        //,documentation: "Its documentation can come from predefinedObjects.xml"
+                        detail: `Attribute of class ${currentClassId}.`,
+                        documentation: `${documentation}`
                     });
                 }
             }
+        }
+    }
+    getDocumentation(options) {
+        try {
+            for (const option of options) {
+                if (option._optionName.text === "documentation") {
+                    const documentation = option._optionValues[0].text;
+                    if (documentation !== null && documentation !== undefined) {
+                        return documentation;
+                    }
+                }
+            }
+            return 'not documented';
+        }
+        catch (err) {
+            console.error(err);
+            return 'not documented';
         }
     }
     visitClassDeclarationIntro(node) {
@@ -67,28 +85,13 @@ class ClassVisitor {
             this.visit(currentChild);
         }
     }
-    visitTerminal(node) {
-    }
-    visitErrorNode(node) {
-    }
-    visitYmlId(node) {
-    }
+    visitTerminal(node) { }
+    visitErrorNode(node) { }
+    visitYmlId(node) { }
     visitYmlIdOrPath(node) {
         this.visitChildren(node);
     }
-    visitField(node) {
-        /*
-        this.diagnostics.push({
-            severity: DiagnosticSeverity.Information,
-                range: {
-                    start: { line: node.start.line - 1, character: node.start.charPositionInLine },
-                    end: { line: node.stop.line - 1, character: node.stop.charPositionInLine + (node.stop.stopIndex - node.stop.startIndex) + 1 }
-                },
-                message: `"${node.text}" is a field`,
-                source: 'YML Language Server'
-        });
-        */
-    }
+    visitField(node) { }
 }
 exports.ClassVisitor = ClassVisitor;
 //# sourceMappingURL=ClassVisitor.js.map
