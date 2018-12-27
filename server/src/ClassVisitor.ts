@@ -79,21 +79,22 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
       }
     }
   }
-  getDocumentation(options: FieldContext[]): any {
+  getDocumentation(fieldOptions: FieldContext[]): any {
     try {
-      for (const option of options) {
+      for (const option of fieldOptions) {
         if (option._optionName.text === "documentation") {
-          const documentation = option._optionValues[0].text;
+          let documentation = option._optionValues[0].text;
           if (documentation !== null && documentation !== undefined) {
+            documentation = documentation.replace(/^"+/, "");
+            documentation = documentation.replace(/"+$/, "");
             return documentation;
           }
         }
       }
-      return 'not documented';
     } catch (err) {
       console.error(err);
-      return 'not documented';
     }
+    return "not documented";
   }
 
   visitClassDeclarationIntro(node: ClassDeclarationIntroContext) {
@@ -130,5 +131,5 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
     this.visitChildren(node);
   }
 
-  visitField(node: FieldContext): void { }
+  visitField(node: FieldContext): void {}
 }

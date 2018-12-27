@@ -48,22 +48,23 @@ class ClassVisitor {
             }
         }
     }
-    getDocumentation(options) {
+    getDocumentation(fieldOptions) {
         try {
-            for (const option of options) {
+            for (const option of fieldOptions) {
                 if (option._optionName.text === "documentation") {
-                    const documentation = option._optionValues[0].text;
+                    let documentation = option._optionValues[0].text;
                     if (documentation !== null && documentation !== undefined) {
+                        documentation = documentation.replace(/^"+/, "");
+                        documentation = documentation.replace(/"+$/, "");
                         return documentation;
                     }
                 }
             }
-            return 'not documented';
         }
         catch (err) {
             console.error(err);
-            return 'not documented';
         }
+        return "not documented";
     }
     visitClassDeclarationIntro(node) {
         this.classId = node.ymlId().text;
