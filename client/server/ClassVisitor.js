@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_languageserver_1 = require("vscode-languageserver");
 const YmlToBdlParser_1 = require("./YmlToBdlParser");
+const BEGINING_QUOTES_REGEX = /^("""|")\s*/;
+const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 class ClassVisitor {
     constructor(diagnostics, completionItems) {
         this.diagnostics = diagnostics;
@@ -9,7 +11,7 @@ class ClassVisitor {
     }
     visit(node) {
         if (node instanceof YmlToBdlParser_1.YmlIdContext) {
-            this.visitYmlId((node));
+            this.visitYmlId(node);
         }
         else if (node instanceof YmlToBdlParser_1.FieldContext) {
             this.visitField(node);
@@ -33,19 +35,42 @@ class ClassVisitor {
             let yidContext = node.ymlId();
             let currentClassId = this.classId;
             if (yidContext != null) {
-                if (!this.completionItems.find(function (elem, index, self) {
+                const documentation = this.getDocumentation(node.field());
+                const completionItem = this.completionItems.find(elem => {
                     return elem.data === `id_${yidContext.text}_${currentClassId}`;
-                })) {
+                });
+                if (completionItem) {
+                    completionItem.documentation = `${documentation}`;
+                }
+                else {
                     this.completionItems.push({
                         label: `${yidContext.text}`,
                         kind: vscode_languageserver_1.CompletionItemKind.Property,
                         data: `id_${yidContext.text}_${currentClassId}`,
-                        detail: `Attribute of class ${currentClassId}.`
-                        //,documentation: "Its documentation can come from predefinedObjects.xml"
+                        detail: `Attribute of class ${currentClassId}.`,
+                        documentation: `${documentation}`
                     });
                 }
             }
         }
+    }
+    getDocumentation(fieldOptions) {
+        try {
+            for (const option of fieldOptions) {
+                if (option._optionName.text === "documentation") {
+                    let documentation = option._optionValues[0].text;
+                    if (documentation !== null && documentation !== undefined) {
+                        documentation = documentation.replace(BEGINING_QUOTES_REGEX, "");
+                        documentation = documentation.replace(ENDING_QUOTES_REGEX, "");
+                        return documentation;
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+        return "not documented";
     }
     visitClassDeclarationIntro(node) {
         this.classId = node.ymlId().text;
@@ -67,28 +92,13 @@ class ClassVisitor {
             this.visit(currentChild);
         }
     }
-    visitTerminal(node) {
-    }
-    visitErrorNode(node) {
-    }
-    visitYmlId(node) {
-    }
+    visitTerminal(node) { }
+    visitErrorNode(node) { }
+    visitYmlId(node) { }
     visitYmlIdOrPath(node) {
         this.visitChildren(node);
     }
-    visitField(node) {
-        /*
-        this.diagnostics.push({
-            severity: DiagnosticSeverity.Information,
-                range: {
-                    start: { line: node.start.line - 1, character: node.start.charPositionInLine },
-                    end: { line: node.stop.line - 1, character: node.stop.charPositionInLine + (node.stop.stopIndex - node.stop.startIndex) + 1 }
-                },
-                message: `"${node.text}" is a field`,
-                source: 'YML Language Server'
-        });
-        */
-    }
+    visitField(node) { }
 }
 exports.ClassVisitor = ClassVisitor;
 //# sourceMappingURL=ClassVisitor.js.map
