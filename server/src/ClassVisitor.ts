@@ -31,6 +31,9 @@ import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { ParseTree } from "antlr4ts/tree/ParseTree";
 import { Override } from "antlr4ts/Decorators";
 
+const BEGINING_QUOTES_REGEX = /^("""|")\s*/;
+const ENDING_QUOTES_REGEX = /\s*("""|")$/;
+
 export class ClassVisitor implements YmlToBdlVisitor<void> {
   private classId: string;
 
@@ -79,14 +82,15 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
       }
     }
   }
-  getDocumentation(fieldOptions: FieldContext[]): any {
+
+  getDocumentation(fieldOptions: FieldContext[]): string {
     try {
       for (const option of fieldOptions) {
         if (option._optionName.text === "documentation") {
           let documentation = option._optionValues[0].text;
           if (documentation !== null && documentation !== undefined) {
-            documentation = documentation.replace(/^("|""")\s*/, "");
-            documentation = documentation.replace(/\s*("|""")$/, "");
+            documentation = documentation.replace(BEGINING_QUOTES_REGEX, "");
+            documentation = documentation.replace(ENDING_QUOTES_REGEX, "");
             return documentation;
           }
         }

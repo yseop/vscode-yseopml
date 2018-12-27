@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_languageserver_1 = require("vscode-languageserver");
 const YmlToBdlParser_1 = require("./YmlToBdlParser");
+const BEGINING_QUOTES_REGEX = /^("""|")\s*/;
+const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 class ClassVisitor {
     constructor(diagnostics, completionItems) {
         this.diagnostics = diagnostics;
@@ -54,8 +56,8 @@ class ClassVisitor {
                 if (option._optionName.text === "documentation") {
                     let documentation = option._optionValues[0].text;
                     if (documentation !== null && documentation !== undefined) {
-                        documentation = documentation.replace(/^("|""")\s*/, "");
-                        documentation = documentation.replace(/\s*("|""")$/, "");
+                        documentation = documentation.replace(BEGINING_QUOTES_REGEX, "");
+                        documentation = documentation.replace(ENDING_QUOTES_REGEX, "");
                         return documentation;
                     }
                 }
