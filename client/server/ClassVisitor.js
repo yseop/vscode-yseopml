@@ -54,8 +54,8 @@ class ClassVisitor {
                 if (option._optionName.text === "documentation") {
                     let documentation = option._optionValues[0].text;
                     if (documentation !== null && documentation !== undefined) {
-                        documentation = documentation.replace(/^"+/, "");
-                        documentation = documentation.replace(/"+$/, "");
+                        documentation = documentation.replace(/^("|""")\s*/, "");
+                        documentation = documentation.replace(/\s*("|""")$/, "");
                         return documentation;
                     }
                 }
