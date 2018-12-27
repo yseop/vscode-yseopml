@@ -36,10 +36,13 @@ class ClassVisitor {
             let currentClassId = this.classId;
             if (yidContext != null) {
                 const documentation = this.getDocumentation(node.field());
-                const completionItem = this.completionItems.find(function (elem, index, self) {
+                const completionItem = this.completionItems.find(elem => {
                     return elem.data === `id_${yidContext.text}_${currentClassId}`;
                 });
-                if (!completionItem) {
+                if (completionItem) {
+                    completionItem.documentation = `${documentation}`;
+                }
+                else {
                     this.completionItems.push({
                         label: `${yidContext.text}`,
                         kind: vscode_languageserver_1.CompletionItemKind.Property,
@@ -47,9 +50,6 @@ class ClassVisitor {
                         detail: `Attribute of class ${currentClassId}.`,
                         documentation: `${documentation}`
                     });
-                }
-                else {
-                    completionItem.documentation = `${documentation}`;
                 }
             }
         }
