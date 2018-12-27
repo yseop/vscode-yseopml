@@ -65,12 +65,11 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
       let yidContext: YmlIdContext = node.ymlId();
       let currentClassId = this.classId;
       if (yidContext != null) {
-        if (
-          !this.completionItems.find(function(elem, index, self) {
-            return elem.data === `id_${yidContext.text}_${currentClassId}`;
-          })
-        ) {
-          const documentation = this.getDocumentation(node.field());
+        const documentation = this.getDocumentation(node.field());
+        const completionItem = this.completionItems.find(function(elem, index, self) {
+          return elem.data === `id_${yidContext.text}_${currentClassId}`;
+        });
+        if (!completionItem) {
           this.completionItems.push({
             label: `${yidContext.text}`,
             kind: CompletionItemKind.Property,
@@ -78,6 +77,8 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
             detail: `Attribute of class ${currentClassId}.`,
             documentation: `${documentation}`
           });
+        } else {
+          completionItem.documentation = `${documentation}`;
         }
       }
     }
