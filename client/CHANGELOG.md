@@ -2,7 +2,7 @@
 
 ## X.X.X (YYYY-MM-DD)
 
-- Class attribute autocompletion also provide documentation, if any.
+- Class attribute autocompletion also provides documentation, if any.
 
 ## 1.2.2 (2018-11-27)
 
