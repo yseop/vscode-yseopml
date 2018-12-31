@@ -42,20 +42,21 @@ class ClassVisitor {
         }
         let currentClassId = this.classId;
         const documentation = this.getDocumentation(fields);
-        const type = this.getType(fields);
-        const completionItem = this.completionItems.find(elem => {
-            return elem.data === `id_${ymlIdContext.text}_${currentClassId}`;
-        });
+        const returnType = this.getType(fields);
+        const ymlId = ymlIdContext.text;
+        const elementId = `id_${currentClassId}_${ymlId}`;
+        const completionItem = this.completionItems.find(elem => elem.data === elementId);
         if (completionItem) {
-            completionItem.documentation = `${documentation}`;
+            completionItem.documentation = documentation;
+            completionItem.detail = returnType;
         }
         else {
             this.completionItems.push({
-                label: `${ymlIdContext.text}`,
+                label: ymlId,
                 kind: kind,
-                data: `id_${ymlIdContext.text}_${currentClassId}`,
-                detail: type,
-                documentation: `${documentation}`
+                data: elementId,
+                detail: returnType,
+                documentation: documentation
             });
         }
     }
@@ -64,10 +65,11 @@ class ClassVisitor {
         let domainsLevel2 = "";
         try {
             for (const option of fieldOptions) {
-                if (option._optionName.text === "domains") {
+                let optionName = option._optionName.text;
+                if (optionName === "domains") {
                     domains = option._optionValues[0].text;
                 }
-                else if (option._optionName.text === "domainsLevel2") {
+                else if (optionName === "domainsLevel2") {
                     domainsLevel2 = ` − ${option._optionValues[0].text}`;
                 }
             }

@@ -3,6 +3,8 @@
 ## X.X.X (YYYY-MM-DD)
 
 - Class attribute autocompletion also provides documentation, if any.
+- Method and Text Method name autocompletion also provides documentation, if any.
+- Type of element autocompleted visible.
 
 ## 1.2.2 (2018-11-27)
 
