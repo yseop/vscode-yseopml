@@ -44,18 +44,20 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
     this.createNewCompletionItem(
       node.methodIntro().ymlId(),
       node.field(),
-      "Method"
+      "Method",
+      CompletionItemKind.Method
     );
   }
 
   visitMemberDeclaration(node: MemberDeclarationContext) {
-    this.createNewCompletionItem(node.ymlId(), node.field(), "Attribute");
+    this.createNewCompletionItem(node.ymlId(), node.field(), "Attribute", CompletionItemKind.Property);
   }
 
   createNewCompletionItem(
     ymlIdContext: YmlIdContext,
     fields: FieldContext[],
-    itemType: string
+    itemType: string,
+    kind: CompletionItemKind
   ) {
     if (this.classId == null) {
       console.error("Parsing class member before knowing its name.");
@@ -71,7 +73,7 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
     } else {
       this.completionItems.push({
         label: `${ymlIdContext.text}`,
-        kind: CompletionItemKind.Property,
+        kind: kind,
         data: `id_${ymlIdContext.text}_${currentClassId}`,
         detail: `${itemType} of class ${currentClassId}.`,
         documentation: `${documentation}`

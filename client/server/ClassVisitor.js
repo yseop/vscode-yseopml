@@ -30,12 +30,12 @@ class ClassVisitor {
         }
     }
     visitMethodDeclaration(node) {
-        this.createNewCompletionItem(node.methodIntro().ymlId(), node.field(), "Method");
+        this.createNewCompletionItem(node.methodIntro().ymlId(), node.field(), "Method", vscode_languageserver_1.CompletionItemKind.Method);
     }
     visitMemberDeclaration(node) {
-        this.createNewCompletionItem(node.ymlId(), node.field(), "Attribute");
+        this.createNewCompletionItem(node.ymlId(), node.field(), "Attribute", vscode_languageserver_1.CompletionItemKind.Property);
     }
-    createNewCompletionItem(ymlIdContext, fields, itemType) {
+    createNewCompletionItem(ymlIdContext, fields, itemType, kind) {
         if (this.classId == null) {
             console.error("Parsing class member before knowing its name.");
             return;
@@ -51,7 +51,7 @@ class ClassVisitor {
         else {
             this.completionItems.push({
                 label: `${ymlIdContext.text}`,
-                kind: vscode_languageserver_1.CompletionItemKind.Property,
+                kind: kind,
                 data: `id_${ymlIdContext.text}_${currentClassId}`,
                 detail: `${itemType} of class ${currentClassId}.`,
                 documentation: `${documentation}`
