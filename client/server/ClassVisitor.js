@@ -42,6 +42,7 @@ class ClassVisitor {
         }
         let currentClassId = this.classId;
         const documentation = this.getDocumentation(fields);
+        const type = this.getType(fields);
         const completionItem = this.completionItems.find(elem => {
             return elem.data === `id_${ymlIdContext.text}_${currentClassId}`;
         });
@@ -53,10 +54,28 @@ class ClassVisitor {
                 label: `${ymlIdContext.text}`,
                 kind: kind,
                 data: `id_${ymlIdContext.text}_${currentClassId}`,
-                detail: `${itemType} of class ${currentClassId}.`,
+                detail: type,
                 documentation: `${documentation}`
             });
         }
+    }
+    getType(fieldOptions) {
+        let domains = "Object";
+        let domainsLevel2 = "";
+        try {
+            for (const option of fieldOptions) {
+                if (option._optionName.text === "domains") {
+                    domains = option._optionValues[0].text;
+                }
+                else if (option._optionName.text === "domainsLevel2") {
+                    domainsLevel2 = ` − ${option._optionValues[0].text}`;
+                }
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+        return domains.concat(domainsLevel2);
     }
     getDocumentation(fieldOptions) {
         try {
@@ -78,17 +97,6 @@ class ClassVisitor {
     }
     visitClassDeclarationIntro(node) {
         this.classId = node.ymlId().text;
-        if (!this.completionItems.find(function (elem, index, self) {
-            return elem.data === `id_${node.ymlId().text}`;
-        })) {
-            this.completionItems.push({
-                label: this.classId,
-                kind: vscode_languageserver_1.CompletionItemKind.Class,
-                data: `id_${node.ymlId().text}`,
-                detail: `This is the id of ${this.classId}.`
-                //,documentation: "Its documentation can come from predefinedObjects.xml"
-            });
-        }
     }
     visitChildren(node) {
         for (let childIndex = 0; childIndex < node.childCount; childIndex++) {

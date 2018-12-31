@@ -65,6 +65,7 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
     }
     let currentClassId = this.classId;
     const documentation = this.getDocumentation(fields);
+    const type = this.getType(fields);
     const completionItem = this.completionItems.find(elem => {
       return elem.data === `id_${ymlIdContext.text}_${currentClassId}`;
     });
@@ -75,10 +76,27 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
         label: `${ymlIdContext.text}`,
         kind: kind,
         data: `id_${ymlIdContext.text}_${currentClassId}`,
-        detail: `${itemType} of class ${currentClassId}.`,
+        detail: type,
         documentation: `${documentation}`
       });
     }
+  }
+
+  getType(fieldOptions: FieldContext[]): string {
+    let domains = "Object";
+    let domainsLevel2 = "";
+    try {
+      for (const option of fieldOptions) {
+        if (option._optionName.text === "domains") {
+          domains = option._optionValues[0].text;
+        } else if (option._optionName.text === "domainsLevel2") {
+          domainsLevel2 = ` − ${option._optionValues[0].text}`;
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    return domains.concat(domainsLevel2);
   }
 
   getDocumentation(fieldOptions: FieldContext[]): string {
@@ -101,19 +119,6 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
 
   visitClassDeclarationIntro(node: ClassDeclarationIntroContext) {
     this.classId = node.ymlId().text;
-    if (
-      !this.completionItems.find(function(elem, index, self) {
-        return elem.data === `id_${node.ymlId().text}`;
-      })
-    ) {
-      this.completionItems.push({
-        label: this.classId,
-        kind: CompletionItemKind.Class,
-        data: `id_${node.ymlId().text}`,
-        detail: `This is the id of ${this.classId}.`
-        //,documentation: "Its documentation can come from predefinedObjects.xml"
-      });
-    }
   }
 
   visitChildren(node: ParseTree): void {

@@ -25,10 +25,7 @@ export class YmlToBdlVisitorImpl implements YmlToBdlVisitor<void> {
             this.visitErrorNode(node);
         } else if(node instanceof TerminalNode) {
             this.visitTerminal(node);
-        } else if(node instanceof YclassFileContext) {
-            let classVisitor = new ClassVisitor(this.diagnostics, this.completionItems);
-            classVisitor.visit(node);
-        } else if(node instanceof ClassDeclarationContext) {
+        }else if(node instanceof ClassDeclarationContext) {
             let classVisitor = new ClassVisitor(this.diagnostics, this.completionItems);
             classVisitor.visit(node);
         }
