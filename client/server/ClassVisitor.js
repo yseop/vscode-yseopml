@@ -22,36 +22,40 @@ class ClassVisitor {
         else if (node instanceof YmlToBdlParser_1.MemberDeclarationContext) {
             this.visitMemberDeclaration(node);
         }
+        else if (node instanceof YmlToBdlParser_1.MethodDeclarationContext) {
+            this.visitMethodDeclaration(node);
+        }
         else {
             this.visitChildren(node);
         }
     }
+    visitMethodDeclaration(node) {
+        this.createNewCompletionItem(node.methodIntro().ymlId(), node.field(), "Method");
+    }
     visitMemberDeclaration(node) {
+        this.createNewCompletionItem(node.ymlId(), node.field(), "Attribute");
+    }
+    createNewCompletionItem(ymlIdContext, fields, itemType) {
         if (this.classId == null) {
             console.error("Parsing class member before knowing its name.");
             return;
         }
-        if (node.memberType().FIELD != null) {
-            let yidContext = node.ymlId();
-            let currentClassId = this.classId;
-            if (yidContext != null) {
-                const documentation = this.getDocumentation(node.field());
-                const completionItem = this.completionItems.find(elem => {
-                    return elem.data === `id_${yidContext.text}_${currentClassId}`;
-                });
-                if (completionItem) {
-                    completionItem.documentation = `${documentation}`;
-                }
-                else {
-                    this.completionItems.push({
-                        label: `${yidContext.text}`,
-                        kind: vscode_languageserver_1.CompletionItemKind.Property,
-                        data: `id_${yidContext.text}_${currentClassId}`,
-                        detail: `Attribute of class ${currentClassId}.`,
-                        documentation: `${documentation}`
-                    });
-                }
-            }
+        let currentClassId = this.classId;
+        const documentation = this.getDocumentation(fields);
+        const completionItem = this.completionItems.find(elem => {
+            return elem.data === `id_${ymlIdContext.text}_${currentClassId}`;
+        });
+        if (completionItem) {
+            completionItem.documentation = `${documentation}`;
+        }
+        else {
+            this.completionItems.push({
+                label: `${ymlIdContext.text}`,
+                kind: vscode_languageserver_1.CompletionItemKind.Property,
+                data: `id_${ymlIdContext.text}_${currentClassId}`,
+                detail: `${itemType} of class ${currentClassId}.`,
+                documentation: `${documentation}`
+            });
         }
     }
     getDocumentation(fieldOptions) {
