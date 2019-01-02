@@ -127,7 +127,7 @@ MULTILINE_COMMENT: MULTILINE_COMMENT_START .*? MULTILINE_COMMENT_END -> channel(
 GRANULE: OPEN_GRANULE (.)*? CLOSE_GRANULE EOF?;
 PREPROCESSING: '@' ~[\n\r]* ;
 
-//Parser rules
+ // Parser rules
 expressionMarker : DOT
                  | MULTIVALUED_EXPRESSION;
 preprocessingElement : WS? PREPROCESSING WS?;
