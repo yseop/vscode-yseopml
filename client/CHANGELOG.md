@@ -2,9 +2,8 @@
 
 ## X.X.X (YYYY-MM-DD)
 
-- Class attribute autocompletion also provides documentation, if any.
-- Method and Text Method name autocompletion also provides documentation, if any.
-- Type of element autocompleted visible.
+- When using autocompletion for class attributes, methods or text methods, the documentation for these symbols is displayed, if any was written.
+- Types of elements are visible during autocompletion.
 
 ## 1.2.2 (2018-11-27)
 
