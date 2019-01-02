@@ -1,29 +1,11 @@
 import {
-  IPCMessageReader,
-  IPCMessageWriter,
-  createConnection,
-  IConnection,
-  TextDocuments,
-  TextDocument,
   Diagnostic,
-  DiagnosticSeverity,
-  InitializeResult,
-  TextDocumentPositionParams,
   CompletionItem,
-  CompletionItemKind
 } from "vscode-languageserver";
 import { YmlToBdlVisitor } from "./YmlToBdlVisitor";
 import {
-  YmlToBdlParser,
-  KaoFileContext,
-  FieldContext,
-  FieldValueContext,
-  YmlIdOrPathContext,
-  YmlIdContext,
-  YclassFileContext,
   ClassDeclarationContext
 } from "./YmlToBdlParser";
-import { RuleNode } from "antlr4ts/tree/RuleNode";
 import { ErrorNode } from "antlr4ts/tree/ErrorNode";
 import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { ParseTree } from "antlr4ts/tree/ParseTree";

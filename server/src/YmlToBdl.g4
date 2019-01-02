@@ -100,6 +100,7 @@ STRING:   '"' ( ESCAPED_QUOTE | ~('\n'|'\r') )*? '"';
 fragment TRIPLE_QUOTE: '"""';
 DOCUMENTATION: TRIPLE_QUOTE (.*?) TRIPLE_QUOTE;
 
+//We store the whitespace in hidden channel to take back the ones around comments
 WS : [ \r\t\n]+ -> channel(HIDDEN);
 
 //STRING : '"' [~"]* '"';
@@ -118,36 +119,27 @@ ENUM : 'enum';
 //Vérifier adéquation avec les terminaux définis par Olivier
 ID : LETTER ALPHANUM* ;
 
-//We store the whitespace in hidden channel to take back the ones around comments
-
 fragment MULTILINE_COMMENT_START: '/*';
 fragment MULTILINE_COMMENT_END: '*/';
 
-LINE_COMMENT : '//' ~[\n\r]* ;
-MULTILINE_COMMENT: MULTILINE_COMMENT_START .*? MULTILINE_COMMENT_END;
+LINE_COMMENT : '//' ~[\n\r]*  -> channel(HIDDEN);
+MULTILINE_COMMENT: MULTILINE_COMMENT_START .*? MULTILINE_COMMENT_END -> channel(HIDDEN);
 GRANULE: OPEN_GRANULE (.)*? CLOSE_GRANULE EOF?;
 PREPROCESSING: '@' ~[\n\r]* ;
 
+//Parser rules
 expressionMarker : DOT
                  | MULTIVALUED_EXPRESSION;
-commentElement : WS? (LINE_COMMENT | MULTILINE_COMMENT) WS? ;
-
 preprocessingElement : WS? PREPROCESSING WS?;
-
-comment :  commentElement  ;
-
-commentBlock: (comment | preprocessingElement)+;
-
 
 freeText : .+? (~EOF)*? ;
 
-//Parser rules
 
+// Colons aren't interpreted by YE in a particular way.
 ymlId : ID (COLON? COLON ID)*;
-//Les : ne sont pas interprétés par l'engine de manière particulière
 
+// Base rule when parsing a file. Basicaly, this describes all valid YML files.
 kaoFile : entities=ymlEntity* finalFreeText=freeText? EOF;
-yclassFile : classDeclaration restFreeText=freeText? EOF?;
 
 ymlEntity: classDeclaration
             | staticDeclaration
@@ -155,13 +147,13 @@ ymlEntity: classDeclaration
             | methodDeclaration SEMICOLON
             | yenum;
 
-yenum: ENUM yid=ymlId OPEN_BRACE (enumElement (beforeCommaComment=commentBlock? COMMA enumElement)*)+ beforeCloseBraceComment=commentBlock? CLOSE_BRACE fields=field* SEMICOLON;
+yenum: ENUM yid=ymlId OPEN_BRACE (enumElement ( COMMA enumElement)*)+ CLOSE_BRACE fields=field* SEMICOLON;
 enumElement : yid=ymlId fields=field* ;
 
 //Field and options
-classDeclaration : beforeInterfaceComment=commentBlock? classDeclarationIntro classOption=field* memberDeclaration* methodDeclaration* beforeClassPropertyComment=commentBlock? classPropertiesBlock? endInterfaceComment=commentBlock? SEMICOLON intermediateFreeText=freeText*? classImplementation SEMICOLON EOF?;
+classDeclaration :  classDeclarationIntro field* (memberDeclaration | methodDeclaration)*  classPropertiesBlock?  SEMICOLON intermediateFreeText=freeText*? classImplementation SEMICOLON EOF?;
 
-classImplementation : preImplementationComment=commentBlock? IMPLEMENTATION className=ymlId overrideBlock=override? attributes=field* preEndSemiColonComment=commentBlock?;
+classImplementation : IMPLEMENTATION className=ymlId overrideBlock=override? attributes=field* ;
 
 override: OVERRIDE OPEN_BRACE freeText? CLOSE_BRACE;
 
@@ -177,11 +169,11 @@ synonym: SYNONYM listWithBrace
         | SYNONYM OPEN_PAR (synonymElements+=value (COMMA synonymElements+=value)* )? CLOSE_PAR;
 
 //Question a Alain, est ce qu'on peut avoir autre chose qu'un 'field' comme memberType ?
-memberDeclaration : commentBlock? memberType memberName=ymlId memberOption=field*;
+memberDeclaration :  memberType memberName=ymlId memberOption=field*;
 path: ymlId (DOT ymlId)+?;
 ymlIdOrPath: ymlId | path;
 
-field : commentBlock? fieldArrow=(FIELD_INTRO | REPLACE_FIELD_VALUE_INTRO | REMOVE_FIELD | ADD_FIELD) optionName=ymlIdOrPath (optionValues+=valueOrCondition (COMMA optionValues+=valueOrCondition)*?)? ;
+field :  fieldArrow=(FIELD_INTRO | REPLACE_FIELD_VALUE_INTRO | REMOVE_FIELD | ADD_FIELD) optionName=ymlIdOrPath (optionValues+=valueOrCondition (COMMA optionValues+=valueOrCondition)*?)? ;
 
 classPropertiesBlock : CLASSPROPERTIES classOption=field* ;
 
@@ -217,7 +209,7 @@ functionArgument : (argKey=ID COLON)? value;
 
 chainedCall : expression (marker=expressionMarker expression)*;
 
-inlineDeclaration : commentBlock? INLINE_DECL_INTRO className=ymlId (instanceName=ymlId)? (fieldValue)* SEMICOLON;
+inlineDeclaration : INLINE_DECL_INTRO className=ymlId (instanceName=ymlId)? (fieldValue)* SEMICOLON;
 
 inlineOperation : leftExpression=value operator=ymlId rightExpression=value;
 
@@ -226,7 +218,7 @@ fieldValue : field
 
 //Functions
 
-methodDeclaration : commentBlock? methodIntro memberOption=field* ;
+methodDeclaration : methodIntro memberOption=field* ;
 
 // accept structures like
 /*
@@ -320,21 +312,10 @@ variableBlockContentWithEOF : memberDeclaration* EOF ;
 
 // ************** STATIC DECLARATIONS
 staticDeclarationsFile: staticDeclaration* freeText* EOF;
-staticDeclaration : commentBlock? declarationType=ymlId declarationName=ymlId (EXTENDS extended=ymlId)? declarationOptions=field* SEMICOLON;
+staticDeclaration : declarationType=ymlId declarationName=ymlId (EXTENDS extended=ymlId)? declarationOptions=field* SEMICOLON;
 
 
-/*
-YBS consulte les extern et dans dans un fichier spécifique "publicFunctions.yml" découpé en 2 parties :
-            en amont les extern (avec leur textualisation, donc le champ –> dsl), en aval les corps des fonctions
-*/
-
-// ************** EXTERN FUNCTIONS
-externalFunctionsFile: externDeclaration* freeText* EOF;
-externDeclaration : commentBlock? EXTERN methodDeclaration SEMICOLON;
-
-// ************** EXTERN DIALOG ZONES
-externalDialogZoneFile: externDialogZone* freeText* EOF;
-externDialogZone : commentBlock? EXTERN memberDeclaration SEMICOLON;
+externDeclaration: EXTERN (methodDeclaration | memberDeclaration) SEMICOLON;
 
 // DATA STRUCTURE
 list: OPEN_BRACKET elements+=value? (COMMA elements+=value)* CLOSE_BRACKET;
@@ -342,4 +323,4 @@ listWithBrace: OPEN_BRACE elements+=value? (COMMA elements+=value)* CLOSE_BRACE;
 
 granule : GRANULE;
 
-complete: commentBlock? COMPLETE completedElemId=ymlId memberOption=field* SEMICOLON;
+complete: COMPLETE completedElemId=ymlId memberOption=field* SEMICOLON;
