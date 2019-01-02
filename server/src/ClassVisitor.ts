@@ -1,37 +1,20 @@
 import {
-  IPCMessageReader,
-  IPCMessageWriter,
-  createConnection,
-  IConnection,
-  TextDocuments,
-  TextDocument,
   Diagnostic,
-  DiagnosticSeverity,
-  InitializeResult,
-  TextDocumentPositionParams,
   CompletionItem,
   CompletionItemKind
 } from "vscode-languageserver";
-import { YmlToBdlVisitorImpl } from "./YmlToBdlVisitorImpl";
 import { YmlToBdlVisitor } from "./YmlToBdlVisitor";
 import {
-  YmlToBdlParser,
-  KaoFileContext,
   FieldContext,
-  FieldValueContext,
   YmlIdOrPathContext,
   YmlIdContext,
   ClassDeclarationIntroContext,
   MemberDeclarationContext,
-  DocumentationContext
+  MethodDeclarationContext
 } from "./YmlToBdlParser";
-import { RuleNode } from "antlr4ts/tree/RuleNode";
-import { ErrorNode } from "antlr4ts/tree/ErrorNode";
-import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { ParseTree } from "antlr4ts/tree/ParseTree";
-import { Override } from "antlr4ts/Decorators";
 
-const BEGINING_QUOTES_REGEX = /^("""|")\s*/;
+const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
 const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 
 export class ClassVisitor implements YmlToBdlVisitor<void> {
@@ -51,37 +34,71 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
       this.visitClassDeclarationIntro(node);
     } else if (node instanceof MemberDeclarationContext) {
       this.visitMemberDeclaration(node);
+    } else if (node instanceof MethodDeclarationContext) {
+      this.visitMethodDeclaration(node);
     } else {
       this.visitChildren(node);
     }
   }
+  visitMethodDeclaration(node: MethodDeclarationContext): any {
+    this.createNewCompletionItem(
+      node.methodIntro().ymlId(),
+      node.field(),
+      "Method",
+      CompletionItemKind.Method
+    );
+  }
 
   visitMemberDeclaration(node: MemberDeclarationContext) {
+    this.createNewCompletionItem(node.ymlId(), node.field(), "Attribute", CompletionItemKind.Property);
+  }
+
+  createNewCompletionItem(
+    ymlIdContext: YmlIdContext,
+    fields: FieldContext[],
+    itemType: string,
+    kind: CompletionItemKind
+  ) {
     if (this.classId == null) {
       console.error("Parsing class member before knowing its name.");
       return;
     }
-    if (node.memberType().FIELD != null) {
-      let yidContext: YmlIdContext = node.ymlId();
-      let currentClassId = this.classId;
-      if (yidContext != null) {
-        const documentation = this.getDocumentation(node.field());
-        const completionItem = this.completionItems.find(elem => {
-          return elem.data === `id_${yidContext.text}_${currentClassId}`;
-        });
-        if (completionItem) {
-          completionItem.documentation = `${documentation}`;
-        } else {
-          this.completionItems.push({
-            label: `${yidContext.text}`,
-            kind: CompletionItemKind.Property,
-            data: `id_${yidContext.text}_${currentClassId}`,
-            detail: `Attribute of class ${currentClassId}.`,
-            documentation: `${documentation}`
-          });
+    let currentClassId = this.classId;
+    const documentation = this.getDocumentation(fields);
+    const returnType = this.getType(fields);
+    const ymlId = ymlIdContext.text;
+    const elementId = `id_${currentClassId}_${ymlId}`;
+    const completionItem = this.completionItems.find(elem => elem.data === elementId);
+    if (completionItem) {
+      completionItem.documentation = documentation;
+      completionItem.detail = returnType;
+    } else {
+      this.completionItems.push({
+        label: ymlId,
+        kind: kind,
+        data: elementId,
+        detail: returnType,
+        documentation: documentation
+      });
+    }
+  }
+
+  getType(fieldOptions: FieldContext[]): string {
+    let domains = "Object";
+    let domainsLevel2 = "";
+    try {
+      for (const option of fieldOptions) {
+        let optionName = option._optionName.text;
+        if (optionName === "domains") {
+          domains = option._optionValues[0].text;
+        } else if (optionName === "domainsLevel2") {
+          domainsLevel2 = ` − ${option._optionValues[0].text}`;
         }
       }
+    } catch (err) {
+      console.error(err);
     }
+    return domains.concat(domainsLevel2);
   }
 
   getDocumentation(fieldOptions: FieldContext[]): string {
@@ -90,7 +107,7 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
         if (option._optionName.text === "documentation") {
           let documentation = option._optionValues[0].text;
           if (documentation !== null && documentation !== undefined) {
-            documentation = documentation.replace(BEGINING_QUOTES_REGEX, "");
+            documentation = documentation.replace(BEGINNING_QUOTES_REGEX, "");
             documentation = documentation.replace(ENDING_QUOTES_REGEX, "");
             return documentation;
           }
@@ -104,19 +121,6 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
 
   visitClassDeclarationIntro(node: ClassDeclarationIntroContext) {
     this.classId = node.ymlId().text;
-    if (
-      !this.completionItems.find(function(elem, index, self) {
-        return elem.data === `id_${node.ymlId().text}`;
-      })
-    ) {
-      this.completionItems.push({
-        label: this.classId,
-        kind: CompletionItemKind.Class,
-        data: `id_${node.ymlId().text}`,
-        detail: `This is the id of ${this.classId}.`
-        //,documentation: "Its documentation can come from predefinedObjects.xml"
-      });
-    }
   }
 
   visitChildren(node: ParseTree): void {

@@ -12,23 +12,19 @@ import {
   TextDocuments,
   TextDocument,
   Diagnostic,
-  DiagnosticSeverity,
   InitializeResult,
   TextDocumentPositionParams,
   CompletionItem,
-  CompletionItemKind,
-  PublishDiagnosticsParams
+  TextDocumentChangeEvent
 } from "vscode-languageserver";
 
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import { YmlToBdlLexer } from "./YmlToBdlLexer";
 
-import { YmlToBdlParser, KaoFileContext } from "./YmlToBdlParser";
+import { YmlToBdlParser } from "./YmlToBdlParser";
 
 import { YmlToBdlVisitorImpl } from "./YmlToBdlVisitorImpl";
 import { EngineModel } from "./EngineModel";
-
-let toggle_allowValidation: Boolean = true;
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 console.log("Yseop.vscode-yseopml − Creating connection with client/server.");
@@ -38,12 +34,13 @@ let connection: IConnection = createConnection(
   new IPCMessageWriter(process)
 );
 let completionItems: CompletionItem[] = [];
+
 // Create a simple text document manager. The text document manager
 // supports full document sync only
 let documents: TextDocuments = new TextDocuments();
+
 // Make the text document manager listen on the connection
 // for open, change and close text document events
-
 documents.listen(connection);
 
 // After the server has started the client sends an initialize request. The server receives
@@ -51,7 +48,6 @@ documents.listen(connection);
 connection.onInitialize(
   (_params): InitializeResult => {
     console.log("Yseop.vscode-yseopml − Initializing server.");
-
     return {
       capabilities: {
         // Tell the client that the server works in FULL text document sync mode
@@ -65,11 +61,9 @@ connection.onInitialize(
   }
 );
 
-// The content of a text document has changed. This event is emitted
-// when the text document first opened or when its content has changed.
-documents.onDidChangeContent(change => {
-  validateTextDocument(change.document);
-});
+const validateTextDocumentOnEvent = (event: TextDocumentChangeEvent) => validateTextDocument(event.document);
+documents.onDidOpen(validateTextDocumentOnEvent);
+documents.onDidSave(validateTextDocumentOnEvent);
 
 // The settings interface describe the server relevant settings part
 interface Settings {
@@ -82,6 +76,7 @@ interface ServerSettings {
   maxNumberOfProblems: number;
   pathToPredefinedObjectsXml: string;
 }
+
 let engineModel: EngineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems: number;
@@ -102,71 +97,32 @@ connection.onDidChangeConfiguration(change => {
 });
 
 function validateTextDocument(textDocument: TextDocument): void {
-  if (toggle_allowValidation) {
-    console.log(`Yseop.vscode-yseopml − Validating ${textDocument.uri}`);
+  console.log(`Yseop.vscode-yseopml − Validating ${textDocument.uri}`);
 
-    let diagnostics: Diagnostic[] = [];
+  let diagnostics: Diagnostic[] = [];
 
-    let problems = 0;
-    // Create the lexer and parser
-    let inputStream = new ANTLRInputStream(textDocument.getText());
-    let lexer = new YmlToBdlLexer(inputStream);
-    let tokenStream = new CommonTokenStream(lexer);
-    let parser = new YmlToBdlParser(tokenStream);
+  let problems = 0;
+  // Create the lexer and parser
+  let inputStream = new ANTLRInputStream(textDocument.getText());
+  let lexer = new YmlToBdlLexer(inputStream);
+  let tokenStream = new CommonTokenStream(lexer);
+  let parser = new YmlToBdlParser(tokenStream);
 
-    // Parse the input, where `compilationUnit` is whatever entry point you defined
-    let result = parser.kaoFile();
+  // Parse the input, where `compilationUnit` is whatever entry point you defined
+  let result = parser.kaoFile();
 
-    evaluateKaoFile(result, diagnostics);
-    // Send the computed diagnostics to VSCode.
-    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
-  }
-}
-
-function evaluateKaoFile(ctx: KaoFileContext, diagnostics: Diagnostic[]): void {
   let visitor = new YmlToBdlVisitorImpl(diagnostics, completionItems);
-  visitor.visit(ctx);
+  visitor.visit(result);
+  // Send the computed diagnostics to VSCode.
+  connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
-
-connection.onDidChangeWatchedFiles(_change => {
-  // Monitored files have change in VSCode
-  console.log("Yseop.vscode-yseopml − We received a file change event");
-});
 
 // This handler provides the initial list of the completion items.
-connection.onCompletion(
-  (_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-    return completionItems;
-  }
-);
+connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => completionItems);
 
 // This handler resolve additional information for the item selected in
 // the completion list.
-connection.onCompletionResolve(
-  (item: CompletionItem): CompletionItem => {
-    return item;
-  }
-);
-
-/*
-connection.onDidOpenTextDocument((params) => {
-	// A text document got opened in VSCode.
-	// params.uri uniquely identifies the document. For documents store on disk this is a file URI.
-	// params.text the initial full content of the document.
-	connection.console.log(`${params.textDocument.uri} opened.`);
-});
-connection.onDidChangeTextDocument((params) => {
-	// The content of a text document did change in VSCode.
-	// params.uri uniquely identifies the document.
-	// params.contentChanges describe the content changes to the document.
-	connection.console.log(`${params.textDocument.uri} changed: ${JSON.stringify(params.contentChanges)}`);
-});
-connection.onDidCloseTextDocument((params) => {
-	// A text document got closed in VSCode.
-	// params.uri uniquely identifies the document.
-	connection.console.log(`${params.textDocument.uri} closed.`);
-});
-*/
+connection.onCompletionResolve((item: CompletionItem): CompletionItem => item);
 
 // Listen on the connection
 connection.listen();
