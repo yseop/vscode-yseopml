@@ -14,7 +14,7 @@ import {
 } from "./YmlToBdlParser";
 import { ParseTree } from "antlr4ts/tree/ParseTree";
 
-const BEGINING_QUOTES_REGEX = /^("""|")\s*/;
+const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
 const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 
 export class ClassVisitor implements YmlToBdlVisitor<void> {
@@ -107,7 +107,7 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
         if (option._optionName.text === "documentation") {
           let documentation = option._optionValues[0].text;
           if (documentation !== null && documentation !== undefined) {
-            documentation = documentation.replace(BEGINING_QUOTES_REGEX, "");
+            documentation = documentation.replace(BEGINNING_QUOTES_REGEX, "");
             documentation = documentation.replace(ENDING_QUOTES_REGEX, "");
             return documentation;
           }
