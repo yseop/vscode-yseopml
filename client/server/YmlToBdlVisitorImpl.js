@@ -30,10 +30,8 @@ class YmlToBdlVisitorImpl {
             this.visit(currentChild);
         }
     }
-    visitTerminal(node) {
-    }
-    visitErrorNode(node) {
-    }
+    visitTerminal(node) { }
+    visitErrorNode(node) { }
 }
 exports.YmlToBdlVisitorImpl = YmlToBdlVisitorImpl;
 //# sourceMappingURL=YmlToBdlVisitorImpl.js.map

@@ -35,8 +35,9 @@ connection.onInitialize((_params) => {
         }
     };
 });
-documents.onDidOpen(openEvent => validateTextDocument(openEvent.document));
-documents.onDidSave(saveEvent => validateTextDocument(saveEvent.document));
+const validateTextDocumentOnEvent = (event) => validateTextDocument(event.document);
+documents.onDidOpen(validateTextDocumentOnEvent);
+documents.onDidSave(validateTextDocumentOnEvent);
 let engineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems;

@@ -15,6 +15,7 @@ import {
   InitializeResult,
   TextDocumentPositionParams,
   CompletionItem,
+  TextDocumentChangeEvent
 } from "vscode-languageserver";
 
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
@@ -44,22 +45,25 @@ documents.listen(connection);
 
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
-connection.onInitialize((_params): InitializeResult => {
-  console.log("Yseop.vscode-yseopml − Initializing server.");
-  return {
-    capabilities: {
-      // Tell the client that the server works in FULL text document sync mode
-      textDocumentSync: documents.syncKind,
-      // Tell the client that the server support code complete
-      completionProvider: {
-        resolveProvider: true
+connection.onInitialize(
+  (_params): InitializeResult => {
+    console.log("Yseop.vscode-yseopml − Initializing server.");
+    return {
+      capabilities: {
+        // Tell the client that the server works in FULL text document sync mode
+        textDocumentSync: documents.syncKind,
+        // Tell the client that the server support code complete
+        completionProvider: {
+          resolveProvider: true
+        }
       }
-    }
-  };
-});
+    };
+  }
+);
 
-documents.onDidOpen(openEvent => validateTextDocument(openEvent.document));
-documents.onDidSave(saveEvent => validateTextDocument(saveEvent.document));
+const validateTextDocumentOnEvent = (event: TextDocumentChangeEvent) => validateTextDocument(event.document);
+documents.onDidOpen(validateTextDocumentOnEvent);
+documents.onDidSave(validateTextDocumentOnEvent);
 
 // The settings interface describe the server relevant settings part
 interface Settings {
@@ -118,7 +122,7 @@ connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams): Com
 
 // This handler resolve additional information for the item selected in
 // the completion list.
-connection.onCompletionResolve((item: CompletionItem): CompletionItem =>  item);
+connection.onCompletionResolve((item: CompletionItem): CompletionItem => item);
 
 // Listen on the connection
 connection.listen();
