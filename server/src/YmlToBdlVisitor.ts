@@ -4,14 +4,10 @@
 import { ParseTreeVisitor } from 'antlr4ts/tree/ParseTreeVisitor';
 
 import { ExpressionMarkerContext } from './YmlToBdlParser';
-import { CommentElementContext } from './YmlToBdlParser';
 import { PreprocessingElementContext } from './YmlToBdlParser';
-import { CommentContext } from './YmlToBdlParser';
-import { CommentBlockContext } from './YmlToBdlParser';
 import { FreeTextContext } from './YmlToBdlParser';
 import { YmlIdContext } from './YmlToBdlParser';
 import { KaoFileContext } from './YmlToBdlParser';
-import { YclassFileContext } from './YmlToBdlParser';
 import { YmlEntityContext } from './YmlToBdlParser';
 import { YenumContext } from './YmlToBdlParser';
 import { EnumElementContext } from './YmlToBdlParser';
@@ -74,10 +70,7 @@ import { VariableBlockContentContext } from './YmlToBdlParser';
 import { VariableBlockContentWithEOFContext } from './YmlToBdlParser';
 import { StaticDeclarationsFileContext } from './YmlToBdlParser';
 import { StaticDeclarationContext } from './YmlToBdlParser';
-import { ExternalFunctionsFileContext } from './YmlToBdlParser';
 import { ExternDeclarationContext } from './YmlToBdlParser';
-import { ExternalDialogZoneFileContext } from './YmlToBdlParser';
-import { ExternDialogZoneContext } from './YmlToBdlParser';
 import { ListContext } from './YmlToBdlParser';
 import { ListWithBraceContext } from './YmlToBdlParser';
 import { GranuleContext } from './YmlToBdlParser';
@@ -100,32 +93,11 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitExpressionMarker?: (ctx: ExpressionMarkerContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.commentElement`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitCommentElement?: (ctx: CommentElementContext) => Result;
-
-	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.preprocessingElement`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitPreprocessingElement?: (ctx: PreprocessingElementContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.comment`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitComment?: (ctx: CommentContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.commentBlock`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitCommentBlock?: (ctx: CommentBlockContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.freeText`.
@@ -147,13 +119,6 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitKaoFile?: (ctx: KaoFileContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.yclassFile`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitYclassFile?: (ctx: YclassFileContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.ymlEntity`.
@@ -590,32 +555,11 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitStaticDeclaration?: (ctx: StaticDeclarationContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.externalFunctionsFile`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitExternalFunctionsFile?: (ctx: ExternalFunctionsFileContext) => Result;
-
-	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.externDeclaration`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitExternDeclaration?: (ctx: ExternDeclarationContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.externalDialogZoneFile`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitExternalDialogZoneFile?: (ctx: ExternalDialogZoneFileContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.externDialogZone`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitExternDialogZone?: (ctx: ExternDialogZoneContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.list`.

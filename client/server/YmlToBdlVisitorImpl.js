@@ -16,10 +16,6 @@ class YmlToBdlVisitorImpl {
         else if (node instanceof TerminalNode_1.TerminalNode) {
             this.visitTerminal(node);
         }
-        else if (node instanceof YmlToBdlParser_1.YclassFileContext) {
-            let classVisitor = new ClassVisitor_1.ClassVisitor(this.diagnostics, this.completionItems);
-            classVisitor.visit(node);
-        }
         else if (node instanceof YmlToBdlParser_1.ClassDeclarationContext) {
             let classVisitor = new ClassVisitor_1.ClassVisitor(this.diagnostics, this.completionItems);
             classVisitor.visit(node);
@@ -34,10 +30,8 @@ class YmlToBdlVisitorImpl {
             this.visit(currentChild);
         }
     }
-    visitTerminal(node) {
-    }
-    visitErrorNode(node) {
-    }
+    visitTerminal(node) { }
+    visitErrorNode(node) { }
 }
 exports.YmlToBdlVisitorImpl = YmlToBdlVisitorImpl;
 //# sourceMappingURL=YmlToBdlVisitorImpl.js.map

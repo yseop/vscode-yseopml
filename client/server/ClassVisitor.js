@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_languageserver_1 = require("vscode-languageserver");
 const YmlToBdlParser_1 = require("./YmlToBdlParser");
+const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
+const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 class ClassVisitor {
     constructor(diagnostics, completionItems) {
         this.diagnostics = diagnostics;
@@ -9,7 +11,7 @@ class ClassVisitor {
     }
     visit(node) {
         if (node instanceof YmlToBdlParser_1.YmlIdContext) {
-            this.visitYmlId((node));
+            this.visitYmlId(node);
         }
         else if (node instanceof YmlToBdlParser_1.FieldContext) {
             this.visitField(node);
@@ -20,46 +22,83 @@ class ClassVisitor {
         else if (node instanceof YmlToBdlParser_1.MemberDeclarationContext) {
             this.visitMemberDeclaration(node);
         }
+        else if (node instanceof YmlToBdlParser_1.MethodDeclarationContext) {
+            this.visitMethodDeclaration(node);
+        }
         else {
             this.visitChildren(node);
         }
     }
+    visitMethodDeclaration(node) {
+        this.createNewCompletionItem(node.methodIntro().ymlId(), node.field(), "Method", vscode_languageserver_1.CompletionItemKind.Method);
+    }
     visitMemberDeclaration(node) {
+        this.createNewCompletionItem(node.ymlId(), node.field(), "Attribute", vscode_languageserver_1.CompletionItemKind.Property);
+    }
+    createNewCompletionItem(ymlIdContext, fields, itemType, kind) {
         if (this.classId == null) {
             console.error("Parsing class member before knowing its name.");
             return;
         }
-        if (node.memberType().FIELD != null) {
-            let yidContext = node.ymlId();
-            let currentClassId = this.classId;
-            if (yidContext != null) {
-                if (!this.completionItems.find(function (elem, index, self) {
-                    return elem.data === `id_${yidContext.text}_${currentClassId}`;
-                })) {
-                    this.completionItems.push({
-                        label: `${yidContext.text}`,
-                        kind: vscode_languageserver_1.CompletionItemKind.Property,
-                        data: `id_${yidContext.text}_${currentClassId}`,
-                        detail: `Attribute of class ${currentClassId}.`
-                        //,documentation: "Its documentation can come from predefinedObjects.xml"
-                    });
+        let currentClassId = this.classId;
+        const documentation = this.getDocumentation(fields);
+        const returnType = this.getType(fields);
+        const ymlId = ymlIdContext.text;
+        const elementId = `id_${currentClassId}_${ymlId}`;
+        const completionItem = this.completionItems.find(elem => elem.data === elementId);
+        if (completionItem) {
+            completionItem.documentation = documentation;
+            completionItem.detail = returnType;
+        }
+        else {
+            this.completionItems.push({
+                label: ymlId,
+                kind: kind,
+                data: elementId,
+                detail: returnType,
+                documentation: documentation
+            });
+        }
+    }
+    getType(fieldOptions) {
+        let domains = "Object";
+        let domainsLevel2 = "";
+        try {
+            for (const option of fieldOptions) {
+                let optionName = option._optionName.text;
+                if (optionName === "domains") {
+                    domains = option._optionValues[0].text;
+                }
+                else if (optionName === "domainsLevel2") {
+                    domainsLevel2 = ` − ${option._optionValues[0].text}`;
                 }
             }
         }
+        catch (err) {
+            console.error(err);
+        }
+        return domains.concat(domainsLevel2);
+    }
+    getDocumentation(fieldOptions) {
+        try {
+            for (const option of fieldOptions) {
+                if (option._optionName.text === "documentation") {
+                    let documentation = option._optionValues[0].text;
+                    if (documentation !== null && documentation !== undefined) {
+                        documentation = documentation.replace(BEGINNING_QUOTES_REGEX, "");
+                        documentation = documentation.replace(ENDING_QUOTES_REGEX, "");
+                        return documentation;
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+        return "not documented";
     }
     visitClassDeclarationIntro(node) {
         this.classId = node.ymlId().text;
-        if (!this.completionItems.find(function (elem, index, self) {
-            return elem.data === `id_${node.ymlId().text}`;
-        })) {
-            this.completionItems.push({
-                label: this.classId,
-                kind: vscode_languageserver_1.CompletionItemKind.Class,
-                data: `id_${node.ymlId().text}`,
-                detail: `This is the id of ${this.classId}.`
-                //,documentation: "Its documentation can come from predefinedObjects.xml"
-            });
-        }
     }
     visitChildren(node) {
         for (let childIndex = 0; childIndex < node.childCount; childIndex++) {
@@ -67,28 +106,13 @@ class ClassVisitor {
             this.visit(currentChild);
         }
     }
-    visitTerminal(node) {
-    }
-    visitErrorNode(node) {
-    }
-    visitYmlId(node) {
-    }
+    visitTerminal(node) { }
+    visitErrorNode(node) { }
+    visitYmlId(node) { }
     visitYmlIdOrPath(node) {
         this.visitChildren(node);
     }
-    visitField(node) {
-        /*
-        this.diagnostics.push({
-            severity: DiagnosticSeverity.Information,
-                range: {
-                    start: { line: node.start.line - 1, character: node.start.charPositionInLine },
-                    end: { line: node.stop.line - 1, character: node.stop.charPositionInLine + (node.stop.stopIndex - node.stop.startIndex) + 1 }
-                },
-                message: `"${node.text}" is a field`,
-                source: 'YML Language Server'
-        });
-        */
-    }
+    visitField(node) { }
 }
 exports.ClassVisitor = ClassVisitor;
 //# sourceMappingURL=ClassVisitor.js.map

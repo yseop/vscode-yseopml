@@ -1,5 +1,10 @@
 # Release Notes
 
+## 1.2.3 (2019-01-03)
+
+- When using autocompletion for class attributes, methods or text methods, the documentation for these symbols is displayed, if any was written.
+- Types of elements are visible during autocompletion.
+
 ## 1.2.2 (2018-11-27)
 
 - Fix security issue with `event-stream` version 3.3.6. Old version `3.3.4` set instead.
