@@ -27,7 +27,7 @@
         "package": "npm install --unsafe-perm && npm run compile && npm run test:client && cd client && vsce package",
         "test:client": "cd client && npm run test --silent",
         "test": "npm run test:client && npm run test:server",
-        "test:server": "cd server && npm run test -- --reporter xunit --reporter-options output=../../target/tests.xml --recursive"
+        "test:server": "cd server && npm run test -- --reporter xunit --reporter-options output=../../target/test-reports/server-tests.xml --recursive"
     },
     "devDependencies": {
         "@types/mocha": "^2.2.42",
