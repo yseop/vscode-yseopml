@@ -41,28 +41,5 @@ export class YmlToBdlVisitorImpl implements YmlToBdlVisitor<void> {
 
   visitTerminal(node: ParseTree): void {}
 
-  visitErrorNode(node: ParseTree): void {
-    this.diagnoseError(node as ErrorNode);
-  }
-
-  diagnoseError(node: ErrorNode): void {
-        this.diagnostics.push({
-      /**
-       * The range at which the message applies
-       */
-      range: {
-        start: {
-          line: 0,
-          character: 0
-        },
-        end: {
-          line: 0,
-          character: 5
-        }
-      },
-      severity: DiagnosticSeverity.Error,
-      source: "YseopML extention",
-      message: `There is something weird here: ${node}`
-    });
-  }
+  visitErrorNode(node: ParseTree): void {}
 }
