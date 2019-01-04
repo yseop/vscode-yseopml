@@ -1,8 +1,8 @@
 import * as assert from "assert";
 import { ANTLRInputStream, CommonTokenStream, CommonToken } from "antlr4ts";
-import { YmlToBdlLexer } from "../src/YmlToBdlLexer";
-import { YmlToBdlParser } from "../src/YmlToBdlParser";
-import { YmlToBdlVisitorImpl } from "../src/YmlToBdlVisitorImpl";
+import { YmlToBdlLexer } from "../YmlToBdlLexer";
+import { YmlToBdlParser } from "../YmlToBdlParser";
+import { YmlToBdlVisitorImpl } from "../YmlToBdlVisitorImpl";
 import { CompletionItem } from "vscode-languageserver";
 
 describe("Extension Server Tests", () => {
