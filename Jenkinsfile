@@ -18,7 +18,7 @@ pipeline {
     }
 
     stages {
-        stage ("Build") {
+        stage ("Build, Package and Test") {
             steps {
                 ansiColor('xterm') {
                     sh "npm run package"
@@ -28,12 +28,6 @@ pipeline {
                 success {
                     archiveArtifacts artifacts: 'client/vscode-yseopml-*.vsix', fingerprint: true
                 }
-            }
-        }
-
-        stage ("Tests") {
-            steps {
-                sh "npm run test:server"
             }
         }
     }
