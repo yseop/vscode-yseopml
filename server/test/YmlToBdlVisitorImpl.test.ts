@@ -13,9 +13,7 @@ describe("Extension Server Tests", () => {
             let tokenStream = new CommonTokenStream(lexer);
             let parser = new YmlToBdlParser(tokenStream);
 
-            // Parse the input, where `compilationUnit` is whatever entry point you defined
             let result = parser.kaoFile();
-            const completionItems: CompletionItem[] = [];
             let visitor = new YmlToBdlVisitorImpl([], []);
             visitor.visit(result);
             done();
