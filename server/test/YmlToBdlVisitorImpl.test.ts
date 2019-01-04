@@ -7,7 +7,7 @@ import { CompletionItem } from 'vscode-languageserver';
 
 describe("Extension Server Tests", () => {
     describe("YmlToBdlVisitorImpl", () => {
-        it('should be OK to instanciate YmlToBdlVisitorImpl' , (done) => {
+        it('should be OK to instantiate YmlToBdlVisitorImpl' , (done) => {
             let inputStream = new ANTLRInputStream("");
             let lexer = new YmlToBdlLexer(inputStream);
             let tokenStream = new CommonTokenStream(lexer);
