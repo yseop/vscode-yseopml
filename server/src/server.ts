@@ -114,6 +114,8 @@ function validateTextDocument(textDocument: TextDocument): void {
   let visitor = new YmlToBdlVisitorImpl(diagnostics, completionItems);
   visitor.visit(result);
   // Send the computed diagnostics to VSCode.
+  console.warn(diagnostics);
+  
   connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
 
