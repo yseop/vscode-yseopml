@@ -69,3 +69,5 @@ typings/
 # tests
 .vscode-test/
 out/
+/client/server/
+target/

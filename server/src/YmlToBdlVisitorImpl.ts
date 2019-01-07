@@ -1,11 +1,10 @@
 import {
   Diagnostic,
   CompletionItem,
+  DiagnosticSeverity
 } from "vscode-languageserver";
 import { YmlToBdlVisitor } from "./YmlToBdlVisitor";
-import {
-  ClassDeclarationContext
-} from "./YmlToBdlParser";
+import { ClassDeclarationContext } from "./YmlToBdlParser";
 import { ErrorNode } from "antlr4ts/tree/ErrorNode";
 import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { ParseTree } from "antlr4ts/tree/ParseTree";
