@@ -8,22 +8,22 @@ import { CompletionItem } from "vscode-languageserver";
 describe("Extension Server Tests", () => {
   describe("YmlToBdlVisitorImpl", () => {
     it("should be OK to instantiate YmlToBdlVisitorImpl", done => {
-      let inputStream = new ANTLRInputStream("");
-      let lexer = new YmlToBdlLexer(inputStream);
-      let tokenStream = new CommonTokenStream(lexer);
-      let parser = new YmlToBdlParser(tokenStream);
+      const inputStream = new ANTLRInputStream("");
+      const lexer = new YmlToBdlLexer(inputStream);
+      const tokenStream = new CommonTokenStream(lexer);
+      const parser = new YmlToBdlParser(tokenStream);
 
-      let result = parser.kaoFile();
-      let visitor = new YmlToBdlVisitorImpl([], []);
+      const result = parser.kaoFile();
+      const visitor = new YmlToBdlVisitorImpl([], []);
       visitor.visit(result);
       done();
     });
 
     it("should be able to parse a string", done => {
-      let inputStream = new ANTLRInputStream('"foo bar"');
-      let lexer = new YmlToBdlLexer(inputStream);
-      let tokenStream = new CommonTokenStream(lexer);
-      let tokens = tokenStream.getTokens();
+      const inputStream = new ANTLRInputStream('"foo bar"');
+      const lexer = new YmlToBdlLexer(inputStream);
+      const tokenStream = new CommonTokenStream(lexer);
+      const tokens = tokenStream.getTokens();
       assert.equal(tokens.length, 1);
       assert.equal(tokens[0].startIndex, 0);
       assert.equal(tokens[0].stopIndex, 8);
@@ -31,7 +31,7 @@ describe("Extension Server Tests", () => {
     });
 
     it("should parse a well written YML class and provide completion for fields", done => {
-      let inputStream = new ANTLRInputStream(`
+      const inputStream = new ANTLRInputStream(`
             interface City
                 field name
                 --> domains	String 
@@ -52,13 +52,13 @@ describe("Extension Server Tests", () => {
                 implementation City
                 ;
             `);
-      let lexer = new YmlToBdlLexer(inputStream);
-      let tokenStream = new CommonTokenStream(lexer);
-      let parser = new YmlToBdlParser(tokenStream);
+      const lexer = new YmlToBdlLexer(inputStream);
+      const tokenStream = new CommonTokenStream(lexer);
+      const parser = new YmlToBdlParser(tokenStream);
 
-      let result = parser.kaoFile();
+      const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      let visitor = new YmlToBdlVisitorImpl([], completionItems);
+      const visitor = new YmlToBdlVisitorImpl([], completionItems);
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -80,7 +80,7 @@ describe("Extension Server Tests", () => {
       done();
     });
     it("should parse a well written YML class and provide completion for fields and methods", done => {
-        let inputStream = new ANTLRInputStream(`
+      const inputStream = new ANTLRInputStream(`
               interface City
                   method name()
                   --> domains	String 
@@ -105,13 +105,13 @@ describe("Extension Server Tests", () => {
                   implementation City
                   ;
               `);
-        let lexer = new YmlToBdlLexer(inputStream);
-        let tokenStream = new CommonTokenStream(lexer);
-        let parser = new YmlToBdlParser(tokenStream);
+        const lexer = new YmlToBdlLexer(inputStream);
+        const tokenStream = new CommonTokenStream(lexer);
+        const parser = new YmlToBdlParser(tokenStream);
   
-        let result = parser.kaoFile();
+        const result = parser.kaoFile();
         const completionItems: CompletionItem[] = [];
-        let visitor = new YmlToBdlVisitorImpl([], completionItems);
+        const visitor = new YmlToBdlVisitorImpl([], completionItems);
         visitor.visit(result);
         const expectedCompletionItems = [
           {
