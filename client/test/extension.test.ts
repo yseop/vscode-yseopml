@@ -15,34 +15,34 @@ import * as vscode from 'vscode';
 suite("Extension Tests", () => {
 
     test("YML extension exists.", () => {
-        assert.equal(true, vscode.extensions.all.some(extension => {
+        assert.strictEqual(true, vscode.extensions.all.some(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         }));
     });
 
     test("not existing extension doesn't exists.", () => {
-        assert.equal(false, vscode.extensions.all.some(extension => {
+        assert.strictEqual(vscode.extensions.all.some(extension => {
             return extension.id === "Yseop.notExistingExtension";
-        }));
+        }), false);
     });
 
     test("not activated YML extension is not active.", () => {
         var ymlExtension = vscode.extensions.all.find(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         });
-        assert.notEqual(null, ymlExtension);
-        assert.equal(false, ymlExtension.isActive);
+        assert.notStrictEqual(ymlExtension, null);
+        assert.strictEqual(ymlExtension.isActive, false);
     });
 
     test("YML extension activation activates it.", (done) => {
         var ymlExtension = vscode.extensions.all.find(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         });
-        assert.notEqual(null, ymlExtension);
-        assert.equal(false, ymlExtension.isActive);
+        assert.notStrictEqual(ymlExtension, null);
+        assert.strictEqual(ymlExtension.isActive, false);
         ymlExtension.activate()
         .then(() => {
-            assert.equal(true, ymlExtension.isActive);
+            assert.strictEqual(ymlExtension.isActive, true);
         })
         .then(done, done);
     });
@@ -51,14 +51,12 @@ suite("Extension Tests", () => {
         var ymlExtension = vscode.extensions.all.find(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         });
-        if(!ymlExtension) {
-            assert.fail("Extension doesn't exist.")
-        }
+        assert.notStrictEqual(ymlExtension, null, "Extension doesn't exist.");
         vscode.languages.getLanguages()
         .then((languages) => {
-            assert.notEqual(null, languages);
-            assert.notEqual(0, languages.length);
-            assert.notEqual(-1, languages.indexOf("yml"));
+            assert.notStrictEqual(languages, null);
+            assert.notStrictEqual(languages.length, 0);
+            assert.notStrictEqual(languages.indexOf("yml"), -1);
         })
         .then(done, done);
     });
