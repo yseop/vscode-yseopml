@@ -14,19 +14,19 @@ import * as vscode from 'vscode';
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
 
-    test("Test that YML extension exists.", () => {
+    test("YML extension exists.", () => {
         assert.equal(true, vscode.extensions.all.some(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         }));
     });
 
-    test("Test that not existing extension doesn't exists.", () => {
+    test("not existing extension doesn't exists.", () => {
         assert.equal(false, vscode.extensions.all.some(extension => {
             return extension.id === "Yseop.notExistingExtension";
         }));
     });
 
-    test("Test that not activated YML extension is not active.", () => {
+    test("not activated YML extension is not active.", () => {
         var ymlExtension = vscode.extensions.all.find(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         });
@@ -34,23 +34,32 @@ suite("Extension Tests", () => {
         assert.equal(false, ymlExtension.isActive);
     });
 
-    test("Test that YML extension activation activates it.", () => {
+    test("YML extension activation activates it.", (done) => {
         var ymlExtension = vscode.extensions.all.find(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         });
         assert.notEqual(null, ymlExtension);
-        ymlExtension.activate().then(() => {
+        assert.equal(false, ymlExtension.isActive);
+        ymlExtension.activate()
+        .then(() => {
             assert.equal(true, ymlExtension.isActive);
-        });
+        })
+        .then(done, done);
     });
     
-    test("Test extension adds YML support.", (done) => {
-        vscode.languages.getLanguages().then((languages) => {
+    test("YML extension adds YML support.", (done) => {
+        var ymlExtension = vscode.extensions.all.find(extension => {
+            return extension.id === "Yseop.vscode-yseopml";
+        });
+        if(!ymlExtension) {
+            assert.fail("Extension doesn't exist.")
+        }
+        vscode.languages.getLanguages()
+        .then((languages) => {
             assert.notEqual(null, languages);
             assert.notEqual(0, languages.length);
             assert.notEqual(-1, languages.indexOf("yml"));
-            done();
-        });
+        })
+        .then(done, done);
     });
-
 });
