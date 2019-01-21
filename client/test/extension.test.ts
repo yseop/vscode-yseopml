@@ -14,43 +14,50 @@ import * as vscode from 'vscode';
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
 
-    test("Test that YML extension exists.", () => {
-        assert.equal(true, vscode.extensions.all.some(extension => {
+    test("YML extension exists.", () => {
+        assert.strictEqual(true, vscode.extensions.all.some(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         }));
     });
 
-    test("Test that not existing extension doesn't exists.", () => {
-        assert.equal(false, vscode.extensions.all.some(extension => {
+    test("not existing extension doesn't exists.", () => {
+        assert.strictEqual(vscode.extensions.all.some(extension => {
             return extension.id === "Yseop.notExistingExtension";
-        }));
+        }), false);
     });
 
-    test("Test that not activated YML extension is not active.", () => {
+    test("not activated YML extension is not active.", () => {
         var ymlExtension = vscode.extensions.all.find(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         });
-        assert.notEqual(null, ymlExtension);
-        assert.equal(false, ymlExtension.isActive);
+        assert.notStrictEqual(ymlExtension, null);
+        assert.strictEqual(ymlExtension.isActive, false);
     });
 
-    test("Test that YML extension activation activates it.", () => {
+    test("YML extension activation activates it.", (done) => {
         var ymlExtension = vscode.extensions.all.find(extension => {
             return extension.id === "Yseop.vscode-yseopml";
         });
-        assert.notEqual(null, ymlExtension);
-        ymlExtension.activate().then(() => {
-            assert.equal(true, ymlExtension.isActive);
-        });
+        assert.notStrictEqual(ymlExtension, null);
+        assert.strictEqual(ymlExtension.isActive, false);
+        ymlExtension.activate()
+        .then(() => {
+            assert.strictEqual(ymlExtension.isActive, true);
+        })
+        .then(done, done);
     });
     
-    test("Test extension adds YML support.", (done) => {
-        vscode.languages.getLanguages().then((languages) => {
-            assert.notEqual(null, languages);
-            assert.notEqual(0, languages.length);
-            assert.notEqual(-1, languages.indexOf("yml"));
-            done();
+    test("YML extension adds YML support.", (done) => {
+        var ymlExtension = vscode.extensions.all.find(extension => {
+            return extension.id === "Yseop.vscode-yseopml";
         });
+        assert.notStrictEqual(ymlExtension, null, "Extension doesn't exist.");
+        vscode.languages.getLanguages()
+        .then((languages) => {
+            assert.notStrictEqual(languages, null);
+            assert.notStrictEqual(languages.length, 0);
+            assert.notStrictEqual(languages.indexOf("yml"), -1);
+        })
+        .then(done, done);
     });
-
 });
