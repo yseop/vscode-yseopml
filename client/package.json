@@ -154,7 +154,7 @@
     },
     "dependencies": {
         "event-stream": "^3.3.5",
-        "typescript": "^2.9.2",
+        "typescript": "^3.3.3",
         "vsce": "^1.56.0",
         "vscode-languageclient": "^3.5.1"
     },
