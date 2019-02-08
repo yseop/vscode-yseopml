@@ -31,7 +31,7 @@
         "test:server-ci": "cd server && npm run test:ci"
     },
     "devDependencies": {
-        "@types/mocha": "^2.2.42",
+        "@types/mocha": "^5.2.5",
         "@types/node": "^6.14.2",
         "antlr4ts-cli": "^0.5.0-alpha.2",
         "mocha": "^5.2.0",
