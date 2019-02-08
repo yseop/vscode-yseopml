@@ -31,11 +31,11 @@
         "test:server-ci": "cd server && npm run test:ci"
     },
     "devDependencies": {
-        "@types/mocha": "^2.2.42",
-        "@types/node": "^6.0.88",
-        "antlr4ts-cli": "^0.4.0-alpha.4",
-        "typescript": "^2.5.2",
-        "vsce": "^1.54.0",
-        "mocha": "^5.2.0"
+        "@types/mocha": "^5.2.5",
+        "@types/node": "^10.12.23",
+        "antlr4ts-cli": "^0.5.0-alpha.2",
+        "mocha": "^5.2.0",
+        "typescript": "^3.3.3",
+        "vsce": "^1.56.0"
     }
 }
