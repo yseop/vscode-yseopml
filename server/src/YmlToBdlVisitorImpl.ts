@@ -1,30 +1,26 @@
-import {
-  Diagnostic,
-  CompletionItem,
-  DiagnosticSeverity
-} from "vscode-languageserver";
-import { YmlToBdlVisitor } from "./YmlToBdlVisitor";
-import { ClassDeclarationContext } from "./YmlToBdlParser";
 import { ErrorNode } from "antlr4ts/tree/ErrorNode";
-import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { ParseTree } from "antlr4ts/tree/ParseTree";
+import { TerminalNode } from "antlr4ts/tree/TerminalNode";
+import { CompletionItem, Diagnostic } from "vscode-languageserver";
 import { ClassVisitor } from "./ClassVisitor";
+import { ClassDeclarationContext } from "./YmlToBdlParser";
+import { YmlToBdlVisitor } from "./YmlToBdlVisitor";
 
 export class YmlToBdlVisitorImpl implements YmlToBdlVisitor<void> {
   constructor(
     public diagnostics: Diagnostic[],
-    public completionItems: CompletionItem[]
+    public completionItems: CompletionItem[],
   ) {}
 
-  visit(node: ParseTree): void {
+  public visit(node: ParseTree): void {
     if (node instanceof ErrorNode) {
       this.visitErrorNode(node);
     } else if (node instanceof TerminalNode) {
       this.visitTerminal(node);
     } else if (node instanceof ClassDeclarationContext) {
-      let classVisitor = new ClassVisitor(
+      const classVisitor = new ClassVisitor(
         this.diagnostics,
-        this.completionItems
+        this.completionItems,
       );
       classVisitor.visit(node);
     } else {
@@ -32,14 +28,14 @@ export class YmlToBdlVisitorImpl implements YmlToBdlVisitor<void> {
     }
   }
 
-  visitChildren(node: ParseTree): void {
+  public visitChildren(node: ParseTree): void {
     for (let childIndex = 0; childIndex < node.childCount; childIndex++) {
       const currentChild = node.getChild(childIndex);
       this.visit(currentChild);
     }
   }
 
-  visitTerminal(node: ParseTree): void {}
+  public visitTerminal(node: ParseTree): void {}
 
-  visitErrorNode(node: ParseTree): void {}
+  public visitErrorNode(node: ParseTree): void {}
 }

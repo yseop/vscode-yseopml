@@ -71,3 +71,5 @@ typings/
 out/
 /client/server/
 target/
+/.sonarlint/
+/report.json
