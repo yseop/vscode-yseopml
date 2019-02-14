@@ -24,6 +24,7 @@ import { YmlToBdlLexer } from "./YmlToBdlLexer";
 import { YmlToBdlParser } from "./YmlToBdlParser";
 
 import { EngineModel } from "./EngineModel";
+import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
 import { YmlToBdlVisitorImpl } from "./YmlToBdlVisitorImpl";
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
@@ -113,6 +114,8 @@ function validateTextDocument(textDocument: TextDocument): void {
   const lexer = new YmlToBdlLexer(inputStream);
   const tokenStream = new CommonTokenStream(lexer);
   const parser = new YmlToBdlParser(tokenStream);
+  parser.removeErrorListeners();
+  parser.addErrorListener(new VsCodeDiagnosticErrorListener(diagnostics));
 
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
