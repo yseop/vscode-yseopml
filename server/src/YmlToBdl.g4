@@ -1,9 +1,10 @@
 grammar YmlToBdl;
 
-//Lexer part
+/*
+ * Lexer rules
+ */
 
 //Keywords
-
 INTERFACE: 'interface';
 IMPLEMENTATION: 'implementation';
 EXTENDS: 'extends';
@@ -35,7 +36,6 @@ BREAK: 'break';
 STATIC: 'static';
 
 //Symbols
-
 SEMICOLON: ';';
 COMMA: ',';
 COLON: ':';
@@ -46,6 +46,16 @@ REPLACE_FIELD_VALUE_INTRO: '==>';
 REMOVE_FIELD: '---';
 ADD_FIELD: '+++';
 INLINE_DECL_INTRO: '->';
+OPEN_PAR: '(';
+CLOSE_PAR: ')';
+OPEN_BRACKET: '[';
+CLOSE_BRACKET: ']';
+OPEN_BRACE: '{';
+CLOSE_BRACE: '}';
+SINGLE_QUOTE: '\'';
+BACKSLASH: '\\';
+QUESTION_MARK: '?';
+AT: '@';
 
 //Comparison operator
 EQUAL_COMP: '==';
@@ -59,19 +69,9 @@ STRICT_GREAT: '>';
 COND_AND: '&&';
 COND_OR: '||';
 
-//Affectation operator
+//Affectation operators
 EQUAL_AFFECT: '=';
 MULTIVALUED_AFFECT: ':=';
-OPEN_PAR: '(';
-CLOSE_PAR: ')';
-OPEN_BRACKET: '[';
-CLOSE_BRACKET: ']';
-OPEN_BRACE: '{';
-CLOSE_BRACE: '}';
-SINGLE_QUOTE: '\'';
-BACKSLASH: '\\';
-QUESTION_MARK: '?';
-AT: '@';
 
 OPEN_GRANULE: BACKSLASH OPEN_PAR;
 CLOSE_GRANULE: BACKSLASH CLOSE_PAR;
@@ -98,13 +98,6 @@ DATE:
     SINGLE_QUOTE D_LETTER COLON NUMBER NUMBER NUMBER NUMBER MINUS NUMBER NUMBER MINUS NUMBER NUMBER SINGLE_QUOTE
 ;
 
-//Block and Identifiers
-
-//Impossible d'échapper " via \" avec cette règle
-//Et string multiligne acceptée
-
-//Sont acceptés avec un \ terminateur en fin de ligne,
-//donc la grammaire ne doit pas les accepter
 fragment ESCAPED_QUOTE: '\\"';
 STRING: '"' ( ESCAPED_QUOTE | ~('\n' | '\r'))*? '"';
 fragment TRIPLE_QUOTE: '"""';
@@ -113,16 +106,11 @@ DOCUMENTATION: TRIPLE_QUOTE (.*?) TRIPLE_QUOTE;
 //We store the whitespace in hidden channel to take back the ones around comments
 WS: [ \r\t\n]+ -> channel(HIDDEN);
 
-//STRING : '"' [~"]* '"';
-
-//Les : sont autorisés au milieu d'un nom
-//0-9 a-z A-Z : _
-//Ajouter les accents (voir fichier character.c dans les sources de l'engine
-
 DOUBLE: MINUS? NUMBER+ (DOT NUMBER+)?;
 INTEGER: NUMBER+;
 
-//Vérifier adéquation avec les terminaux définis par Olivier
+// Colon are OK inside a YMLID
+// Colons aren't interpreted by YE in a particular way.
 YMLID: ID (COLON? COLON ID)*;
 ID: LETTER ALPHANUM*;
 
@@ -136,10 +124,11 @@ MULTILINE_COMMENT:
 ;
 GRANULE: OPEN_GRANULE (.)*? CLOSE_GRANULE EOF?;
 
-// Parser rules
-expressionMarker: DOT | MULTIVALUED_EXPRESSION;
+/*
+ * Parser rules
+ */
 
-// Colons aren't interpreted by YE in a particular way.
+expressionMarker: DOT | MULTIVALUED_EXPRESSION;
 
 ymlId: YMLID;
 
@@ -160,7 +149,6 @@ yenum:
 ;
 enumElement: yid=ymlId fields=field*;
 
-//Field and options
 classDeclaration:
     classDeclarationIntro field*
     (
@@ -177,11 +165,8 @@ override: OVERRIDE OPEN_BRACE overrideInstruction* CLOSE_BRACE;
 
 overrideInstruction: ymlId FUNCTION;
 
-//We can only keep one parent domain currently. Multiple inherintance links will be available in further versions
 classDeclarationIntro: INTERFACE className=ymlId (extendsBlock)?;
-
 extendsBlock: EXTENDS parentClassName (COMMA parentClassName)*;
-
 parentClassName: ymlId;
 
 synonym:
@@ -191,8 +176,6 @@ synonym:
         synonymElements+=value (COMMA synonymElements+=value)*
     )? CLOSE_PAR
 ;
-
-//Question a Alain, est ce qu'on peut avoir autre chose qu'un 'field' comme memberType ?
 
 classAttributeDeclaration: FIELD memberName=ymlId memberOption=field*;
 memberDeclaration: type=memberType memberName=ymlId memberOption=field*;
@@ -293,8 +276,8 @@ staticBlock: STATIC OPEN_BRACE staticDeclaration* CLOSE_BRACE;
 
 methodDeclaration: methodIntro memberOption=field*;
 
-// accept structures like
 /*
+    // accepts structures like:
 	method aggregateTree
 		args {
 			Symbol 				aggMode
