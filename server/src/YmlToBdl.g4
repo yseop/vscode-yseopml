@@ -69,9 +69,9 @@ STRICT_GREAT: '>';
 COND_AND: '&&';
 COND_OR: '||';
 
-//Affectation operators
-EQUAL_AFFECT: '=';
-MULTIVALUED_AFFECT: ':=';
+//Assignment operators
+EQUAL_ASSIGNMENT: '=';
+MULTIVALUED_ASSIGNMENT: ':=';
 
 OPEN_GRANULE: BACKSLASH OPEN_PAR;
 CLOSE_GRANULE: BACKSLASH CLOSE_PAR;
@@ -348,10 +348,10 @@ comparisonOperator:
     | STRICT_GREAT
 ;
 
-instruction_multivaluedAffectation:
-    leftHand=value MULTIVALUED_AFFECT rightHand=value
+instruction_multivaluedAssignment:
+    leftHand=value MULTIVALUED_ASSIGNMENT rightHand=value
 ;
-instruction_affectation: leftHand=value EQUAL_AFFECT rightHand=value;
+instruction_assignment: leftHand=value EQUAL_ASSIGNMENT rightHand=value;
 
 conditionBlock: order0Condition+;
 
@@ -377,8 +377,8 @@ instruction_return: RETURN value SEMICOLON;
 instruction_chainedCall: chainedCall;
 instruction:
     instruction_chainedCall SEMICOLON
-    | instruction_multivaluedAffectation SEMICOLON
-    | instruction_affectation SEMICOLON
+    | instruction_multivaluedAssignment SEMICOLON
+    | instruction_assignment SEMICOLON
     | instruction_forEach
     | instruction_return
     | instruction_ifElse

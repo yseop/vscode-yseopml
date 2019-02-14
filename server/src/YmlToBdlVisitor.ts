@@ -62,8 +62,8 @@ import { Order1FullConditionContext } from "./YmlToBdlParser";
 import { CombinedComparisonContext } from "./YmlToBdlParser";
 import { ComparisonContext } from "./YmlToBdlParser";
 import { ComparisonOperatorContext } from "./YmlToBdlParser";
-import { Instruction_multivaluedAffectationContext } from "./YmlToBdlParser";
-import { Instruction_affectationContext } from "./YmlToBdlParser";
+import { Instruction_multivaluedAssignmentContext } from "./YmlToBdlParser";
+import { Instruction_assignmentContext } from "./YmlToBdlParser";
 import { ConditionBlockContext } from "./YmlToBdlParser";
 import { Order0ConditionContext } from "./YmlToBdlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlToBdlParser";
@@ -510,18 +510,18 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitComparisonOperator?: (ctx: ComparisonOperatorContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.instruction_multivaluedAffectation`.
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_multivaluedAssignment`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitInstruction_multivaluedAffectation?: (ctx: Instruction_multivaluedAffectationContext) => Result;
+	visitInstruction_multivaluedAssignment?: (ctx: Instruction_multivaluedAssignmentContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.instruction_affectation`.
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_assignment`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitInstruction_affectation?: (ctx: Instruction_affectationContext) => Result;
+	visitInstruction_assignment?: (ctx: Instruction_assignmentContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.conditionBlock`.

@@ -62,8 +62,8 @@ import { Order1FullConditionContext } from "./YmlToBdlParser";
 import { CombinedComparisonContext } from "./YmlToBdlParser";
 import { ComparisonContext } from "./YmlToBdlParser";
 import { ComparisonOperatorContext } from "./YmlToBdlParser";
-import { Instruction_multivaluedAffectationContext } from "./YmlToBdlParser";
-import { Instruction_affectationContext } from "./YmlToBdlParser";
+import { Instruction_multivaluedAssignmentContext } from "./YmlToBdlParser";
+import { Instruction_assignmentContext } from "./YmlToBdlParser";
 import { ConditionBlockContext } from "./YmlToBdlParser";
 import { Order0ConditionContext } from "./YmlToBdlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlToBdlParser";
@@ -743,26 +743,26 @@ export interface YmlToBdlListener extends ParseTreeListener {
 	exitComparisonOperator?: (ctx: ComparisonOperatorContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlToBdlParser.instruction_multivaluedAffectation`.
+	 * Enter a parse tree produced by `YmlToBdlParser.instruction_multivaluedAssignment`.
 	 * @param ctx the parse tree
 	 */
-	enterInstruction_multivaluedAffectation?: (ctx: Instruction_multivaluedAffectationContext) => void;
+	enterInstruction_multivaluedAssignment?: (ctx: Instruction_multivaluedAssignmentContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlToBdlParser.instruction_multivaluedAffectation`.
+	 * Exit a parse tree produced by `YmlToBdlParser.instruction_multivaluedAssignment`.
 	 * @param ctx the parse tree
 	 */
-	exitInstruction_multivaluedAffectation?: (ctx: Instruction_multivaluedAffectationContext) => void;
+	exitInstruction_multivaluedAssignment?: (ctx: Instruction_multivaluedAssignmentContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlToBdlParser.instruction_affectation`.
+	 * Enter a parse tree produced by `YmlToBdlParser.instruction_assignment`.
 	 * @param ctx the parse tree
 	 */
-	enterInstruction_affectation?: (ctx: Instruction_affectationContext) => void;
+	enterInstruction_assignment?: (ctx: Instruction_assignmentContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlToBdlParser.instruction_affectation`.
+	 * Exit a parse tree produced by `YmlToBdlParser.instruction_assignment`.
 	 * @param ctx the parse tree
 	 */
-	exitInstruction_affectation?: (ctx: Instruction_affectationContext) => void;
+	exitInstruction_assignment?: (ctx: Instruction_assignmentContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlToBdlParser.conditionBlock`.

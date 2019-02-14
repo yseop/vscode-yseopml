@@ -85,8 +85,8 @@ export class YmlToBdlParser extends Parser {
 	public static readonly STRICT_GREAT = 55;
 	public static readonly COND_AND = 56;
 	public static readonly COND_OR = 57;
-	public static readonly EQUAL_AFFECT = 58;
-	public static readonly MULTIVALUED_AFFECT = 59;
+	public static readonly EQUAL_ASSIGNMENT = 58;
+	public static readonly MULTIVALUED_ASSIGNMENT = 59;
 	public static readonly OPEN_GRANULE = 60;
 	public static readonly CLOSE_GRANULE = 61;
 	public static readonly OPERATOR = 62;
@@ -161,8 +161,8 @@ export class YmlToBdlParser extends Parser {
 	public static readonly RULE_combinedComparison = 56;
 	public static readonly RULE_comparison = 57;
 	public static readonly RULE_comparisonOperator = 58;
-	public static readonly RULE_instruction_multivaluedAffectation = 59;
-	public static readonly RULE_instruction_affectation = 60;
+	public static readonly RULE_instruction_multivaluedAssignment = 59;
+	public static readonly RULE_instruction_assignment = 60;
 	public static readonly RULE_conditionBlock = 61;
 	public static readonly RULE_order0Condition = 62;
 	public static readonly RULE_instruction_switchCase_withValue = 63;
@@ -200,7 +200,7 @@ export class YmlToBdlParser extends Parser {
 		"mandatoryArgs", "mandatoryArgDecl", "optionalArgs", "optionalArgDecl", 
 		"argOptionList", "argOptionBlock", "order1Block", "instanciationCondition", 
 		"order1FullCondition", "combinedComparison", "comparison", "comparisonOperator", 
-		"instruction_multivaluedAffectation", "instruction_affectation", "conditionBlock", 
+		"instruction_multivaluedAssignment", "instruction_assignment", "conditionBlock", 
 		"order0Condition", "instruction_switchCase_withValue", "instruction_switchCase_asIf", 
 		"instructionCase", "instructionDefault", "instruction_break", "instruction_ifElse", 
 		"instruction_if", "instruction_return", "instruction_chainedCall", "instruction", 
@@ -230,10 +230,10 @@ export class YmlToBdlParser extends Parser {
 		"INLINE_DECL_INTRO", "OPEN_PAR", "CLOSE_PAR", "OPEN_BRACKET", "CLOSE_BRACKET", 
 		"OPEN_BRACE", "CLOSE_BRACE", "SINGLE_QUOTE", "BACKSLASH", "QUESTION_MARK", 
 		"AT", "EQUAL_COMP", "NOT_EQUALS", "LESS_OR_EQUAL", "GREATE_OR_EQUAL", 
-		"STRICT_LESS", "STRICT_GREAT", "COND_AND", "COND_OR", "EQUAL_AFFECT", 
-		"MULTIVALUED_AFFECT", "OPEN_GRANULE", "CLOSE_GRANULE", "OPERATOR", "DATE", 
-		"STRING", "DOCUMENTATION", "WS", "DOUBLE", "INTEGER", "YMLID", "ID", "PREPROCESSING", 
-		"LINE_COMMENT", "MULTILINE_COMMENT", "GRANULE",
+		"STRICT_LESS", "STRICT_GREAT", "COND_AND", "COND_OR", "EQUAL_ASSIGNMENT", 
+		"MULTIVALUED_ASSIGNMENT", "OPEN_GRANULE", "CLOSE_GRANULE", "OPERATOR", 
+		"DATE", "STRING", "DOCUMENTATION", "WS", "DOUBLE", "INTEGER", "YMLID", 
+		"ID", "PREPROCESSING", "LINE_COMMENT", "MULTILINE_COMMENT", "GRANULE",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(YmlToBdlParser._LITERAL_NAMES, YmlToBdlParser._SYMBOLIC_NAMES, []);
 
@@ -3069,16 +3069,16 @@ export class YmlToBdlParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public instruction_multivaluedAffectation(): Instruction_multivaluedAffectationContext {
-		let _localctx: Instruction_multivaluedAffectationContext = new Instruction_multivaluedAffectationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 118, YmlToBdlParser.RULE_instruction_multivaluedAffectation);
+	public instruction_multivaluedAssignment(): Instruction_multivaluedAssignmentContext {
+		let _localctx: Instruction_multivaluedAssignmentContext = new Instruction_multivaluedAssignmentContext(this._ctx, this.state);
+		this.enterRule(_localctx, 118, YmlToBdlParser.RULE_instruction_multivaluedAssignment);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 647;
 			_localctx._leftHand = this.value();
 			this.state = 648;
-			this.match(YmlToBdlParser.MULTIVALUED_AFFECT);
+			this.match(YmlToBdlParser.MULTIVALUED_ASSIGNMENT);
 			this.state = 649;
 			_localctx._rightHand = this.value();
 			}
@@ -3098,16 +3098,16 @@ export class YmlToBdlParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public instruction_affectation(): Instruction_affectationContext {
-		let _localctx: Instruction_affectationContext = new Instruction_affectationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 120, YmlToBdlParser.RULE_instruction_affectation);
+	public instruction_assignment(): Instruction_assignmentContext {
+		let _localctx: Instruction_assignmentContext = new Instruction_assignmentContext(this._ctx, this.state);
+		this.enterRule(_localctx, 120, YmlToBdlParser.RULE_instruction_assignment);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 651;
 			_localctx._leftHand = this.value();
 			this.state = 652;
-			this.match(YmlToBdlParser.EQUAL_AFFECT);
+			this.match(YmlToBdlParser.EQUAL_ASSIGNMENT);
 			this.state = 653;
 			_localctx._rightHand = this.value();
 			}
@@ -3620,7 +3620,7 @@ export class YmlToBdlParser extends Parser {
 				this.enterOuterAlt(_localctx, 2);
 				{
 				this.state = 736;
-				this.instruction_multivaluedAffectation();
+				this.instruction_multivaluedAssignment();
 				this.state = 737;
 				this.match(YmlToBdlParser.SEMICOLON);
 				}
@@ -3630,7 +3630,7 @@ export class YmlToBdlParser extends Parser {
 				this.enterOuterAlt(_localctx, 3);
 				{
 				this.state = 739;
-				this.instruction_affectation();
+				this.instruction_assignment();
 				this.state = 740;
 				this.match(YmlToBdlParser.SEMICOLON);
 				}
@@ -7217,10 +7217,10 @@ export class ComparisonOperatorContext extends ParserRuleContext {
 }
 
 
-export class Instruction_multivaluedAffectationContext extends ParserRuleContext {
+export class Instruction_multivaluedAssignmentContext extends ParserRuleContext {
 	public _leftHand: ValueContext;
 	public _rightHand: ValueContext;
-	public MULTIVALUED_AFFECT(): TerminalNode { return this.getToken(YmlToBdlParser.MULTIVALUED_AFFECT, 0); }
+	public MULTIVALUED_ASSIGNMENT(): TerminalNode { return this.getToken(YmlToBdlParser.MULTIVALUED_ASSIGNMENT, 0); }
 	public value(): ValueContext[];
 	public value(i: number): ValueContext;
 	public value(i?: number): ValueContext | ValueContext[] {
@@ -7234,23 +7234,23 @@ export class Instruction_multivaluedAffectationContext extends ParserRuleContext
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return YmlToBdlParser.RULE_instruction_multivaluedAffectation; }
+	public get ruleIndex(): number { return YmlToBdlParser.RULE_instruction_multivaluedAssignment; }
 	// @Override
 	public enterRule(listener: YmlToBdlListener): void {
-		if (listener.enterInstruction_multivaluedAffectation) {
-			listener.enterInstruction_multivaluedAffectation(this);
+		if (listener.enterInstruction_multivaluedAssignment) {
+			listener.enterInstruction_multivaluedAssignment(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: YmlToBdlListener): void {
-		if (listener.exitInstruction_multivaluedAffectation) {
-			listener.exitInstruction_multivaluedAffectation(this);
+		if (listener.exitInstruction_multivaluedAssignment) {
+			listener.exitInstruction_multivaluedAssignment(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: YmlToBdlVisitor<Result>): Result {
-		if (visitor.visitInstruction_multivaluedAffectation) {
-			return visitor.visitInstruction_multivaluedAffectation(this);
+		if (visitor.visitInstruction_multivaluedAssignment) {
+			return visitor.visitInstruction_multivaluedAssignment(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -7258,10 +7258,10 @@ export class Instruction_multivaluedAffectationContext extends ParserRuleContext
 }
 
 
-export class Instruction_affectationContext extends ParserRuleContext {
+export class Instruction_assignmentContext extends ParserRuleContext {
 	public _leftHand: ValueContext;
 	public _rightHand: ValueContext;
-	public EQUAL_AFFECT(): TerminalNode { return this.getToken(YmlToBdlParser.EQUAL_AFFECT, 0); }
+	public EQUAL_ASSIGNMENT(): TerminalNode { return this.getToken(YmlToBdlParser.EQUAL_ASSIGNMENT, 0); }
 	public value(): ValueContext[];
 	public value(i: number): ValueContext;
 	public value(i?: number): ValueContext | ValueContext[] {
@@ -7275,23 +7275,23 @@ export class Instruction_affectationContext extends ParserRuleContext {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return YmlToBdlParser.RULE_instruction_affectation; }
+	public get ruleIndex(): number { return YmlToBdlParser.RULE_instruction_assignment; }
 	// @Override
 	public enterRule(listener: YmlToBdlListener): void {
-		if (listener.enterInstruction_affectation) {
-			listener.enterInstruction_affectation(this);
+		if (listener.enterInstruction_assignment) {
+			listener.enterInstruction_assignment(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: YmlToBdlListener): void {
-		if (listener.exitInstruction_affectation) {
-			listener.exitInstruction_affectation(this);
+		if (listener.exitInstruction_assignment) {
+			listener.exitInstruction_assignment(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: YmlToBdlVisitor<Result>): Result {
-		if (visitor.visitInstruction_affectation) {
-			return visitor.visitInstruction_affectation(this);
+		if (visitor.visitInstruction_assignment) {
+			return visitor.visitInstruction_assignment(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -7726,11 +7726,11 @@ export class InstructionContext extends ParserRuleContext {
 		return this.tryGetRuleContext(0, Instruction_chainedCallContext);
 	}
 	public SEMICOLON(): TerminalNode | undefined { return this.tryGetToken(YmlToBdlParser.SEMICOLON, 0); }
-	public instruction_multivaluedAffectation(): Instruction_multivaluedAffectationContext | undefined {
-		return this.tryGetRuleContext(0, Instruction_multivaluedAffectationContext);
+	public instruction_multivaluedAssignment(): Instruction_multivaluedAssignmentContext | undefined {
+		return this.tryGetRuleContext(0, Instruction_multivaluedAssignmentContext);
 	}
-	public instruction_affectation(): Instruction_affectationContext | undefined {
-		return this.tryGetRuleContext(0, Instruction_affectationContext);
+	public instruction_assignment(): Instruction_assignmentContext | undefined {
+		return this.tryGetRuleContext(0, Instruction_assignmentContext);
 	}
 	public instruction_forEach(): Instruction_forEachContext | undefined {
 		return this.tryGetRuleContext(0, Instruction_forEachContext);
