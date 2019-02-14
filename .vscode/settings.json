@@ -11,5 +11,32 @@
 		"out": true
 	},
 	"typescript.tsdk": "./node_modules/typescript/lib",
-	"typescript.tsc.autoDetect": "off"
+	"typescript.tsc.autoDetect": "off",
+	"antlr4.format": {
+		"alignTrailingComments": false,
+		"allowShortBlocksOnASingleLine": true,
+		"breakBeforeBraces": true,
+		"columnLimit": 120,
+		"continuationIndentWidth": 4,
+		"indentWidth": 4,
+		"keepEmptyLinesAtTheStartOfBlocks": false,
+		"maxEmptyLinesToKeep": 1,
+		"reflowComments": false,
+		"spaceBeforeAssignmentOperators": false,
+		"tabWidth": 4,
+		"useTab": false,
+		"alignColons": "none",
+		"singleLineOverrulesHangingColon": false,
+		"allowShortRulesOnASingleLine": true,
+		"alignSemicolons": "ownLine",
+		"breakBeforeParens": true,
+		"ruleInternalsOnSingleLine": false,
+		"minEmptyLines": 0,
+		"groupedAlignments": false,
+		"alignFirstTokens": false,
+		"alignLexerCommands": false,
+		"alignActions": false,
+		"alignLabels": true,
+		"alignTrailers": false
+	},
 }
