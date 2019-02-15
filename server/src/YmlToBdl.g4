@@ -246,7 +246,7 @@ value:
 instruction_forEach:
     FOREACH OPEN_PAR (ymlId? ymlId) COMMA value CLOSE_PAR actionBlock
 ;
-instruction_ifExprBlock: ifExprBlock SEMICOLON;
+instruction_ifExprBlock: ifExprBlock SEMICOLON?;
 ifExprBlock:
     IF_EXPR OPEN_PAR combinedComparison CLOSE_PAR THEN thenValue=value ELSE elseValue=value
 ;
@@ -389,19 +389,19 @@ instructionCase:
     CASE OPEN_PAR valueOrCondition CLOSE_PAR COLON (instruction | actionBlock)
 ;
 instructionDefault: DEFAULT COLON (instruction | actionBlock);
-instruction_break: BREAK SEMICOLON;
+instruction_break: BREAK SEMICOLON?;
 
 instruction_ifElse: instruction_if (ELSE (actionBlock | instruction))?;
 instruction_if:
     IF OPEN_PAR order0Condition CLOSE_PAR (actionBlock | instruction)
 ;
 instruction_while: WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlock;
-instruction_return: RETURN value SEMICOLON;
+instruction_return: RETURN value SEMICOLON?;
 instruction_chainedCall: chainedCall;
 instruction:
-    instruction_chainedCall SEMICOLON
-    | instruction_multivaluedAssignment SEMICOLON
-    | instruction_assignment SEMICOLON
+    instruction_chainedCall SEMICOLON?
+    | instruction_multivaluedAssignment SEMICOLON?
+    | instruction_assignment SEMICOLON?
     | instruction_forEach
     | instruction_return
     | instruction_ifElse
