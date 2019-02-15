@@ -23,6 +23,10 @@ import { MemberTypeContext } from "./YmlToBdlParser";
 import { PathContext } from "./YmlToBdlParser";
 import { YmlIdOrPathContext } from "./YmlToBdlParser";
 import { FieldContext } from "./YmlToBdlParser";
+import { CommonFieldContext } from "./YmlToBdlParser";
+import { Local_variable_declContext } from "./YmlToBdlParser";
+import { LocalFieldContext } from "./YmlToBdlParser";
+import { ReturnFieldContext } from "./YmlToBdlParser";
 import { ClassPropertiesBlockContext } from "./YmlToBdlParser";
 import { DocumentationContext } from "./YmlToBdlParser";
 import { ValueOrConditionContext } from "./YmlToBdlParser";
@@ -73,6 +77,7 @@ import { InstructionDefaultContext } from "./YmlToBdlParser";
 import { Instruction_breakContext } from "./YmlToBdlParser";
 import { Instruction_ifElseContext } from "./YmlToBdlParser";
 import { Instruction_ifContext } from "./YmlToBdlParser";
+import { Instruction_whileContext } from "./YmlToBdlParser";
 import { Instruction_returnContext } from "./YmlToBdlParser";
 import { Instruction_chainedCallContext } from "./YmlToBdlParser";
 import { InstructionContext } from "./YmlToBdlParser";
@@ -235,6 +240,34 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitField?: (ctx: FieldContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.commonField`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitCommonField?: (ctx: CommonFieldContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.local_variable_decl`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitLocal_variable_decl?: (ctx: Local_variable_declContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.localField`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitLocalField?: (ctx: LocalFieldContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.returnField`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitReturnField?: (ctx: ReturnFieldContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.classPropertiesBlock`.
@@ -585,6 +618,13 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction_if?: (ctx: Instruction_ifContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_while`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_while?: (ctx: Instruction_whileContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.instruction_return`.

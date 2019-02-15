@@ -23,6 +23,10 @@ import { MemberTypeContext } from "./YmlToBdlParser";
 import { PathContext } from "./YmlToBdlParser";
 import { YmlIdOrPathContext } from "./YmlToBdlParser";
 import { FieldContext } from "./YmlToBdlParser";
+import { CommonFieldContext } from "./YmlToBdlParser";
+import { Local_variable_declContext } from "./YmlToBdlParser";
+import { LocalFieldContext } from "./YmlToBdlParser";
+import { ReturnFieldContext } from "./YmlToBdlParser";
 import { ClassPropertiesBlockContext } from "./YmlToBdlParser";
 import { DocumentationContext } from "./YmlToBdlParser";
 import { ValueOrConditionContext } from "./YmlToBdlParser";
@@ -73,6 +77,7 @@ import { InstructionDefaultContext } from "./YmlToBdlParser";
 import { Instruction_breakContext } from "./YmlToBdlParser";
 import { Instruction_ifElseContext } from "./YmlToBdlParser";
 import { Instruction_ifContext } from "./YmlToBdlParser";
+import { Instruction_whileContext } from "./YmlToBdlParser";
 import { Instruction_returnContext } from "./YmlToBdlParser";
 import { Instruction_chainedCallContext } from "./YmlToBdlParser";
 import { InstructionContext } from "./YmlToBdlParser";
@@ -312,6 +317,50 @@ export interface YmlToBdlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitField?: (ctx: FieldContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlToBdlParser.commonField`.
+	 * @param ctx the parse tree
+	 */
+	enterCommonField?: (ctx: CommonFieldContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlToBdlParser.commonField`.
+	 * @param ctx the parse tree
+	 */
+	exitCommonField?: (ctx: CommonFieldContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlToBdlParser.local_variable_decl`.
+	 * @param ctx the parse tree
+	 */
+	enterLocal_variable_decl?: (ctx: Local_variable_declContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlToBdlParser.local_variable_decl`.
+	 * @param ctx the parse tree
+	 */
+	exitLocal_variable_decl?: (ctx: Local_variable_declContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlToBdlParser.localField`.
+	 * @param ctx the parse tree
+	 */
+	enterLocalField?: (ctx: LocalFieldContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlToBdlParser.localField`.
+	 * @param ctx the parse tree
+	 */
+	exitLocalField?: (ctx: LocalFieldContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlToBdlParser.returnField`.
+	 * @param ctx the parse tree
+	 */
+	enterReturnField?: (ctx: ReturnFieldContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlToBdlParser.returnField`.
+	 * @param ctx the parse tree
+	 */
+	exitReturnField?: (ctx: ReturnFieldContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlToBdlParser.classPropertiesBlock`.
@@ -862,6 +911,17 @@ export interface YmlToBdlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitInstruction_if?: (ctx: Instruction_ifContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlToBdlParser.instruction_while`.
+	 * @param ctx the parse tree
+	 */
+	enterInstruction_while?: (ctx: Instruction_whileContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlToBdlParser.instruction_while`.
+	 * @param ctx the parse tree
+	 */
+	exitInstruction_while?: (ctx: Instruction_whileContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlToBdlParser.instruction_return`.

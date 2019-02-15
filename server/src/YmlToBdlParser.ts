@@ -57,51 +57,52 @@ export class YmlToBdlParser extends Parser {
 	public static readonly DEFAULT = 27;
 	public static readonly BREAK = 28;
 	public static readonly STATIC = 29;
-	public static readonly SEMICOLON = 30;
-	public static readonly COMMA = 31;
-	public static readonly COLON = 32;
-	public static readonly DOT = 33;
-	public static readonly MULTIVALUED_EXPRESSION = 34;
-	public static readonly FIELD_INTRO = 35;
-	public static readonly REPLACE_FIELD_VALUE_INTRO = 36;
-	public static readonly REMOVE_FIELD = 37;
-	public static readonly ADD_FIELD = 38;
-	public static readonly INLINE_DECL_INTRO = 39;
-	public static readonly OPEN_PAR = 40;
-	public static readonly CLOSE_PAR = 41;
-	public static readonly OPEN_BRACKET = 42;
-	public static readonly CLOSE_BRACKET = 43;
-	public static readonly OPEN_BRACE = 44;
-	public static readonly CLOSE_BRACE = 45;
-	public static readonly SINGLE_QUOTE = 46;
-	public static readonly BACKSLASH = 47;
-	public static readonly QUESTION_MARK = 48;
-	public static readonly AT = 49;
-	public static readonly EQUAL_COMP = 50;
-	public static readonly NOT_EQUALS = 51;
-	public static readonly LESS_OR_EQUAL = 52;
-	public static readonly GREATE_OR_EQUAL = 53;
-	public static readonly STRICT_LESS = 54;
-	public static readonly STRICT_GREAT = 55;
-	public static readonly COND_AND = 56;
-	public static readonly COND_OR = 57;
-	public static readonly EQUAL_ASSIGNMENT = 58;
-	public static readonly MULTIVALUED_ASSIGNMENT = 59;
-	public static readonly OPEN_GRANULE = 60;
-	public static readonly CLOSE_GRANULE = 61;
-	public static readonly OPERATOR = 62;
-	public static readonly DATE = 63;
-	public static readonly STRING = 64;
-	public static readonly DOCUMENTATION = 65;
-	public static readonly WS = 66;
-	public static readonly DOUBLE = 67;
-	public static readonly INTEGER = 68;
-	public static readonly YMLID = 69;
-	public static readonly ID = 70;
-	public static readonly PREPROCESSING = 71;
-	public static readonly LINE_COMMENT = 72;
-	public static readonly MULTILINE_COMMENT = 73;
-	public static readonly GRANULE = 74;
+	public static readonly WHILE = 30;
+	public static readonly SEMICOLON = 31;
+	public static readonly COMMA = 32;
+	public static readonly COLON = 33;
+	public static readonly DOT = 34;
+	public static readonly MULTIVALUED_EXPRESSION = 35;
+	public static readonly FIELD_INTRO = 36;
+	public static readonly REPLACE_FIELD_VALUE_INTRO = 37;
+	public static readonly REMOVE_FIELD = 38;
+	public static readonly ADD_FIELD = 39;
+	public static readonly INLINE_DECL_INTRO = 40;
+	public static readonly OPEN_PAR = 41;
+	public static readonly CLOSE_PAR = 42;
+	public static readonly OPEN_BRACKET = 43;
+	public static readonly CLOSE_BRACKET = 44;
+	public static readonly OPEN_BRACE = 45;
+	public static readonly CLOSE_BRACE = 46;
+	public static readonly SINGLE_QUOTE = 47;
+	public static readonly BACKSLASH = 48;
+	public static readonly QUESTION_MARK = 49;
+	public static readonly AT = 50;
+	public static readonly EQUAL_COMP = 51;
+	public static readonly NOT_EQUALS = 52;
+	public static readonly LESS_OR_EQUAL = 53;
+	public static readonly GREATE_OR_EQUAL = 54;
+	public static readonly STRICT_LESS = 55;
+	public static readonly STRICT_GREAT = 56;
+	public static readonly COND_AND = 57;
+	public static readonly COND_OR = 58;
+	public static readonly EQUAL_ASSIGNMENT = 59;
+	public static readonly MULTIVALUED_ASSIGNMENT = 60;
+	public static readonly OPEN_GRANULE = 61;
+	public static readonly CLOSE_GRANULE = 62;
+	public static readonly OPERATOR = 63;
+	public static readonly DATE = 64;
+	public static readonly STRING = 65;
+	public static readonly DOCUMENTATION = 66;
+	public static readonly WS = 67;
+	public static readonly DOUBLE = 68;
+	public static readonly INTEGER = 69;
+	public static readonly YMLID = 70;
+	public static readonly ID = 71;
+	public static readonly PREPROCESSING = 72;
+	public static readonly LINE_COMMENT = 73;
+	public static readonly MULTILINE_COMMENT = 74;
+	public static readonly GRANULE = 75;
 	public static readonly RULE_expressionMarker = 0;
 	public static readonly RULE_ymlId = 1;
 	public static readonly RULE_kaoFile = 2;
@@ -122,76 +123,82 @@ export class YmlToBdlParser extends Parser {
 	public static readonly RULE_path = 17;
 	public static readonly RULE_ymlIdOrPath = 18;
 	public static readonly RULE_field = 19;
-	public static readonly RULE_classPropertiesBlock = 20;
-	public static readonly RULE_documentation = 21;
-	public static readonly RULE_valueOrCondition = 22;
-	public static readonly RULE_hashMapKeyValue = 23;
-	public static readonly RULE_hashMapValue = 24;
-	public static readonly RULE_value = 25;
-	public static readonly RULE_instruction_forEach = 26;
-	public static readonly RULE_instruction_ifExprBlock = 27;
-	public static readonly RULE_ifExprBlock = 28;
-	public static readonly RULE_bool = 29;
-	public static readonly RULE_nonArithmeticValue = 30;
-	public static readonly RULE_instanciationVariable = 31;
-	public static readonly RULE_expression = 32;
-	public static readonly RULE_functionCall = 33;
-	public static readonly RULE_indexedCall = 34;
-	public static readonly RULE_functionArgument = 35;
-	public static readonly RULE_chainedCall = 36;
-	public static readonly RULE_inlineDeclaration = 37;
-	public static readonly RULE_inlineOperation = 38;
-	public static readonly RULE_fieldValue = 39;
-	public static readonly RULE_function = 40;
-	public static readonly RULE_argsBlock = 41;
-	public static readonly RULE_localBlock = 42;
-	public static readonly RULE_staticBlock = 43;
-	public static readonly RULE_methodDeclaration = 44;
-	public static readonly RULE_methodIntro = 45;
-	public static readonly RULE_argumentList = 46;
-	public static readonly RULE_mandatoryArgs = 47;
-	public static readonly RULE_mandatoryArgDecl = 48;
-	public static readonly RULE_optionalArgs = 49;
-	public static readonly RULE_optionalArgDecl = 50;
-	public static readonly RULE_argOptionList = 51;
-	public static readonly RULE_argOptionBlock = 52;
-	public static readonly RULE_order1Block = 53;
-	public static readonly RULE_instanciationCondition = 54;
-	public static readonly RULE_order1FullCondition = 55;
-	public static readonly RULE_combinedComparison = 56;
-	public static readonly RULE_comparison = 57;
-	public static readonly RULE_comparisonOperator = 58;
-	public static readonly RULE_instruction_multivaluedAssignment = 59;
-	public static readonly RULE_instruction_assignment = 60;
-	public static readonly RULE_conditionBlock = 61;
-	public static readonly RULE_order0Condition = 62;
-	public static readonly RULE_instruction_switchCase_withValue = 63;
-	public static readonly RULE_instruction_switchCase_asIf = 64;
-	public static readonly RULE_instructionCase = 65;
-	public static readonly RULE_instructionDefault = 66;
-	public static readonly RULE_instruction_break = 67;
-	public static readonly RULE_instruction_ifElse = 68;
-	public static readonly RULE_instruction_if = 69;
-	public static readonly RULE_instruction_return = 70;
-	public static readonly RULE_instruction_chainedCall = 71;
-	public static readonly RULE_instruction = 72;
-	public static readonly RULE_actionBlock = 73;
-	public static readonly RULE_arithmeticExpression = 74;
-	public static readonly RULE_existentialOperator = 75;
-	public static readonly RULE_variableBlockContent = 76;
-	public static readonly RULE_staticDeclaration = 77;
-	public static readonly RULE_externDeclaration = 78;
-	public static readonly RULE_list = 79;
-	public static readonly RULE_listWithBrace = 80;
-	public static readonly RULE_granule = 81;
-	public static readonly RULE_complete = 82;
+	public static readonly RULE_commonField = 20;
+	public static readonly RULE_local_variable_decl = 21;
+	public static readonly RULE_localField = 22;
+	public static readonly RULE_returnField = 23;
+	public static readonly RULE_classPropertiesBlock = 24;
+	public static readonly RULE_documentation = 25;
+	public static readonly RULE_valueOrCondition = 26;
+	public static readonly RULE_hashMapKeyValue = 27;
+	public static readonly RULE_hashMapValue = 28;
+	public static readonly RULE_value = 29;
+	public static readonly RULE_instruction_forEach = 30;
+	public static readonly RULE_instruction_ifExprBlock = 31;
+	public static readonly RULE_ifExprBlock = 32;
+	public static readonly RULE_bool = 33;
+	public static readonly RULE_nonArithmeticValue = 34;
+	public static readonly RULE_instanciationVariable = 35;
+	public static readonly RULE_expression = 36;
+	public static readonly RULE_functionCall = 37;
+	public static readonly RULE_indexedCall = 38;
+	public static readonly RULE_functionArgument = 39;
+	public static readonly RULE_chainedCall = 40;
+	public static readonly RULE_inlineDeclaration = 41;
+	public static readonly RULE_inlineOperation = 42;
+	public static readonly RULE_fieldValue = 43;
+	public static readonly RULE_function = 44;
+	public static readonly RULE_argsBlock = 45;
+	public static readonly RULE_localBlock = 46;
+	public static readonly RULE_staticBlock = 47;
+	public static readonly RULE_methodDeclaration = 48;
+	public static readonly RULE_methodIntro = 49;
+	public static readonly RULE_argumentList = 50;
+	public static readonly RULE_mandatoryArgs = 51;
+	public static readonly RULE_mandatoryArgDecl = 52;
+	public static readonly RULE_optionalArgs = 53;
+	public static readonly RULE_optionalArgDecl = 54;
+	public static readonly RULE_argOptionList = 55;
+	public static readonly RULE_argOptionBlock = 56;
+	public static readonly RULE_order1Block = 57;
+	public static readonly RULE_instanciationCondition = 58;
+	public static readonly RULE_order1FullCondition = 59;
+	public static readonly RULE_combinedComparison = 60;
+	public static readonly RULE_comparison = 61;
+	public static readonly RULE_comparisonOperator = 62;
+	public static readonly RULE_instruction_multivaluedAssignment = 63;
+	public static readonly RULE_instruction_assignment = 64;
+	public static readonly RULE_conditionBlock = 65;
+	public static readonly RULE_order0Condition = 66;
+	public static readonly RULE_instruction_switchCase_withValue = 67;
+	public static readonly RULE_instruction_switchCase_asIf = 68;
+	public static readonly RULE_instructionCase = 69;
+	public static readonly RULE_instructionDefault = 70;
+	public static readonly RULE_instruction_break = 71;
+	public static readonly RULE_instruction_ifElse = 72;
+	public static readonly RULE_instruction_if = 73;
+	public static readonly RULE_instruction_while = 74;
+	public static readonly RULE_instruction_return = 75;
+	public static readonly RULE_instruction_chainedCall = 76;
+	public static readonly RULE_instruction = 77;
+	public static readonly RULE_actionBlock = 78;
+	public static readonly RULE_arithmeticExpression = 79;
+	public static readonly RULE_existentialOperator = 80;
+	public static readonly RULE_variableBlockContent = 81;
+	public static readonly RULE_staticDeclaration = 82;
+	public static readonly RULE_externDeclaration = 83;
+	public static readonly RULE_list = 84;
+	public static readonly RULE_listWithBrace = 85;
+	public static readonly RULE_granule = 86;
+	public static readonly RULE_complete = 87;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
 		"expressionMarker", "ymlId", "kaoFile", "ymlEntity", "yenum", "enumElement", 
 		"classDeclaration", "classImplementation", "override", "overrideInstruction", 
 		"classDeclarationIntro", "extendsBlock", "parentClassName", "synonym", 
 		"classAttributeDeclaration", "memberDeclaration", "memberType", "path", 
-		"ymlIdOrPath", "field", "classPropertiesBlock", "documentation", "valueOrCondition", 
+		"ymlIdOrPath", "field", "commonField", "local_variable_decl", "localField", 
+		"returnField", "classPropertiesBlock", "documentation", "valueOrCondition", 
 		"hashMapKeyValue", "hashMapValue", "value", "instruction_forEach", "instruction_ifExprBlock", 
 		"ifExprBlock", "bool", "nonArithmeticValue", "instanciationVariable", 
 		"expression", "functionCall", "indexedCall", "functionArgument", "chainedCall", 
@@ -203,10 +210,10 @@ export class YmlToBdlParser extends Parser {
 		"instruction_multivaluedAssignment", "instruction_assignment", "conditionBlock", 
 		"order0Condition", "instruction_switchCase_withValue", "instruction_switchCase_asIf", 
 		"instructionCase", "instructionDefault", "instruction_break", "instruction_ifElse", 
-		"instruction_if", "instruction_return", "instruction_chainedCall", "instruction", 
-		"actionBlock", "arithmeticExpression", "existentialOperator", "variableBlockContent", 
-		"staticDeclaration", "externDeclaration", "list", "listWithBrace", "granule", 
-		"complete",
+		"instruction_if", "instruction_while", "instruction_return", "instruction_chainedCall", 
+		"instruction", "actionBlock", "arithmeticExpression", "existentialOperator", 
+		"variableBlockContent", "staticDeclaration", "externDeclaration", "list", 
+		"listWithBrace", "granule", "complete",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
@@ -215,25 +222,25 @@ export class YmlToBdlParser extends Parser {
 		"'extern'", "'complete'", "'synonym'", "'override'", "'args'", "'ifExpr'", 
 		"'if'", "'then'", "'else'", "'enum'", "'foreach'", "'return'", "'local'", 
 		"'true'", "'false'", "'switch'", "'case'", "'default'", "'break'", "'static'", 
-		"';'", "','", "':'", "'.'", "'>>'", "'-->'", "'==>'", "'---'", "'+++'", 
-		"'->'", "'('", "')'", "'['", "']'", "'{'", "'}'", "'''", "'\\'", "'?'", 
-		"'@'", "'=='", "'!='", "'<='", "'>='", "'<'", "'>'", "'&&'", "'||'", "'='", 
-		"':='",
+		"'while'", "';'", "','", "':'", "'.'", "'>>'", "'-->'", "'==>'", "'---'", 
+		"'+++'", "'->'", "'('", "')'", "'['", "']'", "'{'", "'}'", "'''", "'\\'", 
+		"'?'", "'@'", "'=='", "'!='", "'<='", "'>='", "'<'", "'>'", "'&&'", "'||'", 
+		"'='", "':='",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, "INTERFACE", "IMPLEMENTATION", "EXTENDS", "FUNCTION", "METHOD", 
 		"TEXT_METHOD", "TEXT_FUNCTION", "FIELD", "CLASSPROPERTIES", "EXTERN", 
 		"COMPLETE", "SYNONYM", "OVERRIDE", "ARGS", "IF_EXPR", "IF", "THEN", "ELSE", 
 		"ENUM", "FOREACH", "RETURN", "LOCAL", "TRUE", "FALSE", "SWITCH", "CASE", 
-		"DEFAULT", "BREAK", "STATIC", "SEMICOLON", "COMMA", "COLON", "DOT", "MULTIVALUED_EXPRESSION", 
-		"FIELD_INTRO", "REPLACE_FIELD_VALUE_INTRO", "REMOVE_FIELD", "ADD_FIELD", 
-		"INLINE_DECL_INTRO", "OPEN_PAR", "CLOSE_PAR", "OPEN_BRACKET", "CLOSE_BRACKET", 
-		"OPEN_BRACE", "CLOSE_BRACE", "SINGLE_QUOTE", "BACKSLASH", "QUESTION_MARK", 
-		"AT", "EQUAL_COMP", "NOT_EQUALS", "LESS_OR_EQUAL", "GREATE_OR_EQUAL", 
-		"STRICT_LESS", "STRICT_GREAT", "COND_AND", "COND_OR", "EQUAL_ASSIGNMENT", 
-		"MULTIVALUED_ASSIGNMENT", "OPEN_GRANULE", "CLOSE_GRANULE", "OPERATOR", 
-		"DATE", "STRING", "DOCUMENTATION", "WS", "DOUBLE", "INTEGER", "YMLID", 
-		"ID", "PREPROCESSING", "LINE_COMMENT", "MULTILINE_COMMENT", "GRANULE",
+		"DEFAULT", "BREAK", "STATIC", "WHILE", "SEMICOLON", "COMMA", "COLON", 
+		"DOT", "MULTIVALUED_EXPRESSION", "FIELD_INTRO", "REPLACE_FIELD_VALUE_INTRO", 
+		"REMOVE_FIELD", "ADD_FIELD", "INLINE_DECL_INTRO", "OPEN_PAR", "CLOSE_PAR", 
+		"OPEN_BRACKET", "CLOSE_BRACKET", "OPEN_BRACE", "CLOSE_BRACE", "SINGLE_QUOTE", 
+		"BACKSLASH", "QUESTION_MARK", "AT", "EQUAL_COMP", "NOT_EQUALS", "LESS_OR_EQUAL", 
+		"GREATE_OR_EQUAL", "STRICT_LESS", "STRICT_GREAT", "COND_AND", "COND_OR", 
+		"EQUAL_ASSIGNMENT", "MULTIVALUED_ASSIGNMENT", "OPEN_GRANULE", "CLOSE_GRANULE", 
+		"OPERATOR", "DATE", "STRING", "DOCUMENTATION", "WS", "DOUBLE", "INTEGER", 
+		"YMLID", "ID", "PREPROCESSING", "LINE_COMMENT", "MULTILINE_COMMENT", "GRANULE",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(YmlToBdlParser._LITERAL_NAMES, YmlToBdlParser._SYMBOLIC_NAMES, []);
 
@@ -265,7 +272,7 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 166;
+			this.state = 176;
 			_la = this._input.LA(1);
 			if (!(_la === YmlToBdlParser.DOT || _la === YmlToBdlParser.MULTIVALUED_EXPRESSION)) {
 			this._errHandler.recoverInline(this);
@@ -300,7 +307,7 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 168;
+			this.state = 178;
 			this.match(YmlToBdlParser.YMLID);
 			}
 		}
@@ -326,21 +333,21 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 173;
+			this.state = 183;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << YmlToBdlParser.INTERFACE) | (1 << YmlToBdlParser.FUNCTION) | (1 << YmlToBdlParser.METHOD) | (1 << YmlToBdlParser.TEXT_METHOD) | (1 << YmlToBdlParser.TEXT_FUNCTION) | (1 << YmlToBdlParser.EXTERN) | (1 << YmlToBdlParser.COMPLETE) | (1 << YmlToBdlParser.ENUM))) !== 0) || _la === YmlToBdlParser.YMLID) {
 				{
 				{
-				this.state = 170;
+				this.state = 180;
 				_localctx._entities = this.ymlEntity();
 				}
 				}
-				this.state = 175;
+				this.state = 185;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 176;
+			this.state = 186;
 			this.match(YmlToBdlParser.EOF);
 			}
 		}
@@ -363,34 +370,34 @@ export class YmlToBdlParser extends Parser {
 		let _localctx: YmlEntityContext = new YmlEntityContext(this._ctx, this.state);
 		this.enterRule(_localctx, 6, YmlToBdlParser.RULE_ymlEntity);
 		try {
-			this.state = 184;
+			this.state = 194;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case YmlToBdlParser.INTERFACE:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 178;
+				this.state = 188;
 				this.classDeclaration();
 				}
 				break;
 			case YmlToBdlParser.YMLID:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 179;
+				this.state = 189;
 				this.staticDeclaration();
 				}
 				break;
 			case YmlToBdlParser.COMPLETE:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 180;
+				this.state = 190;
 				this.complete();
 				}
 				break;
 			case YmlToBdlParser.ENUM:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 181;
+				this.state = 191;
 				this.yenum();
 				}
 				break;
@@ -400,14 +407,14 @@ export class YmlToBdlParser extends Parser {
 			case YmlToBdlParser.TEXT_FUNCTION:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 182;
+				this.state = 192;
 				this.function();
 				}
 				break;
 			case YmlToBdlParser.EXTERN:
 				this.enterOuterAlt(_localctx, 6);
 				{
-				this.state = 183;
+				this.state = 193;
 				this.externDeclaration();
 				}
 				break;
@@ -437,59 +444,59 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 186;
+			this.state = 196;
 			this.match(YmlToBdlParser.ENUM);
-			this.state = 187;
-			_localctx._yid = this.ymlId();
-			this.state = 188;
-			this.match(YmlToBdlParser.OPEN_BRACE);
 			this.state = 197;
+			_localctx._yid = this.ymlId();
+			this.state = 198;
+			this.match(YmlToBdlParser.OPEN_BRACE);
+			this.state = 207;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 189;
+				this.state = 199;
 				this.enumElement();
-				this.state = 194;
+				this.state = 204;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				while (_la === YmlToBdlParser.COMMA) {
 					{
 					{
-					this.state = 190;
+					this.state = 200;
 					this.match(YmlToBdlParser.COMMA);
-					this.state = 191;
+					this.state = 201;
 					this.enumElement();
 					}
 					}
-					this.state = 196;
+					this.state = 206;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
 				}
 				}
-				this.state = 199;
+				this.state = 209;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			} while (_la === YmlToBdlParser.YMLID);
-			this.state = 201;
+			this.state = 211;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
-			this.state = 205;
+			this.state = 215;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 202;
+				this.state = 212;
 				_localctx._fields = this.field();
 				}
 				}
-				this.state = 207;
+				this.state = 217;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 208;
+			this.state = 218;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -515,19 +522,19 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 210;
+			this.state = 220;
 			_localctx._yid = this.ymlId();
-			this.state = 214;
+			this.state = 224;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 211;
+				this.state = 221;
 				_localctx._fields = this.field();
 				}
 				}
-				this.state = 216;
+				this.state = 226;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -555,33 +562,33 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 217;
+			this.state = 227;
 			this.classDeclarationIntro();
-			this.state = 221;
+			this.state = 231;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 218;
+				this.state = 228;
 				this.field();
 				}
 				}
-				this.state = 223;
+				this.state = 233;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 228;
+			this.state = 238;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << YmlToBdlParser.METHOD) | (1 << YmlToBdlParser.TEXT_METHOD) | (1 << YmlToBdlParser.TEXT_FUNCTION) | (1 << YmlToBdlParser.FIELD))) !== 0)) {
 				{
-				this.state = 226;
+				this.state = 236;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
 				case YmlToBdlParser.FIELD:
 					{
-					this.state = 224;
+					this.state = 234;
 					this.classAttributeDeclaration();
 					}
 					break;
@@ -589,7 +596,7 @@ export class YmlToBdlParser extends Parser {
 				case YmlToBdlParser.TEXT_METHOD:
 				case YmlToBdlParser.TEXT_FUNCTION:
 					{
-					this.state = 225;
+					this.state = 235;
 					this.methodDeclaration();
 					}
 					break;
@@ -597,32 +604,32 @@ export class YmlToBdlParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				this.state = 230;
+				this.state = 240;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 232;
+			this.state = 242;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.CLASSPROPERTIES) {
 				{
-				this.state = 231;
+				this.state = 241;
 				this.classPropertiesBlock();
 				}
 			}
 
-			this.state = 234;
+			this.state = 244;
 			this.match(YmlToBdlParser.SEMICOLON);
-			this.state = 235;
+			this.state = 245;
 			this.classImplementation();
-			this.state = 236;
+			this.state = 246;
 			this.match(YmlToBdlParser.SEMICOLON);
-			this.state = 238;
+			this.state = 248;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 10, this._ctx) ) {
 			case 1:
 				{
-				this.state = 237;
+				this.state = 247;
 				this.match(YmlToBdlParser.EOF);
 				}
 				break;
@@ -652,47 +659,47 @@ export class YmlToBdlParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 240;
+			this.state = 250;
 			this.match(YmlToBdlParser.IMPLEMENTATION);
-			this.state = 241;
+			this.state = 251;
 			_localctx._className = this.ymlId();
-			this.state = 245;
+			this.state = 255;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 11, this._ctx);
 			while (_alt !== 1 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1 + 1) {
 					{
 					{
-					this.state = 242;
+					this.state = 252;
 					this.overrideInstruction();
 					}
 					}
 				}
-				this.state = 247;
+				this.state = 257;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 11, this._ctx);
 			}
-			this.state = 249;
+			this.state = 259;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.OVERRIDE) {
 				{
-				this.state = 248;
+				this.state = 258;
 				_localctx._overrideBlock = this.override();
 				}
 			}
 
-			this.state = 254;
+			this.state = 264;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 251;
+				this.state = 261;
 				_localctx._attributes = this.field();
 				}
 				}
-				this.state = 256;
+				this.state = 266;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -720,25 +727,25 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 257;
+			this.state = 267;
 			this.match(YmlToBdlParser.OVERRIDE);
-			this.state = 258;
+			this.state = 268;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 262;
+			this.state = 272;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.YMLID) {
 				{
 				{
-				this.state = 259;
+				this.state = 269;
 				this.overrideInstruction();
 				}
 				}
-				this.state = 264;
+				this.state = 274;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 265;
+			this.state = 275;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -763,9 +770,9 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 267;
+			this.state = 277;
 			this.ymlId();
-			this.state = 268;
+			this.state = 278;
 			this.match(YmlToBdlParser.FUNCTION);
 			}
 		}
@@ -791,16 +798,16 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 270;
+			this.state = 280;
 			this.match(YmlToBdlParser.INTERFACE);
-			this.state = 271;
+			this.state = 281;
 			_localctx._className = this.ymlId();
-			this.state = 273;
+			this.state = 283;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.EXTENDS) {
 				{
-				this.state = 272;
+				this.state = 282;
 				this.extendsBlock();
 				}
 			}
@@ -829,23 +836,23 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 275;
+			this.state = 285;
 			this.match(YmlToBdlParser.EXTENDS);
-			this.state = 276;
+			this.state = 286;
 			this.parentClassName();
-			this.state = 281;
+			this.state = 291;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.COMMA) {
 				{
 				{
-				this.state = 277;
+				this.state = 287;
 				this.match(YmlToBdlParser.COMMA);
-				this.state = 278;
+				this.state = 288;
 				this.parentClassName();
 				}
 				}
-				this.state = 283;
+				this.state = 293;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -872,7 +879,7 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 284;
+			this.state = 294;
 			this.ymlId();
 			}
 		}
@@ -896,15 +903,15 @@ export class YmlToBdlParser extends Parser {
 		this.enterRule(_localctx, 26, YmlToBdlParser.RULE_synonym);
 		let _la: number;
 		try {
-			this.state = 301;
+			this.state = 311;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 19, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 286;
+				this.state = 296;
 				this.match(YmlToBdlParser.SYNONYM);
-				this.state = 287;
+				this.state = 297;
 				this.listWithBrace();
 				}
 				break;
@@ -912,39 +919,39 @@ export class YmlToBdlParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 288;
-				this.match(YmlToBdlParser.SYNONYM);
-				this.state = 289;
-				this.match(YmlToBdlParser.OPEN_PAR);
 				this.state = 298;
+				this.match(YmlToBdlParser.SYNONYM);
+				this.state = 299;
+				this.match(YmlToBdlParser.OPEN_PAR);
+				this.state = 308;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 44)) & ~0x1F) === 0 && ((1 << (_la - 44)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 44)) | (1 << (YmlToBdlParser.QUESTION_MARK - 44)) | (1 << (YmlToBdlParser.OPERATOR - 44)) | (1 << (YmlToBdlParser.DATE - 44)) | (1 << (YmlToBdlParser.STRING - 44)) | (1 << (YmlToBdlParser.DOUBLE - 44)) | (1 << (YmlToBdlParser.YMLID - 44)) | (1 << (YmlToBdlParser.GRANULE - 44)))) !== 0)) {
+				if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 45)) & ~0x1F) === 0 && ((1 << (_la - 45)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 45)) | (1 << (YmlToBdlParser.QUESTION_MARK - 45)) | (1 << (YmlToBdlParser.OPERATOR - 45)) | (1 << (YmlToBdlParser.DATE - 45)) | (1 << (YmlToBdlParser.STRING - 45)) | (1 << (YmlToBdlParser.DOUBLE - 45)) | (1 << (YmlToBdlParser.YMLID - 45)) | (1 << (YmlToBdlParser.GRANULE - 45)))) !== 0)) {
 					{
-					this.state = 290;
+					this.state = 300;
 					_localctx._value = this.value();
 					_localctx._synonymElements.push(_localctx._value);
-					this.state = 295;
+					this.state = 305;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 					while (_la === YmlToBdlParser.COMMA) {
 						{
 						{
-						this.state = 291;
+						this.state = 301;
 						this.match(YmlToBdlParser.COMMA);
-						this.state = 292;
+						this.state = 302;
 						_localctx._value = this.value();
 						_localctx._synonymElements.push(_localctx._value);
 						}
 						}
-						this.state = 297;
+						this.state = 307;
 						this._errHandler.sync(this);
 						_la = this._input.LA(1);
 					}
 					}
 				}
 
-				this.state = 300;
+				this.state = 310;
 				this.match(YmlToBdlParser.CLOSE_PAR);
 				}
 				break;
@@ -972,21 +979,21 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 303;
+			this.state = 313;
 			this.match(YmlToBdlParser.FIELD);
-			this.state = 304;
+			this.state = 314;
 			_localctx._memberName = this.ymlId();
-			this.state = 308;
+			this.state = 318;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 305;
+				this.state = 315;
 				_localctx._memberOption = this.field();
 				}
 				}
-				this.state = 310;
+				this.state = 320;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -1014,21 +1021,21 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 311;
+			this.state = 321;
 			_localctx._type = this.memberType();
-			this.state = 312;
+			this.state = 322;
 			_localctx._memberName = this.ymlId();
-			this.state = 316;
+			this.state = 326;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 313;
+				this.state = 323;
 				_localctx._memberOption = this.field();
 				}
 				}
-				this.state = 318;
+				this.state = 328;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -1056,16 +1063,16 @@ export class YmlToBdlParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 319;
+			this.state = 329;
 			this.ymlId();
-			this.state = 322;
+			this.state = 332;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.COND_OR) {
 				{
-				this.state = 320;
+				this.state = 330;
 				this.match(YmlToBdlParser.COND_OR);
-				this.state = 321;
+				this.state = 331;
 				this.ymlId();
 				}
 			}
@@ -1094,9 +1101,9 @@ export class YmlToBdlParser extends Parser {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 324;
+			this.state = 334;
 			this.ymlId();
-			this.state = 327;
+			this.state = 337;
 			this._errHandler.sync(this);
 			_alt = 1 + 1;
 			do {
@@ -1104,9 +1111,9 @@ export class YmlToBdlParser extends Parser {
 				case 1 + 1:
 					{
 					{
-					this.state = 325;
+					this.state = 335;
 					this.match(YmlToBdlParser.DOT);
-					this.state = 326;
+					this.state = 336;
 					this.ymlId();
 					}
 					}
@@ -1114,7 +1121,7 @@ export class YmlToBdlParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				this.state = 329;
+				this.state = 339;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 23, this._ctx);
 			} while (_alt !== 1 && _alt !== ATN.INVALID_ALT_NUMBER);
@@ -1139,13 +1146,13 @@ export class YmlToBdlParser extends Parser {
 		let _localctx: YmlIdOrPathContext = new YmlIdOrPathContext(this._ctx, this.state);
 		this.enterRule(_localctx, 36, YmlToBdlParser.RULE_ymlIdOrPath);
 		try {
-			this.state = 334;
+			this.state = 344;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 24, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 331;
+				this.state = 341;
 				this.ymlId();
 				}
 				break;
@@ -1153,7 +1160,7 @@ export class YmlToBdlParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 332;
+				this.state = 342;
 				this.path();
 				}
 				break;
@@ -1161,7 +1168,7 @@ export class YmlToBdlParser extends Parser {
 			case 3:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 333;
+				this.state = 343;
 				this.match(YmlToBdlParser.RETURN);
 				}
 				break;
@@ -1185,15 +1192,62 @@ export class YmlToBdlParser extends Parser {
 	public field(): FieldContext {
 		let _localctx: FieldContext = new FieldContext(this._ctx, this.state);
 		this.enterRule(_localctx, 38, YmlToBdlParser.RULE_field);
+		try {
+			this.state = 349;
+			this._errHandler.sync(this);
+			switch ( this.interpreter.adaptivePredict(this._input, 25, this._ctx) ) {
+			case 1:
+				this.enterOuterAlt(_localctx, 1);
+				{
+				this.state = 346;
+				this.commonField();
+				}
+				break;
+
+			case 2:
+				this.enterOuterAlt(_localctx, 2);
+				{
+				this.state = 347;
+				this.returnField();
+				}
+				break;
+
+			case 3:
+				this.enterOuterAlt(_localctx, 3);
+				{
+				this.state = 348;
+				this.localField();
+				}
+				break;
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public commonField(): CommonFieldContext {
+		let _localctx: CommonFieldContext = new CommonFieldContext(this._ctx, this.state);
+		this.enterRule(_localctx, 40, YmlToBdlParser.RULE_commonField);
 		let _la: number;
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 336;
+			this.state = 351;
 			_localctx._fieldArrow = this._input.LT(1);
 			_la = this._input.LA(1);
-			if (!(((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0))) {
+			if (!(((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0))) {
 				_localctx._fieldArrow = this._errHandler.recoverInline(this);
 			} else {
 				if (this._input.LA(1) === Token.EOF) {
@@ -1203,34 +1257,177 @@ export class YmlToBdlParser extends Parser {
 				this._errHandler.reportMatch(this);
 				this.consume();
 			}
-			this.state = 337;
+			this.state = 352;
 			_localctx._optionName = this.ymlIdOrPath();
-			this.state = 346;
+			this.state = 361;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 26, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 27, this._ctx) ) {
 			case 1:
 				{
-				this.state = 338;
+				this.state = 353;
 				_localctx._valueOrCondition = this.valueOrCondition();
 				_localctx._optionValues.push(_localctx._valueOrCondition);
-				this.state = 343;
+				this.state = 358;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 25, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx);
 				while (_alt !== 1 && _alt !== ATN.INVALID_ALT_NUMBER) {
 					if (_alt === 1 + 1) {
 						{
 						{
-						this.state = 339;
+						this.state = 354;
 						this.match(YmlToBdlParser.COMMA);
-						this.state = 340;
+						this.state = 355;
 						_localctx._valueOrCondition = this.valueOrCondition();
 						_localctx._optionValues.push(_localctx._valueOrCondition);
 						}
 						}
 					}
-					this.state = 345;
+					this.state = 360;
 					this._errHandler.sync(this);
-					_alt = this.interpreter.adaptivePredict(this._input, 25, this._ctx);
+					_alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx);
+				}
+				}
+				break;
+			}
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public local_variable_decl(): Local_variable_declContext {
+		let _localctx: Local_variable_declContext = new Local_variable_declContext(this._ctx, this.state);
+		this.enterRule(_localctx, 42, YmlToBdlParser.RULE_local_variable_decl);
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 363;
+			_localctx._type = this.memberType();
+			this.state = 364;
+			_localctx._memberName = this.ymlId();
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public localField(): LocalFieldContext {
+		let _localctx: LocalFieldContext = new LocalFieldContext(this._ctx, this.state);
+		this.enterRule(_localctx, 44, YmlToBdlParser.RULE_localField);
+		try {
+			let _alt: number;
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 366;
+			_localctx._fieldArrow = this.match(YmlToBdlParser.FIELD_INTRO);
+			this.state = 367;
+			_localctx._optionName = this.match(YmlToBdlParser.LOCAL);
+			this.state = 376;
+			this._errHandler.sync(this);
+			switch ( this.interpreter.adaptivePredict(this._input, 29, this._ctx) ) {
+			case 1:
+				{
+				this.state = 368;
+				_localctx._local_variable_decl = this.local_variable_decl();
+				_localctx._optionValues.push(_localctx._local_variable_decl);
+				this.state = 373;
+				this._errHandler.sync(this);
+				_alt = this.interpreter.adaptivePredict(this._input, 28, this._ctx);
+				while (_alt !== 1 && _alt !== ATN.INVALID_ALT_NUMBER) {
+					if (_alt === 1 + 1) {
+						{
+						{
+						this.state = 369;
+						this.match(YmlToBdlParser.COMMA);
+						this.state = 370;
+						_localctx._local_variable_decl = this.local_variable_decl();
+						_localctx._optionValues.push(_localctx._local_variable_decl);
+						}
+						}
+					}
+					this.state = 375;
+					this._errHandler.sync(this);
+					_alt = this.interpreter.adaptivePredict(this._input, 28, this._ctx);
+				}
+				}
+				break;
+			}
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public returnField(): ReturnFieldContext {
+		let _localctx: ReturnFieldContext = new ReturnFieldContext(this._ctx, this.state);
+		this.enterRule(_localctx, 46, YmlToBdlParser.RULE_returnField);
+		try {
+			let _alt: number;
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 378;
+			_localctx._fieldArrow = this.match(YmlToBdlParser.FIELD_INTRO);
+			this.state = 379;
+			_localctx._optionName = this.match(YmlToBdlParser.RETURN);
+			this.state = 388;
+			this._errHandler.sync(this);
+			switch ( this.interpreter.adaptivePredict(this._input, 31, this._ctx) ) {
+			case 1:
+				{
+				this.state = 380;
+				_localctx._valueOrCondition = this.valueOrCondition();
+				_localctx._optionValues.push(_localctx._valueOrCondition);
+				this.state = 385;
+				this._errHandler.sync(this);
+				_alt = this.interpreter.adaptivePredict(this._input, 30, this._ctx);
+				while (_alt !== 1 && _alt !== ATN.INVALID_ALT_NUMBER) {
+					if (_alt === 1 + 1) {
+						{
+						{
+						this.state = 381;
+						this.match(YmlToBdlParser.COMMA);
+						this.state = 382;
+						_localctx._valueOrCondition = this.valueOrCondition();
+						_localctx._optionValues.push(_localctx._valueOrCondition);
+						}
+						}
+					}
+					this.state = 387;
+					this._errHandler.sync(this);
+					_alt = this.interpreter.adaptivePredict(this._input, 30, this._ctx);
 				}
 				}
 				break;
@@ -1254,24 +1451,24 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public classPropertiesBlock(): ClassPropertiesBlockContext {
 		let _localctx: ClassPropertiesBlockContext = new ClassPropertiesBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 40, YmlToBdlParser.RULE_classPropertiesBlock);
+		this.enterRule(_localctx, 48, YmlToBdlParser.RULE_classPropertiesBlock);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 348;
+			this.state = 390;
 			this.match(YmlToBdlParser.CLASSPROPERTIES);
-			this.state = 352;
+			this.state = 394;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 349;
+				this.state = 391;
 				_localctx._classOption = this.field();
 				}
 				}
-				this.state = 354;
+				this.state = 396;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -1294,11 +1491,11 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public documentation(): DocumentationContext {
 		let _localctx: DocumentationContext = new DocumentationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 42, YmlToBdlParser.RULE_documentation);
+		this.enterRule(_localctx, 50, YmlToBdlParser.RULE_documentation);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 355;
+			this.state = 397;
 			this.match(YmlToBdlParser.DOCUMENTATION);
 			}
 		}
@@ -1319,15 +1516,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public valueOrCondition(): ValueOrConditionContext {
 		let _localctx: ValueOrConditionContext = new ValueOrConditionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 44, YmlToBdlParser.RULE_valueOrCondition);
+		this.enterRule(_localctx, 52, YmlToBdlParser.RULE_valueOrCondition);
 		try {
-			this.state = 365;
+			this.state = 407;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 28, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 33, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 357;
+				this.state = 399;
 				this.actionBlock();
 				}
 				break;
@@ -1335,7 +1532,7 @@ export class YmlToBdlParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 358;
+				this.state = 400;
 				this.combinedComparison(0);
 				}
 				break;
@@ -1343,7 +1540,7 @@ export class YmlToBdlParser extends Parser {
 			case 3:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 359;
+				this.state = 401;
 				this.value();
 				}
 				break;
@@ -1351,7 +1548,7 @@ export class YmlToBdlParser extends Parser {
 			case 4:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 360;
+				this.state = 402;
 				this.hashMapKeyValue();
 				}
 				break;
@@ -1359,7 +1556,7 @@ export class YmlToBdlParser extends Parser {
 			case 5:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 361;
+				this.state = 403;
 				this.documentation();
 				}
 				break;
@@ -1367,9 +1564,9 @@ export class YmlToBdlParser extends Parser {
 			case 6:
 				this.enterOuterAlt(_localctx, 6);
 				{
-				this.state = 362;
+				this.state = 404;
 				this.ymlId();
-				this.state = 363;
+				this.state = 405;
 				this.ymlId();
 				}
 				break;
@@ -1392,15 +1589,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public hashMapKeyValue(): HashMapKeyValueContext {
 		let _localctx: HashMapKeyValueContext = new HashMapKeyValueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 46, YmlToBdlParser.RULE_hashMapKeyValue);
+		this.enterRule(_localctx, 54, YmlToBdlParser.RULE_hashMapKeyValue);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 367;
+			this.state = 409;
 			this.nonArithmeticValue();
-			this.state = 368;
+			this.state = 410;
 			this.match(YmlToBdlParser.COLON);
-			this.state = 369;
+			this.state = 411;
 			this.hashMapValue();
 			}
 		}
@@ -1421,15 +1618,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public hashMapValue(): HashMapValueContext {
 		let _localctx: HashMapValueContext = new HashMapValueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 48, YmlToBdlParser.RULE_hashMapValue);
+		this.enterRule(_localctx, 56, YmlToBdlParser.RULE_hashMapValue);
 		try {
-			this.state = 373;
+			this.state = 415;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 29, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 34, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 371;
+				this.state = 413;
 				this.value();
 				}
 				break;
@@ -1437,7 +1634,7 @@ export class YmlToBdlParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 372;
+				this.state = 414;
 				this.combinedComparison(0);
 				}
 				break;
@@ -1460,15 +1657,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public value(): ValueContext {
 		let _localctx: ValueContext = new ValueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 50, YmlToBdlParser.RULE_value);
+		this.enterRule(_localctx, 58, YmlToBdlParser.RULE_value);
 		try {
-			this.state = 381;
+			this.state = 423;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 30, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 35, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 375;
+				this.state = 417;
 				this.granule();
 				}
 				break;
@@ -1476,7 +1673,7 @@ export class YmlToBdlParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 376;
+				this.state = 418;
 				this.inlineDeclaration();
 				}
 				break;
@@ -1484,7 +1681,7 @@ export class YmlToBdlParser extends Parser {
 			case 3:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 377;
+				this.state = 419;
 				this.arithmeticExpression(0);
 				}
 				break;
@@ -1492,7 +1689,7 @@ export class YmlToBdlParser extends Parser {
 			case 4:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 378;
+				this.state = 420;
 				this.nonArithmeticValue();
 				}
 				break;
@@ -1500,7 +1697,7 @@ export class YmlToBdlParser extends Parser {
 			case 5:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 379;
+				this.state = 421;
 				this.synonym();
 				}
 				break;
@@ -1508,7 +1705,7 @@ export class YmlToBdlParser extends Parser {
 			case 6:
 				this.enterOuterAlt(_localctx, 6);
 				{
-				this.state = 380;
+				this.state = 422;
 				this.ifExprBlock();
 				}
 				break;
@@ -1531,35 +1728,35 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_forEach(): Instruction_forEachContext {
 		let _localctx: Instruction_forEachContext = new Instruction_forEachContext(this._ctx, this.state);
-		this.enterRule(_localctx, 52, YmlToBdlParser.RULE_instruction_forEach);
+		this.enterRule(_localctx, 60, YmlToBdlParser.RULE_instruction_forEach);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 383;
+			this.state = 425;
 			this.match(YmlToBdlParser.FOREACH);
-			this.state = 384;
+			this.state = 426;
 			this.match(YmlToBdlParser.OPEN_PAR);
 			{
-			this.state = 386;
+			this.state = 428;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 31, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 36, this._ctx) ) {
 			case 1:
 				{
-				this.state = 385;
+				this.state = 427;
 				this.ymlId();
 				}
 				break;
 			}
-			this.state = 388;
+			this.state = 430;
 			this.ymlId();
 			}
-			this.state = 390;
+			this.state = 432;
 			this.match(YmlToBdlParser.COMMA);
-			this.state = 391;
+			this.state = 433;
 			this.value();
-			this.state = 392;
+			this.state = 434;
 			this.match(YmlToBdlParser.CLOSE_PAR);
-			this.state = 393;
+			this.state = 435;
 			this.actionBlock();
 			}
 		}
@@ -1580,13 +1777,13 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_ifExprBlock(): Instruction_ifExprBlockContext {
 		let _localctx: Instruction_ifExprBlockContext = new Instruction_ifExprBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 54, YmlToBdlParser.RULE_instruction_ifExprBlock);
+		this.enterRule(_localctx, 62, YmlToBdlParser.RULE_instruction_ifExprBlock);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 395;
+			this.state = 437;
 			this.ifExprBlock();
-			this.state = 396;
+			this.state = 438;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -1607,25 +1804,25 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public ifExprBlock(): IfExprBlockContext {
 		let _localctx: IfExprBlockContext = new IfExprBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 56, YmlToBdlParser.RULE_ifExprBlock);
+		this.enterRule(_localctx, 64, YmlToBdlParser.RULE_ifExprBlock);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 398;
+			this.state = 440;
 			this.match(YmlToBdlParser.IF_EXPR);
-			this.state = 399;
+			this.state = 441;
 			this.match(YmlToBdlParser.OPEN_PAR);
-			this.state = 400;
+			this.state = 442;
 			this.combinedComparison(0);
-			this.state = 401;
+			this.state = 443;
 			this.match(YmlToBdlParser.CLOSE_PAR);
-			this.state = 402;
+			this.state = 444;
 			this.match(YmlToBdlParser.THEN);
-			this.state = 403;
+			this.state = 445;
 			_localctx._thenValue = this.value();
-			this.state = 404;
+			this.state = 446;
 			this.match(YmlToBdlParser.ELSE);
-			this.state = 405;
+			this.state = 447;
 			_localctx._elseValue = this.value();
 			}
 		}
@@ -1646,12 +1843,12 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public bool(): BoolContext {
 		let _localctx: BoolContext = new BoolContext(this._ctx, this.state);
-		this.enterRule(_localctx, 58, YmlToBdlParser.RULE_bool);
+		this.enterRule(_localctx, 66, YmlToBdlParser.RULE_bool);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 407;
+			this.state = 449;
 			_la = this._input.LA(1);
 			if (!(_la === YmlToBdlParser.TRUE || _la === YmlToBdlParser.FALSE)) {
 			this._errHandler.recoverInline(this);
@@ -1682,9 +1879,9 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public nonArithmeticValue(): NonArithmeticValueContext {
 		let _localctx: NonArithmeticValueContext = new NonArithmeticValueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 60, YmlToBdlParser.RULE_nonArithmeticValue);
+		this.enterRule(_localctx, 68, YmlToBdlParser.RULE_nonArithmeticValue);
 		try {
-			this.state = 413;
+			this.state = 455;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case YmlToBdlParser.OPEN_BRACE:
@@ -1693,7 +1890,7 @@ export class YmlToBdlParser extends Parser {
 			case YmlToBdlParser.GRANULE:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 409;
+				this.state = 451;
 				this.chainedCall();
 				}
 				break;
@@ -1701,21 +1898,21 @@ export class YmlToBdlParser extends Parser {
 			case YmlToBdlParser.FALSE:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 410;
+				this.state = 452;
 				this.bool();
 				}
 				break;
 			case YmlToBdlParser.STRING:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 411;
+				this.state = 453;
 				this.match(YmlToBdlParser.STRING);
 				}
 				break;
 			case YmlToBdlParser.DATE:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 412;
+				this.state = 454;
 				this.match(YmlToBdlParser.DATE);
 				}
 				break;
@@ -1740,13 +1937,13 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instanciationVariable(): InstanciationVariableContext {
 		let _localctx: InstanciationVariableContext = new InstanciationVariableContext(this._ctx, this.state);
-		this.enterRule(_localctx, 62, YmlToBdlParser.RULE_instanciationVariable);
+		this.enterRule(_localctx, 70, YmlToBdlParser.RULE_instanciationVariable);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 415;
+			this.state = 457;
 			this.match(YmlToBdlParser.QUESTION_MARK);
-			this.state = 416;
+			this.state = 458;
 			this.ymlId();
 			}
 		}
@@ -1767,15 +1964,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public expression(): ExpressionContext {
 		let _localctx: ExpressionContext = new ExpressionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 64, YmlToBdlParser.RULE_expression);
+		this.enterRule(_localctx, 72, YmlToBdlParser.RULE_expression);
 		try {
-			this.state = 424;
+			this.state = 466;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 33, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 38, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 418;
+				this.state = 460;
 				this.ymlId();
 				}
 				break;
@@ -1783,7 +1980,7 @@ export class YmlToBdlParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 419;
+				this.state = 461;
 				this.functionCall();
 				}
 				break;
@@ -1791,7 +1988,7 @@ export class YmlToBdlParser extends Parser {
 			case 3:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 420;
+				this.state = 462;
 				this.indexedCall();
 				}
 				break;
@@ -1799,7 +1996,7 @@ export class YmlToBdlParser extends Parser {
 			case 4:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 421;
+				this.state = 463;
 				this.instanciationVariable();
 				}
 				break;
@@ -1807,7 +2004,7 @@ export class YmlToBdlParser extends Parser {
 			case 5:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 422;
+				this.state = 464;
 				this.granule();
 				}
 				break;
@@ -1815,7 +2012,7 @@ export class YmlToBdlParser extends Parser {
 			case 6:
 				this.enterOuterAlt(_localctx, 6);
 				{
-				this.state = 423;
+				this.state = 465;
 				this.listWithBrace();
 				}
 				break;
@@ -1838,42 +2035,42 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public functionCall(): FunctionCallContext {
 		let _localctx: FunctionCallContext = new FunctionCallContext(this._ctx, this.state);
-		this.enterRule(_localctx, 66, YmlToBdlParser.RULE_functionCall);
+		this.enterRule(_localctx, 74, YmlToBdlParser.RULE_functionCall);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 426;
+			this.state = 468;
 			this.ymlId();
-			this.state = 427;
+			this.state = 469;
 			this.match(YmlToBdlParser.OPEN_PAR);
-			this.state = 436;
+			this.state = 478;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 44)) & ~0x1F) === 0 && ((1 << (_la - 44)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 44)) | (1 << (YmlToBdlParser.QUESTION_MARK - 44)) | (1 << (YmlToBdlParser.OPERATOR - 44)) | (1 << (YmlToBdlParser.DATE - 44)) | (1 << (YmlToBdlParser.STRING - 44)) | (1 << (YmlToBdlParser.DOCUMENTATION - 44)) | (1 << (YmlToBdlParser.DOUBLE - 44)) | (1 << (YmlToBdlParser.YMLID - 44)) | (1 << (YmlToBdlParser.ID - 44)) | (1 << (YmlToBdlParser.GRANULE - 44)))) !== 0)) {
+			if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 45)) & ~0x1F) === 0 && ((1 << (_la - 45)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 45)) | (1 << (YmlToBdlParser.QUESTION_MARK - 45)) | (1 << (YmlToBdlParser.OPERATOR - 45)) | (1 << (YmlToBdlParser.DATE - 45)) | (1 << (YmlToBdlParser.STRING - 45)) | (1 << (YmlToBdlParser.DOCUMENTATION - 45)) | (1 << (YmlToBdlParser.DOUBLE - 45)) | (1 << (YmlToBdlParser.YMLID - 45)) | (1 << (YmlToBdlParser.ID - 45)) | (1 << (YmlToBdlParser.GRANULE - 45)))) !== 0)) {
 				{
-				this.state = 428;
+				this.state = 470;
 				this.functionArgument();
-				this.state = 433;
+				this.state = 475;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				while (_la === YmlToBdlParser.COMMA) {
 					{
 					{
-					this.state = 429;
+					this.state = 471;
 					this.match(YmlToBdlParser.COMMA);
-					this.state = 430;
+					this.state = 472;
 					this.functionArgument();
 					}
 					}
-					this.state = 435;
+					this.state = 477;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
 				}
 			}
 
-			this.state = 438;
+			this.state = 480;
 			this.match(YmlToBdlParser.CLOSE_PAR);
 			}
 		}
@@ -1894,17 +2091,17 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public indexedCall(): IndexedCallContext {
 		let _localctx: IndexedCallContext = new IndexedCallContext(this._ctx, this.state);
-		this.enterRule(_localctx, 68, YmlToBdlParser.RULE_indexedCall);
+		this.enterRule(_localctx, 76, YmlToBdlParser.RULE_indexedCall);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 440;
+			this.state = 482;
 			this.ymlId();
-			this.state = 441;
+			this.state = 483;
 			this.match(YmlToBdlParser.OPEN_BRACKET);
-			this.state = 442;
+			this.state = 484;
 			this.functionArgument();
-			this.state = 443;
+			this.state = 485;
 			this.match(YmlToBdlParser.CLOSE_BRACKET);
 			}
 		}
@@ -1925,24 +2122,24 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public functionArgument(): FunctionArgumentContext {
 		let _localctx: FunctionArgumentContext = new FunctionArgumentContext(this._ctx, this.state);
-		this.enterRule(_localctx, 70, YmlToBdlParser.RULE_functionArgument);
+		this.enterRule(_localctx, 78, YmlToBdlParser.RULE_functionArgument);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 447;
+			this.state = 489;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.ID) {
 				{
-				this.state = 445;
+				this.state = 487;
 				_localctx._argKey = this.match(YmlToBdlParser.ID);
-				this.state = 446;
+				this.state = 488;
 				this.match(YmlToBdlParser.COLON);
 				}
 			}
 
-			this.state = 449;
+			this.state = 491;
 			this.valueOrCondition();
 			}
 		}
@@ -1963,30 +2160,30 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public chainedCall(): ChainedCallContext {
 		let _localctx: ChainedCallContext = new ChainedCallContext(this._ctx, this.state);
-		this.enterRule(_localctx, 72, YmlToBdlParser.RULE_chainedCall);
+		this.enterRule(_localctx, 80, YmlToBdlParser.RULE_chainedCall);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 451;
+			this.state = 493;
 			this.expression();
-			this.state = 457;
+			this.state = 499;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 37, this._ctx);
+			_alt = this.interpreter.adaptivePredict(this._input, 42, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 452;
+					this.state = 494;
 					_localctx._marker = this.expressionMarker();
-					this.state = 453;
+					this.state = 495;
 					this.expression();
 					}
 					}
 				}
-				this.state = 459;
+				this.state = 501;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 37, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 42, this._ctx);
 			}
 			}
 		}
@@ -2007,40 +2204,40 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public inlineDeclaration(): InlineDeclarationContext {
 		let _localctx: InlineDeclarationContext = new InlineDeclarationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 74, YmlToBdlParser.RULE_inlineDeclaration);
+		this.enterRule(_localctx, 82, YmlToBdlParser.RULE_inlineDeclaration);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 460;
+			this.state = 502;
 			this.match(YmlToBdlParser.INLINE_DECL_INTRO);
-			this.state = 461;
+			this.state = 503;
 			_localctx._className = this.ymlId();
-			this.state = 463;
+			this.state = 505;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.YMLID) {
 				{
-				this.state = 462;
+				this.state = 504;
 				_localctx._instanceName = this.ymlId();
 				}
 			}
 
-			this.state = 468;
+			this.state = 510;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0) || _la === YmlToBdlParser.GRANULE) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0) || _la === YmlToBdlParser.GRANULE) {
 				{
 				{
-				this.state = 465;
+				this.state = 507;
 				this.fieldValue();
 				}
 				}
-				this.state = 470;
+				this.state = 512;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 471;
+			this.state = 513;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -2061,15 +2258,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public inlineOperation(): InlineOperationContext {
 		let _localctx: InlineOperationContext = new InlineOperationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 76, YmlToBdlParser.RULE_inlineOperation);
+		this.enterRule(_localctx, 84, YmlToBdlParser.RULE_inlineOperation);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 473;
+			this.state = 515;
 			_localctx._leftExpression = this.value();
-			this.state = 474;
+			this.state = 516;
 			_localctx._operator = this.ymlId();
-			this.state = 475;
+			this.state = 517;
 			_localctx._rightExpression = this.value();
 			}
 		}
@@ -2090,9 +2287,9 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public fieldValue(): FieldValueContext {
 		let _localctx: FieldValueContext = new FieldValueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 78, YmlToBdlParser.RULE_fieldValue);
+		this.enterRule(_localctx, 86, YmlToBdlParser.RULE_fieldValue);
 		try {
-			this.state = 479;
+			this.state = 521;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case YmlToBdlParser.FIELD_INTRO:
@@ -2101,14 +2298,14 @@ export class YmlToBdlParser extends Parser {
 			case YmlToBdlParser.ADD_FIELD:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 477;
+				this.state = 519;
 				this.field();
 				}
 				break;
 			case YmlToBdlParser.GRANULE:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 478;
+				this.state = 520;
 				this.granule();
 				}
 				break;
@@ -2133,12 +2330,12 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public function(): FunctionContext {
 		let _localctx: FunctionContext = new FunctionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 80, YmlToBdlParser.RULE_function);
+		this.enterRule(_localctx, 88, YmlToBdlParser.RULE_function);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 481;
+			this.state = 523;
 			_la = this._input.LA(1);
 			if (!((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << YmlToBdlParser.FUNCTION) | (1 << YmlToBdlParser.METHOD) | (1 << YmlToBdlParser.TEXT_METHOD) | (1 << YmlToBdlParser.TEXT_FUNCTION))) !== 0))) {
 			this._errHandler.recoverInline(this);
@@ -2150,65 +2347,65 @@ export class YmlToBdlParser extends Parser {
 				this._errHandler.reportMatch(this);
 				this.consume();
 			}
-			this.state = 482;
+			this.state = 524;
 			this.ymlId();
-			this.state = 488;
+			this.state = 530;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case YmlToBdlParser.ARGS:
 				{
-				this.state = 483;
+				this.state = 525;
 				this.argsBlock();
 				}
 				break;
 			case YmlToBdlParser.OPEN_PAR:
 				{
-				this.state = 484;
+				this.state = 526;
 				this.match(YmlToBdlParser.OPEN_PAR);
-				this.state = 485;
+				this.state = 527;
 				this.argumentList();
-				this.state = 486;
+				this.state = 528;
 				this.match(YmlToBdlParser.CLOSE_PAR);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			this.state = 491;
+			this.state = 533;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.LOCAL) {
 				{
-				this.state = 490;
+				this.state = 532;
 				this.localBlock();
 				}
 			}
 
-			this.state = 494;
+			this.state = 536;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.STATIC) {
 				{
-				this.state = 493;
+				this.state = 535;
 				this.staticBlock();
 				}
 			}
 
-			this.state = 499;
+			this.state = 541;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 496;
+				this.state = 538;
 				_localctx._memberOption = this.field();
 				}
 				}
-				this.state = 501;
+				this.state = 543;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 502;
+			this.state = 544;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -2229,17 +2426,17 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public argsBlock(): ArgsBlockContext {
 		let _localctx: ArgsBlockContext = new ArgsBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 82, YmlToBdlParser.RULE_argsBlock);
+		this.enterRule(_localctx, 90, YmlToBdlParser.RULE_argsBlock);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 504;
+			this.state = 546;
 			this.match(YmlToBdlParser.ARGS);
-			this.state = 505;
+			this.state = 547;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 506;
+			this.state = 548;
 			this.variableBlockContent();
-			this.state = 507;
+			this.state = 549;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -2260,17 +2457,17 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public localBlock(): LocalBlockContext {
 		let _localctx: LocalBlockContext = new LocalBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 84, YmlToBdlParser.RULE_localBlock);
+		this.enterRule(_localctx, 92, YmlToBdlParser.RULE_localBlock);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 509;
+			this.state = 551;
 			this.match(YmlToBdlParser.LOCAL);
-			this.state = 510;
+			this.state = 552;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 511;
+			this.state = 553;
 			this.variableBlockContent();
-			this.state = 512;
+			this.state = 554;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -2291,30 +2488,30 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public staticBlock(): StaticBlockContext {
 		let _localctx: StaticBlockContext = new StaticBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 86, YmlToBdlParser.RULE_staticBlock);
+		this.enterRule(_localctx, 94, YmlToBdlParser.RULE_staticBlock);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 514;
+			this.state = 556;
 			this.match(YmlToBdlParser.STATIC);
-			this.state = 515;
+			this.state = 557;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 519;
+			this.state = 561;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.YMLID) {
 				{
 				{
-				this.state = 516;
+				this.state = 558;
 				this.staticDeclaration();
 				}
 				}
-				this.state = 521;
+				this.state = 563;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 522;
+			this.state = 564;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -2335,24 +2532,24 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public methodDeclaration(): MethodDeclarationContext {
 		let _localctx: MethodDeclarationContext = new MethodDeclarationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 88, YmlToBdlParser.RULE_methodDeclaration);
+		this.enterRule(_localctx, 96, YmlToBdlParser.RULE_methodDeclaration);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 524;
+			this.state = 566;
 			this.methodIntro();
-			this.state = 528;
+			this.state = 570;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 525;
+				this.state = 567;
 				_localctx._memberOption = this.field();
 				}
 				}
-				this.state = 530;
+				this.state = 572;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -2375,12 +2572,12 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public methodIntro(): MethodIntroContext {
 		let _localctx: MethodIntroContext = new MethodIntroContext(this._ctx, this.state);
-		this.enterRule(_localctx, 90, YmlToBdlParser.RULE_methodIntro);
+		this.enterRule(_localctx, 98, YmlToBdlParser.RULE_methodIntro);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 531;
+			this.state = 573;
 			_la = this._input.LA(1);
 			if (!((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << YmlToBdlParser.METHOD) | (1 << YmlToBdlParser.TEXT_METHOD) | (1 << YmlToBdlParser.TEXT_FUNCTION))) !== 0))) {
 			this._errHandler.recoverInline(this);
@@ -2392,24 +2589,24 @@ export class YmlToBdlParser extends Parser {
 				this._errHandler.reportMatch(this);
 				this.consume();
 			}
-			this.state = 532;
+			this.state = 574;
 			this.ymlId();
-			this.state = 538;
+			this.state = 580;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case YmlToBdlParser.ARGS:
 				{
-				this.state = 533;
+				this.state = 575;
 				this.argsBlock();
 				}
 				break;
 			case YmlToBdlParser.OPEN_PAR:
 				{
-				this.state = 534;
+				this.state = 576;
 				this.match(YmlToBdlParser.OPEN_PAR);
-				this.state = 535;
+				this.state = 577;
 				this.argumentList();
-				this.state = 536;
+				this.state = 578;
 				this.match(YmlToBdlParser.CLOSE_PAR);
 				}
 				break;
@@ -2435,27 +2632,27 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public argumentList(): ArgumentListContext {
 		let _localctx: ArgumentListContext = new ArgumentListContext(this._ctx, this.state);
-		this.enterRule(_localctx, 92, YmlToBdlParser.RULE_argumentList);
+		this.enterRule(_localctx, 100, YmlToBdlParser.RULE_argumentList);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 541;
+			this.state = 583;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.YMLID) {
 				{
-				this.state = 540;
+				this.state = 582;
 				this.mandatoryArgs();
 				}
 			}
 
-			this.state = 544;
+			this.state = 586;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.COMMA || _la === YmlToBdlParser.OPEN_BRACE) {
 				{
-				this.state = 543;
+				this.state = 585;
 				this.optionalArgs();
 				}
 			}
@@ -2479,30 +2676,30 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public mandatoryArgs(): MandatoryArgsContext {
 		let _localctx: MandatoryArgsContext = new MandatoryArgsContext(this._ctx, this.state);
-		this.enterRule(_localctx, 94, YmlToBdlParser.RULE_mandatoryArgs);
+		this.enterRule(_localctx, 102, YmlToBdlParser.RULE_mandatoryArgs);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 546;
+			this.state = 588;
 			this.mandatoryArgDecl();
-			this.state = 551;
+			this.state = 593;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 50, this._ctx);
+			_alt = this.interpreter.adaptivePredict(this._input, 55, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					{
 					{
-					this.state = 547;
+					this.state = 589;
 					this.match(YmlToBdlParser.COMMA);
-					this.state = 548;
+					this.state = 590;
 					this.mandatoryArgDecl();
 					}
 					}
 				}
-				this.state = 553;
+				this.state = 595;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 50, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 55, this._ctx);
 			}
 			}
 		}
@@ -2523,20 +2720,20 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public mandatoryArgDecl(): MandatoryArgDeclContext {
 		let _localctx: MandatoryArgDeclContext = new MandatoryArgDeclContext(this._ctx, this.state);
-		this.enterRule(_localctx, 96, YmlToBdlParser.RULE_mandatoryArgDecl);
+		this.enterRule(_localctx, 104, YmlToBdlParser.RULE_mandatoryArgDecl);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 554;
+			this.state = 596;
 			_localctx._argType = this.ymlId();
-			this.state = 555;
+			this.state = 597;
 			_localctx._argName = this.ymlId();
-			this.state = 557;
+			this.state = 599;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 51, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 56, this._ctx) ) {
 			case 1:
 				{
-				this.state = 556;
+				this.state = 598;
 				this.argOptionList();
 				}
 				break;
@@ -2560,59 +2757,59 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public optionalArgs(): OptionalArgsContext {
 		let _localctx: OptionalArgsContext = new OptionalArgsContext(this._ctx, this.state);
-		this.enterRule(_localctx, 98, YmlToBdlParser.RULE_optionalArgs);
+		this.enterRule(_localctx, 106, YmlToBdlParser.RULE_optionalArgs);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 560;
+			this.state = 602;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.COMMA) {
 				{
-				this.state = 559;
+				this.state = 601;
 				this.match(YmlToBdlParser.COMMA);
 				}
 			}
 
-			this.state = 562;
+			this.state = 604;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 571;
+			this.state = 613;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.OPEN_BRACKET || _la === YmlToBdlParser.YMLID) {
 				{
-				this.state = 563;
+				this.state = 605;
 				_localctx._optionalArgDecl = this.optionalArgDecl();
 				_localctx._optionalArguments.push(_localctx._optionalArgDecl);
-				this.state = 568;
+				this.state = 610;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				while (_la === YmlToBdlParser.COMMA) {
 					{
 					{
-					this.state = 564;
+					this.state = 606;
 					this.match(YmlToBdlParser.COMMA);
-					this.state = 565;
+					this.state = 607;
 					_localctx._optionalArgDecl = this.optionalArgDecl();
 					_localctx._optionalArguments.push(_localctx._optionalArgDecl);
 					}
 					}
-					this.state = 570;
+					this.state = 612;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
 				}
 				}
 			}
 
-			this.state = 573;
+			this.state = 615;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
-			this.state = 575;
+			this.state = 617;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.YMLID) {
 				{
-				this.state = 574;
+				this.state = 616;
 				_localctx._argSetName = this.ymlId();
 				}
 			}
@@ -2636,53 +2833,53 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public optionalArgDecl(): OptionalArgDeclContext {
 		let _localctx: OptionalArgDeclContext = new OptionalArgDeclContext(this._ctx, this.state);
-		this.enterRule(_localctx, 100, YmlToBdlParser.RULE_optionalArgDecl);
+		this.enterRule(_localctx, 108, YmlToBdlParser.RULE_optionalArgDecl);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 582;
+			this.state = 624;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case YmlToBdlParser.OPEN_BRACKET:
 				{
-				this.state = 577;
+				this.state = 619;
 				this.match(YmlToBdlParser.OPEN_BRACKET);
-				this.state = 578;
+				this.state = 620;
 				_localctx._optionalKeyName = this.ymlId();
-				this.state = 579;
+				this.state = 621;
 				this.match(YmlToBdlParser.CLOSE_BRACKET);
 				}
 				break;
 			case YmlToBdlParser.YMLID:
 				{
-				this.state = 581;
+				this.state = 623;
 				_localctx._mandatoryKeyName = this.ymlId();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			this.state = 584;
+			this.state = 626;
 			this.match(YmlToBdlParser.COLON);
-			this.state = 585;
+			this.state = 627;
 			_localctx._argType = this.ymlId();
-			this.state = 587;
+			this.state = 629;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.YMLID) {
 				{
-				this.state = 586;
+				this.state = 628;
 				_localctx._argName = this.ymlId();
 				}
 			}
 
-			this.state = 590;
+			this.state = 632;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.OPEN_BRACE) {
 				{
-				this.state = 589;
+				this.state = 631;
 				this.argOptionList();
 				}
 			}
@@ -2706,34 +2903,34 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public argOptionList(): ArgOptionListContext {
 		let _localctx: ArgOptionListContext = new ArgOptionListContext(this._ctx, this.state);
-		this.enterRule(_localctx, 102, YmlToBdlParser.RULE_argOptionList);
+		this.enterRule(_localctx, 110, YmlToBdlParser.RULE_argOptionList);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 592;
+			this.state = 634;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 593;
+			this.state = 635;
 			_localctx._argOptionBlock = this.argOptionBlock();
 			_localctx._arguments.push(_localctx._argOptionBlock);
-			this.state = 598;
+			this.state = 640;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.COMMA) {
 				{
 				{
-				this.state = 594;
+				this.state = 636;
 				this.match(YmlToBdlParser.COMMA);
-				this.state = 595;
+				this.state = 637;
 				_localctx._argOptionBlock = this.argOptionBlock();
 				_localctx._arguments.push(_localctx._argOptionBlock);
 				}
 				}
-				this.state = 600;
+				this.state = 642;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 601;
+			this.state = 643;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -2754,19 +2951,19 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public argOptionBlock(): ArgOptionBlockContext {
 		let _localctx: ArgOptionBlockContext = new ArgOptionBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 104, YmlToBdlParser.RULE_argOptionBlock);
+		this.enterRule(_localctx, 112, YmlToBdlParser.RULE_argOptionBlock);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 603;
+			this.state = 645;
 			_localctx._argOption = this.ymlId();
-			this.state = 605;
+			this.state = 647;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 44)) & ~0x1F) === 0 && ((1 << (_la - 44)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 44)) | (1 << (YmlToBdlParser.QUESTION_MARK - 44)) | (1 << (YmlToBdlParser.OPERATOR - 44)) | (1 << (YmlToBdlParser.DATE - 44)) | (1 << (YmlToBdlParser.STRING - 44)) | (1 << (YmlToBdlParser.DOUBLE - 44)) | (1 << (YmlToBdlParser.YMLID - 44)) | (1 << (YmlToBdlParser.GRANULE - 44)))) !== 0)) {
+			if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 45)) & ~0x1F) === 0 && ((1 << (_la - 45)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 45)) | (1 << (YmlToBdlParser.QUESTION_MARK - 45)) | (1 << (YmlToBdlParser.OPERATOR - 45)) | (1 << (YmlToBdlParser.DATE - 45)) | (1 << (YmlToBdlParser.STRING - 45)) | (1 << (YmlToBdlParser.DOUBLE - 45)) | (1 << (YmlToBdlParser.YMLID - 45)) | (1 << (YmlToBdlParser.GRANULE - 45)))) !== 0)) {
 				{
-				this.state = 604;
+				this.state = 646;
 				_localctx._optionValue = this.value();
 				}
 			}
@@ -2790,18 +2987,18 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public order1Block(): Order1BlockContext {
 		let _localctx: Order1BlockContext = new Order1BlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 106, YmlToBdlParser.RULE_order1Block);
+		this.enterRule(_localctx, 114, YmlToBdlParser.RULE_order1Block);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 607;
+			this.state = 649;
 			this.instanciationCondition();
-			this.state = 609;
+			this.state = 651;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 61, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 66, this._ctx) ) {
 			case 1:
 				{
-				this.state = 608;
+				this.state = 650;
 				this.conditionBlock();
 				}
 				break;
@@ -2825,11 +3022,11 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instanciationCondition(): InstanciationConditionContext {
 		let _localctx: InstanciationConditionContext = new InstanciationConditionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 108, YmlToBdlParser.RULE_instanciationCondition);
+		this.enterRule(_localctx, 116, YmlToBdlParser.RULE_instanciationCondition);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 611;
+			this.state = 653;
 			this.inlineOperation();
 			}
 		}
@@ -2850,32 +3047,32 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public order1FullCondition(): Order1FullConditionContext {
 		let _localctx: Order1FullConditionContext = new Order1FullConditionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 110, YmlToBdlParser.RULE_order1FullCondition);
+		this.enterRule(_localctx, 118, YmlToBdlParser.RULE_order1FullCondition);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 614;
+			this.state = 656;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 62, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 67, this._ctx) ) {
 			case 1:
 				{
-				this.state = 613;
+				this.state = 655;
 				this.conditionBlock();
 				}
 				break;
 			}
-			this.state = 619;
+			this.state = 661;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 44)) & ~0x1F) === 0 && ((1 << (_la - 44)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 44)) | (1 << (YmlToBdlParser.QUESTION_MARK - 44)) | (1 << (YmlToBdlParser.OPERATOR - 44)) | (1 << (YmlToBdlParser.DATE - 44)) | (1 << (YmlToBdlParser.STRING - 44)) | (1 << (YmlToBdlParser.DOUBLE - 44)) | (1 << (YmlToBdlParser.YMLID - 44)) | (1 << (YmlToBdlParser.GRANULE - 44)))) !== 0)) {
+			while (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 45)) & ~0x1F) === 0 && ((1 << (_la - 45)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 45)) | (1 << (YmlToBdlParser.QUESTION_MARK - 45)) | (1 << (YmlToBdlParser.OPERATOR - 45)) | (1 << (YmlToBdlParser.DATE - 45)) | (1 << (YmlToBdlParser.STRING - 45)) | (1 << (YmlToBdlParser.DOUBLE - 45)) | (1 << (YmlToBdlParser.YMLID - 45)) | (1 << (YmlToBdlParser.GRANULE - 45)))) !== 0)) {
 				{
 				{
-				this.state = 616;
+				this.state = 658;
 				this.order1Block();
 				}
 				}
-				this.state = 621;
+				this.state = 663;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -2908,37 +3105,37 @@ export class YmlToBdlParser extends Parser {
 		let _parentState: number = this.state;
 		let _localctx: CombinedComparisonContext = new CombinedComparisonContext(this._ctx, _parentState);
 		let _prevctx: CombinedComparisonContext = _localctx;
-		let _startState: number = 112;
-		this.enterRecursionRule(_localctx, 112, YmlToBdlParser.RULE_combinedComparison, _p);
+		let _startState: number = 120;
+		this.enterRecursionRule(_localctx, 120, YmlToBdlParser.RULE_combinedComparison, _p);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 628;
+			this.state = 670;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 64, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 69, this._ctx) ) {
 			case 1:
 				{
-				this.state = 623;
+				this.state = 665;
 				this.match(YmlToBdlParser.OPEN_PAR);
-				this.state = 624;
+				this.state = 666;
 				this.combinedComparison(0);
-				this.state = 625;
+				this.state = 667;
 				this.match(YmlToBdlParser.CLOSE_PAR);
 				}
 				break;
 
 			case 2:
 				{
-				this.state = 627;
+				this.state = 669;
 				this.comparison();
 				}
 				break;
 			}
 			this._ctx._stop = this._input.tryLT(-1);
-			this.state = 638;
+			this.state = 680;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 66, this._ctx);
+			_alt = this.interpreter.adaptivePredict(this._input, 71, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					if (this._parseListeners != null) {
@@ -2946,21 +3143,21 @@ export class YmlToBdlParser extends Parser {
 					}
 					_prevctx = _localctx;
 					{
-					this.state = 636;
+					this.state = 678;
 					this._errHandler.sync(this);
-					switch ( this.interpreter.adaptivePredict(this._input, 65, this._ctx) ) {
+					switch ( this.interpreter.adaptivePredict(this._input, 70, this._ctx) ) {
 					case 1:
 						{
 						_localctx = new CombinedComparisonContext(_parentctx, _parentState);
 						_localctx._leftCondition = _prevctx;
 						this.pushNewRecursionContext(_localctx, _startState, YmlToBdlParser.RULE_combinedComparison);
-						this.state = 630;
+						this.state = 672;
 						if (!(this.precpred(this._ctx, 3))) {
 							throw new FailedPredicateException(this, "this.precpred(this._ctx, 3)");
 						}
-						this.state = 631;
+						this.state = 673;
 						this.match(YmlToBdlParser.COND_AND);
-						this.state = 632;
+						this.state = 674;
 						_localctx._rightCondition = this.combinedComparison(4);
 						}
 						break;
@@ -2970,22 +3167,22 @@ export class YmlToBdlParser extends Parser {
 						_localctx = new CombinedComparisonContext(_parentctx, _parentState);
 						_localctx._leftCondition = _prevctx;
 						this.pushNewRecursionContext(_localctx, _startState, YmlToBdlParser.RULE_combinedComparison);
-						this.state = 633;
+						this.state = 675;
 						if (!(this.precpred(this._ctx, 2))) {
 							throw new FailedPredicateException(this, "this.precpred(this._ctx, 2)");
 						}
-						this.state = 634;
+						this.state = 676;
 						this.match(YmlToBdlParser.COND_OR);
-						this.state = 635;
+						this.state = 677;
 						_localctx._rightCondition = this.combinedComparison(3);
 						}
 						break;
 					}
 					}
 				}
-				this.state = 640;
+				this.state = 682;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 66, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 71, this._ctx);
 			}
 			}
 		}
@@ -3006,15 +3203,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public comparison(): ComparisonContext {
 		let _localctx: ComparisonContext = new ComparisonContext(this._ctx, this.state);
-		this.enterRule(_localctx, 114, YmlToBdlParser.RULE_comparison);
+		this.enterRule(_localctx, 122, YmlToBdlParser.RULE_comparison);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 641;
+			this.state = 683;
 			_localctx._leftValue = this.value();
-			this.state = 642;
+			this.state = 684;
 			this.comparisonOperator();
-			this.state = 643;
+			this.state = 685;
 			_localctx._rightValue = this.value();
 			}
 		}
@@ -3035,14 +3232,14 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public comparisonOperator(): ComparisonOperatorContext {
 		let _localctx: ComparisonOperatorContext = new ComparisonOperatorContext(this._ctx, this.state);
-		this.enterRule(_localctx, 116, YmlToBdlParser.RULE_comparisonOperator);
+		this.enterRule(_localctx, 124, YmlToBdlParser.RULE_comparisonOperator);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 645;
+			this.state = 687;
 			_la = this._input.LA(1);
-			if (!(((((_la - 50)) & ~0x1F) === 0 && ((1 << (_la - 50)) & ((1 << (YmlToBdlParser.EQUAL_COMP - 50)) | (1 << (YmlToBdlParser.NOT_EQUALS - 50)) | (1 << (YmlToBdlParser.LESS_OR_EQUAL - 50)) | (1 << (YmlToBdlParser.GREATE_OR_EQUAL - 50)) | (1 << (YmlToBdlParser.STRICT_LESS - 50)) | (1 << (YmlToBdlParser.STRICT_GREAT - 50)))) !== 0))) {
+			if (!(((((_la - 51)) & ~0x1F) === 0 && ((1 << (_la - 51)) & ((1 << (YmlToBdlParser.EQUAL_COMP - 51)) | (1 << (YmlToBdlParser.NOT_EQUALS - 51)) | (1 << (YmlToBdlParser.LESS_OR_EQUAL - 51)) | (1 << (YmlToBdlParser.GREATE_OR_EQUAL - 51)) | (1 << (YmlToBdlParser.STRICT_LESS - 51)) | (1 << (YmlToBdlParser.STRICT_GREAT - 51)))) !== 0))) {
 			this._errHandler.recoverInline(this);
 			} else {
 				if (this._input.LA(1) === Token.EOF) {
@@ -3071,15 +3268,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_multivaluedAssignment(): Instruction_multivaluedAssignmentContext {
 		let _localctx: Instruction_multivaluedAssignmentContext = new Instruction_multivaluedAssignmentContext(this._ctx, this.state);
-		this.enterRule(_localctx, 118, YmlToBdlParser.RULE_instruction_multivaluedAssignment);
+		this.enterRule(_localctx, 126, YmlToBdlParser.RULE_instruction_multivaluedAssignment);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 647;
+			this.state = 689;
 			_localctx._leftHand = this.value();
-			this.state = 648;
+			this.state = 690;
 			this.match(YmlToBdlParser.MULTIVALUED_ASSIGNMENT);
-			this.state = 649;
+			this.state = 691;
 			_localctx._rightHand = this.value();
 			}
 		}
@@ -3100,15 +3297,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_assignment(): Instruction_assignmentContext {
 		let _localctx: Instruction_assignmentContext = new Instruction_assignmentContext(this._ctx, this.state);
-		this.enterRule(_localctx, 120, YmlToBdlParser.RULE_instruction_assignment);
+		this.enterRule(_localctx, 128, YmlToBdlParser.RULE_instruction_assignment);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 651;
+			this.state = 693;
 			_localctx._leftHand = this.value();
-			this.state = 652;
+			this.state = 694;
 			this.match(YmlToBdlParser.EQUAL_ASSIGNMENT);
-			this.state = 653;
+			this.state = 695;
 			_localctx._rightHand = this.value();
 			}
 		}
@@ -3129,12 +3326,12 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public conditionBlock(): ConditionBlockContext {
 		let _localctx: ConditionBlockContext = new ConditionBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 122, YmlToBdlParser.RULE_conditionBlock);
+		this.enterRule(_localctx, 130, YmlToBdlParser.RULE_conditionBlock);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 656;
+			this.state = 698;
 			this._errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -3142,7 +3339,7 @@ export class YmlToBdlParser extends Parser {
 				case 1:
 					{
 					{
-					this.state = 655;
+					this.state = 697;
 					this.order0Condition();
 					}
 					}
@@ -3150,9 +3347,9 @@ export class YmlToBdlParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				this.state = 658;
+				this.state = 700;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 67, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 72, this._ctx);
 			} while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER);
 			}
 		}
@@ -3173,15 +3370,15 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public order0Condition(): Order0ConditionContext {
 		let _localctx: Order0ConditionContext = new Order0ConditionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 124, YmlToBdlParser.RULE_order0Condition);
+		this.enterRule(_localctx, 132, YmlToBdlParser.RULE_order0Condition);
 		try {
-			this.state = 662;
+			this.state = 704;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 68, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 73, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 660;
+				this.state = 702;
 				this.combinedComparison(0);
 				}
 				break;
@@ -3189,7 +3386,7 @@ export class YmlToBdlParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 661;
+				this.state = 703;
 				this.existentialOperator();
 				}
 				break;
@@ -3212,46 +3409,46 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_switchCase_withValue(): Instruction_switchCase_withValueContext {
 		let _localctx: Instruction_switchCase_withValueContext = new Instruction_switchCase_withValueContext(this._ctx, this.state);
-		this.enterRule(_localctx, 126, YmlToBdlParser.RULE_instruction_switchCase_withValue);
+		this.enterRule(_localctx, 134, YmlToBdlParser.RULE_instruction_switchCase_withValue);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 664;
+			this.state = 706;
 			this.match(YmlToBdlParser.SWITCH);
-			this.state = 665;
+			this.state = 707;
 			this.match(YmlToBdlParser.OPEN_PAR);
-			this.state = 666;
+			this.state = 708;
 			this.value();
-			this.state = 667;
+			this.state = 709;
 			this.match(YmlToBdlParser.CLOSE_PAR);
-			this.state = 668;
+			this.state = 710;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 672;
+			this.state = 714;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.CASE) {
 				{
 				{
-				this.state = 669;
+				this.state = 711;
 				this.instructionCase();
 				}
 				}
-				this.state = 674;
+				this.state = 716;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 676;
+			this.state = 718;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.DEFAULT) {
 				{
-				this.state = 675;
+				this.state = 717;
 				this.instructionDefault();
 				}
 			}
 
-			this.state = 678;
+			this.state = 720;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -3272,40 +3469,40 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_switchCase_asIf(): Instruction_switchCase_asIfContext {
 		let _localctx: Instruction_switchCase_asIfContext = new Instruction_switchCase_asIfContext(this._ctx, this.state);
-		this.enterRule(_localctx, 128, YmlToBdlParser.RULE_instruction_switchCase_asIf);
+		this.enterRule(_localctx, 136, YmlToBdlParser.RULE_instruction_switchCase_asIf);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 680;
+			this.state = 722;
 			this.match(YmlToBdlParser.SWITCH);
-			this.state = 681;
+			this.state = 723;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 685;
+			this.state = 727;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.CASE) {
 				{
 				{
-				this.state = 682;
+				this.state = 724;
 				this.instructionCase();
 				}
 				}
-				this.state = 687;
+				this.state = 729;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 689;
+			this.state = 731;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.DEFAULT) {
 				{
-				this.state = 688;
+				this.state = 730;
 				this.instructionDefault();
 				}
 			}
 
-			this.state = 691;
+			this.state = 733;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -3326,33 +3523,33 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instructionCase(): InstructionCaseContext {
 		let _localctx: InstructionCaseContext = new InstructionCaseContext(this._ctx, this.state);
-		this.enterRule(_localctx, 130, YmlToBdlParser.RULE_instructionCase);
+		this.enterRule(_localctx, 138, YmlToBdlParser.RULE_instructionCase);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 693;
+			this.state = 735;
 			this.match(YmlToBdlParser.CASE);
-			this.state = 694;
+			this.state = 736;
 			this.match(YmlToBdlParser.OPEN_PAR);
-			this.state = 695;
+			this.state = 737;
 			this.valueOrCondition();
-			this.state = 696;
+			this.state = 738;
 			this.match(YmlToBdlParser.CLOSE_PAR);
-			this.state = 697;
+			this.state = 739;
 			this.match(YmlToBdlParser.COLON);
-			this.state = 700;
+			this.state = 742;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 73, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 78, this._ctx) ) {
 			case 1:
 				{
-				this.state = 698;
+				this.state = 740;
 				this.instruction();
 				}
 				break;
 
 			case 2:
 				{
-				this.state = 699;
+				this.state = 741;
 				this.actionBlock();
 				}
 				break;
@@ -3376,27 +3573,27 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instructionDefault(): InstructionDefaultContext {
 		let _localctx: InstructionDefaultContext = new InstructionDefaultContext(this._ctx, this.state);
-		this.enterRule(_localctx, 132, YmlToBdlParser.RULE_instructionDefault);
+		this.enterRule(_localctx, 140, YmlToBdlParser.RULE_instructionDefault);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 702;
+			this.state = 744;
 			this.match(YmlToBdlParser.DEFAULT);
-			this.state = 703;
+			this.state = 745;
 			this.match(YmlToBdlParser.COLON);
-			this.state = 706;
+			this.state = 748;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 74, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 79, this._ctx) ) {
 			case 1:
 				{
-				this.state = 704;
+				this.state = 746;
 				this.instruction();
 				}
 				break;
 
 			case 2:
 				{
-				this.state = 705;
+				this.state = 747;
 				this.actionBlock();
 				}
 				break;
@@ -3420,13 +3617,13 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_break(): Instruction_breakContext {
 		let _localctx: Instruction_breakContext = new Instruction_breakContext(this._ctx, this.state);
-		this.enterRule(_localctx, 134, YmlToBdlParser.RULE_instruction_break);
+		this.enterRule(_localctx, 142, YmlToBdlParser.RULE_instruction_break);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 708;
+			this.state = 750;
 			this.match(YmlToBdlParser.BREAK);
-			this.state = 709;
+			this.state = 751;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -3447,32 +3644,32 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_ifElse(): Instruction_ifElseContext {
 		let _localctx: Instruction_ifElseContext = new Instruction_ifElseContext(this._ctx, this.state);
-		this.enterRule(_localctx, 136, YmlToBdlParser.RULE_instruction_ifElse);
+		this.enterRule(_localctx, 144, YmlToBdlParser.RULE_instruction_ifElse);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 711;
+			this.state = 753;
 			this.instruction_if();
-			this.state = 717;
+			this.state = 759;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 76, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 81, this._ctx) ) {
 			case 1:
 				{
-				this.state = 712;
+				this.state = 754;
 				this.match(YmlToBdlParser.ELSE);
-				this.state = 715;
+				this.state = 757;
 				this._errHandler.sync(this);
-				switch ( this.interpreter.adaptivePredict(this._input, 75, this._ctx) ) {
+				switch ( this.interpreter.adaptivePredict(this._input, 80, this._ctx) ) {
 				case 1:
 					{
-					this.state = 713;
+					this.state = 755;
 					this.actionBlock();
 					}
 					break;
 
 				case 2:
 					{
-					this.state = 714;
+					this.state = 756;
 					this.instruction();
 					}
 					break;
@@ -3499,31 +3696,31 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_if(): Instruction_ifContext {
 		let _localctx: Instruction_ifContext = new Instruction_ifContext(this._ctx, this.state);
-		this.enterRule(_localctx, 138, YmlToBdlParser.RULE_instruction_if);
+		this.enterRule(_localctx, 146, YmlToBdlParser.RULE_instruction_if);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 719;
+			this.state = 761;
 			this.match(YmlToBdlParser.IF);
-			this.state = 720;
+			this.state = 762;
 			this.match(YmlToBdlParser.OPEN_PAR);
-			this.state = 721;
+			this.state = 763;
 			this.order0Condition();
-			this.state = 722;
+			this.state = 764;
 			this.match(YmlToBdlParser.CLOSE_PAR);
-			this.state = 725;
+			this.state = 767;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 77, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 82, this._ctx) ) {
 			case 1:
 				{
-				this.state = 723;
+				this.state = 765;
 				this.actionBlock();
 				}
 				break;
 
 			case 2:
 				{
-				this.state = 724;
+				this.state = 766;
 				this.instruction();
 				}
 				break;
@@ -3545,17 +3742,50 @@ export class YmlToBdlParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public instruction_return(): Instruction_returnContext {
-		let _localctx: Instruction_returnContext = new Instruction_returnContext(this._ctx, this.state);
-		this.enterRule(_localctx, 140, YmlToBdlParser.RULE_instruction_return);
+	public instruction_while(): Instruction_whileContext {
+		let _localctx: Instruction_whileContext = new Instruction_whileContext(this._ctx, this.state);
+		this.enterRule(_localctx, 148, YmlToBdlParser.RULE_instruction_while);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 727;
+			this.state = 769;
+			this.match(YmlToBdlParser.WHILE);
+			this.state = 770;
+			this.match(YmlToBdlParser.OPEN_PAR);
+			this.state = 771;
+			this.order0Condition();
+			this.state = 772;
+			this.match(YmlToBdlParser.CLOSE_PAR);
+			this.state = 773;
+			this.actionBlock();
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public instruction_return(): Instruction_returnContext {
+		let _localctx: Instruction_returnContext = new Instruction_returnContext(this._ctx, this.state);
+		this.enterRule(_localctx, 150, YmlToBdlParser.RULE_instruction_return);
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 775;
 			this.match(YmlToBdlParser.RETURN);
-			this.state = 728;
+			this.state = 776;
 			this.value();
-			this.state = 729;
+			this.state = 777;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -3576,11 +3806,11 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction_chainedCall(): Instruction_chainedCallContext {
 		let _localctx: Instruction_chainedCallContext = new Instruction_chainedCallContext(this._ctx, this.state);
-		this.enterRule(_localctx, 142, YmlToBdlParser.RULE_instruction_chainedCall);
+		this.enterRule(_localctx, 152, YmlToBdlParser.RULE_instruction_chainedCall);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 731;
+			this.state = 779;
 			this.chainedCall();
 			}
 		}
@@ -3601,17 +3831,17 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public instruction(): InstructionContext {
 		let _localctx: InstructionContext = new InstructionContext(this._ctx, this.state);
-		this.enterRule(_localctx, 144, YmlToBdlParser.RULE_instruction);
+		this.enterRule(_localctx, 154, YmlToBdlParser.RULE_instruction);
 		try {
-			this.state = 749;
+			this.state = 798;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 78, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 83, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(_localctx, 1);
 				{
-				this.state = 733;
+				this.state = 781;
 				this.instruction_chainedCall();
-				this.state = 734;
+				this.state = 782;
 				this.match(YmlToBdlParser.SEMICOLON);
 				}
 				break;
@@ -3619,9 +3849,9 @@ export class YmlToBdlParser extends Parser {
 			case 2:
 				this.enterOuterAlt(_localctx, 2);
 				{
-				this.state = 736;
+				this.state = 784;
 				this.instruction_multivaluedAssignment();
-				this.state = 737;
+				this.state = 785;
 				this.match(YmlToBdlParser.SEMICOLON);
 				}
 				break;
@@ -3629,9 +3859,9 @@ export class YmlToBdlParser extends Parser {
 			case 3:
 				this.enterOuterAlt(_localctx, 3);
 				{
-				this.state = 739;
+				this.state = 787;
 				this.instruction_assignment();
-				this.state = 740;
+				this.state = 788;
 				this.match(YmlToBdlParser.SEMICOLON);
 				}
 				break;
@@ -3639,7 +3869,7 @@ export class YmlToBdlParser extends Parser {
 			case 4:
 				this.enterOuterAlt(_localctx, 4);
 				{
-				this.state = 742;
+				this.state = 790;
 				this.instruction_forEach();
 				}
 				break;
@@ -3647,7 +3877,7 @@ export class YmlToBdlParser extends Parser {
 			case 5:
 				this.enterOuterAlt(_localctx, 5);
 				{
-				this.state = 743;
+				this.state = 791;
 				this.instruction_return();
 				}
 				break;
@@ -3655,7 +3885,7 @@ export class YmlToBdlParser extends Parser {
 			case 6:
 				this.enterOuterAlt(_localctx, 6);
 				{
-				this.state = 744;
+				this.state = 792;
 				this.instruction_ifElse();
 				}
 				break;
@@ -3663,7 +3893,7 @@ export class YmlToBdlParser extends Parser {
 			case 7:
 				this.enterOuterAlt(_localctx, 7);
 				{
-				this.state = 745;
+				this.state = 793;
 				this.instruction_switchCase_asIf();
 				}
 				break;
@@ -3671,7 +3901,7 @@ export class YmlToBdlParser extends Parser {
 			case 8:
 				this.enterOuterAlt(_localctx, 8);
 				{
-				this.state = 746;
+				this.state = 794;
 				this.instruction_break();
 				}
 				break;
@@ -3679,7 +3909,7 @@ export class YmlToBdlParser extends Parser {
 			case 9:
 				this.enterOuterAlt(_localctx, 9);
 				{
-				this.state = 747;
+				this.state = 795;
 				this.instruction_switchCase_withValue();
 				}
 				break;
@@ -3687,8 +3917,16 @@ export class YmlToBdlParser extends Parser {
 			case 10:
 				this.enterOuterAlt(_localctx, 10);
 				{
-				this.state = 748;
+				this.state = 796;
 				this.instruction_ifExprBlock();
+				}
+				break;
+
+			case 11:
+				this.enterOuterAlt(_localctx, 11);
+				{
+				this.state = 797;
+				this.instruction_while();
 				}
 				break;
 			}
@@ -3710,28 +3948,28 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public actionBlock(): ActionBlockContext {
 		let _localctx: ActionBlockContext = new ActionBlockContext(this._ctx, this.state);
-		this.enterRule(_localctx, 146, YmlToBdlParser.RULE_actionBlock);
+		this.enterRule(_localctx, 156, YmlToBdlParser.RULE_actionBlock);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 751;
+			this.state = 800;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 753;
+			this.state = 802;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 752;
+				this.state = 801;
 				this.instruction();
 				}
 				}
-				this.state = 755;
+				this.state = 804;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.IF - 12)) | (1 << (YmlToBdlParser.FOREACH - 12)) | (1 << (YmlToBdlParser.RETURN - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.SWITCH - 12)) | (1 << (YmlToBdlParser.BREAK - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 44)) & ~0x1F) === 0 && ((1 << (_la - 44)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 44)) | (1 << (YmlToBdlParser.QUESTION_MARK - 44)) | (1 << (YmlToBdlParser.OPERATOR - 44)) | (1 << (YmlToBdlParser.DATE - 44)) | (1 << (YmlToBdlParser.STRING - 44)) | (1 << (YmlToBdlParser.DOUBLE - 44)) | (1 << (YmlToBdlParser.YMLID - 44)) | (1 << (YmlToBdlParser.GRANULE - 44)))) !== 0));
-			this.state = 757;
+			} while (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.IF - 12)) | (1 << (YmlToBdlParser.FOREACH - 12)) | (1 << (YmlToBdlParser.RETURN - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.SWITCH - 12)) | (1 << (YmlToBdlParser.BREAK - 12)) | (1 << (YmlToBdlParser.WHILE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 45)) & ~0x1F) === 0 && ((1 << (_la - 45)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 45)) | (1 << (YmlToBdlParser.QUESTION_MARK - 45)) | (1 << (YmlToBdlParser.OPERATOR - 45)) | (1 << (YmlToBdlParser.DATE - 45)) | (1 << (YmlToBdlParser.STRING - 45)) | (1 << (YmlToBdlParser.DOUBLE - 45)) | (1 << (YmlToBdlParser.YMLID - 45)) | (1 << (YmlToBdlParser.GRANULE - 45)))) !== 0));
+			this.state = 806;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -3762,68 +4000,68 @@ export class YmlToBdlParser extends Parser {
 		let _parentState: number = this.state;
 		let _localctx: ArithmeticExpressionContext = new ArithmeticExpressionContext(this._ctx, _parentState);
 		let _prevctx: ArithmeticExpressionContext = _localctx;
-		let _startState: number = 148;
-		this.enterRecursionRule(_localctx, 148, YmlToBdlParser.RULE_arithmeticExpression, _p);
+		let _startState: number = 158;
+		this.enterRecursionRule(_localctx, 158, YmlToBdlParser.RULE_arithmeticExpression, _p);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 775;
+			this.state = 824;
 			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 80, this._ctx) ) {
+			switch ( this.interpreter.adaptivePredict(this._input, 85, this._ctx) ) {
 			case 1:
 				{
-				this.state = 760;
+				this.state = 809;
 				this.match(YmlToBdlParser.OPEN_PAR);
-				this.state = 761;
+				this.state = 810;
 				_localctx._parenthizedExpression = this.arithmeticExpression(0);
-				this.state = 762;
+				this.state = 811;
 				this.match(YmlToBdlParser.CLOSE_PAR);
 				}
 				break;
 
 			case 2:
 				{
-				this.state = 764;
+				this.state = 813;
 				_localctx._prefixedOperator = this.match(YmlToBdlParser.OPERATOR);
-				this.state = 765;
+				this.state = 814;
 				this.arithmeticExpression(4);
 				}
 				break;
 
 			case 3:
 				{
-				this.state = 766;
+				this.state = 815;
 				this.chainedCall();
-				this.state = 767;
+				this.state = 816;
 				this.match(YmlToBdlParser.OPERATOR);
-				this.state = 768;
+				this.state = 817;
 				this.arithmeticExpression(3);
 				}
 				break;
 
 			case 4:
 				{
-				this.state = 770;
+				this.state = 819;
 				this.chainedCall();
-				this.state = 771;
+				this.state = 820;
 				this.match(YmlToBdlParser.OPERATOR);
-				this.state = 772;
+				this.state = 821;
 				this.chainedCall();
 				}
 				break;
 
 			case 5:
 				{
-				this.state = 774;
+				this.state = 823;
 				this.match(YmlToBdlParser.DOUBLE);
 				}
 				break;
 			}
 			this._ctx._stop = this._input.tryLT(-1);
-			this.state = 782;
+			this.state = 831;
 			this._errHandler.sync(this);
-			_alt = this.interpreter.adaptivePredict(this._input, 81, this._ctx);
+			_alt = this.interpreter.adaptivePredict(this._input, 86, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
 				if (_alt === 1) {
 					if (this._parseListeners != null) {
@@ -3835,20 +4073,20 @@ export class YmlToBdlParser extends Parser {
 					_localctx = new ArithmeticExpressionContext(_parentctx, _parentState);
 					_localctx._leftExpression = _prevctx;
 					this.pushNewRecursionContext(_localctx, _startState, YmlToBdlParser.RULE_arithmeticExpression);
-					this.state = 777;
+					this.state = 826;
 					if (!(this.precpred(this._ctx, 5))) {
 						throw new FailedPredicateException(this, "this.precpred(this._ctx, 5)");
 					}
-					this.state = 778;
+					this.state = 827;
 					_localctx._infixedOperator = this.match(YmlToBdlParser.OPERATOR);
-					this.state = 779;
+					this.state = 828;
 					_localctx._rightExpression = this.arithmeticExpression(6);
 					}
 					}
 				}
-				this.state = 784;
+				this.state = 833;
 				this._errHandler.sync(this);
-				_alt = this.interpreter.adaptivePredict(this._input, 81, this._ctx);
+				_alt = this.interpreter.adaptivePredict(this._input, 86, this._ctx);
 			}
 			}
 		}
@@ -3869,17 +4107,17 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public existentialOperator(): ExistentialOperatorContext {
 		let _localctx: ExistentialOperatorContext = new ExistentialOperatorContext(this._ctx, this.state);
-		this.enterRule(_localctx, 150, YmlToBdlParser.RULE_existentialOperator);
+		this.enterRule(_localctx, 160, YmlToBdlParser.RULE_existentialOperator);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 785;
+			this.state = 834;
 			_localctx._operator = this.ymlId();
-			this.state = 786;
+			this.state = 835;
 			this.match(YmlToBdlParser.OPEN_PAR);
-			this.state = 787;
+			this.state = 836;
 			this.order1FullCondition();
-			this.state = 788;
+			this.state = 837;
 			this.match(YmlToBdlParser.CLOSE_PAR);
 			}
 		}
@@ -3900,22 +4138,22 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public variableBlockContent(): VariableBlockContentContext {
 		let _localctx: VariableBlockContentContext = new VariableBlockContentContext(this._ctx, this.state);
-		this.enterRule(_localctx, 152, YmlToBdlParser.RULE_variableBlockContent);
+		this.enterRule(_localctx, 162, YmlToBdlParser.RULE_variableBlockContent);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 793;
+			this.state = 842;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.YMLID) {
 				{
 				{
-				this.state = 790;
+				this.state = 839;
 				this.memberDeclaration();
 				}
 				}
-				this.state = 795;
+				this.state = 844;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
@@ -3938,42 +4176,42 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public staticDeclaration(): StaticDeclarationContext {
 		let _localctx: StaticDeclarationContext = new StaticDeclarationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 154, YmlToBdlParser.RULE_staticDeclaration);
+		this.enterRule(_localctx, 164, YmlToBdlParser.RULE_staticDeclaration);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 796;
+			this.state = 845;
 			_localctx._declarationType = this.ymlId();
-			this.state = 797;
+			this.state = 846;
 			_localctx._declarationName = this.ymlId();
-			this.state = 800;
+			this.state = 849;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la === YmlToBdlParser.EXTENDS) {
 				{
-				this.state = 798;
+				this.state = 847;
 				this.match(YmlToBdlParser.EXTENDS);
-				this.state = 799;
+				this.state = 848;
 				_localctx._extended = this.ymlId();
 				}
 			}
 
-			this.state = 805;
+			this.state = 854;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 802;
+				this.state = 851;
 				_localctx._declarationOptions = this.field();
 				}
 				}
-				this.state = 807;
+				this.state = 856;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 808;
+			this.state = 857;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -3994,33 +4232,33 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public externDeclaration(): ExternDeclarationContext {
 		let _localctx: ExternDeclarationContext = new ExternDeclarationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 156, YmlToBdlParser.RULE_externDeclaration);
+		this.enterRule(_localctx, 166, YmlToBdlParser.RULE_externDeclaration);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 810;
+			this.state = 859;
 			this.match(YmlToBdlParser.EXTERN);
-			this.state = 813;
+			this.state = 862;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case YmlToBdlParser.METHOD:
 			case YmlToBdlParser.TEXT_METHOD:
 			case YmlToBdlParser.TEXT_FUNCTION:
 				{
-				this.state = 811;
+				this.state = 860;
 				this.methodDeclaration();
 				}
 				break;
 			case YmlToBdlParser.YMLID:
 				{
-				this.state = 812;
+				this.state = 861;
 				this.memberDeclaration();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			this.state = 815;
+			this.state = 864;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -4041,42 +4279,42 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public list(): ListContext {
 		let _localctx: ListContext = new ListContext(this._ctx, this.state);
-		this.enterRule(_localctx, 158, YmlToBdlParser.RULE_list);
+		this.enterRule(_localctx, 168, YmlToBdlParser.RULE_list);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 817;
+			this.state = 866;
 			this.match(YmlToBdlParser.OPEN_BRACKET);
-			this.state = 819;
+			this.state = 868;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 44)) & ~0x1F) === 0 && ((1 << (_la - 44)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 44)) | (1 << (YmlToBdlParser.QUESTION_MARK - 44)) | (1 << (YmlToBdlParser.OPERATOR - 44)) | (1 << (YmlToBdlParser.DATE - 44)) | (1 << (YmlToBdlParser.STRING - 44)) | (1 << (YmlToBdlParser.DOUBLE - 44)) | (1 << (YmlToBdlParser.YMLID - 44)) | (1 << (YmlToBdlParser.GRANULE - 44)))) !== 0)) {
+			if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 45)) & ~0x1F) === 0 && ((1 << (_la - 45)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 45)) | (1 << (YmlToBdlParser.QUESTION_MARK - 45)) | (1 << (YmlToBdlParser.OPERATOR - 45)) | (1 << (YmlToBdlParser.DATE - 45)) | (1 << (YmlToBdlParser.STRING - 45)) | (1 << (YmlToBdlParser.DOUBLE - 45)) | (1 << (YmlToBdlParser.YMLID - 45)) | (1 << (YmlToBdlParser.GRANULE - 45)))) !== 0)) {
 				{
-				this.state = 818;
+				this.state = 867;
 				_localctx._value = this.value();
 				_localctx._elements.push(_localctx._value);
 				}
 			}
 
-			this.state = 825;
+			this.state = 874;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.COMMA) {
 				{
 				{
-				this.state = 821;
+				this.state = 870;
 				this.match(YmlToBdlParser.COMMA);
-				this.state = 822;
+				this.state = 871;
 				_localctx._value = this.value();
 				_localctx._elements.push(_localctx._value);
 				}
 				}
-				this.state = 827;
+				this.state = 876;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 828;
+			this.state = 877;
 			this.match(YmlToBdlParser.CLOSE_BRACKET);
 			}
 		}
@@ -4097,42 +4335,42 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public listWithBrace(): ListWithBraceContext {
 		let _localctx: ListWithBraceContext = new ListWithBraceContext(this._ctx, this.state);
-		this.enterRule(_localctx, 160, YmlToBdlParser.RULE_listWithBrace);
+		this.enterRule(_localctx, 170, YmlToBdlParser.RULE_listWithBrace);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 830;
+			this.state = 879;
 			this.match(YmlToBdlParser.OPEN_BRACE);
-			this.state = 832;
+			this.state = 881;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 44)) & ~0x1F) === 0 && ((1 << (_la - 44)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 44)) | (1 << (YmlToBdlParser.QUESTION_MARK - 44)) | (1 << (YmlToBdlParser.OPERATOR - 44)) | (1 << (YmlToBdlParser.DATE - 44)) | (1 << (YmlToBdlParser.STRING - 44)) | (1 << (YmlToBdlParser.DOUBLE - 44)) | (1 << (YmlToBdlParser.YMLID - 44)) | (1 << (YmlToBdlParser.GRANULE - 44)))) !== 0)) {
+			if (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlToBdlParser.SYNONYM - 12)) | (1 << (YmlToBdlParser.IF_EXPR - 12)) | (1 << (YmlToBdlParser.TRUE - 12)) | (1 << (YmlToBdlParser.FALSE - 12)) | (1 << (YmlToBdlParser.INLINE_DECL_INTRO - 12)) | (1 << (YmlToBdlParser.OPEN_PAR - 12)))) !== 0) || ((((_la - 45)) & ~0x1F) === 0 && ((1 << (_la - 45)) & ((1 << (YmlToBdlParser.OPEN_BRACE - 45)) | (1 << (YmlToBdlParser.QUESTION_MARK - 45)) | (1 << (YmlToBdlParser.OPERATOR - 45)) | (1 << (YmlToBdlParser.DATE - 45)) | (1 << (YmlToBdlParser.STRING - 45)) | (1 << (YmlToBdlParser.DOUBLE - 45)) | (1 << (YmlToBdlParser.YMLID - 45)) | (1 << (YmlToBdlParser.GRANULE - 45)))) !== 0)) {
 				{
-				this.state = 831;
+				this.state = 880;
 				_localctx._value = this.value();
 				_localctx._elements.push(_localctx._value);
 				}
 			}
 
-			this.state = 838;
+			this.state = 887;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === YmlToBdlParser.COMMA) {
 				{
 				{
-				this.state = 834;
+				this.state = 883;
 				this.match(YmlToBdlParser.COMMA);
-				this.state = 835;
+				this.state = 884;
 				_localctx._value = this.value();
 				_localctx._elements.push(_localctx._value);
 				}
 				}
-				this.state = 840;
+				this.state = 889;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 841;
+			this.state = 890;
 			this.match(YmlToBdlParser.CLOSE_BRACE);
 			}
 		}
@@ -4153,11 +4391,11 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public granule(): GranuleContext {
 		let _localctx: GranuleContext = new GranuleContext(this._ctx, this.state);
-		this.enterRule(_localctx, 162, YmlToBdlParser.RULE_granule);
+		this.enterRule(_localctx, 172, YmlToBdlParser.RULE_granule);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 843;
+			this.state = 892;
 			this.match(YmlToBdlParser.GRANULE);
 			}
 		}
@@ -4178,30 +4416,30 @@ export class YmlToBdlParser extends Parser {
 	// @RuleVersion(0)
 	public complete(): CompleteContext {
 		let _localctx: CompleteContext = new CompleteContext(this._ctx, this.state);
-		this.enterRule(_localctx, 164, YmlToBdlParser.RULE_complete);
+		this.enterRule(_localctx, 174, YmlToBdlParser.RULE_complete);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 845;
+			this.state = 894;
 			this.match(YmlToBdlParser.COMPLETE);
-			this.state = 846;
+			this.state = 895;
 			_localctx._completedElemId = this.ymlId();
-			this.state = 850;
+			this.state = 899;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (((((_la - 35)) & ~0x1F) === 0 && ((1 << (_la - 35)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 35)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 35)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 35)) | (1 << (YmlToBdlParser.ADD_FIELD - 35)))) !== 0)) {
+			while (((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlToBdlParser.FIELD_INTRO - 36)) | (1 << (YmlToBdlParser.REPLACE_FIELD_VALUE_INTRO - 36)) | (1 << (YmlToBdlParser.REMOVE_FIELD - 36)) | (1 << (YmlToBdlParser.ADD_FIELD - 36)))) !== 0)) {
 				{
 				{
-				this.state = 847;
+				this.state = 896;
 				_localctx._memberOption = this.field();
 				}
 				}
-				this.state = 852;
+				this.state = 901;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 853;
+			this.state = 902;
 			this.match(YmlToBdlParser.SEMICOLON);
 			}
 		}
@@ -4222,10 +4460,10 @@ export class YmlToBdlParser extends Parser {
 
 	public sempred(_localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
 		switch (ruleIndex) {
-		case 56:
+		case 60:
 			return this.combinedComparison_sempred(_localctx as CombinedComparisonContext, predIndex);
 
-		case 74:
+		case 79:
 			return this.arithmeticExpression_sempred(_localctx as ArithmeticExpressionContext, predIndex);
 		}
 		return true;
@@ -4250,7 +4488,7 @@ export class YmlToBdlParser extends Parser {
 
 	private static readonly _serializedATNSegments: number = 2;
 	private static readonly _serializedATNSegment0: string =
-		"\x03\uAF6F\u8320\u479D\uB75C\u4880\u1605\u191C\uAB37\x03L\u035A\x04\x02" +
+		"\x03\uAF6F\u8320\u479D\uB75C\u4880\u1605\u191C\uAB37\x03M\u038B\x04\x02" +
 		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
 		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r\x04" +
 		"\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x04\x11\t\x11\x04\x12\t\x12\x04" +
@@ -4262,412 +4500,437 @@ export class YmlToBdlParser extends Parser {
 		"\t4\x045\t5\x046\t6\x047\t7\x048\t8\x049\t9\x04:\t:\x04;\t;\x04<\t<\x04" +
 		"=\t=\x04>\t>\x04?\t?\x04@\t@\x04A\tA\x04B\tB\x04C\tC\x04D\tD\x04E\tE\x04" +
 		"F\tF\x04G\tG\x04H\tH\x04I\tI\x04J\tJ\x04K\tK\x04L\tL\x04M\tM\x04N\tN\x04" +
-		"O\tO\x04P\tP\x04Q\tQ\x04R\tR\x04S\tS\x04T\tT\x03\x02\x03\x02\x03\x03\x03" +
-		"\x03\x03\x04\x07\x04\xAE\n\x04\f\x04\x0E\x04\xB1\v\x04\x03\x04\x03\x04" +
-		"\x03\x05\x03\x05\x03\x05\x03\x05\x03\x05\x03\x05\x05\x05\xBB\n\x05\x03" +
-		"\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x07\x06\xC3\n\x06\f\x06\x0E" +
-		"\x06\xC6\v\x06\x06\x06\xC8\n\x06\r\x06\x0E\x06\xC9\x03\x06\x03\x06\x07" +
-		"\x06\xCE\n\x06\f\x06\x0E\x06\xD1\v\x06\x03\x06\x03\x06\x03\x07\x03\x07" +
-		"\x07\x07\xD7\n\x07\f\x07\x0E\x07\xDA\v\x07\x03\b\x03\b\x07\b\xDE\n\b\f" +
-		"\b\x0E\b\xE1\v\b\x03\b\x03\b\x07\b\xE5\n\b\f\b\x0E\b\xE8\v\b\x03\b\x05" +
-		"\b\xEB\n\b\x03\b\x03\b\x03\b\x03\b\x05\b\xF1\n\b\x03\t\x03\t\x03\t\x07" +
-		"\t\xF6\n\t\f\t\x0E\t\xF9\v\t\x03\t\x05\t\xFC\n\t\x03\t\x07\t\xFF\n\t\f" +
-		"\t\x0E\t\u0102\v\t\x03\n\x03\n\x03\n\x07\n\u0107\n\n\f\n\x0E\n\u010A\v" +
-		"\n\x03\n\x03\n\x03\v\x03\v\x03\v\x03\f\x03\f\x03\f\x05\f\u0114\n\f\x03" +
-		"\r\x03\r\x03\r\x03\r\x07\r\u011A\n\r\f\r\x0E\r\u011D\v\r\x03\x0E\x03\x0E" +
-		"\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x07\x0F\u0128" +
-		"\n\x0F\f\x0F\x0E\x0F\u012B\v\x0F\x05\x0F\u012D\n\x0F\x03\x0F\x05\x0F\u0130" +
-		"\n\x0F\x03\x10\x03\x10\x03\x10\x07\x10\u0135\n\x10\f\x10\x0E\x10\u0138" +
-		"\v\x10\x03\x11\x03\x11\x03\x11\x07\x11\u013D\n\x11\f\x11\x0E\x11\u0140" +
-		"\v\x11\x03\x12\x03\x12\x03\x12\x05\x12\u0145\n\x12\x03\x13\x03\x13\x03" +
-		"\x13\x06\x13\u014A\n\x13\r\x13\x0E\x13\u014B\x03\x14\x03\x14\x03\x14\x05" +
-		"\x14\u0151\n\x14\x03\x15\x03\x15\x03\x15\x03\x15\x03\x15\x07\x15\u0158" +
-		"\n\x15\f\x15\x0E\x15\u015B\v\x15\x05\x15\u015D\n\x15\x03\x16\x03\x16\x07" +
-		"\x16\u0161\n\x16\f\x16\x0E\x16\u0164\v\x16\x03\x17\x03\x17\x03\x18\x03" +
-		"\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x05\x18\u0170\n\x18" +
-		"\x03\x19\x03\x19\x03\x19\x03\x19\x03\x1A\x03\x1A\x05\x1A\u0178\n\x1A\x03" +
-		"\x1B\x03\x1B\x03\x1B\x03\x1B\x03\x1B\x03\x1B\x05\x1B\u0180\n\x1B\x03\x1C" +
-		"\x03\x1C\x03\x1C\x05\x1C\u0185\n\x1C\x03\x1C\x03\x1C\x03\x1C\x03\x1C\x03" +
-		"\x1C\x03\x1C\x03\x1C\x03\x1D\x03\x1D\x03\x1D\x03\x1E\x03\x1E\x03\x1E\x03" +
-		"\x1E\x03\x1E\x03\x1E\x03\x1E\x03\x1E\x03\x1E\x03\x1F\x03\x1F\x03 \x03" +
-		" \x03 \x03 \x05 \u01A0\n \x03!\x03!\x03!\x03\"\x03\"\x03\"\x03\"\x03\"" +
-		"\x03\"\x05\"\u01AB\n\"\x03#\x03#\x03#\x03#\x03#\x07#\u01B2\n#\f#\x0E#" +
-		"\u01B5\v#\x05#\u01B7\n#\x03#\x03#\x03$\x03$\x03$\x03$\x03$\x03%\x03%\x05" +
-		"%\u01C2\n%\x03%\x03%\x03&\x03&\x03&\x03&\x07&\u01CA\n&\f&\x0E&\u01CD\v" +
-		"&\x03\'\x03\'\x03\'\x05\'\u01D2\n\'\x03\'\x07\'\u01D5\n\'\f\'\x0E\'\u01D8" +
-		"\v\'\x03\'\x03\'\x03(\x03(\x03(\x03(\x03)\x03)\x05)\u01E2\n)\x03*\x03" +
-		"*\x03*\x03*\x03*\x03*\x03*\x05*\u01EB\n*\x03*\x05*\u01EE\n*\x03*\x05*" +
-		"\u01F1\n*\x03*\x07*\u01F4\n*\f*\x0E*\u01F7\v*\x03*\x03*\x03+\x03+\x03" +
-		"+\x03+\x03+\x03,\x03,\x03,\x03,\x03,\x03-\x03-\x03-\x07-\u0208\n-\f-\x0E" +
-		"-\u020B\v-\x03-\x03-\x03.\x03.\x07.\u0211\n.\f.\x0E.\u0214\v.\x03/\x03" +
-		"/\x03/\x03/\x03/\x03/\x03/\x05/\u021D\n/\x030\x050\u0220\n0\x030\x050" +
-		"\u0223\n0\x031\x031\x031\x071\u0228\n1\f1\x0E1\u022B\v1\x032\x032\x03" +
-		"2\x052\u0230\n2\x033\x053\u0233\n3\x033\x033\x033\x033\x073\u0239\n3\f" +
-		"3\x0E3\u023C\v3\x053\u023E\n3\x033\x033\x053\u0242\n3\x034\x034\x034\x03" +
-		"4\x034\x054\u0249\n4\x034\x034\x034\x054\u024E\n4\x034\x054\u0251\n4\x03" +
-		"5\x035\x035\x035\x075\u0257\n5\f5\x0E5\u025A\v5\x035\x035\x036\x036\x05" +
-		"6\u0260\n6\x037\x037\x057\u0264\n7\x038\x038\x039\x059\u0269\n9\x039\x07" +
-		"9\u026C\n9\f9\x0E9\u026F\v9\x03:\x03:\x03:\x03:\x03:\x03:\x05:\u0277\n" +
-		":\x03:\x03:\x03:\x03:\x03:\x03:\x07:\u027F\n:\f:\x0E:\u0282\v:\x03;\x03" +
-		";\x03;\x03;\x03<\x03<\x03=\x03=\x03=\x03=\x03>\x03>\x03>\x03>\x03?\x06" +
-		"?\u0293\n?\r?\x0E?\u0294\x03@\x03@\x05@\u0299\n@\x03A\x03A\x03A\x03A\x03" +
-		"A\x03A\x07A\u02A1\nA\fA\x0EA\u02A4\vA\x03A\x05A\u02A7\nA\x03A\x03A\x03" +
-		"B\x03B\x03B\x07B\u02AE\nB\fB\x0EB\u02B1\vB\x03B\x05B\u02B4\nB\x03B\x03" +
-		"B\x03C\x03C\x03C\x03C\x03C\x03C\x03C\x05C\u02BF\nC\x03D\x03D\x03D\x03" +
-		"D\x05D\u02C5\nD\x03E\x03E\x03E\x03F\x03F\x03F\x03F\x05F\u02CE\nF\x05F" +
-		"\u02D0\nF\x03G\x03G\x03G\x03G\x03G\x03G\x05G\u02D8\nG\x03H\x03H\x03H\x03" +
-		"H\x03I\x03I\x03J\x03J\x03J\x03J\x03J\x03J\x03J\x03J\x03J\x03J\x03J\x03" +
-		"J\x03J\x03J\x03J\x03J\x05J\u02F0\nJ\x03K\x03K\x06K\u02F4\nK\rK\x0EK\u02F5" +
-		"\x03K\x03K\x03L\x03L\x03L\x03L\x03L\x03L\x03L\x03L\x03L\x03L\x03L\x03" +
-		"L\x03L\x03L\x03L\x03L\x05L\u030A\nL\x03L\x03L\x03L\x07L\u030F\nL\fL\x0E" +
-		"L\u0312\vL\x03M\x03M\x03M\x03M\x03M\x03N\x07N\u031A\nN\fN\x0EN\u031D\v" +
-		"N\x03O\x03O\x03O\x03O\x05O\u0323\nO\x03O\x07O\u0326\nO\fO\x0EO\u0329\v" +
-		"O\x03O\x03O\x03P\x03P\x03P\x05P\u0330\nP\x03P\x03P\x03Q\x03Q\x05Q\u0336" +
-		"\nQ\x03Q\x03Q\x07Q\u033A\nQ\fQ\x0EQ\u033D\vQ\x03Q\x03Q\x03R\x03R\x05R" +
-		"\u0343\nR\x03R\x03R\x07R\u0347\nR\fR\x0ER\u034A\vR\x03R\x03R\x03S\x03" +
-		"S\x03T\x03T\x03T\x07T\u0353\nT\fT\x0ET\u0356\vT\x03T\x03T\x03T\x05\xF7" +
-		"\u014B\u0159\x02\x04r\x96U\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E" +
-		"\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02\x1A\x02\x1C\x02\x1E\x02 " +
-		"\x02\"\x02$\x02&\x02(\x02*\x02,\x02.\x020\x022\x024\x026\x028\x02:\x02" +
-		"<\x02>\x02@\x02B\x02D\x02F\x02H\x02J\x02L\x02N\x02P\x02R\x02T\x02V\x02" +
-		"X\x02Z\x02\\\x02^\x02`\x02b\x02d\x02f\x02h\x02j\x02l\x02n\x02p\x02r\x02" +
-		"t\x02v\x02x\x02z\x02|\x02~\x02\x80\x02\x82\x02\x84\x02\x86\x02\x88\x02" +
-		"\x8A\x02\x8C\x02\x8E\x02\x90\x02\x92\x02\x94\x02\x96\x02\x98\x02\x9A\x02" +
-		"\x9C\x02\x9E\x02\xA0\x02\xA2\x02\xA4\x02\xA6\x02\x02\b\x03\x02#$\x03\x02" +
-		"%(\x03\x02\x19\x1A\x03\x02\x06\t\x03\x02\x07\t\x03\x0249\u037F\x02\xA8" +
-		"\x03\x02\x02\x02\x04\xAA\x03\x02\x02\x02\x06\xAF\x03\x02\x02\x02\b\xBA" +
-		"\x03\x02\x02\x02\n\xBC\x03\x02\x02\x02\f\xD4\x03\x02\x02\x02\x0E\xDB\x03" +
-		"\x02\x02\x02\x10\xF2\x03\x02\x02\x02\x12\u0103\x03\x02\x02\x02\x14\u010D" +
-		"\x03\x02\x02\x02\x16\u0110\x03\x02\x02\x02\x18\u0115\x03\x02\x02\x02\x1A" +
-		"\u011E\x03\x02\x02\x02\x1C\u012F\x03\x02\x02\x02\x1E\u0131\x03\x02\x02" +
-		"\x02 \u0139\x03\x02\x02\x02\"\u0141\x03\x02\x02\x02$\u0146\x03\x02\x02" +
-		"\x02&\u0150\x03\x02\x02\x02(\u0152\x03\x02\x02\x02*\u015E\x03\x02\x02" +
-		"\x02,\u0165\x03\x02\x02\x02.\u016F\x03\x02\x02\x020\u0171\x03\x02\x02" +
-		"\x022\u0177\x03\x02\x02\x024\u017F\x03\x02\x02\x026\u0181\x03\x02\x02" +
-		"\x028\u018D\x03\x02\x02\x02:\u0190\x03\x02\x02\x02<\u0199\x03\x02\x02" +
-		"\x02>\u019F\x03\x02\x02\x02@\u01A1\x03\x02\x02\x02B\u01AA\x03\x02\x02" +
-		"\x02D\u01AC\x03\x02\x02\x02F\u01BA\x03\x02\x02\x02H\u01C1\x03\x02\x02" +
-		"\x02J\u01C5\x03\x02\x02\x02L\u01CE\x03\x02\x02\x02N\u01DB\x03\x02\x02" +
-		"\x02P\u01E1\x03\x02\x02\x02R\u01E3\x03\x02\x02\x02T\u01FA\x03\x02\x02" +
-		"\x02V\u01FF\x03\x02\x02\x02X\u0204\x03\x02\x02\x02Z\u020E\x03\x02\x02" +
-		"\x02\\\u0215\x03\x02\x02\x02^\u021F\x03\x02\x02\x02`\u0224\x03\x02\x02" +
-		"\x02b\u022C\x03\x02\x02\x02d\u0232\x03\x02\x02\x02f\u0248\x03\x02\x02" +
-		"\x02h\u0252\x03\x02\x02\x02j\u025D\x03\x02\x02\x02l\u0261\x03\x02\x02" +
-		"\x02n\u0265\x03\x02\x02\x02p\u0268\x03\x02\x02\x02r\u0276\x03\x02\x02" +
-		"\x02t\u0283\x03\x02\x02\x02v\u0287\x03\x02\x02\x02x\u0289\x03\x02\x02" +
-		"\x02z\u028D\x03\x02\x02\x02|\u0292\x03\x02\x02\x02~\u0298\x03\x02\x02" +
-		"\x02\x80\u029A\x03\x02\x02\x02\x82\u02AA\x03\x02\x02\x02\x84\u02B7\x03" +
-		"\x02\x02\x02\x86\u02C0\x03\x02\x02\x02\x88\u02C6\x03\x02\x02\x02\x8A\u02C9" +
-		"\x03\x02\x02\x02\x8C\u02D1\x03\x02\x02\x02\x8E\u02D9\x03\x02\x02\x02\x90" +
-		"\u02DD\x03\x02\x02\x02\x92\u02EF\x03\x02\x02\x02\x94\u02F1\x03\x02\x02" +
-		"\x02\x96\u0309\x03\x02\x02\x02\x98\u0313\x03\x02\x02\x02\x9A\u031B\x03" +
-		"\x02\x02\x02\x9C\u031E\x03\x02\x02\x02\x9E\u032C\x03\x02\x02\x02\xA0\u0333" +
-		"\x03\x02\x02\x02\xA2\u0340\x03\x02\x02\x02\xA4\u034D\x03\x02\x02\x02\xA6" +
-		"\u034F\x03\x02\x02\x02\xA8\xA9\t\x02\x02\x02\xA9\x03\x03\x02\x02\x02\xAA" +
-		"\xAB\x07G\x02\x02\xAB\x05\x03\x02\x02\x02\xAC\xAE\x05\b\x05\x02\xAD\xAC" +
-		"\x03\x02\x02\x02\xAE\xB1\x03\x02\x02\x02\xAF\xAD\x03\x02\x02\x02\xAF\xB0" +
-		"\x03\x02\x02\x02\xB0\xB2\x03\x02\x02\x02\xB1\xAF\x03\x02\x02\x02\xB2\xB3" +
-		"\x07\x02\x02\x03\xB3\x07\x03\x02\x02\x02\xB4\xBB\x05\x0E\b\x02\xB5\xBB" +
-		"\x05\x9CO\x02\xB6\xBB\x05\xA6T\x02\xB7\xBB\x05\n\x06\x02\xB8\xBB\x05R" +
-		"*\x02\xB9\xBB\x05\x9EP\x02\xBA\xB4\x03\x02\x02\x02\xBA\xB5\x03\x02\x02" +
-		"\x02\xBA\xB6\x03\x02\x02\x02\xBA\xB7\x03\x02\x02\x02\xBA\xB8\x03\x02\x02" +
-		"\x02\xBA\xB9\x03\x02\x02\x02\xBB\t\x03\x02\x02\x02\xBC\xBD\x07\x15\x02" +
-		"\x02\xBD\xBE\x05\x04\x03\x02\xBE\xC7\x07.\x02\x02\xBF\xC4\x05\f\x07\x02" +
-		"\xC0\xC1\x07!\x02\x02\xC1\xC3\x05\f\x07\x02\xC2\xC0\x03\x02\x02\x02\xC3" +
-		"\xC6\x03\x02\x02\x02\xC4\xC2\x03\x02\x02\x02\xC4\xC5\x03\x02\x02\x02\xC5" +
-		"\xC8\x03\x02\x02\x02\xC6\xC4\x03\x02\x02\x02\xC7\xBF\x03\x02\x02\x02\xC8" +
-		"\xC9\x03\x02\x02\x02\xC9\xC7\x03\x02\x02\x02\xC9\xCA\x03\x02\x02\x02\xCA" +
-		"\xCB\x03\x02\x02\x02\xCB\xCF\x07/\x02\x02\xCC\xCE\x05(\x15\x02\xCD\xCC" +
-		"\x03\x02\x02\x02\xCE\xD1\x03\x02\x02\x02\xCF\xCD\x03\x02\x02\x02\xCF\xD0" +
-		"\x03\x02\x02\x02\xD0\xD2\x03\x02\x02\x02\xD1\xCF\x03\x02\x02\x02\xD2\xD3" +
-		"\x07 \x02\x02\xD3\v\x03\x02\x02\x02\xD4\xD8\x05\x04\x03\x02\xD5\xD7\x05" +
-		"(\x15\x02\xD6\xD5\x03\x02\x02\x02\xD7\xDA\x03\x02\x02\x02\xD8\xD6\x03" +
-		"\x02\x02\x02\xD8\xD9\x03\x02\x02\x02\xD9\r\x03\x02\x02\x02\xDA\xD8\x03" +
-		"\x02\x02\x02\xDB\xDF\x05\x16\f\x02\xDC\xDE\x05(\x15\x02\xDD\xDC\x03\x02" +
-		"\x02\x02\xDE\xE1\x03\x02\x02\x02\xDF\xDD\x03\x02\x02\x02\xDF\xE0\x03\x02" +
-		"\x02\x02\xE0\xE6\x03\x02\x02\x02\xE1\xDF\x03\x02\x02\x02\xE2\xE5\x05\x1E" +
-		"\x10\x02\xE3\xE5\x05Z.\x02\xE4\xE2\x03\x02\x02\x02\xE4\xE3\x03\x02\x02" +
-		"\x02\xE5\xE8\x03\x02\x02\x02\xE6\xE4\x03\x02\x02\x02\xE6\xE7\x03\x02\x02" +
-		"\x02\xE7\xEA\x03\x02\x02\x02\xE8\xE6\x03\x02\x02\x02\xE9\xEB\x05*\x16" +
-		"\x02\xEA\xE9\x03\x02\x02\x02\xEA\xEB\x03\x02\x02\x02\xEB\xEC\x03\x02\x02" +
-		"\x02\xEC\xED\x07 \x02\x02\xED\xEE\x05\x10\t\x02\xEE\xF0\x07 \x02\x02\xEF" +
-		"\xF1\x07\x02\x02\x03\xF0\xEF\x03\x02\x02\x02\xF0\xF1\x03\x02\x02\x02\xF1" +
-		"\x0F\x03\x02\x02\x02\xF2\xF3\x07\x04\x02\x02\xF3\xF7\x05\x04\x03\x02\xF4" +
-		"\xF6\x05\x14\v\x02\xF5\xF4\x03\x02\x02\x02\xF6\xF9\x03\x02\x02\x02\xF7" +
-		"\xF8\x03\x02\x02\x02\xF7\xF5\x03\x02\x02\x02\xF8\xFB\x03\x02\x02\x02\xF9" +
-		"\xF7\x03\x02\x02\x02\xFA\xFC\x05\x12\n\x02\xFB\xFA\x03\x02\x02\x02\xFB" +
-		"\xFC\x03\x02\x02\x02\xFC\u0100\x03\x02\x02\x02\xFD\xFF\x05(\x15\x02\xFE" +
-		"\xFD\x03\x02\x02\x02\xFF\u0102\x03\x02\x02\x02\u0100\xFE\x03\x02\x02\x02" +
-		"\u0100\u0101\x03\x02\x02\x02\u0101\x11\x03\x02\x02\x02\u0102\u0100\x03" +
-		"\x02\x02\x02\u0103\u0104\x07\x0F\x02\x02\u0104\u0108\x07.\x02\x02\u0105" +
-		"\u0107\x05\x14\v\x02\u0106\u0105\x03\x02\x02\x02\u0107\u010A\x03\x02\x02" +
-		"\x02\u0108\u0106\x03\x02\x02\x02\u0108\u0109\x03\x02\x02\x02\u0109\u010B" +
-		"\x03\x02\x02\x02\u010A\u0108\x03\x02\x02\x02\u010B\u010C\x07/\x02\x02" +
-		"\u010C\x13\x03\x02\x02\x02\u010D\u010E\x05\x04\x03\x02\u010E\u010F\x07" +
-		"\x06\x02\x02\u010F\x15\x03\x02\x02\x02\u0110\u0111\x07\x03\x02\x02\u0111" +
-		"\u0113\x05\x04\x03\x02\u0112\u0114\x05\x18\r\x02\u0113\u0112\x03\x02\x02" +
-		"\x02\u0113\u0114\x03\x02\x02\x02\u0114\x17\x03\x02\x02\x02\u0115\u0116" +
-		"\x07\x05\x02\x02\u0116\u011B\x05\x1A\x0E\x02\u0117\u0118\x07!\x02\x02" +
-		"\u0118\u011A\x05\x1A\x0E\x02\u0119\u0117\x03\x02\x02\x02\u011A\u011D\x03" +
-		"\x02\x02\x02\u011B\u0119\x03\x02\x02\x02\u011B\u011C\x03\x02\x02\x02\u011C" +
-		"\x19\x03\x02\x02\x02\u011D\u011B\x03\x02\x02\x02\u011E\u011F\x05\x04\x03" +
-		"\x02\u011F\x1B\x03\x02\x02\x02\u0120\u0121\x07\x0E\x02\x02\u0121\u0130" +
-		"\x05\xA2R\x02\u0122\u0123\x07\x0E\x02\x02\u0123\u012C\x07*\x02\x02\u0124" +
-		"\u0129\x054\x1B\x02\u0125\u0126\x07!\x02\x02\u0126\u0128\x054\x1B\x02" +
-		"\u0127\u0125\x03\x02\x02\x02\u0128\u012B\x03\x02\x02\x02\u0129\u0127\x03" +
-		"\x02\x02\x02\u0129\u012A\x03\x02\x02\x02\u012A\u012D\x03\x02\x02\x02\u012B" +
-		"\u0129\x03\x02\x02\x02\u012C\u0124\x03\x02\x02\x02\u012C\u012D\x03\x02" +
-		"\x02\x02\u012D\u012E\x03\x02\x02\x02\u012E\u0130\x07+\x02\x02\u012F\u0120" +
-		"\x03\x02\x02\x02\u012F\u0122\x03\x02\x02\x02\u0130\x1D\x03\x02\x02\x02" +
-		"\u0131\u0132\x07\n\x02\x02\u0132\u0136\x05\x04\x03\x02\u0133\u0135\x05" +
-		"(\x15\x02\u0134\u0133\x03\x02\x02\x02\u0135\u0138\x03\x02\x02\x02\u0136" +
-		"\u0134\x03\x02\x02\x02\u0136\u0137\x03\x02\x02\x02\u0137\x1F\x03\x02\x02" +
-		"\x02\u0138\u0136\x03\x02\x02\x02\u0139\u013A\x05\"\x12\x02\u013A\u013E" +
-		"\x05\x04\x03\x02\u013B\u013D\x05(\x15\x02\u013C\u013B\x03\x02\x02\x02" +
-		"\u013D\u0140\x03\x02\x02\x02\u013E\u013C\x03\x02\x02\x02\u013E\u013F\x03" +
-		"\x02\x02\x02\u013F!\x03\x02\x02\x02\u0140\u013E\x03\x02\x02\x02\u0141" +
-		"\u0144\x05\x04\x03\x02\u0142\u0143\x07;\x02\x02\u0143\u0145\x05\x04\x03" +
-		"\x02\u0144\u0142\x03\x02\x02\x02\u0144\u0145\x03\x02\x02\x02\u0145#\x03" +
-		"\x02\x02\x02\u0146\u0149\x05\x04\x03\x02\u0147\u0148\x07#\x02\x02\u0148" +
-		"\u014A\x05\x04\x03\x02\u0149\u0147\x03\x02\x02\x02\u014A\u014B\x03\x02" +
-		"\x02\x02\u014B\u014C\x03\x02\x02\x02\u014B\u0149\x03\x02\x02\x02\u014C" +
-		"%\x03\x02\x02\x02\u014D\u0151\x05\x04\x03\x02\u014E\u0151\x05$\x13\x02" +
-		"\u014F\u0151\x07\x17\x02\x02\u0150\u014D\x03\x02\x02\x02\u0150\u014E\x03" +
-		"\x02\x02\x02\u0150\u014F\x03\x02\x02\x02\u0151\'\x03\x02\x02\x02\u0152" +
-		"\u0153\t\x03\x02\x02\u0153\u015C\x05&\x14\x02\u0154\u0159\x05.\x18\x02" +
-		"\u0155\u0156\x07!\x02\x02\u0156\u0158\x05.\x18\x02\u0157\u0155\x03\x02" +
-		"\x02\x02\u0158\u015B\x03\x02\x02\x02\u0159\u015A\x03\x02\x02\x02\u0159" +
-		"\u0157\x03\x02\x02\x02\u015A\u015D\x03\x02\x02\x02\u015B\u0159\x03\x02" +
-		"\x02\x02\u015C\u0154\x03\x02\x02\x02\u015C\u015D\x03\x02\x02\x02\u015D" +
-		")\x03\x02\x02\x02\u015E\u0162\x07\v\x02\x02\u015F\u0161\x05(\x15\x02\u0160" +
-		"\u015F\x03\x02\x02\x02\u0161\u0164\x03\x02\x02\x02\u0162\u0160\x03\x02" +
-		"\x02\x02\u0162\u0163\x03\x02\x02\x02\u0163+\x03\x02\x02\x02\u0164\u0162" +
-		"\x03\x02\x02\x02\u0165\u0166\x07C\x02\x02\u0166-\x03\x02\x02\x02\u0167" +
-		"\u0170\x05\x94K\x02\u0168\u0170\x05r:\x02\u0169\u0170\x054\x1B\x02\u016A" +
-		"\u0170\x050\x19\x02\u016B\u0170\x05,\x17\x02\u016C\u016D\x05\x04\x03\x02" +
-		"\u016D\u016E\x05\x04\x03\x02\u016E\u0170\x03\x02\x02\x02\u016F\u0167\x03" +
-		"\x02\x02\x02\u016F\u0168\x03\x02\x02\x02\u016F\u0169\x03\x02\x02\x02\u016F" +
-		"\u016A\x03\x02\x02\x02\u016F\u016B\x03\x02\x02\x02\u016F\u016C\x03\x02" +
-		"\x02\x02\u0170/\x03\x02\x02\x02\u0171\u0172\x05> \x02\u0172\u0173\x07" +
-		"\"\x02\x02\u0173\u0174\x052\x1A\x02\u01741\x03\x02\x02\x02\u0175\u0178" +
-		"\x054\x1B\x02\u0176\u0178\x05r:\x02\u0177\u0175\x03\x02\x02\x02\u0177" +
-		"\u0176\x03\x02\x02\x02\u01783\x03\x02\x02\x02\u0179\u0180\x05\xA4S\x02" +
-		"\u017A\u0180\x05L\'\x02\u017B\u0180\x05\x96L\x02\u017C\u0180\x05> \x02" +
-		"\u017D\u0180\x05\x1C\x0F\x02\u017E\u0180\x05:\x1E\x02\u017F\u0179\x03" +
-		"\x02\x02\x02\u017F\u017A\x03\x02\x02\x02\u017F\u017B\x03\x02\x02\x02\u017F" +
-		"\u017C\x03\x02\x02\x02\u017F\u017D\x03\x02\x02\x02\u017F\u017E\x03\x02" +
-		"\x02\x02\u01805\x03\x02\x02\x02\u0181\u0182\x07\x16\x02\x02\u0182\u0184" +
-		"\x07*\x02\x02\u0183\u0185\x05\x04\x03\x02\u0184\u0183\x03\x02\x02\x02" +
-		"\u0184\u0185\x03\x02\x02\x02\u0185\u0186\x03\x02\x02\x02\u0186\u0187\x05" +
-		"\x04\x03\x02\u0187\u0188\x03\x02\x02\x02\u0188\u0189\x07!\x02\x02\u0189" +
-		"\u018A\x054\x1B\x02\u018A\u018B\x07+\x02\x02\u018B\u018C\x05\x94K\x02" +
-		"\u018C7\x03\x02\x02\x02\u018D\u018E\x05:\x1E\x02\u018E\u018F\x07 \x02" +
-		"\x02\u018F9\x03\x02\x02\x02\u0190\u0191\x07\x11\x02\x02\u0191\u0192\x07" +
-		"*\x02\x02\u0192\u0193\x05r:\x02\u0193\u0194\x07+\x02\x02\u0194\u0195\x07" +
-		"\x13\x02\x02\u0195\u0196\x054\x1B\x02\u0196\u0197\x07\x14\x02\x02\u0197" +
-		"\u0198\x054\x1B\x02\u0198;\x03\x02\x02\x02\u0199\u019A\t\x04\x02\x02\u019A" +
-		"=\x03\x02\x02\x02\u019B\u01A0\x05J&\x02\u019C\u01A0\x05<\x1F\x02\u019D" +
-		"\u01A0\x07B\x02\x02\u019E\u01A0\x07A\x02\x02\u019F\u019B\x03\x02\x02\x02" +
-		"\u019F\u019C\x03\x02\x02\x02\u019F\u019D\x03\x02\x02\x02\u019F\u019E\x03" +
-		"\x02\x02\x02\u01A0?\x03\x02\x02\x02\u01A1\u01A2\x072\x02\x02\u01A2\u01A3" +
-		"\x05\x04\x03\x02\u01A3A\x03\x02\x02\x02\u01A4\u01AB\x05\x04\x03\x02\u01A5" +
-		"\u01AB\x05D#\x02\u01A6\u01AB\x05F$\x02\u01A7\u01AB\x05@!\x02\u01A8\u01AB" +
-		"\x05\xA4S\x02\u01A9\u01AB\x05\xA2R\x02\u01AA\u01A4\x03\x02\x02\x02\u01AA" +
-		"\u01A5\x03\x02\x02\x02\u01AA\u01A6\x03\x02\x02\x02\u01AA\u01A7\x03\x02" +
-		"\x02\x02\u01AA\u01A8\x03\x02\x02\x02\u01AA\u01A9\x03\x02\x02\x02\u01AB" +
-		"C\x03\x02\x02\x02\u01AC\u01AD\x05\x04\x03\x02\u01AD\u01B6\x07*\x02\x02" +
-		"\u01AE\u01B3\x05H%\x02\u01AF\u01B0\x07!\x02\x02\u01B0\u01B2\x05H%\x02" +
-		"\u01B1\u01AF\x03\x02\x02\x02\u01B2\u01B5\x03\x02\x02\x02\u01B3\u01B1\x03" +
-		"\x02\x02\x02\u01B3\u01B4\x03\x02\x02\x02\u01B4\u01B7\x03\x02\x02\x02\u01B5" +
-		"\u01B3\x03\x02\x02\x02\u01B6\u01AE\x03\x02\x02\x02\u01B6\u01B7\x03\x02" +
-		"\x02\x02\u01B7\u01B8\x03\x02\x02\x02\u01B8\u01B9\x07+\x02\x02\u01B9E\x03" +
-		"\x02\x02\x02\u01BA\u01BB\x05\x04\x03\x02\u01BB\u01BC\x07,\x02\x02\u01BC" +
-		"\u01BD\x05H%\x02\u01BD\u01BE\x07-\x02\x02\u01BEG\x03\x02\x02\x02\u01BF" +
-		"\u01C0\x07H\x02\x02\u01C0\u01C2\x07\"\x02\x02\u01C1\u01BF\x03\x02\x02" +
-		"\x02\u01C1\u01C2\x03\x02\x02\x02\u01C2\u01C3\x03\x02\x02\x02\u01C3\u01C4" +
-		"\x05.\x18\x02\u01C4I\x03\x02\x02\x02\u01C5\u01CB\x05B\"\x02\u01C6\u01C7" +
-		"\x05\x02\x02\x02\u01C7\u01C8\x05B\"\x02\u01C8\u01CA\x03\x02\x02\x02\u01C9" +
-		"\u01C6\x03\x02\x02\x02\u01CA\u01CD\x03\x02\x02\x02\u01CB\u01C9\x03\x02" +
-		"\x02\x02\u01CB\u01CC\x03\x02\x02\x02\u01CCK\x03\x02\x02\x02\u01CD\u01CB" +
-		"\x03\x02\x02\x02\u01CE\u01CF\x07)\x02\x02\u01CF\u01D1\x05\x04\x03\x02" +
-		"\u01D0\u01D2\x05\x04\x03\x02\u01D1\u01D0\x03\x02\x02\x02\u01D1\u01D2\x03" +
-		"\x02\x02\x02\u01D2\u01D6\x03\x02\x02\x02\u01D3\u01D5\x05P)\x02\u01D4\u01D3" +
-		"\x03\x02\x02\x02\u01D5\u01D8\x03\x02\x02\x02\u01D6\u01D4\x03\x02\x02\x02" +
-		"\u01D6\u01D7\x03\x02\x02\x02\u01D7\u01D9\x03\x02\x02\x02\u01D8\u01D6\x03" +
-		"\x02\x02\x02\u01D9\u01DA\x07 \x02\x02\u01DAM\x03\x02\x02\x02\u01DB\u01DC" +
-		"\x054\x1B\x02\u01DC\u01DD\x05\x04\x03\x02\u01DD\u01DE\x054\x1B\x02\u01DE" +
-		"O\x03\x02\x02\x02\u01DF\u01E2\x05(\x15\x02\u01E0\u01E2\x05\xA4S\x02\u01E1" +
-		"\u01DF\x03\x02\x02\x02\u01E1\u01E0\x03\x02\x02\x02\u01E2Q\x03\x02\x02" +
-		"\x02\u01E3\u01E4\t\x05\x02\x02\u01E4\u01EA\x05\x04\x03\x02\u01E5\u01EB" +
-		"\x05T+\x02\u01E6\u01E7\x07*\x02\x02\u01E7\u01E8\x05^0\x02\u01E8\u01E9" +
-		"\x07+\x02\x02\u01E9\u01EB\x03\x02\x02\x02\u01EA\u01E5\x03\x02\x02\x02" +
-		"\u01EA\u01E6\x03\x02\x02\x02\u01EB\u01ED\x03\x02\x02\x02\u01EC\u01EE\x05" +
-		"V,\x02\u01ED\u01EC\x03\x02\x02\x02\u01ED\u01EE\x03\x02\x02\x02\u01EE\u01F0" +
-		"\x03\x02\x02\x02\u01EF\u01F1\x05X-\x02\u01F0\u01EF\x03\x02\x02\x02\u01F0" +
-		"\u01F1\x03\x02\x02\x02\u01F1\u01F5\x03\x02\x02\x02\u01F2\u01F4\x05(\x15" +
-		"\x02\u01F3\u01F2\x03\x02\x02\x02\u01F4\u01F7\x03\x02\x02\x02\u01F5\u01F3" +
-		"\x03\x02\x02\x02\u01F5\u01F6\x03\x02\x02\x02\u01F6\u01F8\x03\x02\x02\x02" +
-		"\u01F7\u01F5\x03\x02\x02\x02\u01F8\u01F9\x07 \x02\x02\u01F9S\x03\x02\x02" +
-		"\x02\u01FA\u01FB\x07\x10\x02\x02\u01FB\u01FC\x07.\x02\x02\u01FC\u01FD" +
-		"\x05\x9AN\x02\u01FD\u01FE\x07/\x02\x02\u01FEU\x03\x02\x02\x02\u01FF\u0200" +
-		"\x07\x18\x02\x02\u0200";
+		"O\tO\x04P\tP\x04Q\tQ\x04R\tR\x04S\tS\x04T\tT\x04U\tU\x04V\tV\x04W\tW\x04" +
+		"X\tX\x04Y\tY\x03\x02\x03\x02\x03\x03\x03\x03\x03\x04\x07\x04\xB8\n\x04" +
+		"\f\x04\x0E\x04\xBB\v\x04\x03\x04\x03\x04\x03\x05\x03\x05\x03\x05\x03\x05" +
+		"\x03\x05\x03\x05\x05\x05\xC5\n\x05\x03\x06\x03\x06\x03\x06\x03\x06\x03" +
+		"\x06\x03\x06\x07\x06\xCD\n\x06\f\x06\x0E\x06\xD0\v\x06\x06\x06\xD2\n\x06" +
+		"\r\x06\x0E\x06\xD3\x03\x06\x03\x06\x07\x06\xD8\n\x06\f\x06\x0E\x06\xDB" +
+		"\v\x06\x03\x06\x03\x06\x03\x07\x03\x07\x07\x07\xE1\n\x07\f\x07\x0E\x07" +
+		"\xE4\v\x07\x03\b\x03\b\x07\b\xE8\n\b\f\b\x0E\b\xEB\v\b\x03\b\x03\b\x07" +
+		"\b\xEF\n\b\f\b\x0E\b\xF2\v\b\x03\b\x05\b\xF5\n\b\x03\b\x03\b\x03\b\x03" +
+		"\b\x05\b\xFB\n\b\x03\t\x03\t\x03\t\x07\t\u0100\n\t\f\t\x0E\t\u0103\v\t" +
+		"\x03\t\x05\t\u0106\n\t\x03\t\x07\t\u0109\n\t\f\t\x0E\t\u010C\v\t\x03\n" +
+		"\x03\n\x03\n\x07\n\u0111\n\n\f\n\x0E\n\u0114\v\n\x03\n\x03\n\x03\v\x03" +
+		"\v\x03\v\x03\f\x03\f\x03\f\x05\f\u011E\n\f\x03\r\x03\r\x03\r\x03\r\x07" +
+		"\r\u0124\n\r\f\r\x0E\r\u0127\v\r\x03\x0E\x03\x0E\x03\x0F\x03\x0F\x03\x0F" +
+		"\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x07\x0F\u0132\n\x0F\f\x0F\x0E\x0F\u0135" +
+		"\v\x0F\x05\x0F\u0137\n\x0F\x03\x0F\x05\x0F\u013A\n\x0F\x03\x10\x03\x10" +
+		"\x03\x10\x07\x10\u013F\n\x10\f\x10\x0E\x10\u0142\v\x10\x03\x11\x03\x11" +
+		"\x03\x11\x07\x11\u0147\n\x11\f\x11\x0E\x11\u014A\v\x11\x03\x12\x03\x12" +
+		"\x03\x12\x05\x12\u014F\n\x12\x03\x13\x03\x13\x03\x13\x06\x13\u0154\n\x13" +
+		"\r\x13\x0E\x13\u0155\x03\x14\x03\x14\x03\x14\x05\x14\u015B\n\x14\x03\x15" +
+		"\x03\x15\x03\x15\x05\x15\u0160\n\x15\x03\x16\x03\x16\x03\x16\x03\x16\x03" +
+		"\x16\x07\x16\u0167\n\x16\f\x16\x0E\x16\u016A\v\x16\x05\x16\u016C\n\x16" +
+		"\x03\x17\x03\x17\x03\x17\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x07\x18" +
+		"\u0176\n\x18\f\x18\x0E\x18\u0179\v\x18\x05\x18\u017B\n\x18\x03\x19\x03" +
+		"\x19\x03\x19\x03\x19\x03\x19\x07\x19\u0182\n\x19\f\x19\x0E\x19\u0185\v" +
+		"\x19\x05\x19\u0187\n\x19\x03\x1A\x03\x1A\x07\x1A\u018B\n\x1A\f\x1A\x0E" +
+		"\x1A\u018E\v\x1A\x03\x1B\x03\x1B\x03\x1C\x03\x1C\x03\x1C\x03\x1C\x03\x1C" +
+		"\x03\x1C\x03\x1C\x03\x1C\x05\x1C\u019A\n\x1C\x03\x1D\x03\x1D\x03\x1D\x03" +
+		"\x1D\x03\x1E\x03\x1E\x05\x1E\u01A2\n\x1E\x03\x1F\x03\x1F\x03\x1F\x03\x1F" +
+		"\x03\x1F\x03\x1F\x05\x1F\u01AA\n\x1F\x03 \x03 \x03 \x05 \u01AF\n \x03" +
+		" \x03 \x03 \x03 \x03 \x03 \x03 \x03!\x03!\x03!\x03\"\x03\"\x03\"\x03\"" +
+		"\x03\"\x03\"\x03\"\x03\"\x03\"\x03#\x03#\x03$\x03$\x03$\x03$\x05$\u01CA" +
+		"\n$\x03%\x03%\x03%\x03&\x03&\x03&\x03&\x03&\x03&\x05&\u01D5\n&\x03\'\x03" +
+		"\'\x03\'\x03\'\x03\'\x07\'\u01DC\n\'\f\'\x0E\'\u01DF\v\'\x05\'\u01E1\n" +
+		"\'\x03\'\x03\'\x03(\x03(\x03(\x03(\x03(\x03)\x03)\x05)\u01EC\n)\x03)\x03" +
+		")\x03*\x03*\x03*\x03*\x07*\u01F4\n*\f*\x0E*\u01F7\v*\x03+\x03+\x03+\x05" +
+		"+\u01FC\n+\x03+\x07+\u01FF\n+\f+\x0E+\u0202\v+\x03+\x03+\x03,\x03,\x03" +
+		",\x03,\x03-\x03-\x05-\u020C\n-\x03.\x03.\x03.\x03.\x03.\x03.\x03.\x05" +
+		".\u0215\n.\x03.\x05.\u0218\n.\x03.\x05.\u021B\n.\x03.\x07.\u021E\n.\f" +
+		".\x0E.\u0221\v.\x03.\x03.\x03/\x03/\x03/\x03/\x03/\x030\x030\x030\x03" +
+		"0\x030\x031\x031\x031\x071\u0232\n1\f1\x0E1\u0235\v1\x031\x031\x032\x03" +
+		"2\x072\u023B\n2\f2\x0E2\u023E\v2\x033\x033\x033\x033\x033\x033\x033\x05" +
+		"3\u0247\n3\x034\x054\u024A\n4\x034\x054\u024D\n4\x035\x035\x035\x075\u0252" +
+		"\n5\f5\x0E5\u0255\v5\x036\x036\x036\x056\u025A\n6\x037\x057\u025D\n7\x03" +
+		"7\x037\x037\x037\x077\u0263\n7\f7\x0E7\u0266\v7\x057\u0268\n7\x037\x03" +
+		"7\x057\u026C\n7\x038\x038\x038\x038\x038\x058\u0273\n8\x038\x038\x038" +
+		"\x058\u0278\n8\x038\x058\u027B\n8\x039\x039\x039\x039\x079\u0281\n9\f" +
+		"9\x0E9\u0284\v9\x039\x039\x03:\x03:\x05:\u028A\n:\x03;\x03;\x05;\u028E" +
+		"\n;\x03<\x03<\x03=\x05=\u0293\n=\x03=\x07=\u0296\n=\f=\x0E=\u0299\v=\x03" +
+		">\x03>\x03>\x03>\x03>\x03>\x05>\u02A1\n>\x03>\x03>\x03>\x03>\x03>\x03" +
+		">\x07>\u02A9\n>\f>\x0E>\u02AC\v>\x03?\x03?\x03?\x03?\x03@\x03@\x03A\x03" +
+		"A\x03A\x03A\x03B\x03B\x03B\x03B\x03C\x06C\u02BD\nC\rC\x0EC\u02BE\x03D" +
+		"\x03D\x05D\u02C3\nD\x03E\x03E\x03E\x03E\x03E\x03E\x07E\u02CB\nE\fE\x0E" +
+		"E\u02CE\vE\x03E\x05E\u02D1\nE\x03E\x03E\x03F\x03F\x03F\x07F\u02D8\nF\f" +
+		"F\x0EF\u02DB\vF\x03F\x05F\u02DE\nF\x03F\x03F\x03G\x03G\x03G\x03G\x03G" +
+		"\x03G\x03G\x05G\u02E9\nG\x03H\x03H\x03H\x03H\x05H\u02EF\nH\x03I\x03I\x03" +
+		"I\x03J\x03J\x03J\x03J\x05J\u02F8\nJ\x05J\u02FA\nJ\x03K\x03K\x03K\x03K" +
+		"\x03K\x03K\x05K\u0302\nK\x03L\x03L\x03L\x03L\x03L\x03L\x03M\x03M\x03M" +
+		"\x03M\x03N\x03N\x03O\x03O\x03O\x03O\x03O\x03O\x03O\x03O\x03O\x03O\x03" +
+		"O\x03O\x03O\x03O\x03O\x03O\x03O\x05O\u0321\nO\x03P\x03P\x06P\u0325\nP" +
+		"\rP\x0EP\u0326\x03P\x03P\x03Q\x03Q\x03Q\x03Q\x03Q\x03Q\x03Q\x03Q\x03Q" +
+		"\x03Q\x03Q\x03Q\x03Q\x03Q\x03Q\x03Q\x05Q\u033B\nQ\x03Q\x03Q\x03Q\x07Q" +
+		"\u0340\nQ\fQ\x0EQ\u0343\vQ\x03R\x03R\x03R\x03R\x03R\x03S\x07S\u034B\n" +
+		"S\fS\x0ES\u034E\vS\x03T\x03T\x03T\x03T\x05T\u0354\nT\x03T\x07T\u0357\n" +
+		"T\fT\x0ET\u035A\vT\x03T\x03T\x03U\x03U\x03U\x05U\u0361\nU\x03U\x03U\x03" +
+		"V\x03V\x05V\u0367\nV\x03V\x03V\x07V\u036B\nV\fV\x0EV\u036E\vV\x03V\x03" +
+		"V\x03W\x03W\x05W\u0374\nW\x03W\x03W\x07W\u0378\nW\fW\x0EW\u037B\vW\x03" +
+		"W\x03W\x03X\x03X\x03Y\x03Y\x03Y\x07Y\u0384\nY\fY\x0EY\u0387\vY\x03Y\x03" +
+		"Y\x03Y\x07\u0101\u0155\u0168\u0177\u0183\x02\x04z\xA0Z\x02\x02\x04\x02" +
+		"\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18" +
+		"\x02\x1A\x02\x1C\x02\x1E\x02 \x02\"\x02$\x02&\x02(\x02*\x02,\x02.\x02" +
+		"0\x022\x024\x026\x028\x02:\x02<\x02>\x02@\x02B\x02D\x02F\x02H\x02J\x02" +
+		"L\x02N\x02P\x02R\x02T\x02V\x02X\x02Z\x02\\\x02^\x02`\x02b\x02d\x02f\x02" +
+		"h\x02j\x02l\x02n\x02p\x02r\x02t\x02v\x02x\x02z\x02|\x02~\x02\x80\x02\x82" +
+		"\x02\x84\x02\x86\x02\x88\x02\x8A\x02\x8C\x02\x8E\x02\x90\x02\x92\x02\x94" +
+		"\x02\x96\x02\x98\x02\x9A\x02\x9C\x02\x9E\x02\xA0\x02\xA2\x02\xA4\x02\xA6" +
+		"\x02\xA8\x02\xAA\x02\xAC\x02\xAE\x02\xB0\x02\x02\b\x03\x02$%\x03\x02&" +
+		")\x03\x02\x19\x1A\x03\x02\x06\t\x03\x02\x07\t\x03\x025:\u03B2\x02\xB2" +
+		"\x03\x02\x02\x02\x04\xB4\x03\x02\x02\x02\x06\xB9\x03\x02\x02\x02\b\xC4" +
+		"\x03\x02\x02\x02\n\xC6\x03\x02\x02\x02\f\xDE\x03\x02\x02\x02\x0E\xE5\x03" +
+		"\x02\x02\x02\x10\xFC\x03\x02\x02\x02\x12\u010D\x03\x02\x02\x02\x14\u0117" +
+		"\x03\x02\x02\x02\x16\u011A\x03\x02\x02\x02\x18\u011F\x03\x02\x02\x02\x1A" +
+		"\u0128\x03\x02\x02\x02\x1C\u0139\x03\x02\x02\x02\x1E\u013B\x03\x02\x02" +
+		"\x02 \u0143\x03\x02\x02\x02\"\u014B\x03\x02\x02\x02$\u0150\x03\x02\x02" +
+		"\x02&\u015A\x03\x02\x02\x02(\u015F\x03\x02\x02\x02*\u0161\x03\x02\x02" +
+		"\x02,\u016D\x03\x02\x02\x02.\u0170\x03\x02\x02\x020\u017C\x03\x02\x02" +
+		"\x022\u0188\x03\x02\x02\x024\u018F\x03\x02\x02\x026\u0199\x03\x02\x02" +
+		"\x028\u019B\x03\x02\x02\x02:\u01A1\x03\x02\x02\x02<\u01A9\x03\x02\x02" +
+		"\x02>\u01AB\x03\x02\x02\x02@\u01B7\x03\x02\x02\x02B\u01BA\x03\x02\x02" +
+		"\x02D\u01C3\x03\x02\x02\x02F\u01C9\x03\x02\x02\x02H\u01CB\x03\x02\x02" +
+		"\x02J\u01D4\x03\x02\x02\x02L\u01D6\x03\x02\x02\x02N\u01E4\x03\x02\x02" +
+		"\x02P\u01EB\x03\x02\x02\x02R\u01EF\x03\x02\x02\x02T\u01F8\x03\x02\x02" +
+		"\x02V\u0205\x03\x02\x02\x02X\u020B\x03\x02\x02\x02Z\u020D\x03\x02\x02" +
+		"\x02\\\u0224\x03\x02\x02\x02^\u0229\x03\x02\x02\x02`\u022E\x03\x02\x02" +
+		"\x02b\u0238\x03\x02\x02\x02d\u023F\x03\x02\x02\x02f\u0249\x03\x02\x02" +
+		"\x02h\u024E\x03\x02\x02\x02j\u0256\x03\x02\x02\x02l\u025C\x03\x02\x02" +
+		"\x02n\u0272\x03\x02\x02\x02p\u027C\x03\x02\x02\x02r\u0287\x03\x02\x02" +
+		"\x02t\u028B\x03\x02\x02\x02v\u028F\x03\x02\x02\x02x\u0292\x03\x02\x02" +
+		"\x02z\u02A0\x03\x02\x02\x02|\u02AD\x03\x02\x02\x02~\u02B1\x03\x02\x02" +
+		"\x02\x80\u02B3\x03\x02\x02\x02\x82\u02B7\x03\x02\x02\x02\x84\u02BC\x03" +
+		"\x02\x02\x02\x86\u02C2\x03\x02\x02\x02\x88\u02C4\x03\x02\x02\x02\x8A\u02D4" +
+		"\x03\x02\x02\x02\x8C\u02E1\x03\x02\x02\x02\x8E\u02EA\x03\x02\x02\x02\x90" +
+		"\u02F0\x03\x02\x02\x02\x92\u02F3\x03\x02\x02\x02\x94\u02FB\x03\x02\x02" +
+		"\x02\x96\u0303\x03\x02\x02\x02\x98\u0309\x03\x02\x02\x02\x9A\u030D\x03" +
+		"\x02\x02\x02\x9C\u0320\x03\x02\x02\x02\x9E\u0322\x03\x02\x02\x02\xA0\u033A" +
+		"\x03\x02\x02\x02\xA2\u0344\x03\x02\x02\x02\xA4\u034C\x03\x02\x02\x02\xA6" +
+		"\u034F\x03\x02\x02\x02\xA8\u035D\x03\x02\x02\x02\xAA\u0364\x03\x02\x02" +
+		"\x02\xAC\u0371\x03\x02\x02\x02\xAE\u037E\x03\x02\x02\x02\xB0\u0380\x03" +
+		"\x02\x02\x02\xB2\xB3\t\x02\x02\x02\xB3\x03\x03\x02\x02\x02\xB4\xB5\x07" +
+		"H\x02\x02\xB5\x05\x03\x02\x02\x02\xB6\xB8\x05\b\x05\x02\xB7\xB6\x03\x02" +
+		"\x02\x02\xB8\xBB\x03\x02\x02\x02\xB9\xB7\x03\x02\x02\x02\xB9\xBA\x03\x02" +
+		"\x02\x02\xBA\xBC\x03\x02\x02\x02\xBB\xB9\x03\x02\x02\x02\xBC\xBD\x07\x02" +
+		"\x02\x03\xBD\x07\x03\x02\x02\x02\xBE\xC5\x05\x0E\b\x02\xBF\xC5\x05\xA6" +
+		"T\x02\xC0\xC5\x05\xB0Y\x02\xC1\xC5\x05\n\x06\x02\xC2\xC5\x05Z.\x02\xC3" +
+		"\xC5\x05\xA8U\x02\xC4\xBE\x03\x02\x02\x02\xC4\xBF\x03\x02\x02\x02\xC4" +
+		"\xC0\x03\x02\x02\x02\xC4\xC1\x03\x02\x02\x02\xC4\xC2\x03\x02\x02\x02\xC4" +
+		"\xC3\x03\x02\x02\x02\xC5\t\x03\x02\x02\x02\xC6\xC7\x07\x15\x02\x02\xC7" +
+		"\xC8\x05\x04\x03\x02\xC8\xD1\x07/\x02\x02\xC9\xCE\x05\f\x07\x02\xCA\xCB" +
+		"\x07\"\x02\x02\xCB\xCD\x05\f\x07\x02\xCC\xCA\x03\x02\x02\x02\xCD\xD0\x03" +
+		"\x02\x02\x02\xCE\xCC\x03\x02\x02\x02\xCE\xCF\x03\x02\x02\x02\xCF\xD2\x03" +
+		"\x02\x02\x02\xD0\xCE\x03\x02\x02\x02\xD1\xC9\x03\x02\x02\x02\xD2\xD3\x03" +
+		"\x02\x02\x02\xD3\xD1\x03\x02\x02\x02\xD3\xD4\x03\x02\x02\x02\xD4\xD5\x03" +
+		"\x02\x02\x02\xD5\xD9\x070\x02\x02\xD6\xD8\x05(\x15\x02\xD7\xD6\x03\x02" +
+		"\x02\x02\xD8\xDB\x03\x02\x02\x02\xD9\xD7\x03\x02\x02\x02\xD9\xDA\x03\x02" +
+		"\x02\x02\xDA\xDC\x03\x02\x02\x02\xDB\xD9\x03\x02\x02\x02\xDC\xDD\x07!" +
+		"\x02\x02\xDD\v\x03\x02\x02\x02\xDE\xE2\x05\x04\x03\x02\xDF\xE1\x05(\x15" +
+		"\x02\xE0\xDF\x03\x02\x02\x02\xE1\xE4\x03\x02\x02\x02\xE2\xE0\x03\x02\x02" +
+		"\x02\xE2\xE3\x03\x02\x02\x02\xE3\r\x03\x02\x02\x02\xE4\xE2\x03\x02\x02" +
+		"\x02\xE5\xE9\x05\x16\f\x02\xE6\xE8\x05(\x15\x02\xE7\xE6\x03\x02\x02\x02" +
+		"\xE8\xEB\x03\x02\x02\x02\xE9\xE7\x03\x02\x02\x02\xE9\xEA\x03\x02\x02\x02" +
+		"\xEA\xF0\x03\x02\x02\x02\xEB\xE9\x03\x02\x02\x02\xEC\xEF\x05\x1E\x10\x02" +
+		"\xED\xEF\x05b2\x02\xEE\xEC\x03\x02\x02\x02\xEE\xED\x03\x02\x02\x02\xEF" +
+		"\xF2\x03\x02\x02\x02\xF0\xEE\x03\x02\x02\x02\xF0\xF1\x03\x02\x02\x02\xF1" +
+		"\xF4\x03\x02\x02\x02\xF2\xF0\x03\x02\x02\x02\xF3\xF5\x052\x1A\x02\xF4" +
+		"\xF3\x03\x02\x02\x02\xF4\xF5\x03\x02\x02\x02\xF5\xF6\x03\x02\x02\x02\xF6" +
+		"\xF7\x07!\x02\x02\xF7\xF8\x05\x10\t\x02\xF8\xFA\x07!\x02\x02\xF9\xFB\x07" +
+		"\x02\x02\x03\xFA\xF9\x03\x02\x02\x02\xFA\xFB\x03\x02\x02\x02\xFB\x0F\x03" +
+		"\x02\x02\x02\xFC\xFD\x07\x04\x02\x02\xFD\u0101\x05\x04\x03\x02\xFE\u0100" +
+		"\x05\x14\v\x02\xFF\xFE\x03\x02\x02\x02\u0100\u0103\x03\x02\x02\x02\u0101" +
+		"\u0102\x03\x02\x02\x02\u0101\xFF\x03\x02\x02\x02\u0102\u0105\x03\x02\x02" +
+		"\x02\u0103\u0101\x03\x02\x02\x02\u0104\u0106\x05\x12\n\x02\u0105\u0104" +
+		"\x03\x02\x02\x02\u0105\u0106\x03\x02\x02\x02\u0106\u010A\x03\x02\x02\x02" +
+		"\u0107\u0109\x05(\x15\x02\u0108\u0107\x03\x02\x02\x02\u0109\u010C\x03" +
+		"\x02\x02\x02\u010A\u0108\x03\x02\x02\x02\u010A\u010B\x03\x02\x02\x02\u010B" +
+		"\x11\x03\x02\x02\x02\u010C\u010A\x03\x02\x02\x02\u010D\u010E\x07\x0F\x02" +
+		"\x02\u010E\u0112\x07/\x02\x02\u010F\u0111\x05\x14\v\x02\u0110\u010F\x03" +
+		"\x02\x02\x02\u0111\u0114\x03\x02\x02\x02\u0112\u0110\x03\x02\x02\x02\u0112" +
+		"\u0113\x03\x02\x02\x02\u0113\u0115\x03\x02\x02\x02\u0114\u0112\x03\x02" +
+		"\x02\x02\u0115\u0116\x070\x02\x02\u0116\x13\x03\x02\x02\x02\u0117\u0118" +
+		"\x05\x04\x03\x02\u0118\u0119\x07\x06\x02\x02\u0119\x15\x03\x02\x02\x02" +
+		"\u011A\u011B\x07\x03\x02\x02\u011B\u011D\x05\x04\x03\x02\u011C\u011E\x05" +
+		"\x18\r\x02\u011D\u011C\x03\x02\x02\x02\u011D\u011E\x03\x02\x02\x02\u011E" +
+		"\x17\x03\x02\x02\x02\u011F\u0120\x07\x05\x02\x02\u0120\u0125\x05\x1A\x0E" +
+		"\x02\u0121\u0122\x07\"\x02\x02\u0122\u0124\x05\x1A\x0E\x02\u0123\u0121" +
+		"\x03\x02\x02\x02\u0124\u0127\x03\x02\x02\x02\u0125\u0123\x03\x02\x02\x02" +
+		"\u0125\u0126\x03\x02\x02\x02\u0126\x19\x03\x02\x02\x02\u0127\u0125\x03" +
+		"\x02\x02\x02\u0128\u0129\x05\x04\x03\x02\u0129\x1B\x03\x02\x02\x02\u012A" +
+		"\u012B\x07\x0E\x02\x02\u012B\u013A\x05\xACW\x02\u012C\u012D\x07\x0E\x02" +
+		"\x02\u012D\u0136\x07+\x02\x02\u012E\u0133\x05<\x1F\x02\u012F\u0130\x07" +
+		"\"\x02\x02\u0130\u0132\x05<\x1F\x02\u0131\u012F\x03\x02\x02\x02\u0132" +
+		"\u0135\x03\x02\x02\x02\u0133\u0131\x03\x02\x02\x02\u0133\u0134\x03\x02" +
+		"\x02\x02\u0134\u0137\x03\x02\x02\x02\u0135\u0133\x03\x02\x02\x02\u0136" +
+		"\u012E\x03\x02\x02\x02\u0136\u0137\x03\x02\x02\x02\u0137\u0138\x03\x02" +
+		"\x02\x02\u0138\u013A\x07,\x02\x02\u0139\u012A\x03\x02\x02\x02\u0139\u012C" +
+		"\x03\x02\x02\x02\u013A\x1D\x03\x02\x02\x02\u013B\u013C\x07\n\x02\x02\u013C" +
+		"\u0140\x05\x04\x03\x02\u013D\u013F\x05(\x15\x02\u013E\u013D\x03\x02\x02" +
+		"\x02\u013F\u0142\x03\x02\x02\x02\u0140\u013E\x03\x02\x02\x02\u0140\u0141" +
+		"\x03\x02\x02\x02\u0141\x1F\x03\x02\x02\x02\u0142\u0140\x03\x02\x02\x02" +
+		"\u0143\u0144\x05\"\x12\x02\u0144\u0148\x05\x04\x03\x02\u0145\u0147\x05" +
+		"(\x15\x02\u0146\u0145\x03\x02\x02\x02\u0147\u014A\x03\x02\x02\x02\u0148" +
+		"\u0146\x03\x02\x02\x02\u0148\u0149\x03\x02\x02\x02\u0149!\x03\x02\x02" +
+		"\x02\u014A\u0148\x03\x02\x02\x02\u014B\u014E\x05\x04\x03\x02\u014C\u014D" +
+		"\x07<\x02\x02\u014D\u014F\x05\x04\x03\x02\u014E\u014C\x03\x02\x02\x02" +
+		"\u014E\u014F\x03\x02\x02\x02\u014F#\x03\x02\x02\x02\u0150\u0153\x05\x04" +
+		"\x03\x02\u0151\u0152\x07$\x02\x02\u0152\u0154\x05\x04\x03\x02\u0153\u0151" +
+		"\x03\x02\x02\x02\u0154\u0155\x03\x02\x02\x02\u0155\u0156\x03\x02\x02\x02" +
+		"\u0155\u0153\x03\x02\x02\x02\u0156%\x03\x02\x02\x02\u0157\u015B\x05\x04" +
+		"\x03\x02\u0158\u015B\x05$\x13\x02\u0159\u015B\x07\x17\x02\x02\u015A\u0157" +
+		"\x03\x02\x02\x02\u015A\u0158\x03\x02\x02\x02\u015A\u0159\x03\x02\x02\x02" +
+		"\u015B\'\x03\x02\x02\x02\u015C\u0160\x05*\x16\x02\u015D\u0160\x050\x19" +
+		"\x02\u015E\u0160\x05.\x18\x02\u015F\u015C\x03\x02\x02\x02\u015F\u015D" +
+		"\x03\x02\x02\x02\u015F\u015E\x03\x02\x02\x02\u0160)\x03\x02\x02\x02\u0161" +
+		"\u0162\t\x03\x02\x02\u0162\u016B\x05&\x14\x02\u0163\u0168\x056\x1C\x02" +
+		"\u0164\u0165\x07\"\x02\x02\u0165\u0167\x056\x1C\x02\u0166\u0164\x03\x02" +
+		"\x02\x02\u0167\u016A\x03\x02\x02\x02\u0168\u0169\x03\x02\x02\x02\u0168" +
+		"\u0166\x03\x02\x02\x02\u0169\u016C\x03\x02\x02\x02\u016A\u0168\x03\x02" +
+		"\x02\x02\u016B\u0163\x03\x02\x02\x02\u016B\u016C\x03\x02\x02\x02\u016C" +
+		"+\x03\x02\x02\x02\u016D\u016E\x05\"\x12\x02\u016E\u016F\x05\x04\x03\x02" +
+		"\u016F-\x03\x02\x02\x02\u0170\u0171\x07&\x02\x02\u0171\u017A\x07\x18\x02" +
+		"\x02\u0172\u0177\x05,\x17\x02\u0173\u0174\x07\"\x02\x02\u0174\u0176\x05" +
+		",\x17\x02\u0175\u0173\x03\x02\x02\x02\u0176\u0179\x03\x02\x02\x02\u0177" +
+		"\u0178\x03\x02\x02\x02\u0177\u0175\x03\x02\x02\x02\u0178\u017B\x03\x02" +
+		"\x02\x02\u0179\u0177\x03\x02\x02\x02\u017A\u0172\x03\x02\x02\x02\u017A" +
+		"\u017B\x03\x02\x02\x02\u017B/\x03\x02\x02\x02\u017C\u017D\x07&\x02\x02" +
+		"\u017D\u0186\x07\x17\x02\x02\u017E\u0183\x056\x1C\x02\u017F\u0180\x07" +
+		"\"\x02\x02\u0180\u0182\x056\x1C\x02\u0181\u017F\x03\x02\x02\x02\u0182" +
+		"\u0185\x03\x02\x02\x02\u0183\u0184\x03\x02\x02\x02\u0183\u0181\x03\x02" +
+		"\x02\x02\u0184\u0187\x03\x02\x02\x02\u0185\u0183\x03\x02\x02\x02\u0186" +
+		"\u017E\x03\x02\x02\x02\u0186\u0187\x03\x02\x02\x02\u01871\x03\x02\x02" +
+		"\x02\u0188\u018C\x07\v\x02\x02\u0189\u018B\x05(\x15\x02\u018A\u0189\x03" +
+		"\x02\x02\x02\u018B\u018E\x03\x02\x02\x02\u018C\u018A\x03\x02\x02\x02\u018C" +
+		"\u018D\x03\x02\x02\x02\u018D3\x03\x02\x02\x02\u018E\u018C\x03\x02\x02" +
+		"\x02\u018F\u0190\x07D\x02\x02\u01905\x03\x02\x02\x02\u0191\u019A\x05\x9E" +
+		"P\x02\u0192\u019A\x05z>\x02\u0193\u019A\x05<\x1F\x02\u0194\u019A\x058" +
+		"\x1D\x02\u0195\u019A\x054\x1B\x02\u0196\u0197\x05\x04\x03\x02\u0197\u0198" +
+		"\x05\x04\x03\x02\u0198\u019A\x03\x02\x02\x02\u0199\u0191\x03\x02\x02\x02" +
+		"\u0199\u0192\x03\x02\x02\x02\u0199\u0193\x03\x02\x02\x02\u0199\u0194\x03" +
+		"\x02\x02\x02\u0199\u0195\x03\x02\x02\x02\u0199\u0196\x03\x02\x02\x02\u019A" +
+		"7\x03\x02\x02\x02\u019B\u019C\x05F$\x02\u019C\u019D\x07#\x02\x02\u019D" +
+		"\u019E\x05:\x1E\x02\u019E9\x03\x02\x02\x02\u019F\u01A2\x05<\x1F\x02\u01A0" +
+		"\u01A2\x05z>\x02\u01A1\u019F\x03\x02\x02\x02\u01A1\u01A0\x03\x02\x02\x02" +
+		"\u01A2;\x03\x02\x02\x02\u01A3\u01AA\x05\xAEX\x02\u01A4\u01AA\x05T+\x02" +
+		"\u01A5\u01AA\x05\xA0Q\x02\u01A6\u01AA\x05F$\x02\u01A7\u01AA\x05\x1C\x0F" +
+		"\x02\u01A8\u01AA\x05B\"\x02\u01A9\u01A3\x03\x02\x02\x02\u01A9\u01A4\x03" +
+		"\x02\x02\x02\u01A9\u01A5\x03\x02\x02\x02\u01A9\u01A6\x03\x02\x02\x02\u01A9" +
+		"\u01A7\x03\x02\x02\x02\u01A9\u01A8\x03\x02\x02\x02\u01AA=\x03\x02\x02" +
+		"\x02\u01AB\u01AC\x07\x16\x02\x02\u01AC\u01AE\x07+\x02\x02\u01AD\u01AF" +
+		"\x05\x04\x03\x02\u01AE\u01AD\x03\x02\x02\x02\u01AE\u01AF\x03\x02\x02\x02" +
+		"\u01AF\u01B0\x03\x02\x02\x02\u01B0\u01B1\x05\x04\x03\x02\u01B1\u01B2\x03" +
+		"\x02\x02\x02\u01B2\u01B3\x07\"\x02\x02\u01B3\u01B4\x05<\x1F\x02\u01B4" +
+		"\u01B5\x07,\x02\x02\u01B5\u01B6\x05\x9EP\x02\u01B6?\x03\x02\x02\x02\u01B7" +
+		"\u01B8\x05B\"\x02\u01B8\u01B9\x07!\x02\x02\u01B9A\x03\x02\x02\x02\u01BA" +
+		"\u01BB\x07\x11\x02\x02\u01BB\u01BC\x07+\x02\x02\u01BC\u01BD\x05z>\x02" +
+		"\u01BD\u01BE\x07,\x02\x02\u01BE\u01BF\x07\x13\x02\x02\u01BF\u01C0\x05" +
+		"<\x1F\x02\u01C0\u01C1\x07\x14\x02\x02\u01C1\u01C2\x05<\x1F\x02\u01C2C" +
+		"\x03\x02\x02\x02\u01C3\u01C4\t\x04\x02\x02\u01C4E\x03\x02\x02\x02\u01C5" +
+		"\u01CA\x05R*\x02\u01C6\u01CA\x05D#\x02\u01C7\u01CA\x07C\x02\x02\u01C8" +
+		"\u01CA\x07B\x02\x02\u01C9\u01C5\x03\x02\x02\x02\u01C9\u01C6\x03\x02\x02" +
+		"\x02\u01C9\u01C7\x03\x02\x02\x02\u01C9\u01C8\x03\x02\x02\x02\u01CAG\x03" +
+		"\x02\x02\x02\u01CB\u01CC\x073\x02\x02\u01CC\u01CD\x05\x04\x03\x02\u01CD" +
+		"I\x03\x02\x02\x02\u01CE\u01D5\x05\x04\x03\x02\u01CF\u01D5\x05L\'\x02\u01D0" +
+		"\u01D5\x05N(\x02\u01D1\u01D5\x05H%\x02\u01D2\u01D5\x05\xAEX\x02\u01D3" +
+		"\u01D5\x05\xACW\x02\u01D4\u01CE\x03\x02\x02\x02\u01D4\u01CF\x03\x02\x02" +
+		"\x02\u01D4\u01D0\x03\x02\x02\x02\u01D4\u01D1\x03\x02\x02\x02\u01D4\u01D2" +
+		"\x03\x02\x02\x02\u01D4\u01D3\x03\x02\x02\x02\u01D5K\x03\x02\x02\x02\u01D6" +
+		"\u01D7\x05\x04\x03\x02\u01D7\u01E0\x07+\x02\x02\u01D8\u01DD\x05P)\x02" +
+		"\u01D9\u01DA\x07\"\x02\x02\u01DA\u01DC\x05P)\x02\u01DB\u01D9\x03\x02\x02" +
+		"\x02\u01DC\u01DF\x03\x02\x02\x02\u01DD\u01DB\x03\x02\x02\x02\u01DD\u01DE" +
+		"\x03\x02\x02\x02\u01DE\u01E1\x03\x02\x02\x02\u01DF\u01DD\x03\x02\x02\x02" +
+		"\u01E0\u01D8\x03\x02\x02\x02\u01E0\u01E1\x03\x02\x02\x02\u01E1\u01E2\x03" +
+		"\x02\x02\x02\u01E2\u01E3\x07,\x02\x02\u01E3M\x03\x02\x02\x02\u01E4\u01E5" +
+		"\x05\x04\x03\x02\u01E5\u01E6\x07-\x02\x02\u01E6\u01E7\x05P)\x02\u01E7" +
+		"\u01E8\x07.\x02\x02\u01E8O\x03\x02\x02\x02\u01E9\u01EA\x07I\x02\x02\u01EA" +
+		"\u01EC\x07#\x02\x02\u01EB\u01E9\x03\x02\x02\x02\u01EB\u01EC\x03\x02\x02" +
+		"\x02\u01EC\u01ED\x03\x02\x02\x02\u01ED\u01EE\x056\x1C\x02\u01EEQ\x03\x02" +
+		"\x02\x02\u01EF\u01F5\x05J&\x02\u01F0\u01F1\x05\x02\x02\x02\u01F1\u01F2" +
+		"\x05J&\x02\u01F2\u01F4\x03\x02\x02\x02\u01F3\u01F0\x03\x02";
 	private static readonly _serializedATNSegment1: string =
-		"\u0201\x07.\x02\x02\u0201\u0202\x05\x9AN\x02\u0202\u0203\x07/\x02\x02" +
-		"\u0203W\x03\x02\x02\x02\u0204\u0205\x07\x1F\x02\x02\u0205\u0209\x07.\x02" +
-		"\x02\u0206\u0208\x05\x9CO\x02\u0207\u0206\x03\x02\x02\x02\u0208\u020B" +
-		"\x03\x02\x02\x02\u0209\u0207\x03\x02\x02\x02\u0209\u020A\x03\x02\x02\x02" +
-		"\u020A\u020C\x03\x02\x02\x02\u020B\u0209\x03\x02\x02\x02\u020C\u020D\x07" +
-		"/\x02\x02\u020DY\x03\x02\x02\x02\u020E\u0212\x05\\/\x02\u020F\u0211\x05" +
-		"(\x15\x02\u0210\u020F\x03\x02\x02\x02\u0211\u0214\x03\x02\x02\x02\u0212" +
-		"\u0210\x03\x02\x02\x02\u0212\u0213\x03\x02\x02\x02\u0213[\x03\x02\x02" +
-		"\x02\u0214\u0212\x03\x02\x02\x02\u0215\u0216\t\x06\x02\x02\u0216\u021C" +
-		"\x05\x04\x03\x02\u0217\u021D\x05T+\x02\u0218\u0219\x07*\x02\x02\u0219" +
-		"\u021A\x05^0\x02\u021A\u021B\x07+\x02\x02\u021B\u021D\x03\x02\x02\x02" +
-		"\u021C\u0217\x03\x02\x02\x02\u021C\u0218\x03\x02\x02\x02\u021D]\x03\x02" +
-		"\x02\x02\u021E\u0220\x05`1\x02\u021F\u021E\x03\x02\x02\x02\u021F\u0220" +
-		"\x03\x02\x02\x02\u0220\u0222\x03\x02\x02\x02\u0221\u0223\x05d3\x02\u0222" +
-		"\u0221\x03\x02\x02\x02\u0222\u0223\x03\x02\x02\x02\u0223_\x03\x02\x02" +
-		"\x02\u0224\u0229\x05b2\x02\u0225\u0226\x07!\x02\x02\u0226\u0228\x05b2" +
-		"\x02\u0227\u0225\x03\x02\x02\x02\u0228\u022B\x03\x02\x02\x02\u0229\u0227" +
-		"\x03\x02\x02\x02\u0229\u022A\x03\x02\x02\x02\u022Aa\x03\x02\x02\x02\u022B" +
-		"\u0229\x03\x02\x02\x02\u022C\u022D\x05\x04\x03\x02\u022D\u022F\x05\x04" +
-		"\x03\x02\u022E\u0230\x05h5\x02\u022F\u022E\x03\x02\x02\x02\u022F\u0230" +
-		"\x03\x02\x02\x02\u0230c\x03\x02\x02\x02\u0231\u0233\x07!\x02\x02\u0232" +
-		"\u0231\x03\x02\x02\x02\u0232\u0233\x03\x02\x02\x02\u0233\u0234\x03\x02" +
-		"\x02\x02\u0234\u023D\x07.\x02\x02\u0235\u023A\x05f4\x02\u0236\u0237\x07" +
-		"!\x02\x02\u0237\u0239\x05f4\x02\u0238\u0236\x03\x02\x02\x02\u0239\u023C" +
-		"\x03\x02\x02\x02\u023A\u0238\x03\x02\x02\x02\u023A\u023B\x03\x02\x02\x02" +
-		"\u023B\u023E\x03\x02\x02\x02\u023C\u023A\x03\x02\x02\x02\u023D\u0235\x03" +
-		"\x02\x02\x02\u023D\u023E\x03\x02\x02\x02\u023E\u023F\x03\x02\x02\x02\u023F" +
-		"\u0241\x07/\x02\x02\u0240\u0242\x05\x04\x03\x02\u0241\u0240\x03\x02\x02" +
-		"\x02\u0241\u0242\x03\x02\x02\x02\u0242e\x03\x02\x02\x02\u0243\u0244\x07" +
-		",\x02\x02\u0244\u0245\x05\x04\x03\x02\u0245\u0246\x07-\x02\x02\u0246\u0249" +
-		"\x03\x02\x02\x02\u0247\u0249\x05\x04\x03\x02\u0248\u0243\x03\x02\x02\x02" +
-		"\u0248\u0247\x03\x02\x02\x02\u0249\u024A\x03\x02\x02\x02\u024A\u024B\x07" +
-		"\"\x02\x02\u024B\u024D\x05\x04\x03\x02\u024C\u024E\x05\x04\x03\x02\u024D" +
-		"\u024C\x03\x02\x02\x02\u024D\u024E\x03\x02\x02\x02\u024E\u0250\x03\x02" +
-		"\x02\x02\u024F\u0251\x05h5\x02\u0250\u024F\x03\x02\x02\x02\u0250\u0251" +
-		"\x03\x02\x02\x02\u0251g\x03\x02\x02\x02\u0252\u0253\x07.\x02\x02\u0253" +
-		"\u0258\x05j6\x02\u0254\u0255\x07!\x02\x02\u0255\u0257\x05j6\x02\u0256" +
-		"\u0254\x03\x02\x02\x02\u0257\u025A\x03\x02\x02\x02\u0258\u0256\x03\x02" +
-		"\x02\x02\u0258\u0259\x03\x02\x02\x02\u0259\u025B\x03\x02\x02\x02\u025A" +
-		"\u0258\x03\x02\x02\x02\u025B\u025C\x07/\x02\x02\u025Ci\x03\x02\x02\x02" +
-		"\u025D\u025F\x05\x04\x03\x02\u025E\u0260\x054\x1B\x02\u025F\u025E\x03" +
-		"\x02\x02\x02\u025F\u0260\x03\x02\x02\x02\u0260k\x03\x02\x02\x02\u0261" +
-		"\u0263\x05n8\x02\u0262\u0264\x05|?\x02\u0263\u0262\x03\x02\x02\x02\u0263" +
-		"\u0264\x03\x02\x02\x02\u0264m\x03\x02\x02\x02\u0265\u0266\x05N(\x02\u0266" +
-		"o\x03\x02\x02\x02\u0267\u0269\x05|?\x02\u0268\u0267\x03\x02\x02\x02\u0268" +
-		"\u0269\x03\x02\x02\x02\u0269\u026D\x03\x02\x02\x02\u026A\u026C\x05l7\x02" +
-		"\u026B\u026A\x03\x02\x02\x02\u026C\u026F\x03\x02\x02\x02\u026D\u026B\x03" +
-		"\x02\x02\x02\u026D\u026E\x03\x02\x02\x02\u026Eq\x03\x02\x02\x02\u026F" +
-		"\u026D\x03\x02\x02\x02\u0270\u0271\b:\x01\x02\u0271\u0272\x07*\x02\x02" +
-		"\u0272\u0273\x05r:\x02\u0273\u0274\x07+\x02\x02\u0274\u0277\x03\x02\x02" +
-		"\x02\u0275\u0277\x05t;\x02\u0276\u0270\x03\x02\x02\x02\u0276\u0275\x03" +
-		"\x02\x02\x02\u0277\u0280\x03\x02\x02\x02\u0278\u0279\f\x05\x02\x02\u0279" +
-		"\u027A\x07:\x02\x02\u027A\u027F\x05r:\x06\u027B\u027C\f\x04\x02\x02\u027C" +
-		"\u027D\x07;\x02\x02\u027D\u027F\x05r:\x05\u027E\u0278\x03\x02\x02\x02" +
-		"\u027E\u027B\x03\x02\x02\x02\u027F\u0282\x03\x02\x02\x02\u0280\u027E\x03" +
-		"\x02\x02\x02\u0280\u0281\x03\x02\x02\x02\u0281s\x03\x02\x02\x02\u0282" +
-		"\u0280\x03\x02\x02\x02\u0283\u0284\x054\x1B\x02\u0284\u0285\x05v<\x02" +
-		"\u0285\u0286\x054\x1B\x02\u0286u\x03\x02\x02\x02\u0287\u0288\t\x07\x02" +
-		"\x02\u0288w\x03\x02\x02\x02\u0289\u028A\x054\x1B\x02\u028A\u028B\x07=" +
-		"\x02\x02\u028B\u028C\x054\x1B\x02\u028Cy\x03\x02\x02\x02\u028D\u028E\x05" +
-		"4\x1B\x02\u028E\u028F\x07<\x02\x02\u028F\u0290\x054\x1B\x02\u0290{\x03" +
-		"\x02\x02\x02\u0291\u0293\x05~@\x02\u0292\u0291\x03\x02\x02\x02\u0293\u0294" +
-		"\x03\x02\x02\x02\u0294\u0292\x03\x02\x02\x02\u0294\u0295\x03\x02\x02\x02" +
-		"\u0295}\x03\x02\x02\x02\u0296\u0299\x05r:\x02\u0297\u0299\x05\x98M\x02" +
-		"\u0298\u0296\x03\x02\x02\x02\u0298\u0297\x03\x02\x02\x02\u0299\x7F\x03" +
-		"\x02\x02\x02\u029A\u029B\x07\x1B\x02\x02\u029B\u029C\x07*\x02\x02\u029C" +
-		"\u029D\x054\x1B\x02\u029D\u029E\x07+\x02\x02\u029E\u02A2\x07.\x02\x02" +
-		"\u029F\u02A1\x05\x84C\x02\u02A0\u029F\x03\x02\x02\x02\u02A1\u02A4\x03" +
-		"\x02\x02\x02\u02A2\u02A0\x03\x02\x02\x02\u02A2\u02A3\x03\x02\x02\x02\u02A3" +
-		"\u02A6\x03\x02\x02\x02\u02A4\u02A2\x03\x02\x02\x02\u02A5\u02A7\x05\x86" +
-		"D\x02\u02A6\u02A5\x03\x02\x02\x02\u02A6\u02A7\x03\x02\x02\x02\u02A7\u02A8" +
-		"\x03\x02\x02\x02\u02A8\u02A9\x07/\x02\x02\u02A9\x81\x03\x02\x02\x02\u02AA" +
-		"\u02AB\x07\x1B\x02\x02\u02AB\u02AF\x07.\x02\x02\u02AC\u02AE\x05\x84C\x02" +
-		"\u02AD\u02AC\x03\x02\x02\x02\u02AE\u02B1\x03\x02\x02\x02\u02AF\u02AD\x03" +
-		"\x02\x02\x02\u02AF\u02B0\x03\x02\x02\x02\u02B0\u02B3\x03\x02\x02\x02\u02B1" +
-		"\u02AF\x03\x02\x02\x02\u02B2\u02B4\x05\x86D\x02\u02B3\u02B2\x03\x02\x02" +
-		"\x02\u02B3\u02B4\x03\x02\x02\x02\u02B4\u02B5\x03\x02\x02\x02\u02B5\u02B6" +
-		"\x07/\x02\x02\u02B6\x83\x03\x02\x02\x02\u02B7\u02B8\x07\x1C\x02\x02\u02B8" +
-		"\u02B9\x07*\x02\x02\u02B9\u02BA\x05.\x18\x02\u02BA\u02BB\x07+\x02\x02" +
-		"\u02BB\u02BE\x07\"\x02\x02\u02BC\u02BF\x05\x92J\x02\u02BD\u02BF\x05\x94" +
-		"K\x02\u02BE\u02BC\x03\x02\x02\x02\u02BE\u02BD\x03\x02\x02\x02\u02BF\x85" +
-		"\x03\x02\x02\x02\u02C0\u02C1\x07\x1D\x02\x02\u02C1\u02C4\x07\"\x02\x02" +
-		"\u02C2\u02C5\x05\x92J\x02\u02C3\u02C5\x05\x94K\x02\u02C4\u02C2\x03\x02" +
-		"\x02\x02\u02C4\u02C3\x03\x02\x02\x02\u02C5\x87\x03\x02\x02\x02\u02C6\u02C7" +
-		"\x07\x1E\x02\x02\u02C7\u02C8\x07 \x02\x02\u02C8\x89\x03\x02\x02\x02\u02C9" +
-		"\u02CF\x05\x8CG\x02\u02CA\u02CD\x07\x14\x02\x02\u02CB\u02CE\x05\x94K\x02" +
-		"\u02CC\u02CE\x05\x92J\x02\u02CD\u02CB\x03\x02\x02\x02\u02CD\u02CC\x03" +
-		"\x02\x02\x02\u02CE\u02D0\x03\x02\x02\x02\u02CF\u02CA\x03\x02\x02\x02\u02CF" +
-		"\u02D0\x03\x02\x02\x02\u02D0\x8B\x03\x02\x02\x02\u02D1\u02D2\x07\x12\x02" +
-		"\x02\u02D2\u02D3\x07*\x02\x02\u02D3\u02D4\x05~@\x02\u02D4\u02D7\x07+\x02" +
-		"\x02\u02D5\u02D8\x05\x94K\x02\u02D6\u02D8\x05\x92J\x02\u02D7\u02D5\x03" +
-		"\x02\x02\x02\u02D7\u02D6\x03\x02\x02\x02\u02D8\x8D\x03\x02\x02\x02\u02D9" +
-		"\u02DA\x07\x17\x02\x02\u02DA\u02DB\x054\x1B\x02\u02DB\u02DC\x07 \x02\x02" +
-		"\u02DC\x8F\x03\x02\x02\x02\u02DD\u02DE\x05J&\x02\u02DE\x91\x03\x02\x02" +
-		"\x02\u02DF\u02E0\x05\x90I\x02\u02E0\u02E1\x07 \x02\x02\u02E1\u02F0\x03" +
-		"\x02\x02\x02\u02E2\u02E3\x05x=\x02\u02E3\u02E4\x07 \x02\x02\u02E4\u02F0" +
-		"\x03\x02\x02\x02\u02E5\u02E6\x05z>\x02\u02E6\u02E7\x07 \x02\x02\u02E7" +
-		"\u02F0\x03\x02\x02\x02\u02E8\u02F0\x056\x1C\x02\u02E9\u02F0\x05\x8EH\x02" +
-		"\u02EA\u02F0\x05\x8AF\x02\u02EB\u02F0\x05\x82B\x02\u02EC\u02F0\x05\x88" +
-		"E\x02\u02ED\u02F0\x05\x80A\x02\u02EE\u02F0\x058\x1D\x02\u02EF\u02DF\x03" +
-		"\x02\x02\x02\u02EF\u02E2\x03\x02\x02\x02\u02EF\u02E5\x03\x02\x02\x02\u02EF" +
-		"\u02E8\x03\x02\x02\x02\u02EF\u02E9\x03\x02\x02\x02\u02EF\u02EA\x03\x02" +
-		"\x02\x02\u02EF\u02EB\x03\x02\x02\x02\u02EF\u02EC\x03\x02\x02\x02\u02EF" +
-		"\u02ED\x03\x02\x02\x02\u02EF\u02EE\x03\x02\x02\x02\u02F0\x93\x03\x02\x02" +
-		"\x02\u02F1\u02F3\x07.\x02\x02\u02F2\u02F4\x05\x92J\x02\u02F3\u02F2\x03" +
-		"\x02\x02\x02\u02F4\u02F5\x03\x02\x02\x02\u02F5\u02F3\x03\x02\x02\x02\u02F5" +
-		"\u02F6\x03\x02\x02\x02\u02F6\u02F7\x03\x02\x02\x02\u02F7\u02F8\x07/\x02" +
-		"\x02\u02F8\x95\x03\x02\x02\x02\u02F9\u02FA\bL\x01\x02\u02FA\u02FB\x07" +
-		"*\x02\x02\u02FB\u02FC\x05\x96L\x02\u02FC\u02FD\x07+\x02\x02\u02FD\u030A" +
-		"\x03\x02\x02\x02\u02FE\u02FF\x07@\x02\x02\u02FF\u030A\x05\x96L\x06\u0300" +
-		"\u0301\x05J&\x02\u0301\u0302\x07@\x02\x02\u0302\u0303\x05\x96L\x05\u0303" +
-		"\u030A\x03\x02\x02\x02\u0304\u0305\x05J&\x02\u0305\u0306\x07@\x02\x02" +
-		"\u0306\u0307\x05J&\x02\u0307\u030A\x03\x02\x02\x02\u0308\u030A\x07E\x02" +
-		"\x02\u0309\u02F9\x03\x02\x02\x02\u0309\u02FE\x03\x02\x02\x02\u0309\u0300" +
-		"\x03\x02\x02\x02\u0309\u0304\x03\x02\x02\x02\u0309\u0308\x03\x02\x02\x02" +
-		"\u030A\u0310\x03\x02\x02\x02\u030B\u030C\f\x07\x02\x02\u030C\u030D\x07" +
-		"@\x02\x02\u030D\u030F\x05\x96L\b\u030E\u030B\x03\x02\x02\x02\u030F\u0312" +
-		"\x03\x02\x02\x02\u0310\u030E\x03\x02\x02\x02\u0310\u0311\x03\x02\x02\x02" +
-		"\u0311\x97\x03\x02\x02\x02\u0312\u0310\x03\x02\x02\x02\u0313\u0314\x05" +
-		"\x04\x03\x02\u0314\u0315\x07*\x02\x02\u0315\u0316\x05p9\x02\u0316\u0317" +
-		"\x07+\x02\x02\u0317\x99\x03\x02\x02\x02\u0318\u031A\x05 \x11\x02\u0319" +
-		"\u0318\x03\x02\x02\x02\u031A\u031D\x03\x02\x02\x02\u031B\u0319\x03\x02" +
-		"\x02\x02\u031B\u031C\x03\x02\x02\x02\u031C\x9B\x03\x02\x02\x02\u031D\u031B" +
-		"\x03\x02\x02\x02\u031E\u031F\x05\x04\x03\x02\u031F\u0322\x05\x04\x03\x02" +
-		"\u0320\u0321\x07\x05\x02\x02\u0321\u0323\x05\x04\x03\x02\u0322\u0320\x03" +
-		"\x02\x02\x02\u0322\u0323\x03\x02\x02\x02\u0323\u0327\x03\x02\x02\x02\u0324" +
-		"\u0326\x05(\x15\x02\u0325\u0324\x03\x02\x02\x02\u0326\u0329\x03\x02\x02" +
-		"\x02\u0327\u0325\x03\x02\x02\x02\u0327\u0328\x03\x02\x02\x02\u0328\u032A" +
-		"\x03\x02\x02\x02\u0329\u0327\x03\x02\x02\x02\u032A\u032B\x07 \x02\x02" +
-		"\u032B\x9D\x03\x02\x02\x02\u032C\u032F\x07\f\x02\x02\u032D\u0330\x05Z" +
-		".\x02\u032E\u0330\x05 \x11\x02\u032F\u032D\x03\x02\x02\x02\u032F\u032E" +
-		"\x03\x02\x02\x02\u0330\u0331\x03\x02\x02\x02\u0331\u0332\x07 \x02\x02" +
-		"\u0332\x9F\x03\x02\x02\x02\u0333\u0335\x07,\x02\x02\u0334\u0336\x054\x1B" +
-		"\x02\u0335\u0334\x03\x02\x02\x02\u0335\u0336\x03\x02\x02\x02\u0336\u033B" +
-		"\x03\x02\x02\x02\u0337\u0338\x07!\x02\x02\u0338\u033A\x054\x1B\x02\u0339" +
-		"\u0337\x03\x02\x02\x02\u033A\u033D\x03\x02\x02\x02\u033B\u0339\x03\x02" +
-		"\x02\x02\u033B\u033C\x03\x02\x02\x02\u033C\u033E\x03\x02\x02\x02\u033D" +
-		"\u033B\x03\x02\x02\x02\u033E\u033F\x07-\x02\x02\u033F\xA1\x03\x02\x02" +
-		"\x02\u0340\u0342\x07.\x02\x02\u0341\u0343\x054\x1B\x02\u0342\u0341\x03" +
-		"\x02\x02\x02\u0342\u0343\x03\x02\x02\x02\u0343\u0348\x03\x02\x02\x02\u0344" +
-		"\u0345\x07!\x02\x02\u0345\u0347\x054\x1B\x02\u0346\u0344\x03\x02\x02\x02" +
-		"\u0347\u034A\x03\x02\x02\x02\u0348\u0346\x03\x02\x02\x02\u0348\u0349\x03" +
-		"\x02\x02\x02\u0349\u034B\x03\x02\x02\x02\u034A\u0348\x03\x02\x02\x02\u034B" +
-		"\u034C\x07/\x02\x02\u034C\xA3\x03\x02\x02\x02\u034D\u034E\x07L\x02\x02" +
-		"\u034E\xA5\x03\x02\x02\x02\u034F\u0350\x07\r\x02\x02\u0350\u0354\x05\x04" +
-		"\x03\x02\u0351\u0353\x05(\x15\x02\u0352\u0351\x03\x02\x02\x02\u0353\u0356" +
-		"\x03\x02\x02\x02\u0354\u0352\x03\x02\x02\x02\u0354\u0355\x03\x02\x02\x02" +
-		"\u0355\u0357\x03\x02\x02\x02\u0356\u0354\x03\x02\x02\x02\u0357\u0358\x07" +
-		" \x02\x02\u0358\xA7\x03\x02\x02\x02]\xAF\xBA\xC4\xC9\xCF\xD8\xDF\xE4\xE6" +
-		"\xEA\xF0\xF7\xFB\u0100\u0108\u0113\u011B\u0129\u012C\u012F\u0136\u013E" +
-		"\u0144\u014B\u0150\u0159\u015C\u0162\u016F\u0177\u017F\u0184\u019F\u01AA" +
-		"\u01B3\u01B6\u01C1\u01CB\u01D1\u01D6\u01E1\u01EA\u01ED\u01F0\u01F5\u0209" +
-		"\u0212\u021C\u021F\u0222\u0229\u022F\u0232\u023A\u023D\u0241\u0248\u024D" +
-		"\u0250\u0258\u025F\u0263\u0268\u026D\u0276\u027E\u0280\u0294\u0298\u02A2" +
-		"\u02A6\u02AF\u02B3\u02BE\u02C4\u02CD\u02CF\u02D7\u02EF\u02F5\u0309\u0310" +
-		"\u031B\u0322\u0327\u032F\u0335\u033B\u0342\u0348\u0354";
+		"\x02\x02\u01F4\u01F7\x03\x02\x02\x02\u01F5\u01F3\x03\x02\x02\x02\u01F5" +
+		"\u01F6\x03\x02\x02\x02\u01F6S\x03\x02\x02\x02\u01F7\u01F5\x03\x02\x02" +
+		"\x02\u01F8\u01F9\x07*\x02\x02\u01F9\u01FB\x05\x04\x03\x02\u01FA\u01FC" +
+		"\x05\x04\x03\x02\u01FB\u01FA\x03\x02\x02\x02\u01FB\u01FC\x03\x02\x02\x02" +
+		"\u01FC\u0200\x03\x02\x02\x02\u01FD\u01FF\x05X-\x02\u01FE\u01FD\x03\x02" +
+		"\x02\x02\u01FF\u0202\x03\x02\x02\x02\u0200\u01FE\x03\x02\x02\x02\u0200" +
+		"\u0201\x03\x02\x02\x02\u0201\u0203\x03\x02\x02\x02\u0202\u0200\x03\x02" +
+		"\x02\x02\u0203\u0204\x07!\x02\x02\u0204U\x03\x02\x02\x02\u0205\u0206\x05" +
+		"<\x1F\x02\u0206\u0207\x05\x04\x03\x02\u0207\u0208\x05<\x1F\x02\u0208W" +
+		"\x03\x02\x02\x02\u0209\u020C\x05(\x15\x02\u020A\u020C\x05\xAEX\x02\u020B" +
+		"\u0209\x03\x02\x02\x02\u020B\u020A\x03\x02\x02\x02\u020CY\x03\x02\x02" +
+		"\x02\u020D\u020E\t\x05\x02\x02\u020E\u0214\x05\x04\x03\x02\u020F\u0215" +
+		"\x05\\/\x02\u0210\u0211\x07+\x02\x02\u0211\u0212\x05f4\x02\u0212\u0213" +
+		"\x07,\x02\x02\u0213\u0215\x03\x02\x02\x02\u0214\u020F\x03\x02\x02\x02" +
+		"\u0214\u0210\x03\x02\x02\x02\u0215\u0217\x03\x02\x02\x02\u0216\u0218\x05" +
+		"^0\x02\u0217\u0216\x03\x02\x02\x02\u0217\u0218\x03\x02\x02\x02\u0218\u021A" +
+		"\x03\x02\x02\x02\u0219\u021B\x05`1\x02\u021A\u0219\x03\x02\x02\x02\u021A" +
+		"\u021B\x03\x02\x02\x02\u021B\u021F\x03\x02\x02\x02\u021C\u021E\x05(\x15" +
+		"\x02\u021D\u021C\x03\x02\x02\x02\u021E\u0221\x03\x02\x02\x02\u021F\u021D" +
+		"\x03\x02\x02\x02\u021F\u0220\x03\x02\x02\x02\u0220\u0222\x03\x02\x02\x02" +
+		"\u0221\u021F\x03\x02\x02\x02\u0222\u0223\x07!\x02\x02\u0223[\x03\x02\x02" +
+		"\x02\u0224\u0225\x07\x10\x02\x02\u0225\u0226\x07/\x02\x02\u0226\u0227" +
+		"\x05\xA4S\x02\u0227\u0228\x070\x02\x02\u0228]\x03\x02\x02\x02\u0229\u022A" +
+		"\x07\x18\x02\x02\u022A\u022B\x07/\x02\x02\u022B\u022C\x05\xA4S\x02\u022C" +
+		"\u022D\x070\x02\x02\u022D_\x03\x02\x02\x02\u022E\u022F\x07\x1F\x02\x02" +
+		"\u022F\u0233\x07/\x02\x02\u0230\u0232\x05\xA6T\x02\u0231\u0230\x03\x02" +
+		"\x02\x02\u0232\u0235\x03\x02\x02\x02\u0233\u0231\x03\x02\x02\x02\u0233" +
+		"\u0234\x03\x02\x02\x02\u0234\u0236\x03\x02\x02\x02\u0235\u0233\x03\x02" +
+		"\x02\x02\u0236\u0237\x070\x02\x02\u0237a\x03\x02\x02\x02\u0238\u023C\x05" +
+		"d3\x02\u0239\u023B\x05(\x15\x02\u023A\u0239\x03\x02\x02\x02\u023B\u023E" +
+		"\x03\x02\x02\x02\u023C\u023A\x03\x02\x02\x02\u023C\u023D\x03\x02\x02\x02" +
+		"\u023Dc\x03\x02\x02\x02\u023E\u023C\x03\x02\x02\x02\u023F\u0240\t\x06" +
+		"\x02\x02\u0240\u0246\x05\x04\x03\x02\u0241\u0247\x05\\/\x02\u0242\u0243" +
+		"\x07+\x02\x02\u0243\u0244\x05f4\x02\u0244\u0245\x07,\x02\x02\u0245\u0247" +
+		"\x03\x02\x02\x02\u0246\u0241\x03\x02\x02\x02\u0246\u0242\x03\x02\x02\x02" +
+		"\u0247e\x03\x02\x02\x02\u0248\u024A\x05h5\x02\u0249\u0248\x03\x02\x02" +
+		"\x02\u0249\u024A\x03\x02\x02\x02\u024A\u024C\x03\x02\x02\x02\u024B\u024D" +
+		"\x05l7\x02\u024C\u024B\x03\x02\x02\x02\u024C\u024D\x03\x02\x02\x02\u024D" +
+		"g\x03\x02\x02\x02\u024E\u0253\x05j6\x02\u024F\u0250\x07\"\x02\x02\u0250" +
+		"\u0252\x05j6\x02\u0251\u024F\x03\x02\x02\x02\u0252\u0255\x03\x02\x02\x02" +
+		"\u0253\u0251\x03\x02\x02\x02\u0253\u0254\x03\x02\x02\x02\u0254i\x03\x02" +
+		"\x02\x02\u0255\u0253\x03\x02\x02\x02\u0256\u0257\x05\x04\x03\x02\u0257" +
+		"\u0259\x05\x04\x03\x02\u0258\u025A\x05p9\x02\u0259\u0258\x03\x02\x02\x02" +
+		"\u0259\u025A\x03\x02\x02\x02\u025Ak\x03\x02\x02\x02\u025B\u025D\x07\"" +
+		"\x02\x02\u025C\u025B\x03\x02\x02\x02\u025C\u025D\x03\x02\x02\x02\u025D" +
+		"\u025E\x03\x02\x02\x02\u025E\u0267\x07/\x02\x02\u025F\u0264\x05n8\x02" +
+		"\u0260\u0261\x07\"\x02\x02\u0261\u0263\x05n8\x02\u0262\u0260\x03\x02\x02" +
+		"\x02\u0263\u0266\x03\x02\x02\x02\u0264\u0262\x03\x02\x02\x02\u0264\u0265" +
+		"\x03\x02\x02\x02\u0265\u0268\x03\x02\x02\x02\u0266\u0264\x03\x02\x02\x02" +
+		"\u0267\u025F\x03\x02\x02\x02\u0267\u0268\x03\x02\x02\x02\u0268\u0269\x03" +
+		"\x02\x02\x02\u0269\u026B\x070\x02\x02\u026A\u026C\x05\x04\x03\x02\u026B" +
+		"\u026A\x03\x02\x02\x02\u026B\u026C\x03\x02\x02\x02\u026Cm\x03\x02\x02" +
+		"\x02\u026D\u026E\x07-\x02\x02\u026E\u026F\x05\x04\x03\x02\u026F\u0270" +
+		"\x07.\x02\x02\u0270\u0273\x03\x02\x02\x02\u0271\u0273\x05\x04\x03\x02" +
+		"\u0272\u026D\x03\x02\x02\x02\u0272\u0271\x03\x02\x02\x02\u0273\u0274\x03" +
+		"\x02\x02\x02\u0274\u0275\x07#\x02\x02\u0275\u0277\x05\x04\x03\x02\u0276" +
+		"\u0278\x05\x04\x03\x02\u0277\u0276\x03\x02\x02\x02\u0277\u0278\x03\x02" +
+		"\x02\x02\u0278\u027A\x03\x02\x02\x02\u0279\u027B\x05p9\x02\u027A\u0279" +
+		"\x03\x02\x02\x02\u027A\u027B\x03\x02\x02\x02\u027Bo\x03\x02\x02\x02\u027C" +
+		"\u027D\x07/\x02\x02\u027D\u0282\x05r:\x02\u027E\u027F\x07\"\x02\x02\u027F" +
+		"\u0281\x05r:\x02\u0280\u027E\x03\x02\x02\x02\u0281\u0284\x03\x02\x02\x02" +
+		"\u0282\u0280\x03\x02\x02\x02\u0282\u0283\x03\x02\x02\x02\u0283\u0285\x03" +
+		"\x02\x02\x02\u0284\u0282\x03\x02\x02\x02\u0285\u0286\x070\x02\x02\u0286" +
+		"q\x03\x02\x02\x02\u0287\u0289\x05\x04\x03\x02\u0288\u028A\x05<\x1F\x02" +
+		"\u0289\u0288\x03\x02\x02\x02\u0289\u028A\x03\x02\x02\x02\u028As\x03\x02" +
+		"\x02\x02\u028B\u028D\x05v<\x02\u028C\u028E\x05\x84C\x02\u028D\u028C\x03" +
+		"\x02\x02\x02\u028D\u028E\x03\x02\x02\x02\u028Eu\x03\x02\x02\x02\u028F" +
+		"\u0290\x05V,\x02\u0290w\x03\x02\x02\x02\u0291\u0293\x05\x84C\x02\u0292" +
+		"\u0291\x03\x02\x02\x02\u0292\u0293\x03\x02\x02\x02\u0293\u0297\x03\x02" +
+		"\x02\x02\u0294\u0296\x05t;\x02\u0295\u0294\x03\x02\x02\x02\u0296\u0299" +
+		"\x03\x02\x02\x02\u0297\u0295\x03\x02\x02\x02\u0297\u0298\x03\x02\x02\x02" +
+		"\u0298y\x03\x02\x02\x02\u0299\u0297\x03\x02\x02\x02\u029A\u029B\b>\x01" +
+		"\x02\u029B\u029C\x07+\x02\x02\u029C\u029D\x05z>\x02\u029D\u029E\x07,\x02" +
+		"\x02\u029E\u02A1\x03\x02\x02\x02\u029F\u02A1\x05|?\x02\u02A0\u029A\x03" +
+		"\x02\x02\x02\u02A0\u029F\x03\x02\x02\x02\u02A1\u02AA\x03\x02\x02\x02\u02A2" +
+		"\u02A3\f\x05\x02\x02\u02A3\u02A4\x07;\x02\x02\u02A4\u02A9\x05z>\x06\u02A5" +
+		"\u02A6\f\x04\x02\x02\u02A6\u02A7\x07<\x02\x02\u02A7\u02A9\x05z>\x05\u02A8" +
+		"\u02A2\x03\x02\x02\x02\u02A8\u02A5\x03\x02\x02\x02\u02A9\u02AC\x03\x02" +
+		"\x02\x02\u02AA\u02A8\x03\x02\x02\x02\u02AA\u02AB\x03\x02\x02\x02\u02AB" +
+		"{\x03\x02\x02\x02\u02AC\u02AA\x03\x02\x02\x02\u02AD\u02AE\x05<\x1F\x02" +
+		"\u02AE\u02AF\x05~@\x02\u02AF\u02B0\x05<\x1F\x02\u02B0}\x03\x02\x02\x02" +
+		"\u02B1\u02B2\t\x07\x02\x02\u02B2\x7F\x03\x02\x02\x02\u02B3\u02B4\x05<" +
+		"\x1F\x02\u02B4\u02B5\x07>\x02\x02\u02B5\u02B6\x05<\x1F\x02\u02B6\x81\x03" +
+		"\x02\x02\x02\u02B7\u02B8\x05<\x1F\x02\u02B8\u02B9\x07=\x02\x02\u02B9\u02BA" +
+		"\x05<\x1F\x02\u02BA\x83\x03\x02\x02\x02\u02BB\u02BD\x05\x86D\x02\u02BC" +
+		"\u02BB\x03\x02\x02\x02\u02BD\u02BE\x03\x02\x02\x02\u02BE\u02BC\x03\x02" +
+		"\x02\x02\u02BE\u02BF\x03\x02\x02\x02\u02BF\x85\x03\x02\x02\x02\u02C0\u02C3" +
+		"\x05z>\x02\u02C1\u02C3\x05\xA2R\x02\u02C2\u02C0\x03\x02\x02\x02\u02C2" +
+		"\u02C1\x03\x02\x02\x02\u02C3\x87\x03\x02\x02\x02\u02C4\u02C5\x07\x1B\x02" +
+		"\x02\u02C5\u02C6\x07+\x02\x02\u02C6\u02C7\x05<\x1F\x02\u02C7\u02C8\x07" +
+		",\x02\x02\u02C8\u02CC\x07/\x02\x02\u02C9\u02CB\x05\x8CG\x02\u02CA\u02C9" +
+		"\x03\x02\x02\x02\u02CB\u02CE\x03\x02\x02\x02\u02CC\u02CA\x03\x02\x02\x02" +
+		"\u02CC\u02CD\x03\x02\x02\x02\u02CD\u02D0\x03\x02\x02\x02\u02CE\u02CC\x03" +
+		"\x02\x02\x02\u02CF\u02D1\x05\x8EH\x02\u02D0\u02CF\x03\x02\x02\x02\u02D0" +
+		"\u02D1\x03\x02\x02\x02\u02D1\u02D2\x03\x02\x02\x02\u02D2\u02D3\x070\x02" +
+		"\x02\u02D3\x89\x03\x02\x02\x02\u02D4\u02D5\x07\x1B\x02\x02\u02D5\u02D9" +
+		"\x07/\x02\x02\u02D6\u02D8\x05\x8CG\x02\u02D7\u02D6\x03\x02\x02\x02\u02D8" +
+		"\u02DB\x03\x02\x02\x02\u02D9\u02D7\x03\x02\x02\x02\u02D9\u02DA\x03\x02" +
+		"\x02\x02\u02DA\u02DD\x03\x02\x02\x02\u02DB\u02D9\x03\x02\x02\x02\u02DC" +
+		"\u02DE\x05\x8EH\x02\u02DD\u02DC\x03\x02\x02\x02\u02DD\u02DE\x03\x02\x02" +
+		"\x02\u02DE\u02DF\x03\x02\x02\x02\u02DF\u02E0\x070\x02\x02\u02E0\x8B\x03" +
+		"\x02\x02\x02\u02E1\u02E2\x07\x1C\x02\x02\u02E2\u02E3\x07+\x02\x02\u02E3" +
+		"\u02E4\x056\x1C\x02\u02E4\u02E5\x07,\x02\x02\u02E5\u02E8\x07#\x02\x02" +
+		"\u02E6\u02E9\x05\x9CO\x02\u02E7\u02E9\x05\x9EP\x02\u02E8\u02E6\x03\x02" +
+		"\x02\x02\u02E8\u02E7\x03\x02\x02\x02\u02E9\x8D\x03\x02\x02\x02\u02EA\u02EB" +
+		"\x07\x1D\x02\x02\u02EB\u02EE\x07#\x02\x02\u02EC\u02EF\x05\x9CO\x02\u02ED" +
+		"\u02EF\x05\x9EP\x02\u02EE\u02EC\x03\x02\x02\x02\u02EE\u02ED\x03\x02\x02" +
+		"\x02\u02EF\x8F\x03\x02\x02\x02\u02F0\u02F1\x07\x1E\x02\x02\u02F1\u02F2" +
+		"\x07!\x02\x02\u02F2\x91\x03\x02\x02\x02\u02F3\u02F9\x05\x94K\x02\u02F4" +
+		"\u02F7\x07\x14\x02\x02\u02F5\u02F8\x05\x9EP\x02\u02F6\u02F8\x05\x9CO\x02" +
+		"\u02F7\u02F5\x03\x02\x02\x02\u02F7\u02F6\x03\x02\x02\x02\u02F8\u02FA\x03" +
+		"\x02\x02\x02\u02F9\u02F4\x03\x02\x02\x02\u02F9\u02FA\x03\x02\x02\x02\u02FA" +
+		"\x93\x03\x02\x02\x02\u02FB\u02FC\x07\x12\x02\x02\u02FC\u02FD\x07+\x02" +
+		"\x02\u02FD\u02FE\x05\x86D\x02\u02FE\u0301\x07,\x02\x02\u02FF\u0302\x05" +
+		"\x9EP\x02\u0300\u0302\x05\x9CO\x02\u0301\u02FF\x03\x02\x02\x02\u0301\u0300" +
+		"\x03\x02\x02\x02\u0302\x95\x03\x02\x02\x02\u0303\u0304\x07 \x02\x02\u0304" +
+		"\u0305\x07+\x02\x02\u0305\u0306\x05\x86D\x02\u0306\u0307\x07,\x02\x02" +
+		"\u0307\u0308\x05\x9EP\x02\u0308\x97\x03\x02\x02\x02\u0309\u030A\x07\x17" +
+		"\x02\x02\u030A\u030B\x05<\x1F\x02\u030B\u030C\x07!\x02\x02\u030C\x99\x03" +
+		"\x02\x02\x02\u030D\u030E\x05R*\x02\u030E\x9B\x03\x02\x02\x02\u030F\u0310" +
+		"\x05\x9AN\x02\u0310\u0311\x07!\x02\x02\u0311\u0321\x03\x02\x02\x02\u0312" +
+		"\u0313\x05\x80A\x02\u0313\u0314\x07!\x02\x02\u0314\u0321\x03\x02\x02\x02" +
+		"\u0315\u0316\x05\x82B\x02\u0316\u0317\x07!\x02\x02\u0317\u0321\x03\x02" +
+		"\x02\x02\u0318\u0321\x05> \x02\u0319\u0321\x05\x98M\x02\u031A\u0321\x05" +
+		"\x92J\x02\u031B\u0321\x05\x8AF\x02\u031C\u0321\x05\x90I\x02\u031D\u0321" +
+		"\x05\x88E\x02\u031E\u0321\x05@!\x02\u031F\u0321\x05\x96L\x02\u0320\u030F" +
+		"\x03\x02\x02\x02\u0320\u0312\x03\x02\x02\x02\u0320\u0315\x03\x02\x02\x02" +
+		"\u0320\u0318\x03\x02\x02\x02\u0320\u0319\x03\x02\x02\x02\u0320\u031A\x03" +
+		"\x02\x02\x02\u0320\u031B\x03\x02\x02\x02\u0320\u031C\x03\x02\x02\x02\u0320" +
+		"\u031D\x03\x02\x02\x02\u0320\u031E\x03\x02\x02\x02\u0320\u031F\x03\x02" +
+		"\x02\x02\u0321\x9D\x03\x02\x02\x02\u0322\u0324\x07/\x02\x02\u0323\u0325" +
+		"\x05\x9CO\x02\u0324\u0323\x03\x02\x02\x02\u0325\u0326\x03\x02\x02\x02" +
+		"\u0326\u0324\x03\x02\x02\x02\u0326\u0327\x03\x02\x02\x02\u0327\u0328\x03" +
+		"\x02\x02\x02\u0328\u0329\x070\x02\x02\u0329\x9F\x03\x02\x02\x02\u032A" +
+		"\u032B\bQ\x01\x02\u032B\u032C\x07+\x02\x02\u032C\u032D\x05\xA0Q\x02\u032D" +
+		"\u032E\x07,\x02\x02\u032E\u033B\x03\x02\x02\x02\u032F\u0330\x07A\x02\x02" +
+		"\u0330\u033B\x05\xA0Q\x06\u0331\u0332\x05R*\x02\u0332\u0333\x07A\x02\x02" +
+		"\u0333\u0334\x05\xA0Q\x05\u0334\u033B\x03\x02\x02\x02\u0335\u0336\x05" +
+		"R*\x02\u0336\u0337\x07A\x02\x02\u0337\u0338\x05R*\x02\u0338\u033B\x03" +
+		"\x02\x02\x02\u0339\u033B\x07F\x02\x02\u033A\u032A\x03\x02\x02\x02\u033A" +
+		"\u032F\x03\x02\x02\x02\u033A\u0331\x03\x02\x02\x02\u033A\u0335\x03\x02" +
+		"\x02\x02\u033A\u0339\x03\x02\x02\x02\u033B\u0341\x03\x02\x02\x02\u033C" +
+		"\u033D\f\x07\x02\x02\u033D\u033E\x07A\x02\x02\u033E\u0340\x05\xA0Q\b\u033F" +
+		"\u033C\x03\x02\x02\x02\u0340\u0343\x03\x02\x02\x02\u0341\u033F\x03\x02" +
+		"\x02\x02\u0341\u0342\x03\x02\x02\x02\u0342\xA1\x03\x02\x02\x02\u0343\u0341" +
+		"\x03\x02\x02\x02\u0344\u0345\x05\x04\x03\x02\u0345\u0346\x07+\x02\x02" +
+		"\u0346\u0347\x05x=\x02\u0347\u0348\x07,\x02\x02\u0348\xA3\x03\x02\x02" +
+		"\x02\u0349\u034B\x05 \x11\x02\u034A\u0349\x03\x02\x02\x02\u034B\u034E" +
+		"\x03\x02\x02\x02\u034C\u034A\x03\x02\x02\x02\u034C\u034D\x03\x02\x02\x02" +
+		"\u034D\xA5\x03\x02\x02\x02\u034E\u034C\x03\x02\x02\x02\u034F\u0350\x05" +
+		"\x04\x03\x02\u0350\u0353\x05\x04\x03\x02\u0351\u0352\x07\x05\x02\x02\u0352" +
+		"\u0354\x05\x04\x03\x02\u0353\u0351\x03\x02\x02\x02\u0353\u0354\x03\x02" +
+		"\x02\x02\u0354\u0358\x03\x02\x02\x02\u0355\u0357\x05(\x15\x02\u0356\u0355" +
+		"\x03\x02\x02\x02\u0357\u035A\x03\x02\x02\x02\u0358\u0356\x03\x02\x02\x02" +
+		"\u0358\u0359\x03\x02\x02\x02\u0359\u035B\x03\x02\x02\x02\u035A\u0358\x03" +
+		"\x02\x02\x02\u035B\u035C\x07!\x02\x02\u035C\xA7\x03\x02\x02\x02\u035D" +
+		"\u0360\x07\f\x02\x02\u035E\u0361\x05b2\x02\u035F\u0361\x05 \x11\x02\u0360" +
+		"\u035E\x03\x02\x02\x02\u0360\u035F\x03\x02\x02\x02\u0361\u0362\x03\x02" +
+		"\x02\x02\u0362\u0363\x07!\x02\x02\u0363\xA9\x03\x02\x02\x02\u0364\u0366" +
+		"\x07-\x02\x02\u0365\u0367\x05<\x1F\x02\u0366\u0365\x03\x02\x02\x02\u0366" +
+		"\u0367\x03\x02\x02\x02\u0367\u036C\x03\x02\x02\x02\u0368\u0369\x07\"\x02" +
+		"\x02\u0369\u036B\x05<\x1F\x02\u036A\u0368\x03\x02\x02\x02\u036B\u036E" +
+		"\x03\x02\x02\x02\u036C\u036A\x03\x02\x02\x02\u036C\u036D\x03\x02\x02\x02" +
+		"\u036D\u036F\x03\x02\x02\x02\u036E\u036C\x03\x02\x02\x02\u036F\u0370\x07" +
+		".\x02\x02\u0370\xAB\x03\x02\x02\x02\u0371\u0373\x07/\x02\x02\u0372\u0374" +
+		"\x05<\x1F\x02\u0373\u0372\x03\x02\x02\x02\u0373\u0374\x03\x02\x02\x02" +
+		"\u0374\u0379\x03\x02\x02\x02\u0375\u0376\x07\"\x02\x02\u0376\u0378\x05" +
+		"<\x1F\x02\u0377\u0375\x03\x02\x02\x02\u0378\u037B\x03\x02\x02\x02\u0379" +
+		"\u0377\x03\x02\x02\x02\u0379\u037A\x03\x02\x02\x02\u037A\u037C\x03\x02" +
+		"\x02\x02\u037B\u0379\x03\x02\x02\x02\u037C\u037D\x070\x02\x02\u037D\xAD" +
+		"\x03\x02\x02\x02\u037E\u037F\x07M\x02\x02\u037F\xAF\x03\x02\x02\x02\u0380" +
+		"\u0381\x07\r\x02\x02\u0381\u0385\x05\x04\x03\x02\u0382\u0384\x05(\x15" +
+		"\x02\u0383\u0382\x03\x02\x02\x02\u0384\u0387\x03\x02\x02\x02\u0385\u0383" +
+		"\x03\x02\x02\x02\u0385\u0386\x03\x02\x02\x02\u0386\u0388\x03\x02\x02\x02" +
+		"\u0387\u0385\x03\x02\x02\x02\u0388\u0389\x07!\x02\x02\u0389\xB1\x03\x02" +
+		"\x02\x02b\xB9\xC4\xCE\xD3\xD9\xE2\xE9\xEE\xF0\xF4\xFA\u0101\u0105\u010A" +
+		"\u0112\u011D\u0125\u0133\u0136\u0139\u0140\u0148\u014E\u0155\u015A\u015F" +
+		"\u0168\u016B\u0177\u017A\u0183\u0186\u018C\u0199\u01A1\u01A9\u01AE\u01C9" +
+		"\u01D4\u01DD\u01E0\u01EB\u01F5\u01FB\u0200\u020B\u0214\u0217\u021A\u021F" +
+		"\u0233\u023C\u0246\u0249\u024C\u0253\u0259\u025C\u0264\u0267\u026B\u0272" +
+		"\u0277\u027A\u0282\u0289\u028D\u0292\u0297\u02A0\u02A8\u02AA\u02BE\u02C2" +
+		"\u02CC\u02D0\u02D9\u02DD\u02E8\u02EE\u02F7\u02F9\u0301\u0320\u0326\u033A" +
+		"\u0341\u034C\u0353\u0358\u0360\u0366\u036C\u0373\u0379\u0385";
 	public static readonly _serializedATN: string = Utils.join(
 		[
 			YmlToBdlParser._serializedATNSegment0,
@@ -5534,6 +5797,44 @@ export class YmlIdOrPathContext extends ParserRuleContext {
 
 
 export class FieldContext extends ParserRuleContext {
+	public commonField(): CommonFieldContext | undefined {
+		return this.tryGetRuleContext(0, CommonFieldContext);
+	}
+	public returnField(): ReturnFieldContext | undefined {
+		return this.tryGetRuleContext(0, ReturnFieldContext);
+	}
+	public localField(): LocalFieldContext | undefined {
+		return this.tryGetRuleContext(0, LocalFieldContext);
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return YmlToBdlParser.RULE_field; }
+	// @Override
+	public enterRule(listener: YmlToBdlListener): void {
+		if (listener.enterField) {
+			listener.enterField(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: YmlToBdlListener): void {
+		if (listener.exitField) {
+			listener.exitField(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: YmlToBdlVisitor<Result>): Result {
+		if (visitor.visitField) {
+			return visitor.visitField(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class CommonFieldContext extends ParserRuleContext {
 	public _fieldArrow: Token;
 	public _optionName: YmlIdOrPathContext;
 	public _valueOrCondition: ValueOrConditionContext;
@@ -5567,23 +5868,166 @@ export class FieldContext extends ParserRuleContext {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return YmlToBdlParser.RULE_field; }
+	public get ruleIndex(): number { return YmlToBdlParser.RULE_commonField; }
 	// @Override
 	public enterRule(listener: YmlToBdlListener): void {
-		if (listener.enterField) {
-			listener.enterField(this);
+		if (listener.enterCommonField) {
+			listener.enterCommonField(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: YmlToBdlListener): void {
-		if (listener.exitField) {
-			listener.exitField(this);
+		if (listener.exitCommonField) {
+			listener.exitCommonField(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: YmlToBdlVisitor<Result>): Result {
-		if (visitor.visitField) {
-			return visitor.visitField(this);
+		if (visitor.visitCommonField) {
+			return visitor.visitCommonField(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class Local_variable_declContext extends ParserRuleContext {
+	public _type: MemberTypeContext;
+	public _memberName: YmlIdContext;
+	public memberType(): MemberTypeContext {
+		return this.getRuleContext(0, MemberTypeContext);
+	}
+	public ymlId(): YmlIdContext {
+		return this.getRuleContext(0, YmlIdContext);
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return YmlToBdlParser.RULE_local_variable_decl; }
+	// @Override
+	public enterRule(listener: YmlToBdlListener): void {
+		if (listener.enterLocal_variable_decl) {
+			listener.enterLocal_variable_decl(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: YmlToBdlListener): void {
+		if (listener.exitLocal_variable_decl) {
+			listener.exitLocal_variable_decl(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: YmlToBdlVisitor<Result>): Result {
+		if (visitor.visitLocal_variable_decl) {
+			return visitor.visitLocal_variable_decl(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class LocalFieldContext extends ParserRuleContext {
+	public _fieldArrow: Token;
+	public _optionName: Token;
+	public _local_variable_decl: Local_variable_declContext;
+	public _optionValues: Local_variable_declContext[] = [];
+	public FIELD_INTRO(): TerminalNode { return this.getToken(YmlToBdlParser.FIELD_INTRO, 0); }
+	public LOCAL(): TerminalNode { return this.getToken(YmlToBdlParser.LOCAL, 0); }
+	public local_variable_decl(): Local_variable_declContext[];
+	public local_variable_decl(i: number): Local_variable_declContext;
+	public local_variable_decl(i?: number): Local_variable_declContext | Local_variable_declContext[] {
+		if (i === undefined) {
+			return this.getRuleContexts(Local_variable_declContext);
+		} else {
+			return this.getRuleContext(i, Local_variable_declContext);
+		}
+	}
+	public COMMA(): TerminalNode[];
+	public COMMA(i: number): TerminalNode;
+	public COMMA(i?: number): TerminalNode | TerminalNode[] {
+		if (i === undefined) {
+			return this.getTokens(YmlToBdlParser.COMMA);
+		} else {
+			return this.getToken(YmlToBdlParser.COMMA, i);
+		}
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return YmlToBdlParser.RULE_localField; }
+	// @Override
+	public enterRule(listener: YmlToBdlListener): void {
+		if (listener.enterLocalField) {
+			listener.enterLocalField(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: YmlToBdlListener): void {
+		if (listener.exitLocalField) {
+			listener.exitLocalField(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: YmlToBdlVisitor<Result>): Result {
+		if (visitor.visitLocalField) {
+			return visitor.visitLocalField(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class ReturnFieldContext extends ParserRuleContext {
+	public _fieldArrow: Token;
+	public _optionName: Token;
+	public _valueOrCondition: ValueOrConditionContext;
+	public _optionValues: ValueOrConditionContext[] = [];
+	public FIELD_INTRO(): TerminalNode { return this.getToken(YmlToBdlParser.FIELD_INTRO, 0); }
+	public RETURN(): TerminalNode { return this.getToken(YmlToBdlParser.RETURN, 0); }
+	public valueOrCondition(): ValueOrConditionContext[];
+	public valueOrCondition(i: number): ValueOrConditionContext;
+	public valueOrCondition(i?: number): ValueOrConditionContext | ValueOrConditionContext[] {
+		if (i === undefined) {
+			return this.getRuleContexts(ValueOrConditionContext);
+		} else {
+			return this.getRuleContext(i, ValueOrConditionContext);
+		}
+	}
+	public COMMA(): TerminalNode[];
+	public COMMA(i: number): TerminalNode;
+	public COMMA(i?: number): TerminalNode | TerminalNode[] {
+		if (i === undefined) {
+			return this.getTokens(YmlToBdlParser.COMMA);
+		} else {
+			return this.getToken(YmlToBdlParser.COMMA, i);
+		}
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return YmlToBdlParser.RULE_returnField; }
+	// @Override
+	public enterRule(listener: YmlToBdlListener): void {
+		if (listener.enterReturnField) {
+			listener.enterReturnField(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: YmlToBdlListener): void {
+		if (listener.exitReturnField) {
+			listener.exitReturnField(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: YmlToBdlVisitor<Result>): Result {
+		if (visitor.visitReturnField) {
+			return visitor.visitReturnField(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -7655,6 +8099,44 @@ export class Instruction_ifContext extends ParserRuleContext {
 }
 
 
+export class Instruction_whileContext extends ParserRuleContext {
+	public WHILE(): TerminalNode { return this.getToken(YmlToBdlParser.WHILE, 0); }
+	public OPEN_PAR(): TerminalNode { return this.getToken(YmlToBdlParser.OPEN_PAR, 0); }
+	public order0Condition(): Order0ConditionContext {
+		return this.getRuleContext(0, Order0ConditionContext);
+	}
+	public CLOSE_PAR(): TerminalNode { return this.getToken(YmlToBdlParser.CLOSE_PAR, 0); }
+	public actionBlock(): ActionBlockContext {
+		return this.getRuleContext(0, ActionBlockContext);
+	}
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return YmlToBdlParser.RULE_instruction_while; }
+	// @Override
+	public enterRule(listener: YmlToBdlListener): void {
+		if (listener.enterInstruction_while) {
+			listener.enterInstruction_while(this);
+		}
+	}
+	// @Override
+	public exitRule(listener: YmlToBdlListener): void {
+		if (listener.exitInstruction_while) {
+			listener.exitInstruction_while(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: YmlToBdlVisitor<Result>): Result {
+		if (visitor.visitInstruction_while) {
+			return visitor.visitInstruction_while(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
 export class Instruction_returnContext extends ParserRuleContext {
 	public RETURN(): TerminalNode { return this.getToken(YmlToBdlParser.RETURN, 0); }
 	public value(): ValueContext {
@@ -7752,6 +8234,9 @@ export class InstructionContext extends ParserRuleContext {
 	}
 	public instruction_ifExprBlock(): Instruction_ifExprBlockContext | undefined {
 		return this.tryGetRuleContext(0, Instruction_ifExprBlockContext);
+	}
+	public instruction_while(): Instruction_whileContext | undefined {
+		return this.tryGetRuleContext(0, Instruction_whileContext);
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);

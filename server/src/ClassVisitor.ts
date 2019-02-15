@@ -50,7 +50,9 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
     );
   }
 
-  public visitClassAttributeDeclaration(node: ClassAttributeDeclarationContext) {
+  public visitClassAttributeDeclaration(
+    node: ClassAttributeDeclarationContext,
+  ) {
     this.createNewCompletionItem(
       node.ymlId(),
       node.field(),
@@ -95,7 +97,8 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
     let domains = "Object";
     let domainsLevel2 = "";
     try {
-      for (const option of fieldOptions) {
+      for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
+        const option = element.commonField();
         const optionName = option._optionName.text;
         if (optionName === "domains") {
           domains = option._optionValues[0].text;
@@ -111,7 +114,8 @@ export class ClassVisitor implements YmlToBdlVisitor<void> {
 
   public getDocumentation(fieldOptions: FieldContext[]): string {
     try {
-      for (const option of fieldOptions) {
+      for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
+        const option = element.commonField();
         if (option._optionName.text === "documentation") {
           let documentation = option._optionValues[0].text;
           if (documentation !== null && documentation !== undefined) {

@@ -34,6 +34,7 @@ CASE: 'case';
 DEFAULT: 'default';
 BREAK: 'break';
 STATIC: 'static';
+WHILE: 'while';
 
 //Symbols
 SEMICOLON: ';';
@@ -184,7 +185,9 @@ memberType: ymlId (COND_OR ymlId)?;
 path: ymlId (DOT ymlId)+?;
 ymlIdOrPath: ymlId | path | RETURN;
 
-field:
+field: commonField | returnField | localField;
+
+commonField:
     fieldArrow=
     (
         FIELD_INTRO
@@ -192,6 +195,25 @@ field:
         | REMOVE_FIELD
         | ADD_FIELD
     ) optionName=ymlIdOrPath
+    (
+        optionValues+=valueOrCondition (COMMA optionValues+=valueOrCondition)*?
+    )?
+;
+
+local_variable_decl: type=memberType memberName=ymlId;
+
+localField:
+    fieldArrow= FIELD_INTRO optionName=LOCAL
+    (
+        optionValues+=local_variable_decl
+        (
+            COMMA optionValues+=local_variable_decl
+        )*?
+    )?
+;
+
+returnField:
+    fieldArrow= FIELD_INTRO optionName=RETURN
     (
         optionValues+=valueOrCondition (COMMA optionValues+=valueOrCondition)*?
     )?
@@ -373,6 +395,7 @@ instruction_ifElse: instruction_if (ELSE (actionBlock | instruction))?;
 instruction_if:
     IF OPEN_PAR order0Condition CLOSE_PAR (actionBlock | instruction)
 ;
+instruction_while: WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlock;
 instruction_return: RETURN value SEMICOLON;
 instruction_chainedCall: chainedCall;
 instruction:
@@ -386,6 +409,7 @@ instruction:
     | instruction_break
     | instruction_switchCase_withValue
     | instruction_ifExprBlock
+    | instruction_while
 ;
 
 actionBlock: OPEN_BRACE instruction+ CLOSE_BRACE;
