@@ -4,8 +4,6 @@
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
 
 import { ExpressionMarkerContext } from "./YmlToBdlParser";
-import { PreprocessingElementContext } from "./YmlToBdlParser";
-import { FreeTextContext } from "./YmlToBdlParser";
 import { YmlIdContext } from "./YmlToBdlParser";
 import { KaoFileContext } from "./YmlToBdlParser";
 import { YmlEntityContext } from "./YmlToBdlParser";
@@ -14,31 +12,45 @@ import { EnumElementContext } from "./YmlToBdlParser";
 import { ClassDeclarationContext } from "./YmlToBdlParser";
 import { ClassImplementationContext } from "./YmlToBdlParser";
 import { OverrideContext } from "./YmlToBdlParser";
+import { OverrideInstructionContext } from "./YmlToBdlParser";
 import { ClassDeclarationIntroContext } from "./YmlToBdlParser";
 import { ExtendsBlockContext } from "./YmlToBdlParser";
 import { ParentClassNameContext } from "./YmlToBdlParser";
-import { MemberTypeContext } from "./YmlToBdlParser";
 import { SynonymContext } from "./YmlToBdlParser";
+import { ClassAttributeDeclarationContext } from "./YmlToBdlParser";
 import { MemberDeclarationContext } from "./YmlToBdlParser";
+import { MemberTypeContext } from "./YmlToBdlParser";
 import { PathContext } from "./YmlToBdlParser";
 import { YmlIdOrPathContext } from "./YmlToBdlParser";
 import { FieldContext } from "./YmlToBdlParser";
+import { CommonFieldContext } from "./YmlToBdlParser";
+import { Local_variable_declContext } from "./YmlToBdlParser";
+import { LocalFieldContext } from "./YmlToBdlParser";
+import { ReturnFieldContext } from "./YmlToBdlParser";
 import { ClassPropertiesBlockContext } from "./YmlToBdlParser";
 import { DocumentationContext } from "./YmlToBdlParser";
 import { ValueOrConditionContext } from "./YmlToBdlParser";
 import { HashMapKeyValueContext } from "./YmlToBdlParser";
 import { HashMapValueContext } from "./YmlToBdlParser";
 import { ValueContext } from "./YmlToBdlParser";
+import { Instruction_forEachContext } from "./YmlToBdlParser";
+import { Instruction_ifExprBlockContext } from "./YmlToBdlParser";
 import { IfExprBlockContext } from "./YmlToBdlParser";
+import { BoolContext } from "./YmlToBdlParser";
 import { NonArithmeticValueContext } from "./YmlToBdlParser";
 import { InstanciationVariableContext } from "./YmlToBdlParser";
 import { ExpressionContext } from "./YmlToBdlParser";
 import { FunctionCallContext } from "./YmlToBdlParser";
+import { IndexedCallContext } from "./YmlToBdlParser";
 import { FunctionArgumentContext } from "./YmlToBdlParser";
 import { ChainedCallContext } from "./YmlToBdlParser";
 import { InlineDeclarationContext } from "./YmlToBdlParser";
 import { InlineOperationContext } from "./YmlToBdlParser";
 import { FieldValueContext } from "./YmlToBdlParser";
+import { FunctionContext } from "./YmlToBdlParser";
+import { ArgsBlockContext } from "./YmlToBdlParser";
+import { LocalBlockContext } from "./YmlToBdlParser";
+import { StaticBlockContext } from "./YmlToBdlParser";
 import { MethodDeclarationContext } from "./YmlToBdlParser";
 import { MethodIntroContext } from "./YmlToBdlParser";
 import { ArgumentListContext } from "./YmlToBdlParser";
@@ -50,25 +62,29 @@ import { ArgOptionListContext } from "./YmlToBdlParser";
 import { ArgOptionBlockContext } from "./YmlToBdlParser";
 import { Order1BlockContext } from "./YmlToBdlParser";
 import { InstanciationConditionContext } from "./YmlToBdlParser";
-import { ForEachInstanciationContext } from "./YmlToBdlParser";
 import { Order1FullConditionContext } from "./YmlToBdlParser";
-import { ClosedOrder1FullConditionContext } from "./YmlToBdlParser";
 import { CombinedComparisonContext } from "./YmlToBdlParser";
 import { ComparisonContext } from "./YmlToBdlParser";
 import { ComparisonOperatorContext } from "./YmlToBdlParser";
-import { AffectationContext } from "./YmlToBdlParser";
+import { Instruction_multivaluedAssignmentContext } from "./YmlToBdlParser";
+import { Instruction_assignmentContext } from "./YmlToBdlParser";
 import { ConditionBlockContext } from "./YmlToBdlParser";
 import { Order0ConditionContext } from "./YmlToBdlParser";
-import { ActionContext } from "./YmlToBdlParser";
+import { Instruction_switchCase_withValueContext } from "./YmlToBdlParser";
+import { Instruction_switchCase_asIfContext } from "./YmlToBdlParser";
+import { InstructionCaseContext } from "./YmlToBdlParser";
+import { InstructionDefaultContext } from "./YmlToBdlParser";
+import { Instruction_breakContext } from "./YmlToBdlParser";
+import { Instruction_ifElseContext } from "./YmlToBdlParser";
+import { Instruction_ifContext } from "./YmlToBdlParser";
+import { Instruction_whileContext } from "./YmlToBdlParser";
+import { Instruction_returnContext } from "./YmlToBdlParser";
+import { Instruction_chainedCallContext } from "./YmlToBdlParser";
+import { InstructionContext } from "./YmlToBdlParser";
 import { ActionBlockContext } from "./YmlToBdlParser";
-import { CompoundBlockContext } from "./YmlToBdlParser";
 import { ArithmeticExpressionContext } from "./YmlToBdlParser";
 import { ExistentialOperatorContext } from "./YmlToBdlParser";
-import { VariableBlockContext } from "./YmlToBdlParser";
-import { VariableBlockWithEOFContext } from "./YmlToBdlParser";
 import { VariableBlockContentContext } from "./YmlToBdlParser";
-import { VariableBlockContentWithEOFContext } from "./YmlToBdlParser";
-import { StaticDeclarationsFileContext } from "./YmlToBdlParser";
 import { StaticDeclarationContext } from "./YmlToBdlParser";
 import { ExternDeclarationContext } from "./YmlToBdlParser";
 import { ListContext } from "./YmlToBdlParser";
@@ -91,20 +107,6 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitExpressionMarker?: (ctx: ExpressionMarkerContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.preprocessingElement`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitPreprocessingElement?: (ctx: PreprocessingElementContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.freeText`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitFreeText?: (ctx: FreeTextContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.ymlId`.
@@ -163,6 +165,13 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitOverride?: (ctx: OverrideContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.overrideInstruction`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitOverrideInstruction?: (ctx: OverrideInstructionContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.classDeclarationIntro`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -184,13 +193,6 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitParentClassName?: (ctx: ParentClassNameContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.memberType`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitMemberType?: (ctx: MemberTypeContext) => Result;
-
-	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.synonym`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -198,11 +200,25 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitSynonym?: (ctx: SynonymContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.classAttributeDeclaration`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitClassAttributeDeclaration?: (ctx: ClassAttributeDeclarationContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.memberDeclaration`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitMemberDeclaration?: (ctx: MemberDeclarationContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.memberType`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitMemberType?: (ctx: MemberTypeContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.path`.
@@ -224,6 +240,34 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitField?: (ctx: FieldContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.commonField`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitCommonField?: (ctx: CommonFieldContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.local_variable_decl`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitLocal_variable_decl?: (ctx: Local_variable_declContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.localField`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitLocalField?: (ctx: LocalFieldContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.returnField`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitReturnField?: (ctx: ReturnFieldContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.classPropertiesBlock`.
@@ -268,11 +312,32 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitValue?: (ctx: ValueContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_forEach`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_forEach?: (ctx: Instruction_forEachContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_ifExprBlock`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_ifExprBlock?: (ctx: Instruction_ifExprBlockContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.ifExprBlock`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitIfExprBlock?: (ctx: IfExprBlockContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.bool`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitBool?: (ctx: BoolContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.nonArithmeticValue`.
@@ -301,6 +366,13 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitFunctionCall?: (ctx: FunctionCallContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.indexedCall`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitIndexedCall?: (ctx: IndexedCallContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.functionArgument`.
@@ -336,6 +408,34 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitFieldValue?: (ctx: FieldValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.function`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitFunction?: (ctx: FunctionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.argsBlock`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitArgsBlock?: (ctx: ArgsBlockContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.localBlock`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitLocalBlock?: (ctx: LocalBlockContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.staticBlock`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitStaticBlock?: (ctx: StaticBlockContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.methodDeclaration`.
@@ -415,25 +515,11 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstanciationCondition?: (ctx: InstanciationConditionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.forEachInstanciation`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitForEachInstanciation?: (ctx: ForEachInstanciationContext) => Result;
-
-	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.order1FullCondition`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitOrder1FullCondition?: (ctx: Order1FullConditionContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.closedOrder1FullCondition`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitClosedOrder1FullCondition?: (ctx: ClosedOrder1FullConditionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.combinedComparison`.
@@ -457,11 +543,18 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitComparisonOperator?: (ctx: ComparisonOperatorContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.affectation`.
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_multivaluedAssignment`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitAffectation?: (ctx: AffectationContext) => Result;
+	visitInstruction_multivaluedAssignment?: (ctx: Instruction_multivaluedAssignmentContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_assignment`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_assignment?: (ctx: Instruction_assignmentContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.conditionBlock`.
@@ -478,11 +571,81 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitOrder0Condition?: (ctx: Order0ConditionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.action`.
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_switchCase_withValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitAction?: (ctx: ActionContext) => Result;
+	visitInstruction_switchCase_withValue?: (ctx: Instruction_switchCase_withValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_switchCase_asIf`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_switchCase_asIf?: (ctx: Instruction_switchCase_asIfContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instructionCase`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstructionCase?: (ctx: InstructionCaseContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instructionDefault`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstructionDefault?: (ctx: InstructionDefaultContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_break`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_break?: (ctx: Instruction_breakContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_ifElse`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_ifElse?: (ctx: Instruction_ifElseContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_if`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_if?: (ctx: Instruction_ifContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_while`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_while?: (ctx: Instruction_whileContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_return`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_return?: (ctx: Instruction_returnContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_chainedCall`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_chainedCall?: (ctx: Instruction_chainedCallContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction?: (ctx: InstructionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.actionBlock`.
@@ -490,13 +653,6 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitActionBlock?: (ctx: ActionBlockContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.compoundBlock`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitCompoundBlock?: (ctx: CompoundBlockContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.arithmeticExpression`.
@@ -513,39 +669,11 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitExistentialOperator?: (ctx: ExistentialOperatorContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.variableBlock`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitVariableBlock?: (ctx: VariableBlockContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.variableBlockWithEOF`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitVariableBlockWithEOF?: (ctx: VariableBlockWithEOFContext) => Result;
-
-	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.variableBlockContent`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitVariableBlockContent?: (ctx: VariableBlockContentContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.variableBlockContentWithEOF`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitVariableBlockContentWithEOF?: (ctx: VariableBlockContentWithEOFContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.staticDeclarationsFile`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitStaticDeclarationsFile?: (ctx: StaticDeclarationsFileContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.staticDeclaration`.

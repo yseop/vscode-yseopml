@@ -25,7 +25,7 @@ cd "$(
 # print that in Markdown,
 # replace duplicated prefixes with “or”.
 jq -c '.[] | {prefix, description}' "$FILE" | sort -dfV \
-        | jq -r '.[]' | xargs -d '\n' -n 2 printf '* `%s`: %s\n' \
+        | jq -r '.[]' | xargs -d '\n' -n 2 -- printf '- `%s`: %s\n' \
         | awk -F ' *: *' '
     {
         if(p && $1 == p) {

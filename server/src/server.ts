@@ -24,6 +24,7 @@ import { YmlToBdlLexer } from "./YmlToBdlLexer";
 import { YmlToBdlParser } from "./YmlToBdlParser";
 
 import { EngineModel } from "./EngineModel";
+import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
 import { YmlToBdlVisitorImpl } from "./YmlToBdlVisitorImpl";
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
@@ -78,6 +79,7 @@ interface ISettings {
 // file
 interface IServerSettings {
   maxNumberOfProblems: number;
+  activateParsingProblemsReporting: boolean;
   pathToPredefinedObjectsXml: string;
 }
 
@@ -85,11 +87,14 @@ let engineModel: EngineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems: number;
 let pathToPredefinedObjectsXml: string;
+let activateParsingProblemsReporting: boolean;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
   const settings = change.settings as ISettings;
   maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
+  activateParsingProblemsReporting =
+    settings.yseopml.activateParsingProblemsReporting;
   pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
   if (engineModel == null) {
     engineModel = new EngineModel(pathToPredefinedObjectsXml, completionItems);
@@ -113,6 +118,8 @@ function validateTextDocument(textDocument: TextDocument): void {
   const lexer = new YmlToBdlLexer(inputStream);
   const tokenStream = new CommonTokenStream(lexer);
   const parser = new YmlToBdlParser(tokenStream);
+  parser.removeErrorListeners();
+  parser.addErrorListener(new VsCodeDiagnosticErrorListener(diagnostics));
 
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
@@ -121,7 +128,11 @@ function validateTextDocument(textDocument: TextDocument): void {
   visitor.visit(result);
 
   // Send the computed diagnostics to VSCode.
-  connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+  if (activateParsingProblemsReporting) {
+    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+  } else {
+    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: [] });
+  }
 }
 
 // This handler provides the initial list of the completion items.
