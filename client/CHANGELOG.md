@@ -1,5 +1,10 @@
 # Release Notes
 
+## 1.X.X (YYYY-MM-DD)
+
+- The parser used by the extension was greatly improved.
+- [BETA] When a parsing issue is detected, it is now displayed as a warning in the “Problems” view of VSCode and in the text editor.
+
 ## 1.2.3 (2019-01-03)
 
 - When using autocompletion for class attributes, methods or text methods, the documentation for these symbols is displayed, if any was written.
