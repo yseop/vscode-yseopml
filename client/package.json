@@ -43,6 +43,12 @@
             "type": "object",
             "title": "Yseop Markup Language configuration",
             "properties": {
+                "yseopml.activateParsingProblemsReporting": {
+                    "scope": "resource",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allows to activate (true) or deactivate (false) the parsing problems reporting."
+                },
                 "yseopml.maxNumberOfProblems": {
                     "scope": "resource",
                     "type": "number",

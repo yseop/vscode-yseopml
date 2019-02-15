@@ -79,6 +79,7 @@ interface ISettings {
 // file
 interface IServerSettings {
   maxNumberOfProblems: number;
+  activateParsingProblemsReporting: boolean;
   pathToPredefinedObjectsXml: string;
 }
 
@@ -86,11 +87,14 @@ let engineModel: EngineModel;
 // hold the maxNumberOfProblems setting
 let maxNumberOfProblems: number;
 let pathToPredefinedObjectsXml: string;
+let activateParsingProblemsReporting: boolean;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
   const settings = change.settings as ISettings;
   maxNumberOfProblems = settings.yseopml.maxNumberOfProblems || 100;
+  activateParsingProblemsReporting =
+    settings.yseopml.activateParsingProblemsReporting;
   pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
   if (engineModel == null) {
     engineModel = new EngineModel(pathToPredefinedObjectsXml, completionItems);
@@ -124,7 +128,11 @@ function validateTextDocument(textDocument: TextDocument): void {
   visitor.visit(result);
 
   // Send the computed diagnostics to VSCode.
-  connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+  if (activateParsingProblemsReporting) {
+    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+  } else {
+    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: [] });
+  }
 }
 
 // This handler provides the initial list of the completion items.
