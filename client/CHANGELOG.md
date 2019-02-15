@@ -3,7 +3,7 @@
 ## 1.X.X (YYYY-MM-DD)
 
 - The parser used by the extension was greatly improved.
-- [BETA] When a parsing issue is detected, it is now displayed as a warning in the “Problems” view of VSCode and in the text editor.
+- [BETA] When a parsing issue is detected, it is now displayed as a warning in the “Problems” view of VS Code and in the text editor.
 
 ## 1.2.3 (2019-01-03)
 

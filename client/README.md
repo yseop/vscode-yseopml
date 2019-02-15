@@ -11,7 +11,7 @@ This extension provides support for Yseop Markup Language (YML).
 
 ### Parsing error warnings
 
-![Example image for parsing warning](https://raw.githubusercontent.com/yseop/vscode-yseopml/master/client/images/parsingProblem.png "Parsing warnings in the “Problem”'s and editor's view.")
+![Example image for parsing warning](https://raw.githubusercontent.com/yseop/vscode-yseopml/master/client/images/parsingProblem.png "Parsing warnings in the “Problems” and editor views.")
 
 ### Snippets
 
