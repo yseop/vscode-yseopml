@@ -161,22 +161,22 @@ describe("Extension Server Tests", () => {
 
         Collection collection;
 
-        function functionWithArgsAsBlock
-          args {
-            Object arg1
-            Text arg2
-          }
-          --> domains Text
-          --> return "it works"
+        function functionWithoutArgsWithPar(Object arg1, Text arg2)
+        --> domains Text
+        --> return "it works"
         ;
 
         Collection collectionWithLevel2
         --> domainsLevel2 Text
         ;
 
-        function functionWithoutArgsWithPar(Object arg1, Text arg2)
-          --> domains Text
-          --> return "it works"
+        function functionWithArgsAsBlock
+        args {
+          Object arg1
+          Text arg2
+        }
+        --> domains Text
+        --> return "it works"
         ;
       `);
       const lexer = new YmlToBdlLexer(inputStream);
@@ -217,11 +217,11 @@ describe("Extension Server Tests", () => {
           label: "collection",
         },
         {
-          data: "id_static_functionWithArgsAsBlock",
+          data: "id_static_functionWithoutArgsWithPar",
           detail: "Text",
           documentation: "not documented",
           kind: CompletionItemKind.Function,
-          label: "functionWithArgsAsBlock",
+          label: "functionWithoutArgsWithPar",
         },
         {
           data: "id_static_collectionWithLevel2",
@@ -231,14 +231,13 @@ describe("Extension Server Tests", () => {
           label: "collectionWithLevel2",
         },
         {
-          data: "id_static_functionWithoutArgsWithPar",
+          data: "id_static_functionWithArgsAsBlock",
           detail: "Text",
           documentation: "not documented",
           kind: CompletionItemKind.Function,
-          label: "functionWithoutArgsWithPar",
+          label: "functionWithArgsAsBlock",
         },
       ];
-      assert.strictEqual(completionItems.length, 7);
       assert.deepEqual(completionItems, expectedCompletionItems);
 
       done();
