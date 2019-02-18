@@ -30,11 +30,11 @@ describe("Extension Server Tests", () => {
       done();
     });
 
-    it("should parse a well written YML class and provide completion for fields", (done) => {
+    it("should parse a well-written YML class and provide completion for fields", (done) => {
       const inputStream = new ANTLRInputStream(`
             interface City
                 field name
-                --> domains	String
+                --> domains String
 
                 field country
                 --> domains String
@@ -79,11 +79,11 @@ describe("Extension Server Tests", () => {
       assert.deepEqual(completionItems, expectedCompletionItems);
       done();
     });
-    it("should parse a well written YML class and provide completion for fields and methods", (done) => {
+    it("should parse a well-written YML class and provide completion for fields and methods", (done) => {
       const inputStream = new ANTLRInputStream(`
               interface City
                   method name()
-                  --> domains	String
+                  --> domains String
 
                   textMethod country()
                   --> domains String
@@ -140,7 +140,7 @@ describe("Extension Server Tests", () => {
       done();
     });
     // tslint:disable-next-line: max-line-length
-    it("should parse a well written YML file containing instances and functions and provide completion for them", (done) => {
+    it("should parse a well-written YML file containing instances and functions and provide completion for them", (done) => {
       const inputStream = new ANTLRInputStream(`
         function functionWithoutArgs()
           --> domains Text
