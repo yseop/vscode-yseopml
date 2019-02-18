@@ -1,6 +1,6 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import * as assert from "assert";
-import { CompletionItem } from "vscode-languageserver";
+import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
 import YmlKaoFileVisitor from "../visitors/YmlKaoFileVisitor";
 import { YmlToBdlLexer } from "../YmlToBdlLexer";
 import { YmlToBdlParser } from "../YmlToBdlParser";
@@ -65,14 +65,14 @@ describe("Extension Server Tests", () => {
           data: "id_City_name",
           detail: "String",
           documentation: "not documented",
-          kind: 10,
+          kind: CompletionItemKind.Property,
           label: "name",
         },
         {
           data: "id_City_country",
           detail: "String",
           documentation: "not documented",
-          kind: 10,
+          kind: CompletionItemKind.Property,
           label: "country",
         },
       ];
@@ -118,21 +118,21 @@ describe("Extension Server Tests", () => {
           data: "id_City_name",
           detail: "String",
           documentation: "not documented",
-          kind: 2,
+          kind: CompletionItemKind.Method,
           label: "name",
         },
         {
           data: "id_City_country",
           detail: "String",
           documentation: "not documented",
-          kind: 2,
+          kind: CompletionItemKind.Method,
           label: "country",
         },
         {
           data: "id_City_inhabitants",
           detail: "Collection − Person",
           documentation: "not documented",
-          kind: 10,
+          kind: CompletionItemKind.Property,
           label: "inhabitants",
         },
       ];
@@ -192,49 +192,49 @@ describe("Extension Server Tests", () => {
           data: "id_static_functionWithoutArgs",
           detail: "Text",
           documentation: "not documented",
-          kind: 3,
+          kind: CompletionItemKind.Function,
           label: "functionWithoutArgs",
         },
         {
           data: "id_static_simpleInstance",
           detail: "Text",
           documentation: "not documented",
-          kind: 6,
+          kind: CompletionItemKind.Variable,
           label: "simpleInstance",
         },
         {
           data: "id_static_functionWithoutArgs2",
           detail: "Text",
           documentation: "not documented",
-          kind: 3,
+          kind: CompletionItemKind.Function,
           label: "functionWithoutArgs2",
         },
         {
           data: "id_static_collection",
           detail: "Collection",
           documentation: "not documented",
-          kind: 6,
+          kind: CompletionItemKind.Variable,
           label: "collection",
         },
         {
           data: "id_static_functionWithArgsAsBlock",
           detail: "Text",
           documentation: "not documented",
-          kind: 3,
+          kind: CompletionItemKind.Function,
           label: "functionWithArgsAsBlock",
         },
         {
           data: "id_static_collectionWithLevel2",
           detail: "Collection − Text",
           documentation: "not documented",
-          kind: 6,
+          kind: CompletionItemKind.Variable,
           label: "collectionWithLevel2",
         },
         {
           data: "id_static_functionWithoutArgsWithPar",
           detail: "Text",
           documentation: "not documented",
-          kind: 3,
+          kind: CompletionItemKind.Function,
           label: "functionWithoutArgsWithPar",
         },
       ];
