@@ -16,6 +16,8 @@ export function getDocumentation(fieldOptions: FieldContext[]): string {
           documentation = documentation.replace(ENDING_QUOTES_REGEX, "");
           return documentation;
         }
+      } else {
+        // YML fields unrelated to documentation.
       }
     }
   } catch (err) {
@@ -68,6 +70,8 @@ export function getType(
         domains = option._optionValues[0].text;
       } else if (optionName === "domainsLevel2") {
         domainsLevel2 = ` − ${option._optionValues[0].text}`;
+      } else {
+        // YML fields unrelated to domains.
       }
     }
   } catch (err) {
