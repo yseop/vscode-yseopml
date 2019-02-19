@@ -241,6 +241,9 @@ value:
     | nonArithmeticValue
     | synonym
     | ifExprBlock
+    | list
+    | listWithBrace
+    | OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE
 ;
 
 instruction_forEach:
