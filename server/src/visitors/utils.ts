@@ -9,7 +9,7 @@ export function getDocumentation(fieldOptions: FieldContext[]): string {
   try {
     for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
       const option = element.commonField();
-      if (option._optionName.text === "documentation") {
+      if (option != null && option._optionName.text === "documentation") {
         let documentation = option._optionValues[0].text;
         if (documentation !== null && documentation !== undefined) {
           documentation = documentation.replace(BEGINNING_QUOTES_REGEX, "");
@@ -21,7 +21,7 @@ export function getDocumentation(fieldOptions: FieldContext[]): string {
       }
     }
   } catch (err) {
-    connection.console.error(err);
+    connection.console.error(err.message);
   }
   return "not documented";
 }
@@ -65,17 +65,19 @@ export function getType(
   try {
     for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
       const option = element.commonField();
-      const optionName = option._optionName.text;
-      if (optionName === "domains") {
-        domains = option._optionValues[0].text;
-      } else if (optionName === "domainsLevel2") {
-        domainsLevel2 = ` − ${option._optionValues[0].text}`;
-      } else {
-        // YML fields unrelated to domains.
+      if (!!option) {
+        const optionName = option._optionName.text;
+        if (optionName === "domains") {
+          domains = option._optionValues[0].text;
+        } else if (optionName === "domainsLevel2") {
+          domainsLevel2 = ` − ${option._optionValues[0].text}`;
+        } else {
+          // YML fields unrelated to domains.
+        }
       }
     }
   } catch (err) {
-    connection.console.error(err);
+    connection.console.error(err.message);
   }
   return domains.concat(domainsLevel2);
 }
