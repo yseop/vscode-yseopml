@@ -79,7 +79,7 @@ function addYclassCompletionItem(
   completionItems: CompletionItem[],
 ): void {
   if (
-    !completionItems.find((elem, index, self) => {
+    !completionItems.find((elem) => {
       return elem.data === `id_${classyid}`;
     })
   ) {

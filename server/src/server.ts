@@ -24,8 +24,8 @@ import { YmlToBdlLexer } from "./YmlToBdlLexer";
 import { YmlToBdlParser } from "./YmlToBdlParser";
 
 import { EngineModel } from "./EngineModel";
+import YmlKaoFileVisitor from "./visitors/YmlKaoFileVisitor";
 import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
-import { YmlToBdlVisitorImpl } from "./YmlToBdlVisitorImpl";
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 export const connection: IConnection = createConnection(
@@ -124,7 +124,7 @@ function validateTextDocument(textDocument: TextDocument): void {
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
 
-  const visitor = new YmlToBdlVisitorImpl(diagnostics, completionItems);
+  const visitor = new YmlKaoFileVisitor(completionItems);
   visitor.visit(result);
 
   // Send the computed diagnostics to VSCode.
