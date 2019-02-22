@@ -69,6 +69,9 @@ const validateTextDocumentOnEvent = (event: TextDocumentChangeEvent) =>
   validateTextDocument(event.document);
 documents.onDidOpen(validateTextDocumentOnEvent);
 documents.onDidSave(validateTextDocumentOnEvent);
+documents.onDidClose((event: TextDocumentChangeEvent) =>
+  connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] }),
+);
 
 // The settings interface describe the server relevant settings part
 interface ISettings {

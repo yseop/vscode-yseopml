@@ -1,7 +1,18 @@
 {
-	"version": "0.2.0",
+	"version": "2.0.0",
 	// List of configurations. Add new configurations or edit existing ones.
 	"configurations": [
+		{
+			"name": "Debug ANTLR4 grammar",
+			"type": "antlr-debug",
+			"request": "launch",
+			"input": "client/test/test.kao",
+			"grammar": "server/src/YmlToBdl.g4",
+			//"actionFile": "",
+			"startRule": "kaoFile",
+			"printParseTree": true,
+			"visualParseTree": true
+		},
 		
 		{
 			"name": "Launch Client",

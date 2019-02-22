@@ -35,6 +35,7 @@ DEFAULT: 'default';
 BREAK: 'break';
 STATIC: 'static';
 WHILE: 'while';
+FOR: 'for';
 
 //Symbols
 SEMICOLON: ';';
@@ -123,17 +124,12 @@ LINE_COMMENT: '//' ~[\n\r]* -> channel(HIDDEN);
 MULTILINE_COMMENT:
     MULTILINE_COMMENT_START .*? MULTILINE_COMMENT_END -> channel(HIDDEN)
 ;
-GRANULE: OPEN_GRANULE (.)*? CLOSE_GRANULE EOF?;
 
 /*
  * Parser rules
  */
-
-expressionMarker: DOT | MULTIVALUED_EXPRESSION;
-
-ymlId: YMLID;
-
 // Base rule when parsing a file. Basicaly, this describes all valid YML files.
+// misses the `project.kao`-like files
 kaoFile: entities=ymlEntity* EOF;
 
 ymlEntity:
@@ -144,6 +140,12 @@ ymlEntity:
     | function
     | externDeclaration
 ;
+/**
+    Expression marker can be a dot `.` or `>>`.
+ */
+expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
+
+ymlId: YMLID | ARGS | LOCAL | RETURN;
 
 yenum:
     ENUM yid=ymlId OPEN_BRACE (enumElement ( COMMA enumElement)*)+ CLOSE_BRACE fields=field* SEMICOLON
@@ -171,7 +173,7 @@ extendsBlock: EXTENDS parentClassName (COMMA parentClassName)*;
 parentClassName: ymlId;
 
 synonym:
-    SYNONYM listWithBrace
+    SYNONYM constList
     | SYNONYM OPEN_PAR
     (
         synonymElements+=value (COMMA synonymElements+=value)*
@@ -183,7 +185,7 @@ memberDeclaration: type=memberType memberName=ymlId memberOption=field*;
 memberType: ymlId (COND_OR ymlId)?;
 
 path: ymlId (DOT ymlId)+?;
-ymlIdOrPath: ymlId | path | RETURN;
+ymlIdOrPath: ymlId | path;
 
 field: commonField | returnField | localField;
 
@@ -228,7 +230,7 @@ valueOrCondition:
     | value
     | hashMapKeyValue
     | documentation
-    | ymlId ymlId
+    | type=ymlId name=ymlId
 ;
 
 hashMapKeyValue: nonArithmeticValue COLON hashMapValue;
@@ -241,17 +243,22 @@ value:
     | nonArithmeticValue
     | synonym
     | ifExprBlock
-    | list
-    | listWithBrace
+    | array
+    | constList
     | OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE
 ;
 
 instruction_forEach:
-    FOREACH OPEN_PAR (ymlId? ymlId) COMMA value CLOSE_PAR actionBlock
+    FOREACH OPEN_PAR (type=ymlId? name=ymlId) COMMA value CLOSE_PAR actionBlock
 ;
+
+instruction_for:
+    FOR OPEN_PAR name=ymlId COMMA step=value COMMA collection=value CLOSE_PAR actionBlock
+;
+
 instruction_ifExprBlock: ifExprBlock SEMICOLON?;
 ifExprBlock:
-    IF_EXPR OPEN_PAR combinedComparison CLOSE_PAR THEN thenValue=value ELSE elseValue=value
+    IF_EXPR OPEN_PAR condition=combinedComparison CLOSE_PAR THEN thenValue=value ELSE elseValue=value
 ;
 
 bool: TRUE | FALSE;
@@ -265,7 +272,7 @@ expression:
     | indexedCall
     | instanciationVariable
     | granule
-    | listWithBrace
+    | constList
 ;
 
 functionCall:
@@ -312,7 +319,7 @@ methodDeclaration: methodIntro memberOption=field*;
 	}
 	--> domains Void
 */
-methodIntro: (METHOD | TEXT_METHOD | TEXT_FUNCTION) ymlId
+methodIntro: (FUNCTION | METHOD | TEXT_METHOD | TEXT_FUNCTION) ymlId
     (
         argsBlock
         | OPEN_PAR argumentList CLOSE_PAR
@@ -405,6 +412,7 @@ instruction:
     instruction_chainedCall SEMICOLON?
     | instruction_multivaluedAssignment SEMICOLON?
     | instruction_assignment SEMICOLON?
+    | instruction_for
     | instruction_forEach
     | instruction_return
     | instruction_ifElse
@@ -431,19 +439,19 @@ existentialOperator: operator=ymlId OPEN_PAR order1FullCondition CLOSE_PAR;
 variableBlockContent: memberDeclaration*;
 
 staticDeclaration:
-    declarationType=ymlId declarationName=ymlId (EXTENDS extended=ymlId)? declarationOptions=field* SEMICOLON
+    declarationType=ymlId declarationName=ymlId (EXTENDS extended=ymlId)? value? declarationOptions=field* SEMICOLON
 ;
 
 externDeclaration: EXTERN (methodDeclaration | memberDeclaration) SEMICOLON;
 
 // DATA STRUCTURE
-list:
+array:
     OPEN_BRACKET elements+=value? (COMMA elements+=value)* CLOSE_BRACKET
 ;
-listWithBrace:
+constList:
     OPEN_BRACE elements+=value? (COMMA elements+=value)* CLOSE_BRACE
 ;
 
-granule: GRANULE;
+granule: OPEN_GRANULE ( ~(OPEN_GRANULE | CLOSE_GRANULE)+ | granule)*? CLOSE_GRANULE EOF?;
 
 complete: COMPLETE completedElemId=ymlId memberOption=field* SEMICOLON;

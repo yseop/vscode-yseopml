@@ -197,3 +197,13 @@ Person PIERRE_D extends ALEXANDRE_G
     //NOTE_AK : usage de l'operateur ==>
     ==> colleague MARIE_CURIE
 ;
+
+
+Function patate({} args)
+--> local ComplexType complexType
+--> domains Integer
+--> action {
+	complexType.returnValue = \( \noSpace|\noSpace\setStartOfSentence(true) \value(mySentence, _ALL : \(\noSpace|\noSpace\setStartOfSentence(true) \resetReferences\) )   .\);
+	return 12;
+}
+;
