@@ -1,19 +1,19 @@
-import YmlToBdlBaseVisitor from "./YmlToBdlBaseVisitor";
+import YmlBaseVisitor from "./YmlBaseVisitor";
 
 import { CompletionItem } from "vscode-languageserver";
-import { IDefinitionLocation } from "../IDefinitionLocation";
-import { StaticDeclarationContext } from "../YmlToBdlParser";
+import { StaticDeclarationContext } from "../grammar/YmlParser";
 import {
   ExternDeclarationContext,
   FunctionContext,
   YenumContext,
-} from "../YmlToBdlParser";
-import { ClassDeclarationContext, CompleteContext } from "../YmlToBdlParser";
+} from "../grammar/YmlParser";
+import { ClassDeclarationContext, CompleteContext } from "../grammar/YmlParser";
+import { IDefinitionLocation } from "../IDefinitionLocation";
 import { YmlClassVisitor } from "./YmlClassVisitor";
 import { YmlFunctionVisitor } from "./YmlFunctionVisitor";
 import { YmlObjectInstanceVisitor } from "./YmlObjectInstanceVisitor";
 
-export default class YmlKaoFileVisitor extends YmlToBdlBaseVisitor {
+export default class YmlKaoFileVisitor extends YmlBaseVisitor {
   constructor(
     completionItems: CompletionItem[],
     definitions: IDefinitionLocation[],

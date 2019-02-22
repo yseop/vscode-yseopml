@@ -2,12 +2,12 @@ import {
   CompletionItem,
   CompletionItemKind,
 } from "vscode-languageserver";
+import { FunctionContext } from "../grammar/YmlParser";
 import { IDefinitionLocation } from "../IDefinitionLocation";
-import { FunctionContext } from "../YmlToBdlParser";
 import { createNewCompletionItem } from "./utils";
-import YmlToBdlBaseVisitor from "./YmlToBdlBaseVisitor";
+import YmlBaseVisitor from "./YmlBaseVisitor";
 
-export class YmlFunctionVisitor extends YmlToBdlBaseVisitor {
+export class YmlFunctionVisitor extends YmlBaseVisitor {
   constructor(
     completionItems: CompletionItem[],
     definitions: IDefinitionLocation[],

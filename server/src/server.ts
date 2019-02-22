@@ -20,12 +20,11 @@ import {
 } from "vscode-languageserver";
 
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
-import { YmlToBdlLexer } from "./YmlToBdlLexer";
 
-import { YmlToBdlParser } from "./YmlToBdlParser";
+import { YmlParser } from "./grammar/YmlParser";
 
-import { stringify } from "querystring";
 import { EngineModel } from "./EngineModel";
+import { YmlLexer } from "./grammar/YmlLexer";
 import { IDefinitionLocation } from "./IDefinitionLocation";
 import YmlKaoFileVisitor from "./visitors/YmlKaoFileVisitor";
 import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
@@ -124,16 +123,18 @@ function validateTextDocument(textDocument: TextDocument): void {
   const problems = 0;
   // Create the lexer and parser
   const inputStream = new ANTLRInputStream(textDocument.getText());
-  const lexer = new YmlToBdlLexer(inputStream);
+  const lexer = new YmlLexer(inputStream);
   const tokenStream = new CommonTokenStream(lexer);
-  const parser = new YmlToBdlParser(tokenStream);
+  const parser = new YmlParser(tokenStream);
   parser.removeErrorListeners();
   parser.addErrorListener(new VsCodeDiagnosticErrorListener(diagnostics));
 
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
 
-  definitions = definitions.filter((defLoc) => defLoc.definition.uri !== textDocument.uri);
+  definitions = definitions.filter(
+    (defLoc) => defLoc.definition.uri !== textDocument.uri,
+  );
 
   const visitor = new YmlKaoFileVisitor(
     completionItems,
@@ -158,14 +159,13 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
     return null;
   }
   const token = lastToken[0];
-  const defs =
-  definitions
+  const defs = definitions
     .filter((defLoc) => defLoc.entityName.indexOf(token) >= 0)
     .map((defLoc) => defLoc.definition)
     .reduce((prev: Location[], elem) => {
       prev.push(elem);
       return prev;
-    } , []);
+    }, []);
   if (!defs || defs.length === 0) {
     return null;
   } else {

@@ -3,9 +3,9 @@ import {
   CompletionItem,
   CompletionItemKind,
 } from "vscode-languageserver";
+import { FieldContext, YmlIdContext } from "../grammar/YmlParser";
 import { IDefinitionLocation } from "../IDefinitionLocation";
 import { connection } from "../server";
-import { FieldContext, YmlIdContext } from "../YmlToBdlParser";
 
 const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
 const ENDING_QUOTES_REGEX = /\s*("""|")$/;

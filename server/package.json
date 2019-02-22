@@ -28,7 +28,7 @@
         "installServer": "installServerIntoExtension ../client ./package.json ./tsconfig.json",
         "compile": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -p .",
         "watch": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -w -p .",
-        "antlr4ts": "antlr4ts -visitor src/YmlToBdl.g4",
+        "antlr4ts": "antlr4ts -visitor -o src grammar/Yml.g4",
         "test": "tsc -p tsconfig.json && cd ../client/server && mocha --recursive",
         "test:ci": "tsc -p tsconfig.json && cd ../client/server && mocha --reporter xunit --reporter-options output=../../target/test-reports/server-tests.xml --recursive"
     }

@@ -1,4 +1,4 @@
-grammar YmlToBdl;
+grammar Yml;
 
 /*
  * Lexer rules

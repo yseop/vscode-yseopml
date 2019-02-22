@@ -1,14 +1,14 @@
 import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
-import { IDefinitionLocation } from "../IDefinitionLocation";
 import {
   ClassAttributeDeclarationContext,
   ClassDeclarationIntroContext,
   MethodDeclarationContext,
-} from "../YmlToBdlParser";
+} from "../grammar/YmlParser";
+import { IDefinitionLocation } from "../IDefinitionLocation";
 import { createLocation, createNewCompletionItem } from "./utils";
-import YmlToBdlBaseVisitor from "./YmlToBdlBaseVisitor";
+import YmlBaseVisitor from "./YmlBaseVisitor";
 
-export class YmlClassVisitor extends YmlToBdlBaseVisitor {
+export class YmlClassVisitor extends YmlBaseVisitor {
   private classId: string;
 
   constructor(
