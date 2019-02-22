@@ -70,6 +70,7 @@ const validateTextDocumentOnEvent = (event: TextDocumentChangeEvent) =>
 documents.onDidOpen(validateTextDocumentOnEvent);
 documents.onDidSave(validateTextDocumentOnEvent);
 documents.onDidClose((event: TextDocumentChangeEvent) =>
+  // Clearing diagnostic for the closed file to avoid spamming the user.
   connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] }),
 );
 
