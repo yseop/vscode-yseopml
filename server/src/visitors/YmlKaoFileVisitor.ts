@@ -45,10 +45,7 @@ export default class YmlKaoFileVisitor extends YmlBaseVisitor {
   }
 
   public visitFunction(node: FunctionContext): void {
-    const visitor = new YmlFunctionVisitor(
-      this.completionItems,
-      this.uri,
-    );
+    const visitor = new YmlFunctionVisitor(this.completionItems, this.uri);
     visitor.visit(node);
   }
 

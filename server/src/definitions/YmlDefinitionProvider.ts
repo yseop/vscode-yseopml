@@ -38,13 +38,8 @@ export class YmlDefinitionProvider {
    * Add a definition to this provider.
    * @param def The new definition to add.
    */
-  public addDefinition(entityName: string, node: ParserRuleContext, uri: string): void {
-    this.definitions.push(createLocation(
-      entityName,
-      node.start,
-      node.stop,
-      uri,
-    ));
+  public addDefinition(def: IDefinitionLocation): void {
+    this.definitions.push(def);
   }
 
   /**

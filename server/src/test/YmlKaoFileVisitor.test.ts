@@ -15,7 +15,11 @@ describe("Extension Server Tests", () => {
       const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const visitor = new YmlKaoFileVisitor([], "", new YmlDefinitionProvider());
+      const visitor = new YmlKaoFileVisitor(
+        [],
+        "",
+        new YmlDefinitionProvider(),
+      );
       visitor.visit(result);
       done();
     });
@@ -59,7 +63,11 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems, "", new YmlDefinitionProvider());
+      const visitor = new YmlKaoFileVisitor(
+        completionItems,
+        "",
+        new YmlDefinitionProvider(),
+      );
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -112,7 +120,11 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems, "", new YmlDefinitionProvider());
+      const visitor = new YmlKaoFileVisitor(
+        completionItems,
+        "",
+        new YmlDefinitionProvider(),
+      );
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -186,7 +198,11 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems, "", new YmlDefinitionProvider());
+      const visitor = new YmlKaoFileVisitor(
+        completionItems,
+        "",
+        new YmlDefinitionProvider(),
+      );
       visitor.visit(result);
       const expectedCompletionItems = [
         {
