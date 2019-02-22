@@ -12,7 +12,6 @@ import {
   InitializeResult,
   IPCMessageReader,
   IPCMessageWriter,
-  Location,
   TextDocument,
   TextDocumentChangeEvent,
   TextDocumentPositionParams,
@@ -23,9 +22,9 @@ import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 
 import { YmlParser } from "./grammar/YmlParser";
 
+import { YmlDefinitionProvider } from "./definitions/YmlDefinitionProvider";
 import { EngineModel } from "./EngineModel";
 import { YmlLexer } from "./grammar/YmlLexer";
-import { IDefinitionLocation } from "./IDefinitionLocation";
 import YmlKaoFileVisitor from "./visitors/YmlKaoFileVisitor";
 import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
 
@@ -39,7 +38,7 @@ connection.console.log(
   "Yseop.vscode-yseopml − Creating connection with client/server.",
 );
 
-let definitions: IDefinitionLocation[] = [];
+const defintionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
 const completionItems: CompletionItem[] = [];
 
 // Create a simple text document manager. The text document manager
@@ -120,7 +119,6 @@ function validateTextDocument(textDocument: TextDocument): void {
 
   const diagnostics: Diagnostic[] = [];
 
-  const problems = 0;
   // Create the lexer and parser
   const inputStream = new ANTLRInputStream(textDocument.getText());
   const lexer = new YmlLexer(inputStream);
@@ -131,15 +129,12 @@ function validateTextDocument(textDocument: TextDocument): void {
 
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
-
-  definitions = definitions.filter(
-    (defLoc) => defLoc.definition.uri !== textDocument.uri,
-  );
+  defintionsProvider.removeDocumentDefinitions(textDocument.uri);
 
   const visitor = new YmlKaoFileVisitor(
     completionItems,
-    definitions,
     textDocument.uri,
+    defintionsProvider,
   );
   visitor.visit(result);
 
@@ -159,18 +154,7 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
     return null;
   }
   const token = lastToken[0];
-  const defs = definitions
-    .filter((defLoc) => defLoc.entityName.indexOf(token) >= 0)
-    .map((defLoc) => defLoc.definition)
-    .reduce((prev: Location[], elem) => {
-      prev.push(elem);
-      return prev;
-    }, []);
-  if (!defs || defs.length === 0) {
-    return null;
-  } else {
-    return defs;
-  }
+  return defintionsProvider.findDefinitions(token);
 });
 
 // This handler provides the initial list of the completion items.

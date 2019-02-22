@@ -1,10 +1,10 @@
 import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import {
   ClassAttributeDeclarationContext,
   ClassDeclarationIntroContext,
   MethodDeclarationContext,
 } from "../grammar/YmlParser";
-import { IDefinitionLocation } from "../IDefinitionLocation";
 import { createLocation, createNewCompletionItem } from "./utils";
 import YmlBaseVisitor from "./YmlBaseVisitor";
 
@@ -13,10 +13,10 @@ export class YmlClassVisitor extends YmlBaseVisitor {
 
   constructor(
     completionItems: CompletionItem[],
-    definitions: IDefinitionLocation[],
     uri: string,
+    public definitions: YmlDefinitionProvider,
   ) {
-    super(completionItems, definitions, uri);
+    super(completionItems, uri);
   }
 
   public visitMethodDeclaration(node: MethodDeclarationContext): any {
@@ -27,7 +27,7 @@ export class YmlClassVisitor extends YmlBaseVisitor {
       CompletionItemKind.Method,
       this.classId,
     );
-    this.definitions.push(
+    this.definitions.addDefinition(
       createLocation(
         node.methodIntro().ymlId().text,
         node.start,
@@ -49,7 +49,7 @@ export class YmlClassVisitor extends YmlBaseVisitor {
     );
     const startToken = node.start;
     const endToken = node.stop;
-    this.definitions.push(
+    this.definitions.addDefinition(
         createLocation(
           node.ymlId().text,
           startToken,

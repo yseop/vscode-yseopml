@@ -1,6 +1,7 @@
 import YmlBaseVisitor from "./YmlBaseVisitor";
 
 import { CompletionItem } from "vscode-languageserver";
+import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import { StaticDeclarationContext } from "../grammar/YmlParser";
 import {
   ExternDeclarationContext,
@@ -8,7 +9,6 @@ import {
   YenumContext,
 } from "../grammar/YmlParser";
 import { ClassDeclarationContext, CompleteContext } from "../grammar/YmlParser";
-import { IDefinitionLocation } from "../IDefinitionLocation";
 import { YmlClassVisitor } from "./YmlClassVisitor";
 import { YmlFunctionVisitor } from "./YmlFunctionVisitor";
 import { YmlObjectInstanceVisitor } from "./YmlObjectInstanceVisitor";
@@ -16,17 +16,17 @@ import { YmlObjectInstanceVisitor } from "./YmlObjectInstanceVisitor";
 export default class YmlKaoFileVisitor extends YmlBaseVisitor {
   constructor(
     completionItems: CompletionItem[],
-    definitions: IDefinitionLocation[],
     uri: string,
+    public definitions: YmlDefinitionProvider,
   ) {
-    super(completionItems, definitions, uri);
+    super(completionItems, uri);
   }
 
   public visitStaticDeclaration(node: StaticDeclarationContext): void {
     const visitor = new YmlObjectInstanceVisitor(
       this.completionItems,
-      this.definitions,
       this.uri,
+      this.definitions,
     );
     visitor.visit(node);
   }
@@ -34,8 +34,8 @@ export default class YmlKaoFileVisitor extends YmlBaseVisitor {
   public visitClassDeclaration(node: ClassDeclarationContext): void {
     const visitor = new YmlClassVisitor(
       this.completionItems,
-      this.definitions,
       this.uri,
+      this.definitions,
     );
     visitor.visit(node);
   }
@@ -47,7 +47,6 @@ export default class YmlKaoFileVisitor extends YmlBaseVisitor {
   public visitFunction(node: FunctionContext): void {
     const visitor = new YmlFunctionVisitor(
       this.completionItems,
-      this.definitions,
       this.uri,
     );
     visitor.visit(node);

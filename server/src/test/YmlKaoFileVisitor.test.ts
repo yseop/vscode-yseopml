@@ -1,6 +1,7 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import * as assert from "assert";
 import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import { YmlLexer } from "../grammar/YmlLexer";
 import { YmlParser } from "../grammar/YmlParser";
 import YmlKaoFileVisitor from "../visitors/YmlKaoFileVisitor";
@@ -14,7 +15,7 @@ describe("Extension Server Tests", () => {
       const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const visitor = new YmlKaoFileVisitor([], [], "");
+      const visitor = new YmlKaoFileVisitor([], "", new YmlDefinitionProvider());
       visitor.visit(result);
       done();
     });
@@ -58,7 +59,7 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems, [], "");
+      const visitor = new YmlKaoFileVisitor(completionItems, "", new YmlDefinitionProvider());
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -111,7 +112,7 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems, [], "");
+      const visitor = new YmlKaoFileVisitor(completionItems, "", new YmlDefinitionProvider());
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -185,7 +186,7 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems, [], "");
+      const visitor = new YmlKaoFileVisitor(completionItems, "", new YmlDefinitionProvider());
       visitor.visit(result);
       const expectedCompletionItems = [
         {

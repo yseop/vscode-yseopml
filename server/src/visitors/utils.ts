@@ -1,10 +1,7 @@
 import { Token } from "antlr4ts";
-import {
-  CompletionItem,
-  CompletionItemKind,
-} from "vscode-languageserver";
+import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { IDefinitionLocation } from "../definitions/IDefinitionLocation";
 import { FieldContext, YmlIdContext } from "../grammar/YmlParser";
-import { IDefinitionLocation } from "../IDefinitionLocation";
 import { connection } from "../server";
 
 const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
@@ -94,7 +91,8 @@ export function createLocation(
   uri: string,
 ): IDefinitionLocation {
   return {
-    definition: {
+    entityName,
+    location: {
       range: {
         end: {
           character: endToken.charPositionInLine,
@@ -107,6 +105,5 @@ export function createLocation(
       },
       uri,
     },
-    entityName,
   };
 }

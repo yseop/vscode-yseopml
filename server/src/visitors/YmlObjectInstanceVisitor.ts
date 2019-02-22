@@ -3,18 +3,18 @@ import {
   CompletionItemKind,
   Definition,
 } from "vscode-languageserver";
+import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import { StaticDeclarationContext } from "../grammar/YmlParser";
-import { IDefinitionLocation } from "../IDefinitionLocation";
 import { createLocation as createDefinitionLocation, createNewCompletionItem } from "./utils";
 import YmlBaseVisitor from "./YmlBaseVisitor";
 
 export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
   constructor(
     completionItems: CompletionItem[],
-    definitions: IDefinitionLocation[],
     uri: string,
+    public definitions: YmlDefinitionProvider,
   ) {
-    super(completionItems, definitions, uri);
+    super(completionItems, uri);
   }
 
   public visitStaticDeclaration(node: StaticDeclarationContext): void {
@@ -28,7 +28,7 @@ export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
     );
     const startToken = node.start;
     const endToken = node.stop;
-    this.definitions.push(
+    this.definitions.addDefinition(
       createDefinitionLocation(
         node._declarationName.text,
         startToken,
