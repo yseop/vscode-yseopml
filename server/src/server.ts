@@ -38,7 +38,7 @@ connection.console.log(
   "Yseop.vscode-yseopml − Creating connection with client/server.",
 );
 
-const defintionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
+const definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
 const completionItems: CompletionItem[] = [];
 
 // Create a simple text document manager. The text document manager
@@ -129,12 +129,12 @@ function validateTextDocument(textDocument: TextDocument): void {
 
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
-  defintionsProvider.removeDocumentDefinitions(textDocument.uri);
+  definitionsProvider.removeDocumentDefinitions(textDocument.uri);
 
   const visitor = new YmlKaoFileVisitor(
     completionItems,
     textDocument.uri,
-    defintionsProvider,
+    definitionsProvider,
   );
   visitor.visit(result);
 
@@ -154,7 +154,7 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
     return null;
   }
   const token = lastToken[0];
-  return defintionsProvider.findDefinitions(token);
+  return definitionsProvider.findDefinitions(token);
 });
 
 // This handler provides the initial list of the completion items.

@@ -13,6 +13,8 @@ export class YmlDefinitionProvider {
   /**
    * Find all the available definition locations for the specified token.
    * @param token The token used as base to find the definitions.
+   * @returns a `Definition`, which can be `Location | Location[] | null`
+   * according to the `Definition`'s documentation.
    */
   public findDefinitions(token: string): Definition {
     if (!token) {
@@ -36,7 +38,7 @@ export class YmlDefinitionProvider {
    * Add a definition to this provider.
    * @param def The new definition to add.
    */
-  public addDefinition(entityName: string, node: ParserRuleContext, uri: string) {
+  public addDefinition(entityName: string, node: ParserRuleContext, uri: string): void {
     this.definitions.push(createLocation(
       entityName,
       node.start,
@@ -49,7 +51,7 @@ export class YmlDefinitionProvider {
    * Remove all the definitions associated to a specific document uri from this provider.
    * @param uri The file's URI.
    */
-  public removeDocumentDefinitions(uri: string) {
+  public removeDocumentDefinitions(uri: string): void {
     this.definitions = this.definitions.filter(
       (defLoc) => defLoc.location.uri !== uri,
     );
