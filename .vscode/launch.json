@@ -8,7 +8,6 @@
 			"request": "launch",
 			"input": "client/test/test.kao",
 			"grammar": "server/src/YmlToBdl.g4",
-			//"actionFile": "",
 			"startRule": "kaoFile",
 			"printParseTree": true,
 			"visualParseTree": true

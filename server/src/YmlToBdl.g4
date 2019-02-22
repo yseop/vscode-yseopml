@@ -141,7 +141,8 @@ ymlEntity:
     | externDeclaration
 ;
 /**
-    Expression marker can be a dot `.` or `>>`.
+    Expression marker can be a dot `.` or `>>`. 
+    Double dot `..` is for static function call like in `Date..stringtoDate("2012-05-10")`.
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
 
