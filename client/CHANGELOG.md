@@ -6,7 +6,7 @@
 - [BETA] When a parsing issue is detected, it is now displayed as a warning in the “Problems” view of VS Code and in the text editor.
   - The new parameter `yseopml.activateParsingProblemsReporting` allows to disable this feature
 - [BETA] New feature `Go To Definition` and `Peek Definition`.
-  - Only for class attributes and methods
+  - Only for class attributes and methods.
   - Needs to have the defining class opened once first.
   - This feature is not context sensitive yet.
 
