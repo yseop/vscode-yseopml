@@ -1,4 +1,6 @@
+import { ParserRuleContext } from "antlr4ts";
 import { Definition, Location } from "vscode-languageserver";
+import { createLocation } from "../visitors/utils";
 import { IDefinitionLocation } from "./IDefinitionLocation";
 
 /**
@@ -23,7 +25,7 @@ export class YmlDefinitionProvider {
         prev.push(elem);
         return prev;
       }, []);
-    if (!defs || defs.length === 0) {
+    if (defs.length === 0) {
       return null;
     } else {
       return defs;
@@ -34,8 +36,13 @@ export class YmlDefinitionProvider {
    * Add a definition to this provider.
    * @param def The new definition to add.
    */
-  public addDefinition(def: IDefinitionLocation) {
-    this.definitions.push(def);
+  public addDefinition(entityName: string, node: ParserRuleContext, uri: string) {
+    this.definitions.push(createLocation(
+      entityName,
+      node.start,
+      node.stop,
+      uri,
+    ));
   }
 
   /**

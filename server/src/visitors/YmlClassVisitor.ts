@@ -5,7 +5,7 @@ import {
   ClassDeclarationIntroContext,
   MethodDeclarationContext,
 } from "../grammar/YmlParser";
-import { createLocation, createNewCompletionItem } from "./utils";
+import { createNewCompletionItem } from "./utils";
 import YmlBaseVisitor from "./YmlBaseVisitor";
 
 export class YmlClassVisitor extends YmlBaseVisitor {
@@ -27,14 +27,7 @@ export class YmlClassVisitor extends YmlBaseVisitor {
       CompletionItemKind.Method,
       this.classId,
     );
-    this.definitions.addDefinition(
-      createLocation(
-        node.methodIntro().ymlId().text,
-        node.start,
-        node.stop,
-        this.uri,
-      ),
-  );
+    this.definitions.addDefinition(node.methodIntro().ymlId().text, node, this.uri);
   }
 
   public visitClassAttributeDeclaration(
@@ -47,16 +40,7 @@ export class YmlClassVisitor extends YmlBaseVisitor {
       CompletionItemKind.Property,
       this.classId,
     );
-    const startToken = node.start;
-    const endToken = node.stop;
-    this.definitions.addDefinition(
-        createLocation(
-          node.ymlId().text,
-          startToken,
-          endToken,
-          this.uri,
-        ),
-    );
+    this.definitions.addDefinition(node.ymlId().text, node, this.uri);
   }
 
   public visitClassDeclarationIntro(node: ClassDeclarationIntroContext) {

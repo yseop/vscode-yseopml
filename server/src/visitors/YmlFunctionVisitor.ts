@@ -2,7 +2,6 @@ import {
   CompletionItem,
   CompletionItemKind,
 } from "vscode-languageserver";
-import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import { FunctionContext } from "../grammar/YmlParser";
 import { createNewCompletionItem } from "./utils";
 import YmlBaseVisitor from "./YmlBaseVisitor";

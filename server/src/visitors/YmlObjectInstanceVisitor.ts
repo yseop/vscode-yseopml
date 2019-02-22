@@ -1,11 +1,10 @@
 import {
   CompletionItem,
   CompletionItemKind,
-  Definition,
 } from "vscode-languageserver";
 import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import { StaticDeclarationContext } from "../grammar/YmlParser";
-import { createLocation as createDefinitionLocation, createNewCompletionItem } from "./utils";
+import { createNewCompletionItem } from "./utils";
 import YmlBaseVisitor from "./YmlBaseVisitor";
 
 export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
@@ -26,15 +25,6 @@ export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
       null,
       node._declarationType.text,
     );
-    const startToken = node.start;
-    const endToken = node.stop;
-    this.definitions.addDefinition(
-      createDefinitionLocation(
-        node._declarationName.text,
-        startToken,
-        endToken,
-        this.uri,
-      ),
-    );
+    this.definitions.addDefinition(node._declarationName.text, node, this.uri);
   }
 }
