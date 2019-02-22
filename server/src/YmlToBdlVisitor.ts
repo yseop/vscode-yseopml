@@ -3,10 +3,10 @@
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
 
-import { ExpressionMarkerContext } from "./YmlToBdlParser";
-import { YmlIdContext } from "./YmlToBdlParser";
 import { KaoFileContext } from "./YmlToBdlParser";
 import { YmlEntityContext } from "./YmlToBdlParser";
+import { ExpressionMarkerContext } from "./YmlToBdlParser";
+import { YmlIdContext } from "./YmlToBdlParser";
 import { YenumContext } from "./YmlToBdlParser";
 import { EnumElementContext } from "./YmlToBdlParser";
 import { ClassDeclarationContext } from "./YmlToBdlParser";
@@ -34,6 +34,7 @@ import { HashMapKeyValueContext } from "./YmlToBdlParser";
 import { HashMapValueContext } from "./YmlToBdlParser";
 import { ValueContext } from "./YmlToBdlParser";
 import { Instruction_forEachContext } from "./YmlToBdlParser";
+import { Instruction_forContext } from "./YmlToBdlParser";
 import { Instruction_ifExprBlockContext } from "./YmlToBdlParser";
 import { IfExprBlockContext } from "./YmlToBdlParser";
 import { BoolContext } from "./YmlToBdlParser";
@@ -87,8 +88,8 @@ import { ExistentialOperatorContext } from "./YmlToBdlParser";
 import { VariableBlockContentContext } from "./YmlToBdlParser";
 import { StaticDeclarationContext } from "./YmlToBdlParser";
 import { ExternDeclarationContext } from "./YmlToBdlParser";
-import { ListContext } from "./YmlToBdlParser";
-import { ListWithBraceContext } from "./YmlToBdlParser";
+import { ArrayContext } from "./YmlToBdlParser";
+import { ConstListContext } from "./YmlToBdlParser";
 import { GranuleContext } from "./YmlToBdlParser";
 import { CompleteContext } from "./YmlToBdlParser";
 
@@ -102,20 +103,6 @@ import { CompleteContext } from "./YmlToBdlParser";
  */
 export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.expressionMarker`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitExpressionMarker?: (ctx: ExpressionMarkerContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.ymlId`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitYmlId?: (ctx: YmlIdContext) => Result;
-
-	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.kaoFile`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -128,6 +115,20 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitYmlEntity?: (ctx: YmlEntityContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.expressionMarker`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitExpressionMarker?: (ctx: ExpressionMarkerContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.ymlId`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitYmlId?: (ctx: YmlIdContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.yenum`.
@@ -317,6 +318,13 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction_forEach?: (ctx: Instruction_forEachContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlToBdlParser.instruction_for`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_for?: (ctx: Instruction_forContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.instruction_ifExprBlock`.
@@ -690,18 +698,18 @@ export interface YmlToBdlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitExternDeclaration?: (ctx: ExternDeclarationContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.list`.
+	 * Visit a parse tree produced by `YmlToBdlParser.array`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitList?: (ctx: ListContext) => Result;
+	visitArray?: (ctx: ArrayContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlToBdlParser.listWithBrace`.
+	 * Visit a parse tree produced by `YmlToBdlParser.constList`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitListWithBrace?: (ctx: ListWithBraceContext) => Result;
+	visitConstList?: (ctx: ConstListContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlToBdlParser.granule`.

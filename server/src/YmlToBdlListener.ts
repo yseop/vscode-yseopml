@@ -3,10 +3,10 @@
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
-import { ExpressionMarkerContext } from "./YmlToBdlParser";
-import { YmlIdContext } from "./YmlToBdlParser";
 import { KaoFileContext } from "./YmlToBdlParser";
 import { YmlEntityContext } from "./YmlToBdlParser";
+import { ExpressionMarkerContext } from "./YmlToBdlParser";
+import { YmlIdContext } from "./YmlToBdlParser";
 import { YenumContext } from "./YmlToBdlParser";
 import { EnumElementContext } from "./YmlToBdlParser";
 import { ClassDeclarationContext } from "./YmlToBdlParser";
@@ -34,6 +34,7 @@ import { HashMapKeyValueContext } from "./YmlToBdlParser";
 import { HashMapValueContext } from "./YmlToBdlParser";
 import { ValueContext } from "./YmlToBdlParser";
 import { Instruction_forEachContext } from "./YmlToBdlParser";
+import { Instruction_forContext } from "./YmlToBdlParser";
 import { Instruction_ifExprBlockContext } from "./YmlToBdlParser";
 import { IfExprBlockContext } from "./YmlToBdlParser";
 import { BoolContext } from "./YmlToBdlParser";
@@ -87,8 +88,8 @@ import { ExistentialOperatorContext } from "./YmlToBdlParser";
 import { VariableBlockContentContext } from "./YmlToBdlParser";
 import { StaticDeclarationContext } from "./YmlToBdlParser";
 import { ExternDeclarationContext } from "./YmlToBdlParser";
-import { ListContext } from "./YmlToBdlParser";
-import { ListWithBraceContext } from "./YmlToBdlParser";
+import { ArrayContext } from "./YmlToBdlParser";
+import { ConstListContext } from "./YmlToBdlParser";
 import { GranuleContext } from "./YmlToBdlParser";
 import { CompleteContext } from "./YmlToBdlParser";
 
@@ -98,28 +99,6 @@ import { CompleteContext } from "./YmlToBdlParser";
  * `YmlToBdlParser`.
  */
 export interface YmlToBdlListener extends ParseTreeListener {
-	/**
-	 * Enter a parse tree produced by `YmlToBdlParser.expressionMarker`.
-	 * @param ctx the parse tree
-	 */
-	enterExpressionMarker?: (ctx: ExpressionMarkerContext) => void;
-	/**
-	 * Exit a parse tree produced by `YmlToBdlParser.expressionMarker`.
-	 * @param ctx the parse tree
-	 */
-	exitExpressionMarker?: (ctx: ExpressionMarkerContext) => void;
-
-	/**
-	 * Enter a parse tree produced by `YmlToBdlParser.ymlId`.
-	 * @param ctx the parse tree
-	 */
-	enterYmlId?: (ctx: YmlIdContext) => void;
-	/**
-	 * Exit a parse tree produced by `YmlToBdlParser.ymlId`.
-	 * @param ctx the parse tree
-	 */
-	exitYmlId?: (ctx: YmlIdContext) => void;
-
 	/**
 	 * Enter a parse tree produced by `YmlToBdlParser.kaoFile`.
 	 * @param ctx the parse tree
@@ -141,6 +120,28 @@ export interface YmlToBdlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitYmlEntity?: (ctx: YmlEntityContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlToBdlParser.expressionMarker`.
+	 * @param ctx the parse tree
+	 */
+	enterExpressionMarker?: (ctx: ExpressionMarkerContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlToBdlParser.expressionMarker`.
+	 * @param ctx the parse tree
+	 */
+	exitExpressionMarker?: (ctx: ExpressionMarkerContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlToBdlParser.ymlId`.
+	 * @param ctx the parse tree
+	 */
+	enterYmlId?: (ctx: YmlIdContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlToBdlParser.ymlId`.
+	 * @param ctx the parse tree
+	 */
+	exitYmlId?: (ctx: YmlIdContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlToBdlParser.yenum`.
@@ -438,6 +439,17 @@ export interface YmlToBdlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitInstruction_forEach?: (ctx: Instruction_forEachContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlToBdlParser.instruction_for`.
+	 * @param ctx the parse tree
+	 */
+	enterInstruction_for?: (ctx: Instruction_forContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlToBdlParser.instruction_for`.
+	 * @param ctx the parse tree
+	 */
+	exitInstruction_for?: (ctx: Instruction_forContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlToBdlParser.instruction_ifExprBlock`.
@@ -1023,26 +1035,26 @@ export interface YmlToBdlListener extends ParseTreeListener {
 	exitExternDeclaration?: (ctx: ExternDeclarationContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlToBdlParser.list`.
+	 * Enter a parse tree produced by `YmlToBdlParser.array`.
 	 * @param ctx the parse tree
 	 */
-	enterList?: (ctx: ListContext) => void;
+	enterArray?: (ctx: ArrayContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlToBdlParser.list`.
+	 * Exit a parse tree produced by `YmlToBdlParser.array`.
 	 * @param ctx the parse tree
 	 */
-	exitList?: (ctx: ListContext) => void;
+	exitArray?: (ctx: ArrayContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlToBdlParser.listWithBrace`.
+	 * Enter a parse tree produced by `YmlToBdlParser.constList`.
 	 * @param ctx the parse tree
 	 */
-	enterListWithBrace?: (ctx: ListWithBraceContext) => void;
+	enterConstList?: (ctx: ConstListContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlToBdlParser.listWithBrace`.
+	 * Exit a parse tree produced by `YmlToBdlParser.constList`.
 	 * @param ctx the parse tree
 	 */
-	exitListWithBrace?: (ctx: ListWithBraceContext) => void;
+	exitConstList?: (ctx: ConstListContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlToBdlParser.granule`.
