@@ -1,17 +1,22 @@
 import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { IDefinitionLocation } from "../IDefinitionLocation";
 import {
   ClassAttributeDeclarationContext,
   ClassDeclarationIntroContext,
   MethodDeclarationContext,
 } from "../YmlToBdlParser";
-import { createNewCompletionItem } from "./utils";
+import { createLocation, createNewCompletionItem } from "./utils";
 import YmlToBdlBaseVisitor from "./YmlToBdlBaseVisitor";
 
 export class YmlClassVisitor extends YmlToBdlBaseVisitor {
   private classId: string;
 
-  constructor(completionItems: CompletionItem[]) {
-    super(completionItems);
+  constructor(
+    completionItems: CompletionItem[],
+    definitions: IDefinitionLocation[],
+    uri: string,
+  ) {
+    super(completionItems, definitions, uri);
   }
 
   public visitMethodDeclaration(node: MethodDeclarationContext): any {
@@ -22,6 +27,14 @@ export class YmlClassVisitor extends YmlToBdlBaseVisitor {
       CompletionItemKind.Method,
       this.classId,
     );
+    this.definitions.push(
+      createLocation(
+        node.methodIntro().ymlId().text,
+        node.start,
+        node.stop,
+        this.uri,
+      ),
+  );
   }
 
   public visitClassAttributeDeclaration(
@@ -33,6 +46,16 @@ export class YmlClassVisitor extends YmlToBdlBaseVisitor {
       node.field(),
       CompletionItemKind.Property,
       this.classId,
+    );
+    const startToken = node.start;
+    const endToken = node.stop;
+    this.definitions.push(
+        createLocation(
+          node.ymlId().text,
+          startToken,
+          endToken,
+          this.uri,
+        ),
     );
   }
 

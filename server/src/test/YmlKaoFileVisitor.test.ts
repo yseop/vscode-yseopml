@@ -14,7 +14,7 @@ describe("Extension Server Tests", () => {
       const parser = new YmlToBdlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const visitor = new YmlKaoFileVisitor([]);
+      const visitor = new YmlKaoFileVisitor([], [], "");
       visitor.visit(result);
       done();
     });
@@ -58,7 +58,7 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems);
+      const visitor = new YmlKaoFileVisitor(completionItems, [], "");
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -111,7 +111,7 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems);
+      const visitor = new YmlKaoFileVisitor(completionItems, [], "");
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -185,7 +185,7 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems);
+      const visitor = new YmlKaoFileVisitor(completionItems, [], "");
       visitor.visit(result);
       const expectedCompletionItems = [
         {

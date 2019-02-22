@@ -12,6 +12,7 @@ import {
   InitializeResult,
   IPCMessageReader,
   IPCMessageWriter,
+  Location,
   TextDocument,
   TextDocumentChangeEvent,
   TextDocumentPositionParams,
@@ -23,7 +24,9 @@ import { YmlToBdlLexer } from "./YmlToBdlLexer";
 
 import { YmlToBdlParser } from "./YmlToBdlParser";
 
+import { stringify } from "querystring";
 import { EngineModel } from "./EngineModel";
+import { IDefinitionLocation } from "./IDefinitionLocation";
 import YmlKaoFileVisitor from "./visitors/YmlKaoFileVisitor";
 import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
 
@@ -37,6 +40,7 @@ connection.console.log(
   "Yseop.vscode-yseopml − Creating connection with client/server.",
 );
 
+let definitions: IDefinitionLocation[] = [];
 const completionItems: CompletionItem[] = [];
 
 // Create a simple text document manager. The text document manager
@@ -58,6 +62,7 @@ connection.onInitialize(
         completionProvider: {
           resolveProvider: true,
         },
+        definitionProvider: true,
         // Tell the client that the server works in FULL text document sync mode
         textDocumentSync: documents.syncKind,
       },
@@ -128,7 +133,13 @@ function validateTextDocument(textDocument: TextDocument): void {
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
 
-  const visitor = new YmlKaoFileVisitor(completionItems);
+  definitions = definitions.filter((defLoc) => defLoc.definition.uri !== textDocument.uri);
+
+  const visitor = new YmlKaoFileVisitor(
+    completionItems,
+    definitions,
+    textDocument.uri,
+  );
   visitor.visit(result);
 
   // Send the computed diagnostics to VSCode.
@@ -138,6 +149,29 @@ function validateTextDocument(textDocument: TextDocument): void {
     connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: [] });
   }
 }
+
+connection.onDefinition((pos: TextDocumentPositionParams) => {
+  const doc: TextDocument = documents.get(pos.textDocument.uri);
+  const linePrefix = doc.getText().substr(0, doc.offsetAt(pos.position));
+  const lastToken = linePrefix.match(/\b([^:\.\s]+)\b$/g);
+  if (lastToken === null || lastToken.length === 0) {
+    return null;
+  }
+  const token = lastToken[0];
+  const defs =
+  definitions
+    .filter((defLoc) => defLoc.entityName.indexOf(token) >= 0)
+    .map((defLoc) => defLoc.definition)
+    .reduce((prev: Location[], elem) => {
+      prev.push(elem);
+      return prev;
+    } , []);
+  if (!defs || defs.length === 0) {
+    return null;
+  } else {
+    return defs;
+  }
+});
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion(

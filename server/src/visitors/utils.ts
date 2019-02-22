@@ -1,4 +1,9 @@
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { Token } from "antlr4ts";
+import {
+  CompletionItem,
+  CompletionItemKind,
+} from "vscode-languageserver";
+import { IDefinitionLocation } from "../IDefinitionLocation";
 import { connection } from "../server";
 import { FieldContext, YmlIdContext } from "../YmlToBdlParser";
 
@@ -80,4 +85,28 @@ export function getType(
     connection.console.error(err.message);
   }
   return domains.concat(domainsLevel2);
+}
+
+export function createLocation(
+  entityName: string,
+  startToken: Token,
+  endToken: Token,
+  uri: string,
+): IDefinitionLocation {
+  return {
+    definition: {
+      range: {
+        end: {
+          character: endToken.charPositionInLine,
+          line: endToken.line,
+        },
+        start: {
+          character: startToken.charPositionInLine,
+          line: startToken.line - 1,
+        },
+      },
+      uri,
+    },
+    entityName,
+  };
 }

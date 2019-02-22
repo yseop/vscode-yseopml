@@ -1,11 +1,20 @@
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import {
+  CompletionItem,
+  CompletionItemKind,
+  Definition,
+} from "vscode-languageserver";
+import { IDefinitionLocation } from "../IDefinitionLocation";
 import { StaticDeclarationContext } from "../YmlToBdlParser";
-import { createNewCompletionItem } from "./utils";
+import { createLocation as createDefinitionLocation, createNewCompletionItem } from "./utils";
 import YmlToBdlBaseVisitor from "./YmlToBdlBaseVisitor";
 
 export class YmlObjectInstanceVisitor extends YmlToBdlBaseVisitor {
-  constructor(public completionItems: CompletionItem[]) {
-    super(completionItems);
+  constructor(
+    completionItems: CompletionItem[],
+    definitions: IDefinitionLocation[],
+    uri: string,
+  ) {
+    super(completionItems, definitions, uri);
   }
 
   public visitStaticDeclaration(node: StaticDeclarationContext): void {
@@ -16,6 +25,16 @@ export class YmlObjectInstanceVisitor extends YmlToBdlBaseVisitor {
       CompletionItemKind.Variable,
       null,
       node._declarationType.text,
+    );
+    const startToken = node.start;
+    const endToken = node.stop;
+    this.definitions.push(
+      createDefinitionLocation(
+        node._declarationName.text,
+        startToken,
+        endToken,
+        this.uri,
+      ),
     );
   }
 }
