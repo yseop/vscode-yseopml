@@ -1,27 +1,32 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import * as assert from "assert";
 import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
+import { YmlLexer } from "../grammar/YmlLexer";
+import { YmlParser } from "../grammar/YmlParser";
 import YmlKaoFileVisitor from "../visitors/YmlKaoFileVisitor";
-import { YmlToBdlLexer } from "../YmlToBdlLexer";
-import { YmlToBdlParser } from "../YmlToBdlParser";
 
 describe("Extension Server Tests", () => {
   describe("YmlKaoFileVisitor", () => {
     it("should be OK to instantiate YmlKaoFileVisitor", (done) => {
       const inputStream = new ANTLRInputStream("");
-      const lexer = new YmlToBdlLexer(inputStream);
+      const lexer = new YmlLexer(inputStream);
       const tokenStream = new CommonTokenStream(lexer);
-      const parser = new YmlToBdlParser(tokenStream);
+      const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const visitor = new YmlKaoFileVisitor([]);
+      const visitor = new YmlKaoFileVisitor(
+        [],
+        "",
+        new YmlDefinitionProvider(),
+      );
       visitor.visit(result);
       done();
     });
 
     it("should be able to parse a string", (done) => {
       const inputStream = new ANTLRInputStream('"foo bar"');
-      const lexer = new YmlToBdlLexer(inputStream);
+      const lexer = new YmlLexer(inputStream);
       const tokenStream = new CommonTokenStream(lexer);
       const tokens = tokenStream.getTokens();
       assert.equal(tokens.length, 1);
@@ -52,13 +57,17 @@ describe("Extension Server Tests", () => {
                 implementation City
                 ;
             `);
-      const lexer = new YmlToBdlLexer(inputStream);
+      const lexer = new YmlLexer(inputStream);
       const tokenStream = new CommonTokenStream(lexer);
-      const parser = new YmlToBdlParser(tokenStream);
+      const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems);
+      const visitor = new YmlKaoFileVisitor(
+        completionItems,
+        "",
+        new YmlDefinitionProvider(),
+      );
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -105,13 +114,17 @@ describe("Extension Server Tests", () => {
                   implementation City
                   ;
               `);
-      const lexer = new YmlToBdlLexer(inputStream);
+      const lexer = new YmlLexer(inputStream);
       const tokenStream = new CommonTokenStream(lexer);
-      const parser = new YmlToBdlParser(tokenStream);
+      const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems);
+      const visitor = new YmlKaoFileVisitor(
+        completionItems,
+        "",
+        new YmlDefinitionProvider(),
+      );
       visitor.visit(result);
       const expectedCompletionItems = [
         {
@@ -179,13 +192,17 @@ describe("Extension Server Tests", () => {
         --> return "it works"
         ;
       `);
-      const lexer = new YmlToBdlLexer(inputStream);
+      const lexer = new YmlLexer(inputStream);
       const tokenStream = new CommonTokenStream(lexer);
-      const parser = new YmlToBdlParser(tokenStream);
+      const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
       const completionItems: CompletionItem[] = [];
-      const visitor = new YmlKaoFileVisitor(completionItems);
+      const visitor = new YmlKaoFileVisitor(
+        completionItems,
+        "",
+        new YmlDefinitionProvider(),
+      );
       visitor.visit(result);
       const expectedCompletionItems = [
         {

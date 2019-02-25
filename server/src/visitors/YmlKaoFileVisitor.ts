@@ -1,29 +1,42 @@
-import YmlToBdlBaseVisitor from "./YmlToBdlBaseVisitor";
+import YmlBaseVisitor from "./YmlBaseVisitor";
 
 import { CompletionItem } from "vscode-languageserver";
-import { StaticDeclarationContext } from "../YmlToBdlParser";
+import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
+import { StaticDeclarationContext } from "../grammar/YmlParser";
 import {
   ExternDeclarationContext,
   FunctionContext,
   YenumContext,
-} from "../YmlToBdlParser";
-import { ClassDeclarationContext, CompleteContext } from "../YmlToBdlParser";
+} from "../grammar/YmlParser";
+import { ClassDeclarationContext, CompleteContext } from "../grammar/YmlParser";
 import { YmlClassVisitor } from "./YmlClassVisitor";
 import { YmlFunctionVisitor } from "./YmlFunctionVisitor";
 import { YmlObjectInstanceVisitor } from "./YmlObjectInstanceVisitor";
 
-export default class YmlKaoFileVisitor extends YmlToBdlBaseVisitor {
-  constructor(completionItems: CompletionItem[]) {
-    super(completionItems);
+export default class YmlKaoFileVisitor extends YmlBaseVisitor {
+  constructor(
+    completionItems: CompletionItem[],
+    uri: string,
+    public definitions: YmlDefinitionProvider,
+  ) {
+    super(completionItems, uri);
   }
 
   public visitStaticDeclaration(node: StaticDeclarationContext): void {
-    const visitor = new YmlObjectInstanceVisitor(this.completionItems);
+    const visitor = new YmlObjectInstanceVisitor(
+      this.completionItems,
+      this.uri,
+      this.definitions,
+    );
     visitor.visit(node);
   }
 
   public visitClassDeclaration(node: ClassDeclarationContext): void {
-    const visitor = new YmlClassVisitor(this.completionItems);
+    const visitor = new YmlClassVisitor(
+      this.completionItems,
+      this.uri,
+      this.definitions,
+    );
     visitor.visit(node);
   }
 
@@ -32,7 +45,7 @@ export default class YmlKaoFileVisitor extends YmlToBdlBaseVisitor {
   }
 
   public visitFunction(node: FunctionContext): void {
-    const visitor = new YmlFunctionVisitor(this.completionItems);
+    const visitor = new YmlFunctionVisitor(this.completionItems, this.uri);
     visitor.visit(node);
   }
 

@@ -1,13 +1,18 @@
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
-import { FunctionContext } from "../YmlToBdlParser";
+import {
+  CompletionItem,
+  CompletionItemKind,
+} from "vscode-languageserver";
+import { FunctionContext } from "../grammar/YmlParser";
 import { createNewCompletionItem } from "./utils";
-import YmlToBdlBaseVisitor from "./YmlToBdlBaseVisitor";
+import YmlBaseVisitor from "./YmlBaseVisitor";
 
-export class YmlFunctionVisitor extends YmlToBdlBaseVisitor {
-  constructor(public completionItems: CompletionItem[]) {
-    super(completionItems);
+export class YmlFunctionVisitor extends YmlBaseVisitor {
+  constructor(
+    completionItems: CompletionItem[],
+    uri: string,
+  ) {
+    super(completionItems, uri);
   }
-
   public visitFunction(node: FunctionContext): void {
     createNewCompletionItem(
       this.completionItems,

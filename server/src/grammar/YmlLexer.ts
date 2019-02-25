@@ -1,4 +1,4 @@
-// Generated from src/YmlToBdl.g4 by ANTLR 4.6-SNAPSHOT
+// Generated from grammar/Yml.g4 by ANTLR 4.6-SNAPSHOT
 
 
 import { ATN } from "antlr4ts/atn/ATN";
@@ -15,7 +15,7 @@ import { VocabularyImpl } from "antlr4ts/VocabularyImpl";
 import * as Utils from "antlr4ts/misc/Utils";
 
 
-export class YmlToBdlLexer extends Lexer {
+export class YmlLexer extends Lexer {
 	public static readonly INTERFACE = 1;
 	public static readonly IMPLEMENTATION = 2;
 	public static readonly EXTENDS = 3;
@@ -140,32 +140,32 @@ export class YmlToBdlLexer extends Lexer {
 		"OPERATOR", "DATE", "STRING", "DOCUMENTATION", "WS", "DOUBLE", "INTEGER", 
 		"YMLID", "ID", "PREPROCESSING", "LINE_COMMENT", "MULTILINE_COMMENT",
 	];
-	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(YmlToBdlLexer._LITERAL_NAMES, YmlToBdlLexer._SYMBOLIC_NAMES, []);
+	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(YmlLexer._LITERAL_NAMES, YmlLexer._SYMBOLIC_NAMES, []);
 
 	// @Override
 	// @NotNull
 	public get vocabulary(): Vocabulary {
-		return YmlToBdlLexer.VOCABULARY;
+		return YmlLexer.VOCABULARY;
 	}
 	// tslint:enable:no-trailing-whitespace
 
 
 	constructor(input: CharStream) {
 		super(input);
-		this._interp = new LexerATNSimulator(YmlToBdlLexer._ATN, this);
+		this._interp = new LexerATNSimulator(YmlLexer._ATN, this);
 	}
 
 	// @Override
-	public get grammarFileName(): string { return "YmlToBdl.g4"; }
+	public get grammarFileName(): string { return "Yml.g4"; }
 
 	// @Override
-	public get ruleNames(): string[] { return YmlToBdlLexer.ruleNames; }
+	public get ruleNames(): string[] { return YmlLexer.ruleNames; }
 
 	// @Override
-	public get serializedATN(): string { return YmlToBdlLexer._serializedATN; }
+	public get serializedATN(): string { return YmlLexer._serializedATN; }
 
 	// @Override
-	public get modeNames(): string[] { return YmlToBdlLexer.modeNames; }
+	public get modeNames(): string[] { return YmlLexer.modeNames; }
 
 	private static readonly _serializedATNSegments: number = 2;
 	private static readonly _serializedATNSegment0: string =
@@ -469,18 +469,18 @@ export class YmlToBdlLexer extends Lexer {
 		"\u025D\u0264\u0271\u027C\u0285\x03\x02\x03\x02";
 	public static readonly _serializedATN: string = Utils.join(
 		[
-			YmlToBdlLexer._serializedATNSegment0,
-			YmlToBdlLexer._serializedATNSegment1,
+			YmlLexer._serializedATNSegment0,
+			YmlLexer._serializedATNSegment1,
 		],
 		"",
 	);
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
-		if (!YmlToBdlLexer.__ATN) {
-			YmlToBdlLexer.__ATN = new ATNDeserializer().deserialize(Utils.toCharArray(YmlToBdlLexer._serializedATN));
+		if (!YmlLexer.__ATN) {
+			YmlLexer.__ATN = new ATNDeserializer().deserialize(Utils.toCharArray(YmlLexer._serializedATN));
 		}
 
-		return YmlToBdlLexer.__ATN;
+		return YmlLexer.__ATN;
 	}
 
 }

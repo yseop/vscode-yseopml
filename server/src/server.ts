@@ -19,11 +19,13 @@ import {
 } from "vscode-languageserver";
 
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
-import { YmlToBdlLexer } from "./YmlToBdlLexer";
 
-import { YmlToBdlParser } from "./YmlToBdlParser";
+import { YmlParser } from "./grammar/YmlParser";
 
+import { getLastValidYmlEntityName } from "./definitions/DefinitionUtils";
+import { YmlDefinitionProvider } from "./definitions/YmlDefinitionProvider";
 import { EngineModel } from "./EngineModel";
+import { YmlLexer } from "./grammar/YmlLexer";
 import YmlKaoFileVisitor from "./visitors/YmlKaoFileVisitor";
 import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
 
@@ -37,6 +39,7 @@ connection.console.log(
   "Yseop.vscode-yseopml − Creating connection with client/server.",
 );
 
+const definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
 const completionItems: CompletionItem[] = [];
 
 // Create a simple text document manager. The text document manager
@@ -58,6 +61,7 @@ connection.onInitialize(
         completionProvider: {
           resolveProvider: true,
         },
+        definitionProvider: true,
         // Tell the client that the server works in FULL text document sync mode
         textDocumentSync: documents.syncKind,
       },
@@ -116,19 +120,23 @@ function validateTextDocument(textDocument: TextDocument): void {
 
   const diagnostics: Diagnostic[] = [];
 
-  const problems = 0;
   // Create the lexer and parser
   const inputStream = new ANTLRInputStream(textDocument.getText());
-  const lexer = new YmlToBdlLexer(inputStream);
+  const lexer = new YmlLexer(inputStream);
   const tokenStream = new CommonTokenStream(lexer);
-  const parser = new YmlToBdlParser(tokenStream);
+  const parser = new YmlParser(tokenStream);
   parser.removeErrorListeners();
   parser.addErrorListener(new VsCodeDiagnosticErrorListener(diagnostics));
 
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
+  definitionsProvider.removeDocumentDefinitions(textDocument.uri);
 
-  const visitor = new YmlKaoFileVisitor(completionItems);
+  const visitor = new YmlKaoFileVisitor(
+    completionItems,
+    textDocument.uri,
+    definitionsProvider,
+  );
   visitor.visit(result);
 
   // Send the computed diagnostics to VSCode.
@@ -138,6 +146,16 @@ function validateTextDocument(textDocument: TextDocument): void {
     connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: [] });
   }
 }
+
+connection.onDefinition((pos: TextDocumentPositionParams) => {
+  const doc: TextDocument = documents.get(pos.textDocument.uri);
+  const documentContentToPos = doc.getText().substr(0, doc.offsetAt(pos.position));
+  const lastWord = getLastValidYmlEntityName(documentContentToPos);
+  if (!lastWord) {
+    return null;
+  }
+  return definitionsProvider.findDefinitions(lastWord);
+});
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
