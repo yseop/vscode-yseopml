@@ -1,27 +1,29 @@
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { CompletionItemKind } from "vscode-languageserver";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import {
   ClassAttributeDeclarationContext,
   ClassDeclarationIntroContext,
   MethodDeclarationContext,
 } from "../grammar/YmlParser";
-import { createLocation, createNewCompletionItem } from "./utils";
+import { createLocation, createNewCompletionItem } from "./VisitorsUtils";
 import YmlBaseVisitor from "./YmlBaseVisitor";
 
 export class YmlClassVisitor extends YmlBaseVisitor {
   private classId: string;
 
   constructor(
-    completionItems: CompletionItem[],
+    completionProvider: YmlCompletionItemsProvider,
     uri: string,
     public definitions: YmlDefinitionProvider,
   ) {
-    super(completionItems, uri);
+    super(completionProvider, uri);
   }
 
   public visitMethodDeclaration(node: MethodDeclarationContext): any {
     createNewCompletionItem(
-      this.completionItems,
+      this.uri,
+      this.completionProvider,
       node.methodIntro().ymlId(),
       node.field(),
       CompletionItemKind.Method,
@@ -41,7 +43,8 @@ export class YmlClassVisitor extends YmlBaseVisitor {
     node: ClassAttributeDeclarationContext,
   ) {
     createNewCompletionItem(
-      this.completionItems,
+      this.uri,
+      this.completionProvider,
       node.ymlId(),
       node.field(),
       CompletionItemKind.Property,
