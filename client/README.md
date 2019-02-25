@@ -35,6 +35,8 @@ This extension provides support for Yseop Markup Language (YML).
   **_or_** Function with custom args
   **_or_** Function with direct return
 - `granule`: Text granule
+- `\if`: “If” condition
+- `\if \else`: “If/else” condition
 - `instance`: Object instance
 - `interface`: Interface
 - `italic`: Italic text

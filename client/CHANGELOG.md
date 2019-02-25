@@ -2,6 +2,7 @@
 
 ## 1.3.0 (YYYY-MM-DD)
 
+- Turned `if` statements into a snippet, providing better indentation and syntax. (thanks to @agueguen-yseop)
 - The parser used by the extension was greatly improved.
 - [BETA] When a parsing issue is detected, it is now displayed as a warning in the “Problems” view of VS Code and in the text editor.
   - The new parameter `yseopml.activateParsingProblemsReporting` allows to disable this feature
