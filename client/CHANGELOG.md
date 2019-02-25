@@ -1,5 +1,15 @@
 # Release Notes
 
+## 1.3.0 (2019-02-25)
+
+- Turned `if` statements into a snippet, providing better indentation and syntax. (thanks to @agueguen-yseop)
+- The parser used by the extension was greatly improved.
+- [BETA] When a parsing issue is detected, it is now displayed as a warning in the “Problems” view of VS Code and in the text editor.
+  - The new parameter `yseopml.activateParsingProblemsReporting` allows to disable this feature
+- [BETA] New feature `Go To Definition` and `Peek Definition`.
+  - Only for class attributes and methods.
+  - Needs to have the defining class opened once first.
+
 ## 1.2.3 (2019-01-03)
 
 - When using autocompletion for class attributes, methods or text methods, the documentation for these symbols is displayed, if any was written.

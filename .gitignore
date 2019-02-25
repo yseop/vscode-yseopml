@@ -69,3 +69,7 @@ typings/
 # tests
 .vscode-test/
 out/
+/client/server/
+target/
+/.sonarlint/
+/report.json
