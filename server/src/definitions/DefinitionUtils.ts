@@ -1,4 +1,5 @@
-/* Match valid YML entity names substrings:
+/**
+ * Match valid YML entity names substrings:
  * strings containing only underscores, numbers, and characters with the “Letter” Unicode property.
  * The whole name will be captured within a group.
  * see https://stackoverflow.com/a/51166092/3577898
