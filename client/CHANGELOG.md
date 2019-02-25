@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.3.0 (YYYY-MM-DD)
+## 1.3.0 (2019-02-25)
 
 - Turned `if` statements into a snippet, providing better indentation and syntax. (thanks to @agueguen-yseop)
 - The parser used by the extension was greatly improved.
