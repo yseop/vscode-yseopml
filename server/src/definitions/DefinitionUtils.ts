@@ -1,6 +1,9 @@
-// Match any string containing `_`, a number or characters that have the Unicode property “Letter”.
-// see https://stackoverflow.com/a/51166092/3577898
-const YML_ENTITY_NAME_REGEXP = new RegExp(/((\p{Letter}|_|[0-9])+)/, "gu");
+/* Match valid YML entity names substrings:
+ * strings containing only underscores, numbers, and characters with the “Letter” Unicode property.
+ * The whole name will be captured within a group.
+ * see https://stackoverflow.com/a/51166092/3577898
+ */
+const YML_ENTITY_NAME_REGEXP = new RegExp(/((\p{Letter}|[_0-9])+)/, "gu");
 
 /**
  * Find in a text the last substring that could be a valid YML entity name's substring.
