@@ -129,7 +129,7 @@ MULTILINE_COMMENT:
  * Parser rules
  */
 // Base rule when parsing a file. Basically, this describes all valid YML files.
-// misses the `project.kao`-like files
+// TODO: add a rule for the `project.kao`-like files.
 kaoFile: entities=ymlEntity* EOF;
 
 ymlEntity:

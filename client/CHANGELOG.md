@@ -8,7 +8,6 @@
 - [BETA] New feature `Go To Definition` and `Peek Definition`.
   - Only for class attributes and methods.
   - Needs to have the defining class opened once first.
-  - This feature is not context sensitive yet.
 
 ## 1.2.3 (2019-01-03)
 

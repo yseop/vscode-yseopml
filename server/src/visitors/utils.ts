@@ -1,5 +1,5 @@
 import { Token } from "antlr4ts";
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { CompletionItem, CompletionItemKind, TextDocument } from "vscode-languageserver";
 import { IDefinitionLocation } from "../definitions/IDefinitionLocation";
 import { FieldContext, YmlIdContext } from "../grammar/YmlParser";
 import { connection } from "../server";

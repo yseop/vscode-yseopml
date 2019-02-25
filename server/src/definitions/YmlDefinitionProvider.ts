@@ -11,18 +11,19 @@ export class YmlDefinitionProvider {
   public definitions: IDefinitionLocation[] = [];
 
   /**
-   * Find all the available definition locations for the specified token.
-   * @param token The token used as base to find the definitions.
+   * Find all the available definition locations for the specified entityName.
+   * @param entityName The entityName used as base to find the definitions.
    * @returns a `Definition`, which can be `Location | Location[] | null`
-   * according to the `Definition`'s documentation.
+   * according to `Definition`'s documentation.
    */
-  public findDefinitions(token: string): Definition {
-    if (!token) {
+  public findDefinitions(entityName: string): Definition {
+    if (!entityName) {
       return null;
     }
     const defs = this.definitions
-      .filter((defLoc) => defLoc.entityName.indexOf(token) >= 0)
+      .filter((defLoc) => defLoc.entityName.indexOf(entityName) >= 0)
       .map((defLoc) => defLoc.location)
+      // Fill an array with the remaining locations.
       .reduce((prev: Location[], elem) => {
         prev.push(elem);
         return prev;

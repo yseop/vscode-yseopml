@@ -22,6 +22,7 @@ import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 
 import { YmlParser } from "./grammar/YmlParser";
 
+import { getDocumentLastWord } from "./definitions/DefinitionUtils";
 import { YmlDefinitionProvider } from "./definitions/YmlDefinitionProvider";
 import { EngineModel } from "./EngineModel";
 import { YmlLexer } from "./grammar/YmlLexer";
@@ -148,13 +149,12 @@ function validateTextDocument(textDocument: TextDocument): void {
 
 connection.onDefinition((pos: TextDocumentPositionParams) => {
   const doc: TextDocument = documents.get(pos.textDocument.uri);
-  const linePrefix = doc.getText().substr(0, doc.offsetAt(pos.position));
-  const lastToken = linePrefix.match(/\b([^:\.\s]+)\b$/g);
-  if (lastToken === null || lastToken.length === 0) {
+  const documentContentToPos = doc.getText().substr(0, doc.offsetAt(pos.position));
+  const lastWord = getDocumentLastWord(documentContentToPos);
+  if (!lastWord) {
     return null;
   }
-  const token = lastToken[0];
-  return definitionsProvider.findDefinitions(token);
+  return definitionsProvider.findDefinitions(lastWord);
 });
 
 // This handler provides the initial list of the completion items.
