@@ -22,7 +22,7 @@ import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 
 import { YmlParser } from "./grammar/YmlParser";
 
-import { getDocumentLastWord } from "./definitions/DefinitionUtils";
+import { getLastValidYmlEntityName } from "./definitions/DefinitionUtils";
 import { YmlDefinitionProvider } from "./definitions/YmlDefinitionProvider";
 import { EngineModel } from "./EngineModel";
 import { YmlLexer } from "./grammar/YmlLexer";
@@ -150,7 +150,7 @@ function validateTextDocument(textDocument: TextDocument): void {
 connection.onDefinition((pos: TextDocumentPositionParams) => {
   const doc: TextDocument = documents.get(pos.textDocument.uri);
   const documentContentToPos = doc.getText().substr(0, doc.offsetAt(pos.position));
-  const lastWord = getDocumentLastWord(documentContentToPos);
+  const lastWord = getLastValidYmlEntityName(documentContentToPos);
   if (!lastWord) {
     return null;
   }
