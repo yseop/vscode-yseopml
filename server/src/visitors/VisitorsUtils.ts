@@ -3,8 +3,8 @@ import {
   CompletionItemKind,
 } from "vscode-languageserver";
 import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
-import { IDefinitionLocation } from "../definitions/IDefinitionLocation";
-import { FieldContext, YmlIdContext } from "../grammar/YmlParser";
+import { IDefinitionLocation } from "../definitions";
+import { FieldContext, YmlIdContext } from "../grammar";
 import { connection } from "../server";
 
 const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;

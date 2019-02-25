@@ -1,9 +1,9 @@
 import { CompletionItemKind } from "vscode-languageserver";
 import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
-import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
-import { StaticDeclarationContext } from "../grammar/YmlParser";
+import { YmlDefinitionProvider } from "../definitions";
+import { StaticDeclarationContext } from "../grammar";
 import { createLocation, createNewCompletionItem } from "./VisitorsUtils";
-import YmlBaseVisitor from "./YmlBaseVisitor";
+import { YmlBaseVisitor } from "./YmlBaseVisitor";
 
 export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
   constructor(

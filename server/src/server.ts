@@ -20,15 +20,15 @@ import {
 
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 
-import { YmlParser } from "./grammar/YmlParser";
+import { YmlLexer, YmlParser } from "./grammar";
 
 import { YmlCompletionItemsProvider } from "./completion/YmlCompletionItemsProvider";
-import { getLastValidYmlEntityName } from "./definitions/DefinitionUtils";
-import { YmlDefinitionProvider } from "./definitions/YmlDefinitionProvider";
-import { EngineModel } from "./EngineModel";
-import { YmlLexer } from "./grammar/YmlLexer";
-import YmlKaoFileVisitor from "./visitors/YmlKaoFileVisitor";
-import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
+import {
+  getLastValidYmlEntityName,
+  YmlDefinitionProvider,
+} from "./definitions";
+import { EngineModel } from "./engineModel/EngineModel";
+import { YmlKaoFileVisitor, YmlParsingErrorListener } from "./visitors";
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 export const connection: IConnection = createConnection(
@@ -106,7 +106,10 @@ connection.onDidChangeConfiguration((change) => {
     settings.yseopml.activateParsingProblemsReporting;
   pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
   if (engineModel == null) {
-    engineModel = new EngineModel(pathToPredefinedObjectsXml, completionProvider);
+    engineModel = new EngineModel(
+      pathToPredefinedObjectsXml,
+      completionProvider,
+    );
   } else {
     engineModel.reload(pathToPredefinedObjectsXml, completionProvider);
   }
@@ -118,7 +121,7 @@ function validateTextDocument(textDocument: TextDocument): void {
   connection.console.log(
     `Yseop.vscode-yseopml − Validating ${textDocument.uri}`,
   );
-
+  const textDocUri = textDocument.uri;
   const diagnostics: Diagnostic[] = [];
 
   // Create the lexer and parser
@@ -127,33 +130,37 @@ function validateTextDocument(textDocument: TextDocument): void {
   const tokenStream = new CommonTokenStream(lexer);
   const parser = new YmlParser(tokenStream);
   parser.removeErrorListeners();
-  parser.addErrorListener(new VsCodeDiagnosticErrorListener(diagnostics));
+  parser.addErrorListener(new YmlParsingErrorListener(diagnostics));
 
-  // Parse the input, where `compilationUnit` is whatever entry point you defined
+  // Parse the input.
   const result = parser.kaoFile();
   // Reset all the document's definitions.
-  definitionsProvider.removeDocumentDefinitions(textDocument.uri);
+  definitionsProvider.removeDocumentDefinitions(textDocUri);
   // Reset all the document's completion items.
-  completionProvider.removeDocumentCompletionItems(textDocument.uri);
+  completionProvider.removeDocumentCompletionItems(textDocUri);
 
   const visitor = new YmlKaoFileVisitor(
     completionProvider,
-    textDocument.uri,
+    textDocUri,
     definitionsProvider,
   );
+  // Visit the result of the parsing.
+  // This fill the completionProvider and the definitionsProvider.
   visitor.visit(result);
 
   // Send the computed diagnostics to VSCode.
   if (activateParsingProblemsReporting) {
-    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+    connection.sendDiagnostics({ uri: textDocUri, diagnostics });
   } else {
-    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: [] });
+    connection.sendDiagnostics({ uri: textDocUri, diagnostics: [] });
   }
 }
 
 connection.onDefinition((pos: TextDocumentPositionParams) => {
   const doc: TextDocument = documents.get(pos.textDocument.uri);
-  const documentContentToPos = doc.getText().substr(0, doc.offsetAt(pos.position));
+  const documentContentToPos = doc
+    .getText()
+    .substr(0, doc.offsetAt(pos.position));
   const lastWord = getLastValidYmlEntityName(documentContentToPos);
   if (!lastWord) {
     return null;
@@ -163,7 +170,8 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
-  (pos: TextDocumentPositionParams): CompletionItem[] => completionProvider.getOnlyCompilationItems(),
+  (pos: TextDocumentPositionParams): CompletionItem[] =>
+    completionProvider.getOnlyCompilationItems(),
 );
 
 // This handler resolve additional information for the item selected in
