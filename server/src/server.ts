@@ -23,10 +23,7 @@ import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import { YmlLexer, YmlParser } from "./grammar";
 
 import { YmlCompletionItemsProvider } from "./completion/YmlCompletionItemsProvider";
-import {
-  getLastValidYmlEntityName,
-  YmlDefinitionProvider,
-} from "./definitions";
+import { getTokenAtPosInDoc, YmlDefinitionProvider } from "./definitions";
 import { EngineModel } from "./engineModel/EngineModel";
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from "./visitors";
 
@@ -158,14 +155,14 @@ function validateTextDocument(textDocument: TextDocument): void {
 
 connection.onDefinition((pos: TextDocumentPositionParams) => {
   const doc: TextDocument = documents.get(pos.textDocument.uri);
-  const documentContentToPos = doc
-    .getText()
-    .substr(0, doc.offsetAt(pos.position));
-  const lastWord = getLastValidYmlEntityName(documentContentToPos);
-  if (!lastWord) {
+  const entityName = getTokenAtPosInDoc(
+    doc.getText(),
+    doc.offsetAt(pos.position),
+  );
+  if (!entityName) {
     return null;
   }
-  return definitionsProvider.findDefinitions(lastWord);
+  return definitionsProvider.findDefinitions(entityName);
 });
 
 // This handler provides the initial list of the completion items.
