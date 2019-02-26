@@ -1,9 +1,9 @@
 import { CompletionItemKind } from "vscode-languageserver";
-import { connection } from "./server";
+import { connection } from "../server";
 
 import fs = require("fs");
 import xml2js = require("xml2js");
-import { YmlCompletionItemsProvider } from "./completion/YmlCompletionItemsProvider";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 
 const parser = new xml2js.Parser();
 

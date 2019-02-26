@@ -1,6 +1,4 @@
-import { ParserRuleContext } from "antlr4ts";
 import { Definition, Location } from "vscode-languageserver";
-import { createLocation } from "../visitors/VisitorsUtils";
 import { IDefinitionLocation } from "./IDefinitionLocation";
 
 /**

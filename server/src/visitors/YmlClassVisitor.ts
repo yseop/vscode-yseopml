@@ -1,13 +1,13 @@
 import { CompletionItemKind } from "vscode-languageserver";
 import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
-import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
+import { YmlDefinitionProvider } from "../definitions";
 import {
   ClassAttributeDeclarationContext,
   ClassDeclarationIntroContext,
   MethodDeclarationContext,
-} from "../grammar/YmlParser";
+} from "../grammar";
 import { createLocation, createNewCompletionItem } from "./VisitorsUtils";
-import YmlBaseVisitor from "./YmlBaseVisitor";
+import { YmlBaseVisitor } from "./YmlBaseVisitor";
 
 export class YmlClassVisitor extends YmlBaseVisitor {
   private classId: string;

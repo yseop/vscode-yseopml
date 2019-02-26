@@ -2,10 +2,9 @@ import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import * as assert from "assert";
 import { CompletionItemKind } from "vscode-languageserver";
 import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
-import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
-import { YmlLexer } from "../grammar/YmlLexer";
-import { YmlParser } from "../grammar/YmlParser";
-import YmlKaoFileVisitor from "../visitors/YmlKaoFileVisitor";
+import { YmlDefinitionProvider } from "../definitions";
+import { YmlLexer, YmlParser } from "../grammar";
+import { YmlKaoFileVisitor } from "../visitors";
 
 describe("Extension Server Tests", () => {
   describe("YmlKaoFileVisitor", () => {
@@ -86,7 +85,10 @@ describe("Extension Server Tests", () => {
           label: "country",
         },
       ];
-      assert.deepEqual(completionProvider.completions.map((elem) => elem.completion), expectedCompletionItems);
+      assert.deepEqual(
+        completionProvider.completions.map((elem) => elem.completion),
+        expectedCompletionItems,
+      );
       done();
     });
     it("should parse a well-written YML class and provide completion for fields and methods", (done) => {
@@ -150,7 +152,10 @@ describe("Extension Server Tests", () => {
           label: "inhabitants",
         },
       ];
-      assert.deepEqual(completionProvider.completions.map((elem) => elem.completion), expectedCompletionItems);
+      assert.deepEqual(
+        completionProvider.completions.map((elem) => elem.completion),
+        expectedCompletionItems,
+      );
       done();
     });
     // tslint:disable-next-line: max-line-length
@@ -256,7 +261,10 @@ describe("Extension Server Tests", () => {
           label: "functionWithArgsAsBlock",
         },
       ];
-      assert.deepEqual(completionProvider.completions.map((elem) => elem.completion), expectedCompletionItems);
+      assert.deepEqual(
+        completionProvider.completions.map((elem) => elem.completion),
+        expectedCompletionItems,
+      );
       done();
     });
   });

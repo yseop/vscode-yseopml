@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getLastValidYmlEntityName } from "../definitions/DefinitionUtils";
+import { getLastValidYmlEntityName } from "../definitions";
 
 describe("Extension Server Tests", () => {
   describe("DefinitionUtils", () => {
