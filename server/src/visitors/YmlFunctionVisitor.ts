@@ -1,21 +1,22 @@
 import {
-  CompletionItem,
   CompletionItemKind,
 } from "vscode-languageserver";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { FunctionContext } from "../grammar/YmlParser";
-import { createNewCompletionItem } from "./utils";
+import { createNewCompletionItem } from "./VisitorsUtils";
 import YmlBaseVisitor from "./YmlBaseVisitor";
 
 export class YmlFunctionVisitor extends YmlBaseVisitor {
   constructor(
-    completionItems: CompletionItem[],
+    completionProvider: YmlCompletionItemsProvider,
     uri: string,
   ) {
-    super(completionItems, uri);
+    super(completionProvider, uri);
   }
   public visitFunction(node: FunctionContext): void {
     createNewCompletionItem(
-      this.completionItems,
+      this.uri,
+      this.completionProvider,
       node.ymlId(),
       node.field(),
       CompletionItemKind.Function,

@@ -1,6 +1,7 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import * as assert from "assert";
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { CompletionItemKind } from "vscode-languageserver";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import { YmlLexer } from "../grammar/YmlLexer";
 import { YmlParser } from "../grammar/YmlParser";
@@ -16,7 +17,7 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const visitor = new YmlKaoFileVisitor(
-        [],
+        new YmlCompletionItemsProvider(),
         "",
         new YmlDefinitionProvider(),
       );
@@ -62,9 +63,9 @@ describe("Extension Server Tests", () => {
       const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const completionItems: CompletionItem[] = [];
+      const completionProvider = new YmlCompletionItemsProvider();
       const visitor = new YmlKaoFileVisitor(
-        completionItems,
+        completionProvider,
         "",
         new YmlDefinitionProvider(),
       );
@@ -85,7 +86,7 @@ describe("Extension Server Tests", () => {
           label: "country",
         },
       ];
-      assert.deepEqual(completionItems, expectedCompletionItems);
+      assert.deepEqual(completionProvider.completions.map((elem) => elem.completion), expectedCompletionItems);
       done();
     });
     it("should parse a well-written YML class and provide completion for fields and methods", (done) => {
@@ -119,9 +120,9 @@ describe("Extension Server Tests", () => {
       const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const completionItems: CompletionItem[] = [];
+      const completionProvider = new YmlCompletionItemsProvider();
       const visitor = new YmlKaoFileVisitor(
-        completionItems,
+        completionProvider,
         "",
         new YmlDefinitionProvider(),
       );
@@ -149,7 +150,7 @@ describe("Extension Server Tests", () => {
           label: "inhabitants",
         },
       ];
-      assert.deepEqual(completionItems, expectedCompletionItems);
+      assert.deepEqual(completionProvider.completions.map((elem) => elem.completion), expectedCompletionItems);
       done();
     });
     // tslint:disable-next-line: max-line-length
@@ -197,9 +198,9 @@ describe("Extension Server Tests", () => {
       const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const completionItems: CompletionItem[] = [];
+      const completionProvider = new YmlCompletionItemsProvider();
       const visitor = new YmlKaoFileVisitor(
-        completionItems,
+        completionProvider,
         "",
         new YmlDefinitionProvider(),
       );
@@ -255,8 +256,7 @@ describe("Extension Server Tests", () => {
           label: "functionWithArgsAsBlock",
         },
       ];
-      assert.deepEqual(completionItems, expectedCompletionItems);
-
+      assert.deepEqual(completionProvider.completions.map((elem) => elem.completion), expectedCompletionItems);
       done();
     });
   });

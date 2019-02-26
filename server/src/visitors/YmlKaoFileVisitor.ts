@@ -1,6 +1,6 @@
 import YmlBaseVisitor from "./YmlBaseVisitor";
 
-import { CompletionItem } from "vscode-languageserver";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
 import { StaticDeclarationContext } from "../grammar/YmlParser";
 import {
@@ -15,16 +15,16 @@ import { YmlObjectInstanceVisitor } from "./YmlObjectInstanceVisitor";
 
 export default class YmlKaoFileVisitor extends YmlBaseVisitor {
   constructor(
-    completionItems: CompletionItem[],
+    completionProvider: YmlCompletionItemsProvider,
     uri: string,
     public definitions: YmlDefinitionProvider,
   ) {
-    super(completionItems, uri);
+    super(completionProvider, uri);
   }
 
   public visitStaticDeclaration(node: StaticDeclarationContext): void {
     const visitor = new YmlObjectInstanceVisitor(
-      this.completionItems,
+      this.completionProvider,
       this.uri,
       this.definitions,
     );
@@ -33,7 +33,7 @@ export default class YmlKaoFileVisitor extends YmlBaseVisitor {
 
   public visitClassDeclaration(node: ClassDeclarationContext): void {
     const visitor = new YmlClassVisitor(
-      this.completionItems,
+      this.completionProvider,
       this.uri,
       this.definitions,
     );
@@ -45,7 +45,7 @@ export default class YmlKaoFileVisitor extends YmlBaseVisitor {
   }
 
   public visitFunction(node: FunctionContext): void {
-    const visitor = new YmlFunctionVisitor(this.completionItems, this.uri);
+    const visitor = new YmlFunctionVisitor(this.completionProvider, this.uri);
     visitor.visit(node);
   }
 

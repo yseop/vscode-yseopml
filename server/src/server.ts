@@ -22,6 +22,7 @@ import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 
 import { YmlParser } from "./grammar/YmlParser";
 
+import { YmlCompletionItemsProvider } from "./completion/YmlCompletionItemsProvider";
 import { getLastValidYmlEntityName } from "./definitions/DefinitionUtils";
 import { YmlDefinitionProvider } from "./definitions/YmlDefinitionProvider";
 import { EngineModel } from "./EngineModel";
@@ -40,7 +41,7 @@ connection.console.log(
 );
 
 const definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
-const completionItems: CompletionItem[] = [];
+const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsProvider();
 
 // Create a simple text document manager. The text document manager
 // supports full document sync only
@@ -105,9 +106,9 @@ connection.onDidChangeConfiguration((change) => {
     settings.yseopml.activateParsingProblemsReporting;
   pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
   if (engineModel == null) {
-    engineModel = new EngineModel(pathToPredefinedObjectsXml, completionItems);
+    engineModel = new EngineModel(pathToPredefinedObjectsXml, completionProvider);
   } else {
-    engineModel.reload(pathToPredefinedObjectsXml, completionItems);
+    engineModel.reload(pathToPredefinedObjectsXml, completionProvider);
   }
   // Revalidate any open text documents
   documents.all().forEach(validateTextDocument);
@@ -130,10 +131,13 @@ function validateTextDocument(textDocument: TextDocument): void {
 
   // Parse the input, where `compilationUnit` is whatever entry point you defined
   const result = parser.kaoFile();
+  // Reset all the document's definitions.
   definitionsProvider.removeDocumentDefinitions(textDocument.uri);
+  // Reset all the document's completion items.
+  completionProvider.removeDocumentCompletionItems(textDocument.uri);
 
   const visitor = new YmlKaoFileVisitor(
-    completionItems,
+    completionProvider,
     textDocument.uri,
     definitionsProvider,
   );
@@ -159,7 +163,7 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
-  (pos: TextDocumentPositionParams): CompletionItem[] => completionItems,
+  (pos: TextDocumentPositionParams): CompletionItem[] => completionProvider.getOnlyCompilationItems(),
 );
 
 // This handler resolve additional information for the item selected in

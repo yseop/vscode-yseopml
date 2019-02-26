@@ -1,5 +1,8 @@
 import { Token } from "antlr4ts";
-import { CompletionItem, CompletionItemKind, TextDocument } from "vscode-languageserver";
+import {
+  CompletionItemKind,
+} from "vscode-languageserver";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { IDefinitionLocation } from "../definitions/IDefinitionLocation";
 import { FieldContext, YmlIdContext } from "../grammar/YmlParser";
 import { connection } from "../server";
@@ -29,7 +32,8 @@ export function getDocumentation(fieldOptions: FieldContext[]): string {
 }
 
 export function createNewCompletionItem(
-  completionItems: CompletionItem[],
+  uri: string,
+  completionProvider: YmlCompletionItemsProvider,
   ymlIdContext: YmlIdContext,
   fields: FieldContext[],
   kind: CompletionItemKind,
@@ -41,19 +45,20 @@ export function createNewCompletionItem(
   const returnType = getType(fields, baseType);
   const ymlId = ymlIdContext.text;
   const elementId = `id_${currentClassId}_${ymlId}`;
-  const completionItem = completionItems.find(
-    (elem) => elem.data === elementId,
-  );
+  const completionItem = completionProvider.getItem(elementId);
   if (completionItem) {
     completionItem.documentation = documentation;
     completionItem.detail = returnType;
   } else {
-    completionItems.push({
-      data: elementId,
-      detail: returnType,
-      documentation,
-      kind,
-      label: ymlId,
+    completionProvider.addCompletionItem({
+      completion: {
+        data: elementId,
+        detail: returnType,
+        documentation,
+        kind,
+        label: ymlId,
+      },
+      uri,
     });
   }
 }
