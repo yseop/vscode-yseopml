@@ -94,10 +94,10 @@ describe("Extension Server Tests", () => {
     it("should parse a well-written YML class and provide completion for fields and methods", (done) => {
       const inputStream = new ANTLRInputStream(`
               interface City
-                  method name()
+                  method getName()
                   --> domains String
 
-                  textMethod country()
+                  textMethod writeCountry()
                   --> domains String
 
                   field inhabitants
@@ -131,18 +131,18 @@ describe("Extension Server Tests", () => {
       visitor.visit(result);
       const expectedCompletionItems = [
         {
-          data: "id_City_name",
+          data: "id_City_City::getName",
           detail: "String",
           documentation: "not documented",
           kind: CompletionItemKind.Method,
-          label: "name",
+          label: "City::getName",
         },
         {
-          data: "id_City_country",
+          data: "id_City_City::writeCountry",
           detail: "String",
           documentation: "not documented",
           kind: CompletionItemKind.Method,
-          label: "country",
+          label: "City::writeCountry",
         },
         {
           data: "id_City_inhabitants",

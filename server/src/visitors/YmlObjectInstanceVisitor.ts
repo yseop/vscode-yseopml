@@ -18,7 +18,7 @@ export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
     createNewCompletionItem(
       this.uri,
       this.completionProvider,
-      node._declarationName,
+      node._declarationName.text,
       node.field(),
       CompletionItemKind.Variable,
       null,
