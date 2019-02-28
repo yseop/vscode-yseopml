@@ -17,6 +17,7 @@ export function getTokenAtPosInDoc(
   offset: number,
 ): string | null {
   if (offset == null || offset < 0 || offset > source.length) {
+    /* Invalid position. */
     return null;
   }
   const documentContentToPos = source.substr(0, offset);

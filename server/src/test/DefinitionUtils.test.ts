@@ -188,7 +188,7 @@ describe("Extension Server Tests", () => {
         done();
       });
 
-      it("should find token “length” from “length(myList);” if position between [0,7)", (done) => {
+      it("should find token “length” from “length(myList);” if position in [0, 7[", (done) => {
         const source: string = "length(myList);";
         const expectedToken = "length";
         const start = 0;
@@ -203,7 +203,7 @@ describe("Extension Server Tests", () => {
         done();
       });
 
-      it("should find token “myList” from “length(myList);” if position between [7,14)", (done) => {
+      it("should find token “myList” from “length(myList);” if position in [7, 14[", (done) => {
         const source: string = "length(myList);";
         const expectedToken = "myList";
         const start = 7;
@@ -218,7 +218,7 @@ describe("Extension Server Tests", () => {
         done();
       });
 
-      it("should find nothing from “length(myList);” if position between [14,end]", (done) => {
+      it("should find nothing from “length(myList);” if position in [14,end]", (done) => {
         const source: string = "length(myList);";
         const expectedToken = null;
         const start = 14;
