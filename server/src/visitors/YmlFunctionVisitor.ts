@@ -22,6 +22,8 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
    */
   private scopeEndOffset: number;
 
+  private functionName: string;
+
   constructor(
     completionProvider: YmlCompletionItemsProvider,
     uri: string,
@@ -32,8 +34,8 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
   public visitFunction(node: FunctionContext): void {
     this.scopeStartOffset = 0;
     this.scopeEndOffset = 0;
-    const functionName = node.ymlId().text;
-    if (!this.isMethodInstanciation(functionName)) {
+    this.functionName = node.ymlId().text;
+    if (!this.isMethodInstanciation(this.functionName)) {
       createNewCompletionItem(
         this.uri,
         this.completionProvider,
@@ -74,7 +76,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
       node._argName.text,
       [],
       CompletionItemKind.Variable,
-      null,
+      this.functionName,
       node._argType.text,
       this.scopeStartOffset,
       this.scopeEndOffset,
@@ -103,7 +105,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
       node.ymlId().text,
       node.field(),
       CompletionItemKind.Variable,
-      null,
+      this.functionName,
       node._type.text,
       this.scopeStartOffset,
       this.scopeEndOffset,
