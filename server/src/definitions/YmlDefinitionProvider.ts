@@ -19,7 +19,7 @@ export class YmlDefinitionProvider {
       return null;
     }
     const defs = this.definitions
-      .filter((defLoc) => defLoc.entityName.indexOf(entityName) >= 0)
+      .filter((defLoc) => defLoc.entityName === entityName)
       .map((defLoc) => defLoc.location)
       // Fill an array with the remaining locations.
       .reduce((prev: Location[], elem) => {
