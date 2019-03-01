@@ -12,4 +12,14 @@ export interface ICompletionItemLocation {
      * The completion information.
      */
     completion: CompletionItem;
+    /**
+     * The first position from which we can suggest this item.
+     * First character of a function, for example.
+     */
+    scopeStartOffset?: number;
+    /**
+     * The last position to which we can suggest this item.
+     * Last character of a function, for example.
+     */
+    scopeEndOffset?: number;
   }

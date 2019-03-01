@@ -1,5 +1,10 @@
 # Release Notes
 
+## 1.4.0 (YYYY-MM-DD)
+
+- [BETA] Local variables and arguments are suggested when using autocompletion in functions.
+  - For loops local variables as well as local variables declared using the arrow operator (`--> local […]`) are not handled yet.
+
 ## 1.3.0 (2019-02-25)
 
 - Turned `if` statements into a snippet, providing better indentation and syntax. (thanks to @agueguen-yseop)

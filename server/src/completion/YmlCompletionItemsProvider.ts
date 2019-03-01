@@ -26,7 +26,23 @@ export class YmlCompletionItemsProvider {
     );
   }
 
-  public getOnlyCompilationItems() {
-      return this.completions.map((elem) => elem.completion);
+  public getAvailableCompletionItems(uri: string, offset: number) {
+    return this.completions
+      .map((elem) => {
+        if (elem.scopeEndOffset && elem.scopeStartOffset && elem.uri === uri) {
+          // We have the scope's positions set and are in the correct file.
+          if (offset < elem.scopeStartOffset || offset > elem.scopeEndOffset) {
+            // Outside of the scope.
+            return null;
+          } else {
+            return elem.completion;
+          }
+        } else {
+          // No information about the scope. The element is available everywhere.
+          return elem.completion;
+        }
+      })
+      // Remove null elements.
+      .filter((elem) => !!elem);
   }
 }

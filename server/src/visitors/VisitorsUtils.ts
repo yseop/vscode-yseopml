@@ -39,6 +39,8 @@ export function createNewCompletionItem(
   kind: CompletionItemKind,
   classId?: string,
   baseType?: string,
+  scopeStartOffset?: number,
+  scopeEndOffset?: number,
 ) {
   const currentClassId = classId ? classId : "static";
   const documentation = getDocumentation(fields);
@@ -57,6 +59,8 @@ export function createNewCompletionItem(
         kind,
         label: ymlId,
       },
+      scopeEndOffset,
+      scopeStartOffset,
       uri,
     });
   }
