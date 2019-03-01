@@ -23,7 +23,7 @@ export function getTokenAtPosInDoc(
   const documentContentToPos = source.substr(0, offset);
 
   /*
-   * Search the first part of a valid YML entity name or a full entity name
+   * Search for the first part of a valid YML entity name or a full entity name
    * from the end of the “documentContentToPos” string.
    */
   const firstPart = getYmlEntityNamePart(
@@ -32,7 +32,7 @@ export function getTokenAtPosInDoc(
   );
 
   /*
-   * Search the second part of a valid YML entity name or a full entity name
+   * Search for the second part of a valid YML entity name or a full entity name
    * from the beginning of the “documentContentFromPos” string.
    */
   const documentContentFromPos = source.substr(offset);
