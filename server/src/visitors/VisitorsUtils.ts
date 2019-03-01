@@ -34,7 +34,7 @@ export function getDocumentation(fieldOptions: FieldContext[]): string {
 export function createNewCompletionItem(
   uri: string,
   completionProvider: YmlCompletionItemsProvider,
-  ymlIdContext: YmlIdContext,
+  ymlId: string,
   fields: FieldContext[],
   kind: CompletionItemKind,
   classId?: string,
@@ -43,7 +43,6 @@ export function createNewCompletionItem(
   const currentClassId = classId ? classId : "static";
   const documentation = getDocumentation(fields);
   const returnType = getType(fields, baseType);
-  const ymlId = ymlIdContext.text;
   const elementId = `id_${currentClassId}_${ymlId}`;
   const completionItem = completionProvider.getItem(elementId);
   if (completionItem) {

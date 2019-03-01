@@ -24,7 +24,12 @@ export class YmlClassVisitor extends YmlBaseVisitor {
     createNewCompletionItem(
       this.uri,
       this.completionProvider,
-      node.methodIntro().ymlId(),
+      /*
+       * YML fact:
+       * A class “MyClass” that declares a method “myMethod” will implement it by naming it “MyClass::myMethod”.
+       * Otherwise, there will be compilation errors.
+       */
+      `${this.classId}::${node.methodIntro().ymlId().text}`,
       node.field(),
       CompletionItemKind.Method,
       this.classId,
@@ -45,7 +50,7 @@ export class YmlClassVisitor extends YmlBaseVisitor {
     createNewCompletionItem(
       this.uri,
       this.completionProvider,
-      node.ymlId(),
+      node.ymlId().text,
       node.field(),
       CompletionItemKind.Property,
       this.classId,
