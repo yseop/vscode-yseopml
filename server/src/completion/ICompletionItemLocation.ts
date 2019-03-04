@@ -14,12 +14,16 @@ export interface ICompletionItemLocation {
     completion: CompletionItem;
     /**
      * The first position from which we can suggest this item.
-     * First character of a function, for example.
+     * First character of a function's body, for example.
+     * Useful to avoid giving completion suggestions pertaining to symbols
+     * that are out of the current scope.
      */
     scopeStartOffset?: number;
     /**
      * The last position to which we can suggest this item.
-     * Last character of a function, for example.
+     * Last character of a function's body, for example.
+     * Useful to avoid giving completion suggestions pertaining to symbols
+     * that are out of the current scope.
      */
     scopeEndOffset?: number;
   }

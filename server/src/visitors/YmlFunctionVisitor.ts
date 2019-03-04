@@ -54,8 +54,8 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         */
     }
     /*
-     * We need to keep track of the function position in the document
-     * This allows us to retreive its arguments and local variables.
+     * We need to keep track of the function position in the document.
+     * This allows us to retrieve its arguments and local variables.
      */
     this.scopeStartOffset = node.start.startIndex;
     this.scopeEndOffset = node.stop.stopIndex;
@@ -126,7 +126,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
     const functionNameSubParts = fullName.split("::");
     if (functionNameSubParts.length > 1) {
       methodName = functionNameSubParts.pop();
-      className = fullName.replace(new RegExp(`::${methodName}$`, "u"), "");
+      className = fullName.replace(RegExp(`::${methodName}$`, "u"), "");
     }
     return (
       className &&
