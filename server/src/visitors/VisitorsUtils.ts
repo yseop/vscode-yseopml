@@ -37,13 +37,15 @@ export function createNewCompletionItem(
   ymlId: string,
   fields: FieldContext[],
   kind: CompletionItemKind,
-  classId?: string,
+  sourceElementName?: string,
   baseType?: string,
+  scopeStartOffset?: number,
+  scopeEndOffset?: number,
 ) {
-  const currentClassId = classId ? classId : "static";
+  sourceElementName = sourceElementName ? sourceElementName : "static";
   const documentation = getDocumentation(fields);
   const returnType = getType(fields, baseType);
-  const elementId = `id_${currentClassId}_${ymlId}`;
+  const elementId = `id_${sourceElementName}_${ymlId}`;
   const completionItem = completionProvider.getItem(elementId);
   if (completionItem) {
     completionItem.documentation = documentation;
@@ -57,6 +59,8 @@ export function createNewCompletionItem(
         kind,
         label: ymlId,
       },
+      scopeEndOffset,
+      scopeStartOffset,
       uri,
     });
   }

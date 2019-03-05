@@ -1,6 +1,6 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import * as assert from "assert";
-import { CompletionItemKind } from "vscode-languageserver";
+import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
 import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { YmlDefinitionProvider } from "../definitions";
 import { YmlLexer, YmlParser } from "../grammar";
@@ -247,6 +247,20 @@ describe("Extension Server Tests", () => {
           label: "functionWithoutArgsWithPar",
         },
         {
+          data: "id_functionWithoutArgsWithPar_arg1",
+          detail: "Object",
+          documentation: "not documented",
+          kind: CompletionItemKind.Variable,
+          label: "arg1",
+        },
+        {
+          data: "id_functionWithoutArgsWithPar_arg2",
+          detail: "Text",
+          documentation: "not documented",
+          kind: CompletionItemKind.Variable,
+          label: "arg2",
+        },
+        {
           data: "id_static_collectionWithLevel2",
           detail: "Collection − Text",
           documentation: "not documented",
@@ -259,6 +273,20 @@ describe("Extension Server Tests", () => {
           documentation: "not documented",
           kind: CompletionItemKind.Function,
           label: "functionWithArgsAsBlock",
+        },
+        {
+          data: "id_functionWithArgsAsBlock_arg1",
+          detail: "Object",
+          documentation: "not documented",
+          kind: CompletionItemKind.Variable,
+          label: "arg1",
+        },
+        {
+          data: "id_functionWithArgsAsBlock_arg2",
+          detail: "Text",
+          documentation: "not documented",
+          kind: CompletionItemKind.Variable,
+          label: "arg2",
         },
       ];
       assert.deepEqual(

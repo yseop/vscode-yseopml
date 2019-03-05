@@ -167,8 +167,13 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
-  (pos: TextDocumentPositionParams): CompletionItem[] =>
-    completionProvider.getOnlyCompilationItems(),
+  (pos: TextDocumentPositionParams): CompletionItem[] => {
+    const doc: TextDocument = documents.get(pos.textDocument.uri);
+    return completionProvider.getAvailableCompletionItems(
+      pos.textDocument.uri,
+      doc.offsetAt(pos.position),
+    );
+  },
 );
 
 // This handler resolve additional information for the item selected in
