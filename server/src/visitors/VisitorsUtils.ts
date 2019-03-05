@@ -1,16 +1,47 @@
 import { Token } from "antlr4ts";
-import {
-  CompletionItemKind,
-} from "vscode-languageserver";
-import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
-import { IDefinitionLocation } from "../definitions";
-import { FieldContext, YmlIdContext } from "../grammar";
+import { Location } from "vscode-languageserver";
+import { FieldContext } from "../grammar";
 import { connection } from "../server";
+import { AbstractYmlObject } from "../yml-objects";
+
+/**
+ * Enrich an item by adding to it some informations like its type, its use scope, documentation, etc.
+ *
+ * @param completionItem The item to enrich.
+ * @param fields The attributes the item has to find from it more informations.
+ * @param sourceElementName The wrapper item. For an argument it is the function, for an attribute it is its class.
+ * @param baseType The type of the item, if it is not an information that can be found in `fields`
+ * @param scopeStartOffset The first position from which we can suggest this item.
+ * First character of a function's body, for example.
+ * Useful to avoid giving completion suggestions pertaining to symbols
+ * that are out of the current scope.
+ * @param scopeEndOffset The last position to which we can suggest this item.
+ * Last character of a function's body, for example.
+ * Useful to avoid giving completion suggestions pertaining to symbols
+ * that are out of the current scope.
+ */
+export function enrichCompletionItem(
+  completionItem: AbstractYmlObject,
+  fields: FieldContext[],
+  sourceElementName?: string,
+  baseType?: string,
+  scopeStartOffset?: number,
+  scopeEndOffset?: number,
+): void {
+  sourceElementName = sourceElementName ? sourceElementName : "static";
+  completionItem.data = `id_${sourceElementName}_${completionItem.label}`;
+  completionItem.documentation = getDocumentation(fields);
+  completionItem.detail = getType(fields, baseType);
+  if (scopeEndOffset && scopeStartOffset) {
+    completionItem.scopeEndOffset = scopeEndOffset;
+    completionItem.scopeStartOffset = scopeStartOffset;
+  }
+}
 
 const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
 const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 
-export function getDocumentation(fieldOptions: FieldContext[]): string {
+function getDocumentation(fieldOptions: FieldContext[]): string {
   try {
     for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
       const option = element.commonField();
@@ -31,42 +62,7 @@ export function getDocumentation(fieldOptions: FieldContext[]): string {
   return "not documented";
 }
 
-export function createNewCompletionItem(
-  uri: string,
-  completionProvider: YmlCompletionItemsProvider,
-  ymlId: string,
-  fields: FieldContext[],
-  kind: CompletionItemKind,
-  sourceElementName?: string,
-  baseType?: string,
-  scopeStartOffset?: number,
-  scopeEndOffset?: number,
-) {
-  sourceElementName = sourceElementName ? sourceElementName : "static";
-  const documentation = getDocumentation(fields);
-  const returnType = getType(fields, baseType);
-  const elementId = `id_${sourceElementName}_${ymlId}`;
-  const completionItem = completionProvider.getItem(elementId);
-  if (completionItem) {
-    completionItem.documentation = documentation;
-    completionItem.detail = returnType;
-  } else {
-    completionProvider.addCompletionItem({
-      completion: {
-        data: elementId,
-        detail: returnType,
-        documentation,
-        kind,
-        label: ymlId,
-      },
-      scopeEndOffset,
-      scopeStartOffset,
-      uri,
-    });
-  }
-}
-
-export function getType(
+function getType(
   fieldOptions: FieldContext[],
   baseType?: string,
 ): string {
@@ -93,25 +89,21 @@ export function getType(
 }
 
 export function createLocation(
-  entityName: string,
   startToken: Token,
   endToken: Token,
   uri: string,
-): IDefinitionLocation {
+): Location {
   return {
-    entityName,
-    location: {
-      range: {
-        end: {
-          character: endToken.charPositionInLine,
-          line: endToken.line,
-        },
-        start: {
-          character: startToken.charPositionInLine,
-          line: startToken.line - 1,
-        },
+    range: {
+      end: {
+        character: endToken.charPositionInLine,
+        line: endToken.line,
       },
-      uri,
+      start: {
+        character: startToken.charPositionInLine,
+        line: startToken.line - 1,
+      },
     },
+    uri,
   };
 }

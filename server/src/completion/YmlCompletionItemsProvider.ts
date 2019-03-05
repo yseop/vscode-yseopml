@@ -1,18 +1,16 @@
-import { ICompletionItemLocation } from "./ICompletionItemLocation";
+import { AbstractYmlObject } from "../yml-objects";
 export class YmlCompletionItemsProvider {
-  public completions: ICompletionItemLocation[] = [];
+  public completions: AbstractYmlObject[] = [];
 
   public getItem(elementId: string): any {
-    return this.completions
-      .map((elem) => elem.completion)
-      .find((elem) => elem.data === elementId);
+    return this.completions.find((elem) => elem.data === elementId);
   }
 
   /**
    * Add a completion to this provider.
    * @param complLoc The new completion to add.
    */
-  public addCompletionItem(complLoc: ICompletionItemLocation): void {
+  public addCompletionItem(complLoc: AbstractYmlObject): void {
     this.completions.push(complLoc);
   }
 
@@ -32,11 +30,11 @@ export class YmlCompletionItemsProvider {
         const scopeDefined = elem.scopeEndOffset && elem.scopeStartOffset;
         if (!scopeDefined) {
           // No information about the scope. The element is available everywhere.
-          return elem.completion;
+          return elem;
         }
         // We are in the correct file and current offset is in between the scope's start and end.
         const inTheScope = elem.uri === uri && elem.scopeStartOffset <= offset && offset <= elem.scopeEndOffset;
-        return inTheScope ? elem.completion : null;
+        return inTheScope ? elem : null;
       })
       .filter((elem) => !!elem);
   }

@@ -107,6 +107,7 @@ connection.onDidChangeConfiguration((change) => {
       pathToPredefinedObjectsXml,
       completionProvider,
     );
+    engineModel.loadPredefinedObjects();
   } else {
     engineModel.reload(pathToPredefinedObjectsXml, completionProvider);
   }

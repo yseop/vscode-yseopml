@@ -6,8 +6,7 @@ import {
 } from "antlr4ts";
 import { Diagnostic, DiagnosticSeverity, Range } from "vscode-languageserver";
 
-export class YmlParsingErrorListener
-  implements ANTLRErrorListener<Token> {
+export class YmlParsingErrorListener implements ANTLRErrorListener<Token> {
   constructor(public diagnostics: Diagnostic[]) {}
 
   public syntaxError(

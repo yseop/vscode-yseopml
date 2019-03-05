@@ -41,6 +41,7 @@
     "vsce": "^1.56.0"
   },
   "dependencies": {
+    "@types/xml2js": "^0.4.3",
     "tslint": "^5.12.1"
   }
 }

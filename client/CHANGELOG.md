@@ -1,5 +1,13 @@
 # Release Notes
 
+## 1.X.X (YYYY-MM-DD)
+
+- Improved completion from Yseop Engine's model. More elements are available such as:
+  - functions' names;
+  - text tags;
+  - methods;
+  - attributes;
+
 ## 1.4.0 (2019-03-05)
 
 - [BETA] Local variables and arguments are suggested when using autocompletion in functions.

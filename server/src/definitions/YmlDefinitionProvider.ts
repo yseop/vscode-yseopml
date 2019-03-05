@@ -1,12 +1,12 @@
 import { Definition, Location } from "vscode-languageserver";
-import { IDefinitionLocation } from "./IDefinitionLocation";
+import { AbstractYmlObject } from "../yml-objects";
 
 /**
  * Contains and provide entities definitions.
  */
 export class YmlDefinitionProvider {
 
-  public definitions: IDefinitionLocation[] = [];
+  public definitions: AbstractYmlObject[] = [];
 
   /**
    * Find all the available definition locations for the specified entityName.
@@ -18,9 +18,9 @@ export class YmlDefinitionProvider {
     if (!entityName) {
       return null;
     }
-    const defs = this.definitions
-      .filter((defLoc) => defLoc.entityName === entityName)
-      .map((defLoc) => defLoc.location)
+    const candidates = this.definitions.filter((defLoc) => defLoc.getShortName() === entityName);
+    const locations = candidates.map((defLoc) => defLoc.definitionLocation);
+    const defs = locations
       // Fill an array with the remaining locations.
       .reduce((prev: Location[], elem) => {
         prev.push(elem);
@@ -37,7 +37,7 @@ export class YmlDefinitionProvider {
    * Add a definition to this provider.
    * @param def The new definition to add.
    */
-  public addDefinition(def: IDefinitionLocation): void {
+  public addDefinition(def: AbstractYmlObject): void {
     this.definitions.push(def);
   }
 
@@ -47,7 +47,7 @@ export class YmlDefinitionProvider {
    */
   public removeDocumentDefinitions(uri: string): void {
     this.definitions = this.definitions.filter(
-      (defLoc) => defLoc.location.uri !== uri,
+      (defLoc) => defLoc.definitionLocation.uri !== uri,
     );
   }
 }

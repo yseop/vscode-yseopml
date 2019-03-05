@@ -1,8 +1,8 @@
-import { CompletionItemKind } from "vscode-languageserver";
 import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { YmlDefinitionProvider } from "../definitions";
 import { StaticDeclarationContext } from "../grammar";
-import { createLocation, createNewCompletionItem } from "./VisitorsUtils";
+import { YmlObjectInstance } from "../yml-objects";
+import { createLocation, enrichCompletionItem } from "./VisitorsUtils";
 import { YmlBaseVisitor } from "./YmlBaseVisitor";
 
 export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
@@ -15,22 +15,18 @@ export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
   }
 
   public visitStaticDeclaration(node: StaticDeclarationContext): void {
-    createNewCompletionItem(
-      this.uri,
-      this.completionProvider,
+    const instance = new YmlObjectInstance(
       node._declarationName.text,
+      this.uri,
+    );
+    enrichCompletionItem(
+      instance,
       node.field(),
-      CompletionItemKind.Variable,
       null,
       node._declarationType.text,
     );
-    this.definitions.addDefinition(
-      createLocation(
-        node._declarationName.text,
-        node.start,
-        node.stop,
-        this.uri,
-      ),
-    );
+    this.completionProvider.addCompletionItem(instance);
+    instance.definitionLocation = createLocation(node.start, node.stop, this.uri);
+    this.definitions.addDefinition(instance);
   }
 }

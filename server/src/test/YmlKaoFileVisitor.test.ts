@@ -1,6 +1,6 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import * as assert from "assert";
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
+import { CompletionItemKind } from "vscode-languageserver";
 import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { YmlDefinitionProvider } from "../definitions";
 import { YmlLexer, YmlParser } from "../grammar";
@@ -72,23 +72,48 @@ describe("Extension Server Tests", () => {
       const expectedCompletionItems = [
         {
           data: "id_City_name",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 28,
+                line: 4,
+              },
+              start: {
+                character: 16,
+                line: 2,
+              },
+            },
+            uri: "",
+          },
           detail: "String",
           documentation: "not documented",
           kind: CompletionItemKind.Property,
           label: "name",
+          uri: "",
         },
         {
           data: "id_City_country",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 28,
+                line: 7,
+              },
+              start: {
+                character: 16,
+                line: 5,
+              },
+            },
+            uri: "",
+          },
           detail: "String",
           documentation: "not documented",
           kind: CompletionItemKind.Property,
           label: "country",
+          uri: "",
         },
       ];
-      assert.deepEqual(
-        completionProvider.completions.map((elem) => elem.completion),
-        expectedCompletionItems,
-      );
+      assert.deepEqual(completionProvider.completions, expectedCompletionItems);
       done();
     });
     it("should parse a well-written YML class and provide completion for fields and methods", (done) => {
@@ -132,30 +157,69 @@ describe("Extension Server Tests", () => {
       const expectedCompletionItems = [
         {
           data: "id_City_City::getName",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 30,
+                line: 4,
+              },
+              start: {
+                character: 18,
+                line: 2,
+              },
+            },
+            uri: "",
+          },
           detail: "String",
           documentation: "not documented",
           kind: CompletionItemKind.Method,
           label: "City::getName",
+          uri: "",
         },
         {
           data: "id_City_City::writeCountry",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 30,
+                line: 7,
+              },
+              start: {
+                character: 18,
+                line: 5,
+              },
+            },
+            uri: "",
+          },
           detail: "String",
           documentation: "not documented",
           kind: CompletionItemKind.Method,
           label: "City::writeCountry",
+          uri: "",
         },
         {
           data: "id_City_inhabitants",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 36,
+                line: 11,
+              },
+              start: {
+                character: 18,
+                line: 8,
+              },
+            },
+            uri: "",
+          },
           detail: "Collection − Person",
           documentation: "not documented",
           kind: CompletionItemKind.Property,
           label: "inhabitants",
+          uri: "",
         },
       ];
-      assert.deepEqual(
-        completionProvider.completions.map((elem) => elem.completion),
-        expectedCompletionItems,
-      );
+      assert.deepEqual(completionProvider.completions, expectedCompletionItems);
       done();
     });
     // tslint:disable-next-line: max-line-length
@@ -213,38 +277,108 @@ describe("Extension Server Tests", () => {
       const expectedCompletionItems = [
         {
           data: "id_static_functionWithoutArgs",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 8,
+                line: 7,
+              },
+              start: {
+                character: 8,
+                line: 1,
+              },
+            },
+            uri: "",
+          },
           detail: "Text",
           documentation: "not documented",
           kind: CompletionItemKind.Function,
           label: "functionWithoutArgs",
+          uri: "",
         },
         {
           data: "id_static_simpleInstance",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 27,
+                line: 9,
+              },
+              start: {
+                character: 8,
+                line: 8,
+              },
+            },
+            uri: "",
+          },
           detail: "Text",
           documentation: "not documented",
           kind: CompletionItemKind.Variable,
           label: "simpleInstance",
+          uri: "",
         },
         {
           data: "id_static_functionWithoutArgs2",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 8,
+                line: 17,
+              },
+              start: {
+                character: 8,
+                line: 10,
+              },
+            },
+            uri: "",
+          },
           detail: "Text",
           documentation: "not documented",
           kind: CompletionItemKind.Function,
           label: "functionWithoutArgs2",
+          uri: "",
         },
         {
           data: "id_static_collection",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 29,
+                line: 19,
+              },
+              start: {
+                character: 8,
+                line: 18,
+              },
+            },
+            uri: "",
+          },
           detail: "Collection",
           documentation: "not documented",
           kind: CompletionItemKind.Variable,
           label: "collection",
+          uri: "",
         },
         {
           data: "id_static_functionWithoutArgsWithPar",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 8,
+                line: 24,
+              },
+              start: {
+                character: 8,
+                line: 20,
+              },
+            },
+            uri: "",
+          },
           detail: "Text",
           documentation: "not documented",
           kind: CompletionItemKind.Function,
           label: "functionWithoutArgsWithPar",
+          uri: "",
         },
         {
           data: "id_functionWithoutArgsWithPar_arg1",
@@ -252,6 +386,9 @@ describe("Extension Server Tests", () => {
           documentation: "not documented",
           kind: CompletionItemKind.Variable,
           label: "arg1",
+          scopeEndOffset: 497,
+          scopeStartOffset: 374,
+          uri: "",
         },
         {
           data: "id_functionWithoutArgsWithPar_arg2",
@@ -259,20 +396,51 @@ describe("Extension Server Tests", () => {
           documentation: "not documented",
           kind: CompletionItemKind.Variable,
           label: "arg2",
+          scopeEndOffset: 497,
+          scopeStartOffset: 374,
+          uri: "",
         },
         {
           data: "id_static_collectionWithLevel2",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 8,
+                line: 28,
+              },
+              start: {
+                character: 8,
+                line: 25,
+              },
+            },
+            uri: "",
+          },
           detail: "Collection − Text",
           documentation: "not documented",
           kind: CompletionItemKind.Variable,
           label: "collectionWithLevel2",
+          uri: "",
         },
         {
           data: "id_static_functionWithArgsAsBlock",
+          definitionLocation: {
+            range: {
+              end: {
+                character: 8,
+                line: 37,
+              },
+              start: {
+                character: 8,
+                line: 29,
+              },
+            },
+            uri: "",
+          },
           detail: "Text",
           documentation: "not documented",
           kind: CompletionItemKind.Function,
           label: "functionWithArgsAsBlock",
+          uri: "",
         },
         {
           data: "id_functionWithArgsAsBlock_arg1",
@@ -280,6 +448,9 @@ describe("Extension Server Tests", () => {
           documentation: "not documented",
           kind: CompletionItemKind.Variable,
           label: "arg1",
+          scopeEndOffset: 753,
+          scopeStartOffset: 590,
+          uri: "",
         },
         {
           data: "id_functionWithArgsAsBlock_arg2",
@@ -287,12 +458,12 @@ describe("Extension Server Tests", () => {
           documentation: "not documented",
           kind: CompletionItemKind.Variable,
           label: "arg2",
+          scopeEndOffset: 753,
+          scopeStartOffset: 590,
+          uri: "",
         },
       ];
-      assert.deepEqual(
-        completionProvider.completions.map((elem) => elem.completion),
-        expectedCompletionItems,
-      );
+      assert.deepEqual(completionProvider.completions, expectedCompletionItems);
       done();
     });
   });

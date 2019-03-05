@@ -1,4 +1,3 @@
-import { CompletionItemKind } from "vscode-languageserver";
 import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 import { YmlDefinitionProvider } from "../definitions";
 import {
@@ -7,7 +6,8 @@ import {
   MemberDeclarationContext,
   VariableBlockContentContext,
 } from "../grammar";
-import { createLocation, createNewCompletionItem } from "./VisitorsUtils";
+import { YmlArgument, YmlFunction, YmlObjectInstance } from "../yml-objects";
+import { createLocation, enrichCompletionItem } from "./VisitorsUtils";
 import { YmlBaseVisitor } from "./YmlBaseVisitor";
 
 export class YmlFunctionVisitor extends YmlBaseVisitor {
@@ -35,23 +35,22 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
     this.scopeStartOffset = 0;
     this.scopeEndOffset = 0;
     this.functionName = node.ymlId().text;
+
     if (!this.isMethodInstanciation(this.functionName)) {
-      createNewCompletionItem(
-        this.uri,
-        this.completionProvider,
-        node.ymlId().text,
+      const func = new YmlFunction(this.functionName, this.uri);
+      enrichCompletionItem(
+        func,
         node.field(),
-        CompletionItemKind.Function,
         null,
       );
-      this.definitions.addDefinition(
-        createLocation(node.ymlId().text, node.start, node.stop, this.uri),
-      );
+      this.completionProvider.addCompletionItem(func);
+      func.definitionLocation = createLocation(node.start, node.stop, this.uri);
+      this.definitions.addDefinition(func);
     } else {
-        /*
-        * The function is a method instance.
-        * It has already been added as a completion item and a definition by YmlClassVisitor.
-        */
+      /*
+       * The function is a method instance.
+       * It has already been added as a completion item and a definition by YmlClassVisitor.
+       */
     }
     /*
      * We need to keep track of the function position in the document.
@@ -70,19 +69,17 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
    * @param node A node representing a mandatory argument of a function.
    */
   public visitMandatoryArgDecl(node: MandatoryArgDeclContext): void {
-    createNewCompletionItem(
-      this.uri,
-      this.completionProvider,
-      node._argName.text,
+    const arg = new YmlArgument(node._argName.text, this.uri);
+    enrichCompletionItem(
+      arg,
       [],
-      CompletionItemKind.Variable,
       this.functionName,
       node._argType.text,
       this.scopeStartOffset,
       this.scopeEndOffset,
     );
+    this.completionProvider.addCompletionItem(arg);
   }
-
   /**
    * Visit the member declarations that are in `local` and `args` blocks of functions.
    * @param node A node containing zero or more MemberDeclarationContexts.
@@ -99,17 +96,16 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
    * @param node A node representing a local variable or a function argument.
    */
   public visitMemberDeclarationContext(node: MemberDeclarationContext): void {
-    createNewCompletionItem(
-      this.uri,
-      this.completionProvider,
-      node.ymlId().text,
+    const variable = new YmlObjectInstance(node.ymlId().text, this.uri);
+    enrichCompletionItem(
+      variable,
       node.field(),
-      CompletionItemKind.Variable,
       this.functionName,
       node._type.text,
       this.scopeStartOffset,
       this.scopeEndOffset,
     );
+    this.completionProvider.addCompletionItem(variable);
   }
 
   /**
