@@ -1,7 +1,10 @@
 import { Token } from "antlr4ts";
-import { CompletionItem, CompletionItemKind, TextDocument } from "vscode-languageserver";
-import { IDefinitionLocation } from "../definitions/IDefinitionLocation";
-import { FieldContext, YmlIdContext } from "../grammar/YmlParser";
+import {
+  CompletionItemKind,
+} from "vscode-languageserver";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
+import { IDefinitionLocation } from "../definitions";
+import { FieldContext, YmlIdContext } from "../grammar";
 import { connection } from "../server";
 
 const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
@@ -29,31 +32,36 @@ export function getDocumentation(fieldOptions: FieldContext[]): string {
 }
 
 export function createNewCompletionItem(
-  completionItems: CompletionItem[],
-  ymlIdContext: YmlIdContext,
+  uri: string,
+  completionProvider: YmlCompletionItemsProvider,
+  ymlId: string,
   fields: FieldContext[],
   kind: CompletionItemKind,
-  classId?: string,
+  sourceElementName?: string,
   baseType?: string,
+  scopeStartOffset?: number,
+  scopeEndOffset?: number,
 ) {
-  const currentClassId = classId ? classId : "static";
+  sourceElementName = sourceElementName ? sourceElementName : "static";
   const documentation = getDocumentation(fields);
   const returnType = getType(fields, baseType);
-  const ymlId = ymlIdContext.text;
-  const elementId = `id_${currentClassId}_${ymlId}`;
-  const completionItem = completionItems.find(
-    (elem) => elem.data === elementId,
-  );
+  const elementId = `id_${sourceElementName}_${ymlId}`;
+  const completionItem = completionProvider.getItem(elementId);
   if (completionItem) {
     completionItem.documentation = documentation;
     completionItem.detail = returnType;
   } else {
-    completionItems.push({
-      data: elementId,
-      detail: returnType,
-      documentation,
-      kind,
-      label: ymlId,
+    completionProvider.addCompletionItem({
+      completion: {
+        data: elementId,
+        detail: returnType,
+        documentation,
+        kind,
+        label: ymlId,
+      },
+      scopeEndOffset,
+      scopeStartOffset,
+      uri,
     });
   }
 }

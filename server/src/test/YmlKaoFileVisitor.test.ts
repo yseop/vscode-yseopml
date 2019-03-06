@@ -1,10 +1,10 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 import * as assert from "assert";
 import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
-import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
-import { YmlLexer } from "../grammar/YmlLexer";
-import { YmlParser } from "../grammar/YmlParser";
-import YmlKaoFileVisitor from "../visitors/YmlKaoFileVisitor";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
+import { YmlDefinitionProvider } from "../definitions";
+import { YmlLexer, YmlParser } from "../grammar";
+import { YmlKaoFileVisitor } from "../visitors";
 
 describe("Extension Server Tests", () => {
   describe("YmlKaoFileVisitor", () => {
@@ -16,7 +16,7 @@ describe("Extension Server Tests", () => {
 
       const result = parser.kaoFile();
       const visitor = new YmlKaoFileVisitor(
-        [],
+        new YmlCompletionItemsProvider(),
         "",
         new YmlDefinitionProvider(),
       );
@@ -62,9 +62,9 @@ describe("Extension Server Tests", () => {
       const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const completionItems: CompletionItem[] = [];
+      const completionProvider = new YmlCompletionItemsProvider();
       const visitor = new YmlKaoFileVisitor(
-        completionItems,
+        completionProvider,
         "",
         new YmlDefinitionProvider(),
       );
@@ -85,16 +85,19 @@ describe("Extension Server Tests", () => {
           label: "country",
         },
       ];
-      assert.deepEqual(completionItems, expectedCompletionItems);
+      assert.deepEqual(
+        completionProvider.completions.map((elem) => elem.completion),
+        expectedCompletionItems,
+      );
       done();
     });
     it("should parse a well-written YML class and provide completion for fields and methods", (done) => {
       const inputStream = new ANTLRInputStream(`
               interface City
-                  method name()
+                  method getName()
                   --> domains String
 
-                  textMethod country()
+                  textMethod writeCountry()
                   --> domains String
 
                   field inhabitants
@@ -119,27 +122,27 @@ describe("Extension Server Tests", () => {
       const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const completionItems: CompletionItem[] = [];
+      const completionProvider = new YmlCompletionItemsProvider();
       const visitor = new YmlKaoFileVisitor(
-        completionItems,
+        completionProvider,
         "",
         new YmlDefinitionProvider(),
       );
       visitor.visit(result);
       const expectedCompletionItems = [
         {
-          data: "id_City_name",
+          data: "id_City_City::getName",
           detail: "String",
           documentation: "not documented",
           kind: CompletionItemKind.Method,
-          label: "name",
+          label: "City::getName",
         },
         {
-          data: "id_City_country",
+          data: "id_City_City::writeCountry",
           detail: "String",
           documentation: "not documented",
           kind: CompletionItemKind.Method,
-          label: "country",
+          label: "City::writeCountry",
         },
         {
           data: "id_City_inhabitants",
@@ -149,7 +152,10 @@ describe("Extension Server Tests", () => {
           label: "inhabitants",
         },
       ];
-      assert.deepEqual(completionItems, expectedCompletionItems);
+      assert.deepEqual(
+        completionProvider.completions.map((elem) => elem.completion),
+        expectedCompletionItems,
+      );
       done();
     });
     // tslint:disable-next-line: max-line-length
@@ -197,9 +203,9 @@ describe("Extension Server Tests", () => {
       const parser = new YmlParser(tokenStream);
 
       const result = parser.kaoFile();
-      const completionItems: CompletionItem[] = [];
+      const completionProvider = new YmlCompletionItemsProvider();
       const visitor = new YmlKaoFileVisitor(
-        completionItems,
+        completionProvider,
         "",
         new YmlDefinitionProvider(),
       );
@@ -241,6 +247,20 @@ describe("Extension Server Tests", () => {
           label: "functionWithoutArgsWithPar",
         },
         {
+          data: "id_functionWithoutArgsWithPar_arg1",
+          detail: "Object",
+          documentation: "not documented",
+          kind: CompletionItemKind.Variable,
+          label: "arg1",
+        },
+        {
+          data: "id_functionWithoutArgsWithPar_arg2",
+          detail: "Text",
+          documentation: "not documented",
+          kind: CompletionItemKind.Variable,
+          label: "arg2",
+        },
+        {
           data: "id_static_collectionWithLevel2",
           detail: "Collection − Text",
           documentation: "not documented",
@@ -254,9 +274,25 @@ describe("Extension Server Tests", () => {
           kind: CompletionItemKind.Function,
           label: "functionWithArgsAsBlock",
         },
+        {
+          data: "id_functionWithArgsAsBlock_arg1",
+          detail: "Object",
+          documentation: "not documented",
+          kind: CompletionItemKind.Variable,
+          label: "arg1",
+        },
+        {
+          data: "id_functionWithArgsAsBlock_arg2",
+          detail: "Text",
+          documentation: "not documented",
+          kind: CompletionItemKind.Variable,
+          label: "arg2",
+        },
       ];
-      assert.deepEqual(completionItems, expectedCompletionItems);
-
+      assert.deepEqual(
+        completionProvider.completions.map((elem) => elem.completion),
+        expectedCompletionItems,
+      );
       done();
     });
   });

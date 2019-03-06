@@ -1,33 +1,35 @@
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
-import { connection } from "./server";
+import { CompletionItemKind } from "vscode-languageserver";
+import { connection } from "../server";
 
 import fs = require("fs");
 import xml2js = require("xml2js");
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
 
 const parser = new xml2js.Parser();
 
 export class EngineModel {
-  constructor(public path: string, public completionItems: CompletionItem[]) {
+  constructor(public path: string, public completionProvider: YmlCompletionItemsProvider) {
     this.loadPredefinedObjects();
   }
 
   public loadPredefinedObjects(): void {
     if (fs.existsSync(this.path)) {
-      this.parsePredefinedObjects(this.path, this.completionItems);
+      this.parsePredefinedObjects(this.path, this.completionProvider);
     } else {
       connection.console.warn(`File “${this.path}” doesn't exist.`);
     }
   }
 
-  public reload(path: string, completionItems: CompletionItem[]): void {
+  public reload(path: string, completionProvider: YmlCompletionItemsProvider): void {
+    this.completionProvider.removeDocumentCompletionItems(this.path);
     this.path = path;
-    this.completionItems = completionItems;
+    this.completionProvider = completionProvider;
     this.loadPredefinedObjects();
   }
 
   private parsePredefinedObjects(
     path: string,
-    completionItems: CompletionItem[],
+    completionProvider: YmlCompletionItemsProvider,
   ): void {
     connection.console.log(`Parsing definition file: ${path}`);
 
@@ -53,7 +55,7 @@ export class EngineModel {
               if (ypackage.class != null) {
                 ypackage.class.forEach((yclass) => {
                   const classyid = yclass.$.ident;
-                  addYclassCompletionItem(classyid, completionItems);
+                  addYclassCompletionItem(path, classyid, completionProvider);
                 });
               }
             });
@@ -75,21 +77,21 @@ export class EngineModel {
  * @param completionItems The completion items list.
  */
 function addYclassCompletionItem(
+  uri: string,
   classyid: string,
-  completionItems: CompletionItem[],
+  completionProvider: YmlCompletionItemsProvider,
 ): void {
+  const itemId = `id_${classyid}`;
   if (
-    !completionItems.find((elem) => {
-      return elem.data === `id_${classyid}`;
-    })
+    !completionProvider.getItem(itemId)
   ) {
     const completionItem = {
-      data: `id_${classyid}`,
+      data: itemId,
       detail: `Yseop Engine type: “${classyid}”.`,
       // ,documentation: "Its documentation can come from predefinedObjects.xml"
       kind: CompletionItemKind.Class,
       label: classyid,
     };
-    completionItems.push(completionItem);
+    completionProvider.addCompletionItem({uri, completion: completionItem});
   }
 }

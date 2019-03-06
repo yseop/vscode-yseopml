@@ -20,14 +20,12 @@ import {
 
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
 
-import { YmlParser } from "./grammar/YmlParser";
+import { YmlLexer, YmlParser } from "./grammar";
 
-import { getLastValidYmlEntityName } from "./definitions/DefinitionUtils";
-import { YmlDefinitionProvider } from "./definitions/YmlDefinitionProvider";
-import { EngineModel } from "./EngineModel";
-import { YmlLexer } from "./grammar/YmlLexer";
-import YmlKaoFileVisitor from "./visitors/YmlKaoFileVisitor";
-import { VsCodeDiagnosticErrorListener } from "./VsCodeDiagnosticErrorListener";
+import { YmlCompletionItemsProvider } from "./completion/YmlCompletionItemsProvider";
+import { getTokenAtPosInDoc, YmlDefinitionProvider } from "./definitions";
+import { EngineModel } from "./engineModel/EngineModel";
+import { YmlKaoFileVisitor, YmlParsingErrorListener } from "./visitors";
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 export const connection: IConnection = createConnection(
@@ -40,7 +38,7 @@ connection.console.log(
 );
 
 const definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
-const completionItems: CompletionItem[] = [];
+const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsProvider();
 
 // Create a simple text document manager. The text document manager
 // supports full document sync only
@@ -105,9 +103,12 @@ connection.onDidChangeConfiguration((change) => {
     settings.yseopml.activateParsingProblemsReporting;
   pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
   if (engineModel == null) {
-    engineModel = new EngineModel(pathToPredefinedObjectsXml, completionItems);
+    engineModel = new EngineModel(
+      pathToPredefinedObjectsXml,
+      completionProvider,
+    );
   } else {
-    engineModel.reload(pathToPredefinedObjectsXml, completionItems);
+    engineModel.reload(pathToPredefinedObjectsXml, completionProvider);
   }
   // Revalidate any open text documents
   documents.all().forEach(validateTextDocument);
@@ -117,7 +118,7 @@ function validateTextDocument(textDocument: TextDocument): void {
   connection.console.log(
     `Yseop.vscode-yseopml − Validating ${textDocument.uri}`,
   );
-
+  const textDocUri = textDocument.uri;
   const diagnostics: Diagnostic[] = [];
 
   // Create the lexer and parser
@@ -126,40 +127,53 @@ function validateTextDocument(textDocument: TextDocument): void {
   const tokenStream = new CommonTokenStream(lexer);
   const parser = new YmlParser(tokenStream);
   parser.removeErrorListeners();
-  parser.addErrorListener(new VsCodeDiagnosticErrorListener(diagnostics));
+  parser.addErrorListener(new YmlParsingErrorListener(diagnostics));
 
-  // Parse the input, where `compilationUnit` is whatever entry point you defined
+  // Parse the input.
   const result = parser.kaoFile();
-  definitionsProvider.removeDocumentDefinitions(textDocument.uri);
+  // Reset all the document's definitions.
+  definitionsProvider.removeDocumentDefinitions(textDocUri);
+  // Reset all the document's completion items.
+  completionProvider.removeDocumentCompletionItems(textDocUri);
 
   const visitor = new YmlKaoFileVisitor(
-    completionItems,
-    textDocument.uri,
+    completionProvider,
+    textDocUri,
     definitionsProvider,
   );
+  // Visit the result of the parsing.
+  // This fill the completionProvider and the definitionsProvider.
   visitor.visit(result);
 
   // Send the computed diagnostics to VSCode.
   if (activateParsingProblemsReporting) {
-    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+    connection.sendDiagnostics({ uri: textDocUri, diagnostics });
   } else {
-    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics: [] });
+    connection.sendDiagnostics({ uri: textDocUri, diagnostics: [] });
   }
 }
 
 connection.onDefinition((pos: TextDocumentPositionParams) => {
   const doc: TextDocument = documents.get(pos.textDocument.uri);
-  const documentContentToPos = doc.getText().substr(0, doc.offsetAt(pos.position));
-  const lastWord = getLastValidYmlEntityName(documentContentToPos);
-  if (!lastWord) {
+  const entityName = getTokenAtPosInDoc(
+    doc.getText(),
+    doc.offsetAt(pos.position),
+  );
+  if (!entityName) {
     return null;
   }
-  return definitionsProvider.findDefinitions(lastWord);
+  return definitionsProvider.findDefinitions(entityName);
 });
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
-  (pos: TextDocumentPositionParams): CompletionItem[] => completionItems,
+  (pos: TextDocumentPositionParams): CompletionItem[] => {
+    const doc: TextDocument = documents.get(pos.textDocument.uri);
+    return completionProvider.getAvailableCompletionItems(
+      pos.textDocument.uri,
+      doc.offsetAt(pos.position),
+    );
+  },
 );
 
 // This handler resolve additional information for the item selected in

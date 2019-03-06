@@ -1,22 +1,24 @@
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
-import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
-import { StaticDeclarationContext } from "../grammar/YmlParser";
-import { createLocation, createNewCompletionItem } from "./utils";
-import YmlBaseVisitor from "./YmlBaseVisitor";
+import { CompletionItemKind } from "vscode-languageserver";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
+import { YmlDefinitionProvider } from "../definitions";
+import { StaticDeclarationContext } from "../grammar";
+import { createLocation, createNewCompletionItem } from "./VisitorsUtils";
+import { YmlBaseVisitor } from "./YmlBaseVisitor";
 
 export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
   constructor(
-    completionItems: CompletionItem[],
+    completionProvider: YmlCompletionItemsProvider,
     uri: string,
     public definitions: YmlDefinitionProvider,
   ) {
-    super(completionItems, uri);
+    super(completionProvider, uri);
   }
 
   public visitStaticDeclaration(node: StaticDeclarationContext): void {
     createNewCompletionItem(
-      this.completionItems,
-      node._declarationName,
+      this.uri,
+      this.completionProvider,
+      node._declarationName.text,
       node.field(),
       CompletionItemKind.Variable,
       null,

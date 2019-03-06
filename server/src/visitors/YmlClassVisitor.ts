@@ -1,28 +1,35 @@
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
-import { YmlDefinitionProvider } from "../definitions/YmlDefinitionProvider";
+import { CompletionItemKind } from "vscode-languageserver";
+import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
+import { YmlDefinitionProvider } from "../definitions";
 import {
   ClassAttributeDeclarationContext,
   ClassDeclarationIntroContext,
   MethodDeclarationContext,
-} from "../grammar/YmlParser";
-import { createLocation, createNewCompletionItem } from "./utils";
-import YmlBaseVisitor from "./YmlBaseVisitor";
+} from "../grammar";
+import { createLocation, createNewCompletionItem } from "./VisitorsUtils";
+import { YmlBaseVisitor } from "./YmlBaseVisitor";
 
 export class YmlClassVisitor extends YmlBaseVisitor {
   private classId: string;
 
   constructor(
-    completionItems: CompletionItem[],
+    completionProvider: YmlCompletionItemsProvider,
     uri: string,
     public definitions: YmlDefinitionProvider,
   ) {
-    super(completionItems, uri);
+    super(completionProvider, uri);
   }
 
   public visitMethodDeclaration(node: MethodDeclarationContext): any {
     createNewCompletionItem(
-      this.completionItems,
-      node.methodIntro().ymlId(),
+      this.uri,
+      this.completionProvider,
+      /*
+       * YML fact:
+       * A class “MyClass” that declares a method “myMethod” will implement it by naming it “MyClass::myMethod”.
+       * Otherwise, there will be compilation errors.
+       */
+      `${this.classId}::${node.methodIntro().ymlId().text}`,
       node.field(),
       CompletionItemKind.Method,
       this.classId,
@@ -41,8 +48,9 @@ export class YmlClassVisitor extends YmlBaseVisitor {
     node: ClassAttributeDeclarationContext,
   ) {
     createNewCompletionItem(
-      this.completionItems,
-      node.ymlId(),
+      this.uri,
+      this.completionProvider,
+      node.ymlId().text,
       node.field(),
       CompletionItemKind.Property,
       this.classId,
