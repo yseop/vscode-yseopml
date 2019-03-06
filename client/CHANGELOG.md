@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.4.0 (YYYY-MM-DD)
+## 1.4.0 (2019-03-05)
 
 - [BETA] Local variables and arguments are suggested when using autocompletion in functions.
   - Variables declared within “for” loops, as well as those declared using the arrow operator (`--> local …`), are not handled yet.
