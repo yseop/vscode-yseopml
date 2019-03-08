@@ -1,8 +1,8 @@
-import { YmlArgument } from "./YmlArgument";
+import { YmlArgument } from './YmlArgument';
 
 export class YmlArgs {
-  public arityMin: number;
-  public arityMax: number;
-  public namedArguments: boolean;
-  public arguments: YmlArgument[];
+    public arityMin: number;
+    public arityMax: number;
+    public namedArguments: boolean;
+    public arguments: YmlArgument[];
 }

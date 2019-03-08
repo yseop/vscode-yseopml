@@ -1,21 +1,22 @@
-import { CompletionItemKind } from "vscode-languageserver";
-import { AbstractYmlObject, YmlType } from "./AbstractYmlObject";
-import { YmlSymbolList } from "./YmlSymbolList";
+import { CompletionItemKind } from 'vscode-languageserver';
+
+import { AbstractYmlObject, YmlType } from './AbstractYmlObject';
+import { YmlSymbolList } from './YmlSymbolList';
 
 export enum ImplicitKey {
-  EXCLUSIVE,
-  INCLUSIVE,
+    EXCLUSIVE,
+    INCLUSIVE,
 }
 
 export class YmlArgument extends AbstractYmlObject {
-  public domains?: YmlType;
-  public domainsLevel2?: YmlType;
-  public symbolList?: YmlSymbolList;
-  public key?: string;
-  public implicitKey?: boolean;
-  public aloneKey?: ImplicitKey;
+    public domains?: YmlType;
+    public domainsLevel2?: YmlType;
+    public symbolList?: YmlSymbolList;
+    public key?: string;
+    public implicitKey?: boolean;
+    public aloneKey?: ImplicitKey;
 
-  constructor(indentifier: string, uri: string) {
-    super(indentifier, CompletionItemKind.Variable, uri);
-  }
+    constructor(indentifier: string, uri: string) {
+        super(indentifier, CompletionItemKind.Variable, uri);
+    }
 }
