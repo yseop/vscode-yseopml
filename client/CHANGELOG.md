@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.X.X (YYYY-MM-DD)
+
+- Fix syntax highlighting for keywords `local`, `args`, `Function` and `break`.
+
 ## 1.4.0 (2019-03-05)
 
 - [BETA] Local variables and arguments are suggested when using autocompletion in functions.
