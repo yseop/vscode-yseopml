@@ -7,7 +7,7 @@
   - functions' names;
   - text tags;
   - methods;
-  - attributes;
+  - attributes.
 
 ## 1.4.0 (2019-03-05)
 

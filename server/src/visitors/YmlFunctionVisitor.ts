@@ -6,8 +6,8 @@ import {
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
+import { connection } from '../server';
 import { YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
-import { createLocation, enrichCompletionItem } from './VisitorsUtils';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 
 export class YmlFunctionVisitor extends YmlBaseVisitor {
@@ -38,9 +38,9 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
         if (!this.isMethodInstanciation(this.functionName)) {
             const func = new YmlFunction(this.functionName, this.uri);
-            enrichCompletionItem(func, node.field(), null);
+            func.enrichWith(node.field(), null);
             this.completionProvider.addCompletionItem(func);
-            func.definitionLocation = createLocation(node.start, node.stop, this.uri);
+            func.setDefinitionLocation(node.start, node.stop, this.uri);
             this.definitions.addDefinition(func);
         } else {
             /*
@@ -66,9 +66,9 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      */
     public visitMandatoryArgDecl(node: MandatoryArgDeclContext): void {
         const arg = new YmlArgument(node._argName.text, this.uri);
-        enrichCompletionItem(
-            arg,
+        arg.enrichWith(
             [],
+            connection,
             this.functionName,
             node._argType.text,
             this.scopeStartOffset,
@@ -93,9 +93,9 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      */
     public visitMemberDeclarationContext(node: MemberDeclarationContext): void {
         const variable = new YmlObjectInstance(node.ymlId().text, this.uri);
-        enrichCompletionItem(
-            variable,
+        variable.enrichWith(
             node.field(),
+            connection,
             this.functionName,
             node._type.text,
             this.scopeStartOffset,

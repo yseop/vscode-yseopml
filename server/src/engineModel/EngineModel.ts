@@ -62,7 +62,7 @@ export class EngineModel {
     /**
      * Import all the YML text tags.
      *
-     * @param yclass The data structure resulting of parsing `predefinedObjects.xml`.
+     * @param yclass The data structure resulting from the parsing of `predefinedObjects.xml`.
      */
     private buildYmlClass(yclass: any): void {
         const ymlClass: YmlClass = new YmlClass(yclass.$.ident, this.uri);
@@ -114,9 +114,10 @@ export class EngineModel {
                     connection.console.error('Something went wrong during YE model import. Your file seems empty.');
                 } else {
                     try {
-                        this.importClasses(predefinedObjects);
-                        this.importFunctions(predefinedObjects);
-                        this.importTags(predefinedObjects);
+                        const dataAndFeatures = predefinedObjects['data-and-features'];
+                        this.importClasses(dataAndFeatures);
+                        this.importFunctions(dataAndFeatures);
+                        this.importTags(dataAndFeatures);
                     } catch (importErr) {
                         connection.console.error(`Something went wrong during YE model import:\n ${importErr}`);
                     }
@@ -131,11 +132,31 @@ export class EngineModel {
     /**
      * Import all the YML classes.
      *
-     * @param predefinedObjects The data structure resulting of parsing `predefinedObjects.xml`.
+     * ```XML
+     * <data-and-features>
+     *  [...]
+     *  <classes>
+     *      <package ident="yseop.lang">
+     *          <class ident="id1">
+     *              [...]
+     *          </class>
+     *          <class ident="id1">
+     *              [...]
+     *          </class>
+     *      </package>
+     *      <package ident="xxx">
+     *          [...]
+     *      </package>
+     *  </classes>
+     * </data-and-features>
+     * ```
+     *
+     * @param dataAndFeatures The data structure resulting from the parsing of `predefinedObjects.xml`.
      */
-    private importClasses(predefinedObjects: any): void {
+    private importClasses(dataAndFeatures: any): void {
         connection.console.log('Importing classes from Yseop Engine model.');
-        const classesByPackage = predefinedObjects['data-and-features'].classes[0].package;
+        // Get the single “classes” element.
+        const classesByPackage = dataAndFeatures.classes[0].package;
         classesByPackage.forEach((ypackage) => {
             if (ypackage.class == null) {
                 return;
@@ -150,10 +171,30 @@ export class EngineModel {
     /**
      * Import all the YML static functions.
      *
-     * @param predefinedObjects The data structure resulting of parsing `predefinedObjects.xml`.
+     * ```XML
+     * <data-and-features>
+     *  [...]
+     *  <functions>
+     *      <function ident="func1">
+     *          <args [...]>
+     *              [...]
+     *          </args>
+     *          <return [...]>
+     *              [...]
+     *          </return>
+     *      </function>
+     *      <function ident="func2">
+     *          [...]
+     *      </function>
+     *  </functions>
+     * </data-and-features>
+     * ```
+     *
+     * @param dataAndFeatures The data structure resulting from the parsing of `predefinedObjects.xml`.
      */
-    private importFunctions(predefinedObjects: any): any {
-        const ymlFunctions = predefinedObjects['data-and-features'].functions[0];
+    private importFunctions(dataAndFeatures: any): any {
+        // Get the single “functions” element.
+        const ymlFunctions = dataAndFeatures.functions[0];
         ymlFunctions.function.forEach((func) => {
             const yFunction = this.buildYmlFunction(func);
             this.completionProvider.addCompletionItem(yFunction);
@@ -163,10 +204,27 @@ export class EngineModel {
     /**
      * Import all the YML text tags.
      *
-     * @param predefinedObjects The data structure resulting of parsing `predefinedObjects.xml`.
+     * ```XML
+     * <data-and-features>
+     *  [...]
+     *  <text-tags>
+     *      <tag ident="\tag1">
+     *          <args [...]>
+     *              [...]
+     *          </args>
+     *      </tag>
+     *      <tag ident="\tag2">
+     *          [...]
+     *      </tag>
+     *  </text-tags>
+     * </data-and-features>
+     * ```
+     *
+     * @param dataAndFeatures The data structure resulting from the parsing of `predefinedObjects.xml`.
      */
-    private importTags(predefinedObjects: any): void {
-        const textTags = predefinedObjects['data-and-features']['text-tags'][0];
+    private importTags(dataAndFeatures: any): void {
+        // Get the single “text-tags” element.
+        const textTags = dataAndFeatures['text-tags'][0];
         textTags.tag.forEach((tag) => {
             const textTag = this.buildYmlFunction(tag);
             this.completionProvider.addCompletionItem(textTag);
