@@ -3,6 +3,11 @@
 ## 1.X.X (YYYY-MM-DD)
 
 - Fix syntax highlighting for keywords `local`, `args`, `Function` and `break`.
+- Improved completion from Yseop Engine's model. More elements are available such as:
+  - functions' names;
+  - text tags;
+  - methods;
+  - attributes;
 
 ## 1.4.0 (2019-03-05)
 
