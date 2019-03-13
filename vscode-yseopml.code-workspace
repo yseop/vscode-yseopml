@@ -1,0 +1,63 @@
+{
+    "folders": [{
+        "name": "vscode-yseopml",
+        "path": "."
+    }],
+    "extensions": {
+        "recommendations": [
+            "loiane.ts-extension-pack",
+            "waderyan.nodejs-extension-pack",
+            "formulahendry.auto-rename-tag",
+            "formulahendry.auto-close-tag",
+            "orta.vscode-jest",
+            "shinnn.stylelint",
+            "sonarsource.sonarlint-vscode"
+        ],
+        "unwantedRecommendations": []
+    },
+    "settings": {
+        "typescript.tsdk": "./node_modules/typescript/lib",
+        "typescript.tsc.autoDetect": "on",
+        "antlr4.format": {
+            "alignTrailingComments": false,
+            "allowShortBlocksOnASingleLine": true,
+            "breakBeforeBraces": true,
+            "columnLimit": 120,
+            "continuationIndentWidth": 4,
+            "indentWidth": 4,
+            "keepEmptyLinesAtTheStartOfBlocks": false,
+            "maxEmptyLinesToKeep": 1,
+            "reflowComments": false,
+            "spaceBeforeAssignmentOperators": false,
+            "tabWidth": 4,
+            "useTab": false,
+            "alignColons": "none",
+            "singleLineOverrulesHangingColon": false,
+            "allowShortRulesOnASingleLine": true,
+            "alignSemicolons": "ownLine",
+            "breakBeforeParens": true,
+            "ruleInternalsOnSingleLine": false,
+            "minEmptyLines": 0,
+            "groupedAlignments": false,
+            "alignFirstTokens": false,
+            "alignLexerCommands": false,
+            "alignActions": false,
+            "alignLabels": true,
+            "alignTrailers": false
+        },
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.tslint": true
+        },
+        "jest.pathToJest": "npm test --",
+        "prettier.stylelintIntegration": true,
+        "prettier.tslintIntegration": true,
+        "tslint.jsEnable": true,
+        "typescriptHero.imports.organizeOnSave": true,
+        "typescriptHero.imports.multiLineWrapThreshold": 120,
+        "typescriptHero.imports.grouping": ["/reflect-metadata/", "Plains", "Modules", "Workspace"]
+    }
+}

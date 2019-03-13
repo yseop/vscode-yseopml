@@ -1,42 +1,39 @@
-import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
-import * as assert from "assert";
-import { CompletionItem, CompletionItemKind } from "vscode-languageserver";
-import { YmlCompletionItemsProvider } from "../completion/YmlCompletionItemsProvider";
-import { YmlDefinitionProvider } from "../definitions";
-import { YmlLexer, YmlParser } from "../grammar";
-import { YmlKaoFileVisitor } from "../visitors";
+import { ANTLRInputStream, CommonTokenStream } from 'antlr4ts';
+import * as assert from 'assert';
+import { CompletionItemKind } from 'vscode-languageserver';
 
-describe("Extension Server Tests", () => {
-  describe("YmlKaoFileVisitor", () => {
-    it("should be OK to instantiate YmlKaoFileVisitor", (done) => {
-      const inputStream = new ANTLRInputStream("");
-      const lexer = new YmlLexer(inputStream);
-      const tokenStream = new CommonTokenStream(lexer);
-      const parser = new YmlParser(tokenStream);
+import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
+import { YmlDefinitionProvider } from '../definitions';
+import { YmlLexer, YmlParser } from '../grammar';
+import { YmlKaoFileVisitor } from '../visitors';
 
-      const result = parser.kaoFile();
-      const visitor = new YmlKaoFileVisitor(
-        new YmlCompletionItemsProvider(),
-        "",
-        new YmlDefinitionProvider(),
-      );
-      visitor.visit(result);
-      done();
-    });
+describe('Extension Server Tests', () => {
+    describe('YmlKaoFileVisitor', () => {
+        it('should be OK to instantiate YmlKaoFileVisitor', (done) => {
+            const inputStream = new ANTLRInputStream('');
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const parser = new YmlParser(tokenStream);
 
-    it("should be able to parse a string", (done) => {
-      const inputStream = new ANTLRInputStream('"foo bar"');
-      const lexer = new YmlLexer(inputStream);
-      const tokenStream = new CommonTokenStream(lexer);
-      const tokens = tokenStream.getTokens();
-      assert.equal(tokens.length, 1);
-      assert.equal(tokens[0].startIndex, 0);
-      assert.equal(tokens[0].stopIndex, 8);
-      done();
-    });
+            const result = parser.kaoFile();
+            const visitor = new YmlKaoFileVisitor(new YmlCompletionItemsProvider(), '', new YmlDefinitionProvider());
+            visitor.visit(result);
+            done();
+        });
 
-    it("should parse a well-written YML class and provide completion for fields", (done) => {
-      const inputStream = new ANTLRInputStream(`
+        it('should be able to parse a string', (done) => {
+            const inputStream = new ANTLRInputStream('"foo bar"');
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const tokens = tokenStream.getTokens();
+            assert.equal(tokens.length, 1);
+            assert.equal(tokens[0].startIndex, 0);
+            assert.equal(tokens[0].stopIndex, 8);
+            done();
+        });
+
+        it('should parse a well-written YML class and provide completion for fields', (done) => {
+            const inputStream = new ANTLRInputStream(`
             interface City
                 field name
                 --> domains String
@@ -57,42 +54,63 @@ describe("Extension Server Tests", () => {
                 implementation City
                 ;
             `);
-      const lexer = new YmlLexer(inputStream);
-      const tokenStream = new CommonTokenStream(lexer);
-      const parser = new YmlParser(tokenStream);
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const parser = new YmlParser(tokenStream);
 
-      const result = parser.kaoFile();
-      const completionProvider = new YmlCompletionItemsProvider();
-      const visitor = new YmlKaoFileVisitor(
-        completionProvider,
-        "",
-        new YmlDefinitionProvider(),
-      );
-      visitor.visit(result);
-      const expectedCompletionItems = [
-        {
-          data: "id_City_name",
-          detail: "String",
-          documentation: "not documented",
-          kind: CompletionItemKind.Property,
-          label: "name",
-        },
-        {
-          data: "id_City_country",
-          detail: "String",
-          documentation: "not documented",
-          kind: CompletionItemKind.Property,
-          label: "country",
-        },
-      ];
-      assert.deepEqual(
-        completionProvider.completions.map((elem) => elem.completion),
-        expectedCompletionItems,
-      );
-      done();
-    });
-    it("should parse a well-written YML class and provide completion for fields and methods", (done) => {
-      const inputStream = new ANTLRInputStream(`
+            const result = parser.kaoFile();
+            const completionProvider = new YmlCompletionItemsProvider();
+            const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
+            visitor.visit(result);
+            const expectedCompletionItems = [
+                {
+                    data: 'id_City_name',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 28,
+                                line: 4,
+                            },
+                            start: {
+                                character: 16,
+                                line: 2,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'String',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Property,
+                    label: 'name',
+                    uri: '',
+                },
+                {
+                    data: 'id_City_country',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 28,
+                                line: 7,
+                            },
+                            start: {
+                                character: 16,
+                                line: 5,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'String',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Property,
+                    label: 'country',
+                    uri: '',
+                },
+            ];
+            assert.deepEqual(completionProvider.completions, expectedCompletionItems);
+            done();
+        });
+        it('should parse a well-written YML class and provide completion for fields and methods', (done) => {
+            const inputStream = new ANTLRInputStream(`
               interface City
                   method getName()
                   --> domains String
@@ -117,50 +135,85 @@ describe("Extension Server Tests", () => {
                   implementation City
                   ;
               `);
-      const lexer = new YmlLexer(inputStream);
-      const tokenStream = new CommonTokenStream(lexer);
-      const parser = new YmlParser(tokenStream);
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const parser = new YmlParser(tokenStream);
 
-      const result = parser.kaoFile();
-      const completionProvider = new YmlCompletionItemsProvider();
-      const visitor = new YmlKaoFileVisitor(
-        completionProvider,
-        "",
-        new YmlDefinitionProvider(),
-      );
-      visitor.visit(result);
-      const expectedCompletionItems = [
-        {
-          data: "id_City_City::getName",
-          detail: "String",
-          documentation: "not documented",
-          kind: CompletionItemKind.Method,
-          label: "City::getName",
-        },
-        {
-          data: "id_City_City::writeCountry",
-          detail: "String",
-          documentation: "not documented",
-          kind: CompletionItemKind.Method,
-          label: "City::writeCountry",
-        },
-        {
-          data: "id_City_inhabitants",
-          detail: "Collection − Person",
-          documentation: "not documented",
-          kind: CompletionItemKind.Property,
-          label: "inhabitants",
-        },
-      ];
-      assert.deepEqual(
-        completionProvider.completions.map((elem) => elem.completion),
-        expectedCompletionItems,
-      );
-      done();
-    });
-    // tslint:disable-next-line: max-line-length
-    it("should parse a well-written YML file containing instances and functions and provide completion for them", (done) => {
-      const inputStream = new ANTLRInputStream(`
+            const result = parser.kaoFile();
+            const completionProvider = new YmlCompletionItemsProvider();
+            const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
+            visitor.visit(result);
+            const expectedCompletionItems = [
+                {
+                    data: 'id_City_City::getName',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 30,
+                                line: 4,
+                            },
+                            start: {
+                                character: 18,
+                                line: 2,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'String',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Method,
+                    label: 'City::getName',
+                    uri: '',
+                },
+                {
+                    data: 'id_City_City::writeCountry',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 30,
+                                line: 7,
+                            },
+                            start: {
+                                character: 18,
+                                line: 5,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'String',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Method,
+                    label: 'City::writeCountry',
+                    uri: '',
+                },
+                {
+                    data: 'id_City_inhabitants',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 36,
+                                line: 11,
+                            },
+                            start: {
+                                character: 18,
+                                line: 8,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'Collection − Person',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Property,
+                    label: 'inhabitants',
+                    uri: '',
+                },
+            ];
+            assert.deepEqual(completionProvider.completions, expectedCompletionItems);
+            done();
+        });
+        // tslint:disable-next-line: max-line-length
+        it('should parse a well-written YML file containing instances and functions and provide completion for them', (done) => {
+            const inputStream = new ANTLRInputStream(`
         function functionWithoutArgs()
           --> domains Text
           --> action {
@@ -198,102 +251,205 @@ describe("Extension Server Tests", () => {
         --> return "it works"
         ;
       `);
-      const lexer = new YmlLexer(inputStream);
-      const tokenStream = new CommonTokenStream(lexer);
-      const parser = new YmlParser(tokenStream);
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const parser = new YmlParser(tokenStream);
 
-      const result = parser.kaoFile();
-      const completionProvider = new YmlCompletionItemsProvider();
-      const visitor = new YmlKaoFileVisitor(
-        completionProvider,
-        "",
-        new YmlDefinitionProvider(),
-      );
-      visitor.visit(result);
-      const expectedCompletionItems = [
-        {
-          data: "id_static_functionWithoutArgs",
-          detail: "Text",
-          documentation: "not documented",
-          kind: CompletionItemKind.Function,
-          label: "functionWithoutArgs",
-        },
-        {
-          data: "id_static_simpleInstance",
-          detail: "Text",
-          documentation: "not documented",
-          kind: CompletionItemKind.Variable,
-          label: "simpleInstance",
-        },
-        {
-          data: "id_static_functionWithoutArgs2",
-          detail: "Text",
-          documentation: "not documented",
-          kind: CompletionItemKind.Function,
-          label: "functionWithoutArgs2",
-        },
-        {
-          data: "id_static_collection",
-          detail: "Collection",
-          documentation: "not documented",
-          kind: CompletionItemKind.Variable,
-          label: "collection",
-        },
-        {
-          data: "id_static_functionWithoutArgsWithPar",
-          detail: "Text",
-          documentation: "not documented",
-          kind: CompletionItemKind.Function,
-          label: "functionWithoutArgsWithPar",
-        },
-        {
-          data: "id_functionWithoutArgsWithPar_arg1",
-          detail: "Object",
-          documentation: "not documented",
-          kind: CompletionItemKind.Variable,
-          label: "arg1",
-        },
-        {
-          data: "id_functionWithoutArgsWithPar_arg2",
-          detail: "Text",
-          documentation: "not documented",
-          kind: CompletionItemKind.Variable,
-          label: "arg2",
-        },
-        {
-          data: "id_static_collectionWithLevel2",
-          detail: "Collection − Text",
-          documentation: "not documented",
-          kind: CompletionItemKind.Variable,
-          label: "collectionWithLevel2",
-        },
-        {
-          data: "id_static_functionWithArgsAsBlock",
-          detail: "Text",
-          documentation: "not documented",
-          kind: CompletionItemKind.Function,
-          label: "functionWithArgsAsBlock",
-        },
-        {
-          data: "id_functionWithArgsAsBlock_arg1",
-          detail: "Object",
-          documentation: "not documented",
-          kind: CompletionItemKind.Variable,
-          label: "arg1",
-        },
-        {
-          data: "id_functionWithArgsAsBlock_arg2",
-          detail: "Text",
-          documentation: "not documented",
-          kind: CompletionItemKind.Variable,
-          label: "arg2",
-        },
-      ];
-      assert.deepEqual(
-        completionProvider.completions.map((elem) => elem.completion),
-        expectedCompletionItems,
-      );
-      done();
+            const result = parser.kaoFile();
+            const completionProvider = new YmlCompletionItemsProvider();
+            const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
+            visitor.visit(result);
+            const expectedCompletionItems = [
+                {
+                    data: 'id_static_functionWithoutArgs',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 8,
+                                line: 7,
+                            },
+                            start: {
+                                character: 8,
+                                line: 1,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'Text',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Function,
+                    label: 'functionWithoutArgs',
+                    uri: '',
+                },
+                {
+                    data: 'id_static_simpleInstance',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 27,
+                                line: 9,
+                            },
+                            start: {
+                                character: 8,
+                                line: 8,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'Text',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Variable,
+                    label: 'simpleInstance',
+                    uri: '',
+                },
+                {
+                    data: 'id_static_functionWithoutArgs2',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 8,
+                                line: 17,
+                            },
+                            start: {
+                                character: 8,
+                                line: 10,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'Text',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Function,
+                    label: 'functionWithoutArgs2',
+                    uri: '',
+                },
+                {
+                    data: 'id_static_collection',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 29,
+                                line: 19,
+                            },
+                            start: {
+                                character: 8,
+                                line: 18,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'Collection',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Variable,
+                    label: 'collection',
+                    uri: '',
+                },
+                {
+                    data: 'id_static_functionWithoutArgsWithPar',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 8,
+                                line: 24,
+                            },
+                            start: {
+                                character: 8,
+                                line: 20,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'Text',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Function,
+                    label: 'functionWithoutArgsWithPar',
+                    uri: '',
+                },
+                {
+                    data: 'id_functionWithoutArgsWithPar_arg1',
+                    detail: 'Object',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Variable,
+                    label: 'arg1',
+                    scopeEndOffset: 497,
+                    scopeStartOffset: 374,
+                    uri: '',
+                },
+                {
+                    data: 'id_functionWithoutArgsWithPar_arg2',
+                    detail: 'Text',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Variable,
+                    label: 'arg2',
+                    scopeEndOffset: 497,
+                    scopeStartOffset: 374,
+                    uri: '',
+                },
+                {
+                    data: 'id_static_collectionWithLevel2',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 8,
+                                line: 28,
+                            },
+                            start: {
+                                character: 8,
+                                line: 25,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'Collection − Text',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Variable,
+                    label: 'collectionWithLevel2',
+                    uri: '',
+                },
+                {
+                    data: 'id_static_functionWithArgsAsBlock',
+                    definitionLocation: {
+                        range: {
+                            end: {
+                                character: 8,
+                                line: 37,
+                            },
+                            start: {
+                                character: 8,
+                                line: 29,
+                            },
+                        },
+                        uri: '',
+                    },
+                    detail: 'Text',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Function,
+                    label: 'functionWithArgsAsBlock',
+                    uri: '',
+                },
+                {
+                    data: 'id_functionWithArgsAsBlock_arg1',
+                    detail: 'Object',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Variable,
+                    label: 'arg1',
+                    scopeEndOffset: 753,
+                    scopeStartOffset: 590,
+                    uri: '',
+                },
+                {
+                    data: 'id_functionWithArgsAsBlock_arg2',
+                    detail: 'Text',
+                    documentation: 'not documented',
+                    kind: CompletionItemKind.Variable,
+                    label: 'arg2',
+                    scopeEndOffset: 753,
+                    scopeStartOffset: 590,
+                    uri: '',
+                },
+            ];
+            assert.deepEqual(completionProvider.completions, expectedCompletionItems);
+            done();
+        });
     });
-  });
 });
