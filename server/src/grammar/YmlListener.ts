@@ -78,10 +78,13 @@ import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { Instruction_ifContext } from "./YmlParser";
+import { Instruction_forallContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
 import { Instruction_returnContext } from "./YmlParser";
 import { Instruction_chainedCallContext } from "./YmlParser";
 import { InstructionContext } from "./YmlParser";
+import { Instruction_doContext } from "./YmlParser";
+import { Instruction_try_catchContext } from "./YmlParser";
 import { ActionBlockContext } from "./YmlParser";
 import { ArithmeticExpressionContext } from "./YmlParser";
 import { ExistentialOperatorContext } from "./YmlParser";
@@ -91,7 +94,8 @@ import { ExternDeclarationContext } from "./YmlParser";
 import { ArrayContext } from "./YmlParser";
 import { ConstListContext } from "./YmlParser";
 import { GranuleContext } from "./YmlParser";
-import { CompleteContext } from "./YmlParser";
+import { ObjectCompleteContext } from "./YmlParser";
+import { ClassCompleteContext } from "./YmlParser";
 
 
 /**
@@ -925,6 +929,17 @@ export interface YmlListener extends ParseTreeListener {
 	exitInstruction_if?: (ctx: Instruction_ifContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `YmlParser.instruction_forall`.
+	 * @param ctx the parse tree
+	 */
+	enterInstruction_forall?: (ctx: Instruction_forallContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.instruction_forall`.
+	 * @param ctx the parse tree
+	 */
+	exitInstruction_forall?: (ctx: Instruction_forallContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_while`.
 	 * @param ctx the parse tree
 	 */
@@ -967,6 +982,28 @@ export interface YmlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitInstruction?: (ctx: InstructionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.instruction_do`.
+	 * @param ctx the parse tree
+	 */
+	enterInstruction_do?: (ctx: Instruction_doContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.instruction_do`.
+	 * @param ctx the parse tree
+	 */
+	exitInstruction_do?: (ctx: Instruction_doContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.instruction_try_catch`.
+	 * @param ctx the parse tree
+	 */
+	enterInstruction_try_catch?: (ctx: Instruction_try_catchContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.instruction_try_catch`.
+	 * @param ctx the parse tree
+	 */
+	exitInstruction_try_catch?: (ctx: Instruction_try_catchContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.actionBlock`.
@@ -1068,14 +1105,25 @@ export interface YmlListener extends ParseTreeListener {
 	exitGranule?: (ctx: GranuleContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.complete`.
+	 * Enter a parse tree produced by `YmlParser.objectComplete`.
 	 * @param ctx the parse tree
 	 */
-	enterComplete?: (ctx: CompleteContext) => void;
+	enterObjectComplete?: (ctx: ObjectCompleteContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.complete`.
+	 * Exit a parse tree produced by `YmlParser.objectComplete`.
 	 * @param ctx the parse tree
 	 */
-	exitComplete?: (ctx: CompleteContext) => void;
+	exitObjectComplete?: (ctx: ObjectCompleteContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.classComplete`.
+	 * @param ctx the parse tree
+	 */
+	enterClassComplete?: (ctx: ClassCompleteContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.classComplete`.
+	 * @param ctx the parse tree
+	 */
+	exitClassComplete?: (ctx: ClassCompleteContext) => void;
 }
 

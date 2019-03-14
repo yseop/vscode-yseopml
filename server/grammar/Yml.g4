@@ -25,6 +25,8 @@ THEN: 'then';
 ELSE: 'else';
 ENUM: 'enum';
 FOREACH: 'foreach';
+FORALL: 'forall';
+IN: 'in';
 RETURN: 'return';
 LOCAL: 'local';
 TRUE: 'true';
@@ -135,13 +137,14 @@ kaoFile: entities=ymlEntity* EOF;
 ymlEntity:
     classDeclaration
     | staticDeclaration
-    | complete
+    | classComplete
+    | objectComplete
     | yenum
     | function
     | externDeclaration
 ;
 /**
-    Expression marker can be a dot `.` or `>>`. 
+    Expression marker can be a dot `.` or `>>`.
     Double dot `..` is for static function call like in `Date..stringtoDate("2012-05-10")`.
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
@@ -406,6 +409,13 @@ instruction_ifElse: instruction_if (ELSE (actionBlock | instruction))?;
 instruction_if:
     IF OPEN_PAR order0Condition CLOSE_PAR (actionBlock | instruction)
 ;
+instruction_forall:
+    FORALL OPEN_PAR (ymlId | instanciationVariable) IN (value | FUNCTION) CLOSE_PAR
+    (
+        actionBlock
+        | instruction
+    )
+;
 instruction_while: WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlock;
 instruction_return: RETURN value SEMICOLON?;
 instruction_chainedCall: chainedCall;
@@ -415,13 +425,19 @@ instruction:
     | instruction_assignment SEMICOLON?
     | instruction_for
     | instruction_forEach
+    | instruction_forall
     | instruction_return
     | instruction_ifElse
+    | instruction_try_catch SEMICOLON?
     | instruction_switchCase_asIf
     | instruction_break
     | instruction_switchCase_withValue
     | instruction_ifExprBlock
     | instruction_while
+;
+instruction_do: 'do' actionBlock;
+instruction_try_catch:
+    'try' OPEN_PAR instruction_do 'catch' OPEN_PAR (ymlId (COMMA ymlId)*?) CLOSE_PAR actionBlock CLOSE_PAR
 ;
 
 actionBlock: OPEN_BRACE instruction+ CLOSE_BRACE;
@@ -453,6 +469,14 @@ constList:
     OPEN_BRACE elements+=value? (COMMA elements+=value)* CLOSE_BRACE
 ;
 
-granule: OPEN_GRANULE ( ~(OPEN_GRANULE | CLOSE_GRANULE)+ | granule)*? CLOSE_GRANULE EOF?;
+granule:
+    OPEN_GRANULE (~(OPEN_GRANULE | CLOSE_GRANULE)+ | granule)*? CLOSE_GRANULE EOF?
+;
 
-complete: COMPLETE completedElemId=ymlId memberOption=field* SEMICOLON;
+objectComplete:
+    COMPLETE completedElemId=ymlId memberOption=field* SEMICOLON
+;
+
+classComplete:
+    COMPLETE (ymlId | FUNCTION) (classAttributeDeclaration | methodDeclaration)* SEMICOLON
+;

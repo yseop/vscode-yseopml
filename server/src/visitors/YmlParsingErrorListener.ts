@@ -22,7 +22,7 @@ export class YmlParsingErrorListener implements ANTLRErrorListener<Token> {
         const diagnostic = Diagnostic.create(
             Range.create(currentEditorLine, charPositionInLine, currentEditorLine, endPosition),
             msg,
-            DiagnosticSeverity.Warning,
+            DiagnosticSeverity.Error,
         );
         this.diagnostics.push(diagnostic);
     }

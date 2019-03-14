@@ -10,6 +10,8 @@
     -   attributes.
 -   Hovering over an element displays its documentation if possible.
 -   Object identifers having subparts − like `Namespace:Type::methodName` − have all of their subparts proposed in the completions list.
+-   Parsing problems are now displayed as `Error` instead of `Warning`.
+-   Parsing supports `try / catch` instruction and `forAll` loops.
 
 ## 1.4.0 (2019-03-05)
 
