@@ -166,6 +166,18 @@ describe('Extension Server Tests', () => {
                     uri: '',
                 },
                 {
+                    data: 'keyword_City',
+                    kind: CompletionItemKind.Text,
+                    label: 'City',
+                    uri: '',
+                },
+                {
+                    data: 'keyword_getName',
+                    kind: CompletionItemKind.Text,
+                    label: 'getName',
+                    uri: '',
+                },
+                {
                     data: 'id_City_City::writeCountry',
                     definitionLocation: {
                         range: {
@@ -184,6 +196,12 @@ describe('Extension Server Tests', () => {
                     documentation: 'not documented',
                     kind: CompletionItemKind.Method,
                     label: 'City::writeCountry',
+                    uri: '',
+                },
+                {
+                    data: 'keyword_writeCountry',
+                    kind: CompletionItemKind.Text,
+                    label: 'writeCountry',
                     uri: '',
                 },
                 {

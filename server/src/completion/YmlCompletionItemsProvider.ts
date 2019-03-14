@@ -1,4 +1,4 @@
-import { AbstractYmlObject } from '../yml-objects';
+import { AbstractYmlObject, TextTokenKeyword } from '../yml-objects';
 
 export class YmlCompletionItemsProvider {
     public completions: AbstractYmlObject[] = [];
@@ -8,11 +8,31 @@ export class YmlCompletionItemsProvider {
     }
 
     /**
-     * Add a completion to this provider.
+     * Add a completion to this provider. Also keep track of each of its label subparts (separated with `:`).
+     *
+     * For example, adding a function named `Namespace:Type::FunctionName`
+     * will add to the suggestions list the function as well as the tokens `Namespace` `Type` and `FunctionName`.
+     *
      * @param complLoc The new completion to add.
      */
     public addCompletionItem(complLoc: AbstractYmlObject): void {
         this.completions.push(complLoc);
+        const subElements = complLoc.label.split(/:+/);
+        /*
+         * No element: nothing to add.
+         * Single element. This has already been added.
+         */
+        if (subElements.length <= 1) {
+            return;
+        }
+        /* Keep all subparts of the object's label, even its short name. */
+        for (const word of subElements) {
+            const keyword = new TextTokenKeyword(word);
+            if (this.getItem(keyword.data)) {
+                continue;
+            }
+            this.completions.push(keyword);
+        }
     }
 
     /**

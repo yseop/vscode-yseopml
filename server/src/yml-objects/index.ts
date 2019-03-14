@@ -1,5 +1,6 @@
 export * from './AbstractYmlFunction';
 export * from './AbstractYmlObject';
+export * from './TextTokenKeyword';
 export * from './YmlArgs';
 export * from './YmlArgument';
 export * from './YmlAttribute';
