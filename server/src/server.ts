@@ -67,13 +67,8 @@ connection.onHover((_params) => {
     if (!entityName) {
         return null;
     }
-    console.warn(`search for ${entityName}`);
-
     const entity = completionProvider.getItemByLabel(entityName);
-    if (!entity) {
-        return null;
-    }
-    if (!entity.documentation) {
+    if (!entity || !entity.documentation) {
         return null;
     }
     return {
