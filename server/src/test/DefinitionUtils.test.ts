@@ -57,6 +57,14 @@ describe('Extension Server Tests', () => {
                 assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), 'VERB_JA_食べ物');
                 done();
             });
+            it('should accept identifiers with namespaces', (done) => {
+                const source = '(Lang:Verb::VERB_JA_食べ物';
+                assert.strictEqual(
+                    getYmlEntityNamePart(source, EntityPartPosition.END),
+                    'Lang:Verb::VERB_JA_食べ物',
+                );
+                done();
+            });
         });
 
         describe('getYmlEntityNamePart − start of input', () => {
@@ -103,13 +111,21 @@ describe('Extension Server Tests', () => {
 
             it('should find only the first identifier', (done) => {
                 const source = 'namespace::myObject.functionName(arg1, otherFunct10n';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'namespace');
+                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'namespace::myObject');
                 done();
             });
 
             it('should accept Japanese charaters', (done) => {
                 const source = 'VERB_JA_食べ物::';
                 assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'VERB_JA_食べ物');
+                done();
+            });
+            it('should accept identifiers with namespaces', (done) => {
+                const source = 'Lang:Verb::VERB_JA_食べ物(';
+                assert.strictEqual(
+                    getYmlEntityNamePart(source, EntityPartPosition.BEGINNING),
+                    'Lang:Verb::VERB_JA_食べ物',
+                );
                 done();
             });
         });

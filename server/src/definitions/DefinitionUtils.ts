@@ -4,8 +4,8 @@
  * The whole name will be captured within a group.
  * see https://stackoverflow.com/a/51166092/3577898
  */
-const YML_ENTITY_NAME_START_REGEXP = /^((\p{Letter}|[_0-9])+)/u;
-const YML_ENTITY_NAME_END_REGEXP = /((\p{Letter}|[_0-9])+)$/u;
+const YML_ENTITY_NAME_START_REGEXP = /^((\p{Letter}|[_0-9])+(::?(\p{Letter}|[_0-9])+)*)/u;
+const YML_ENTITY_NAME_END_REGEXP = /((\p{Letter}|[_0-9])+(::?(\p{Letter}|[_0-9])+)*)$/u;
 
 export enum EntityPartPosition {
     /**

@@ -37,4 +37,18 @@ export class YmlCompletionItemsProvider {
             })
             .filter((elem) => !!elem);
     }
+
+    /**
+     * Find the *first* completion item that has `entityName` as name.
+     *
+     * @param entityName The name of the entity searched for.
+     * @returns The first completion item that has the same label as `entityName`, `null` otherwise.
+     */
+    public getItemByLabel(entityName: string): AbstractYmlObject {
+        const sameNameElements = this.completions.filter((elem) => elem.label === entityName);
+        if (!sameNameElements || sameNameElements.length === 0) {
+            return null;
+        }
+        return sameNameElements.shift();
+    }
 }
