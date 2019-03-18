@@ -50,7 +50,7 @@ connection.onInitialize(
             capabilities: {
                 // Tell the client that the server support code complete
                 completionProvider: {
-                    resolveProvider: true,
+                    triggerCharacters: ['.', ':'],
                 },
                 hoverProvider: true,
                 definitionProvider: true,
@@ -169,10 +169,6 @@ connection.onCompletion(
         return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
     },
 );
-
-// This handler resolve additional information for the item selected in
-// the completion list.
-connection.onCompletionResolve((item: CompletionItem): CompletionItem => item);
 
 // Listen on the connection
 connection.listen();

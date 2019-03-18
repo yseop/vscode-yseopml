@@ -9,6 +9,7 @@
     -   methods;
     -   attributes.
 -   Hovering over an element displays its documentation if possible.
+-   Object identifers having subparts − like `Namespace:Type::methodName` − have all of their subparts proposed in the completions list.
 
 ## 1.4.0 (2019-03-05)
 
