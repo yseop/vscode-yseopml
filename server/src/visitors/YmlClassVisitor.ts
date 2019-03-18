@@ -2,7 +2,7 @@ import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProv
 import { YmlDefinitionProvider } from '../definitions';
 import { ClassAttributeDeclarationContext, ClassDeclarationIntroContext, MethodDeclarationContext } from '../grammar';
 import { connection } from '../server';
-import { YmlAttribute, YmlMethod } from '../yml-objects';
+import { YmlAttribute, YmlClass, YmlMethod } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 
 export class YmlClassVisitor extends YmlBaseVisitor {
@@ -39,5 +39,8 @@ export class YmlClassVisitor extends YmlBaseVisitor {
 
     public visitClassDeclarationIntro(node: ClassDeclarationIntroContext) {
         this.classId = node.ymlId().text;
+        const ymlClass = new YmlClass(this.classId, this.uri);
+        ymlClass.data = `id_${ymlClass.label}`;
+        this.completionProvider.addCompletionItem(ymlClass);
     }
 }
