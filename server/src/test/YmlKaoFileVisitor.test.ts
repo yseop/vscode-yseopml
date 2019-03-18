@@ -64,6 +64,15 @@ describe('Extension Server Tests', () => {
             visitor.visit(result);
             const expectedCompletionItems = [
                 {
+                    attributes: [],
+                    data: 'id_City',
+                    extends: [],
+                    kind: 7,
+                    label: 'City',
+                    methods: [],
+                    uri: '',
+                },
+                {
                     data: 'id_City_name',
                     definitionLocation: {
                         range: {
@@ -144,6 +153,15 @@ describe('Extension Server Tests', () => {
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
             const expectedCompletionItems = [
+                {
+                    attributes: [],
+                    data: 'id_City',
+                    extends: [],
+                    kind: 7,
+                    label: 'City',
+                    methods: [],
+                    uri: '',
+                },
                 {
                     data: 'id_City_City::getName',
                     definitionLocation: {
