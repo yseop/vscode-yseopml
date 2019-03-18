@@ -33,6 +33,7 @@ export class YmlCompletionItemsProvider {
             }
             const keyword = new TextTokenKeyword(word);
             if (this.getItem(keyword.data)) {
+                /* Already available. */
                 continue;
             }
             this.completions.push(keyword);
