@@ -52,6 +52,7 @@ connection.onInitialize(
                 completionProvider: {
                     triggerCharacters: ['.', ':'],
                 },
+                hoverProvider: true,
                 definitionProvider: true,
                 // Tell the client that the server works in FULL text document sync mode
                 textDocumentSync: documents.syncKind,
@@ -59,6 +60,24 @@ connection.onInitialize(
         };
     },
 );
+
+connection.onHover((_params) => {
+    const doc: TextDocument = documents.get(_params.textDocument.uri);
+    const entityName = getTokenAtPosInDoc(doc.getText(), doc.offsetAt(_params.position));
+    if (!entityName) {
+        return null;
+    }
+    const entity = completionProvider.getItemByLabel(entityName);
+    if (!entity || !entity.documentation) {
+        return null;
+    }
+    return {
+        contents: {
+            value: entity.documentation,
+            language: null,
+        },
+    };
+});
 
 const validateTextDocumentOnEvent = (event: TextDocumentChangeEvent) => validateTextDocument(event.document);
 documents.onDidOpen(validateTextDocumentOnEvent);
