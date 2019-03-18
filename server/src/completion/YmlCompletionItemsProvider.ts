@@ -67,7 +67,7 @@ export class YmlCompletionItemsProvider {
      * Find the *first* completion item that has `entityName` as name.
      *
      * @param entityName The name of the entity searched for.
-     * @returns The first completion item that has the same label as `entityName`, `null` otherwise.
+     * @returns The first completion item that has `entityName` as its label, `null` otherwise.
      */
     public getItemByLabel(entityName: string): AbstractYmlObject {
         return this.completions.find((elem) => elem.label === entityName);
