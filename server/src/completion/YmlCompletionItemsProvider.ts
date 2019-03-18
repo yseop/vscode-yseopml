@@ -27,6 +27,10 @@ export class YmlCompletionItemsProvider {
         }
         /* Keep all subparts of the object's label, even its short name. */
         for (const word of subElements) {
+            /* Can be empty if colon at the end of the label. */
+            if (word.length === 0) {
+                continue;
+            }
             const keyword = new TextTokenKeyword(word);
             if (this.getItem(keyword.data)) {
                 continue;
