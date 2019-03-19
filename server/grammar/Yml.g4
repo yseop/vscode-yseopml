@@ -24,6 +24,9 @@ IF: 'if';
 THEN: 'then';
 ELSE: 'else';
 ENUM: 'enum';
+DO: 'do';
+TRY: 'try';
+CATCH: 'catch';
 FOREACH: 'foreach';
 FORALL: 'forall';
 IN: 'in';
@@ -409,6 +412,12 @@ instruction_ifElse: instruction_if (ELSE (actionBlock | instruction))?;
 instruction_if:
     IF OPEN_PAR order0Condition CLOSE_PAR (actionBlock | instruction)
 ;
+
+/*
+ * Handles code like `forall(item in myCollection) {}` (loop over the elements of a collection)
+ * or `forall(item in Type)` (loop over all elements having the type `Type`).
+ * Because the token `Function` is also a type, we need to use it here.
+ */
 instruction_forall:
     FORALL OPEN_PAR (ymlId | instanciationVariable) IN (value | FUNCTION) CLOSE_PAR
     (
@@ -435,9 +444,10 @@ instruction:
     | instruction_ifExprBlock
     | instruction_while
 ;
-instruction_do: 'do' actionBlock;
+
+instruction_do: DO actionBlock;
 instruction_try_catch:
-    'try' OPEN_PAR instruction_do 'catch' OPEN_PAR (ymlId (COMMA ymlId)*?) CLOSE_PAR actionBlock CLOSE_PAR
+    TRY OPEN_PAR instruction_do CATCH OPEN_PAR (ymlId (COMMA ymlId)*?) CLOSE_PAR actionBlock CLOSE_PAR
 ;
 
 actionBlock: OPEN_BRACE instruction+ CLOSE_BRACE;

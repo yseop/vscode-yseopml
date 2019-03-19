@@ -28,28 +28,28 @@ import { YmlVisitor } from "./YmlVisitor";
 
 
 export class YmlParser extends Parser {
-	public static readonly T__0 = 1;
-	public static readonly T__1 = 2;
-	public static readonly T__2 = 3;
-	public static readonly INTERFACE = 4;
-	public static readonly IMPLEMENTATION = 5;
-	public static readonly EXTENDS = 6;
-	public static readonly FUNCTION = 7;
-	public static readonly METHOD = 8;
-	public static readonly TEXT_METHOD = 9;
-	public static readonly TEXT_FUNCTION = 10;
-	public static readonly FIELD = 11;
-	public static readonly CLASSPROPERTIES = 12;
-	public static readonly EXTERN = 13;
-	public static readonly COMPLETE = 14;
-	public static readonly SYNONYM = 15;
-	public static readonly OVERRIDE = 16;
-	public static readonly ARGS = 17;
-	public static readonly IF_EXPR = 18;
-	public static readonly IF = 19;
-	public static readonly THEN = 20;
-	public static readonly ELSE = 21;
-	public static readonly ENUM = 22;
+	public static readonly INTERFACE = 1;
+	public static readonly IMPLEMENTATION = 2;
+	public static readonly EXTENDS = 3;
+	public static readonly FUNCTION = 4;
+	public static readonly METHOD = 5;
+	public static readonly TEXT_METHOD = 6;
+	public static readonly TEXT_FUNCTION = 7;
+	public static readonly FIELD = 8;
+	public static readonly CLASSPROPERTIES = 9;
+	public static readonly EXTERN = 10;
+	public static readonly COMPLETE = 11;
+	public static readonly SYNONYM = 12;
+	public static readonly OVERRIDE = 13;
+	public static readonly ARGS = 14;
+	public static readonly IF_EXPR = 15;
+	public static readonly IF = 16;
+	public static readonly THEN = 17;
+	public static readonly ELSE = 18;
+	public static readonly ENUM = 19;
+	public static readonly DO = 20;
+	public static readonly TRY = 21;
+	public static readonly CATCH = 22;
 	public static readonly FOREACH = 23;
 	public static readonly FORALL = 24;
 	public static readonly IN = 25;
@@ -228,24 +228,23 @@ export class YmlParser extends Parser {
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, "'do'", "'try'", "'catch'", "'interface'", "'implementation'", 
-		"'extends'", undefined, "'method'", "'textMethod'", "'TextFunction'", 
-		"'field'", "'classProperties'", "'extern'", "'complete'", "'synonym'", 
-		"'override'", "'args'", "'ifExpr'", "'if'", "'then'", "'else'", "'enum'", 
-		"'foreach'", "'forall'", "'in'", "'return'", "'local'", "'true'", "'false'", 
-		"'switch'", "'case'", "'default'", "'break'", "'static'", "'while'", "'for'", 
-		"';'", "','", "':'", "'.'", "'>>'", "'-->'", "'==>'", "'---'", "'+++'", 
-		"'->'", "'('", "')'", "'['", "']'", "'{'", "'}'", "'''", "'\\'", "'?'", 
-		"'@'", "'=='", "'!='", "'<='", "'>='", "'<'", "'>'", "'&&'", "'||'", "'='", 
-		"':='",
+		undefined, "'interface'", "'implementation'", "'extends'", undefined, 
+		"'method'", "'textMethod'", "'TextFunction'", "'field'", "'classProperties'", 
+		"'extern'", "'complete'", "'synonym'", "'override'", "'args'", "'ifExpr'", 
+		"'if'", "'then'", "'else'", "'enum'", "'do'", "'try'", "'catch'", "'foreach'", 
+		"'forall'", "'in'", "'return'", "'local'", "'true'", "'false'", "'switch'", 
+		"'case'", "'default'", "'break'", "'static'", "'while'", "'for'", "';'", 
+		"','", "':'", "'.'", "'>>'", "'-->'", "'==>'", "'---'", "'+++'", "'->'", 
+		"'('", "')'", "'['", "']'", "'{'", "'}'", "'''", "'\\'", "'?'", "'@'", 
+		"'=='", "'!='", "'<='", "'>='", "'<'", "'>'", "'&&'", "'||'", "'='", "':='",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
-		undefined, undefined, undefined, undefined, "INTERFACE", "IMPLEMENTATION", 
-		"EXTENDS", "FUNCTION", "METHOD", "TEXT_METHOD", "TEXT_FUNCTION", "FIELD", 
-		"CLASSPROPERTIES", "EXTERN", "COMPLETE", "SYNONYM", "OVERRIDE", "ARGS", 
-		"IF_EXPR", "IF", "THEN", "ELSE", "ENUM", "FOREACH", "FORALL", "IN", "RETURN", 
-		"LOCAL", "TRUE", "FALSE", "SWITCH", "CASE", "DEFAULT", "BREAK", "STATIC", 
-		"WHILE", "FOR", "SEMICOLON", "COMMA", "COLON", "DOT", "MULTIVALUED_EXPRESSION", 
+		undefined, "INTERFACE", "IMPLEMENTATION", "EXTENDS", "FUNCTION", "METHOD", 
+		"TEXT_METHOD", "TEXT_FUNCTION", "FIELD", "CLASSPROPERTIES", "EXTERN", 
+		"COMPLETE", "SYNONYM", "OVERRIDE", "ARGS", "IF_EXPR", "IF", "THEN", "ELSE", 
+		"ENUM", "DO", "TRY", "CATCH", "FOREACH", "FORALL", "IN", "RETURN", "LOCAL", 
+		"TRUE", "FALSE", "SWITCH", "CASE", "DEFAULT", "BREAK", "STATIC", "WHILE", 
+		"FOR", "SEMICOLON", "COMMA", "COLON", "DOT", "MULTIVALUED_EXPRESSION", 
 		"FIELD_INTRO", "REPLACE_FIELD_VALUE_INTRO", "REMOVE_FIELD", "ADD_FIELD", 
 		"INLINE_DECL_INTRO", "OPEN_PAR", "CLOSE_PAR", "OPEN_BRACKET", "CLOSE_BRACKET", 
 		"OPEN_BRACE", "CLOSE_BRACE", "SINGLE_QUOTE", "BACKSLASH", "QUESTION_MARK", 
@@ -4275,7 +4274,7 @@ export class YmlParser extends Parser {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 865;
-			this.match(YmlParser.T__0);
+			this.match(YmlParser.DO);
 			this.state = 866;
 			this.actionBlock();
 			}
@@ -4303,13 +4302,13 @@ export class YmlParser extends Parser {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 868;
-			this.match(YmlParser.T__1);
+			this.match(YmlParser.TRY);
 			this.state = 869;
 			this.match(YmlParser.OPEN_PAR);
 			this.state = 870;
 			this.instruction_do();
 			this.state = 871;
-			this.match(YmlParser.T__2);
+			this.match(YmlParser.CATCH);
 			this.state = 872;
 			this.match(YmlParser.OPEN_PAR);
 			{
@@ -4379,7 +4378,7 @@ export class YmlParser extends Parser {
 				this.state = 889;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << YmlParser.T__1) | (1 << YmlParser.SYNONYM) | (1 << YmlParser.ARGS) | (1 << YmlParser.IF_EXPR) | (1 << YmlParser.IF) | (1 << YmlParser.FOREACH) | (1 << YmlParser.FORALL) | (1 << YmlParser.RETURN) | (1 << YmlParser.LOCAL) | (1 << YmlParser.TRUE) | (1 << YmlParser.FALSE) | (1 << YmlParser.SWITCH))) !== 0) || ((((_la - 33)) & ~0x1F) === 0 && ((1 << (_la - 33)) & ((1 << (YmlParser.BREAK - 33)) | (1 << (YmlParser.WHILE - 33)) | (1 << (YmlParser.FOR - 33)) | (1 << (YmlParser.INLINE_DECL_INTRO - 33)) | (1 << (YmlParser.OPEN_PAR - 33)) | (1 << (YmlParser.OPEN_BRACKET - 33)) | (1 << (YmlParser.OPEN_BRACE - 33)) | (1 << (YmlParser.QUESTION_MARK - 33)))) !== 0) || ((((_la - 67)) & ~0x1F) === 0 && ((1 << (_la - 67)) & ((1 << (YmlParser.OPEN_GRANULE - 67)) | (1 << (YmlParser.OPERATOR - 67)) | (1 << (YmlParser.DATE - 67)) | (1 << (YmlParser.STRING - 67)) | (1 << (YmlParser.DOUBLE - 67)) | (1 << (YmlParser.YMLID - 67)))) !== 0));
+			} while (((((_la - 12)) & ~0x1F) === 0 && ((1 << (_la - 12)) & ((1 << (YmlParser.SYNONYM - 12)) | (1 << (YmlParser.ARGS - 12)) | (1 << (YmlParser.IF_EXPR - 12)) | (1 << (YmlParser.IF - 12)) | (1 << (YmlParser.TRY - 12)) | (1 << (YmlParser.FOREACH - 12)) | (1 << (YmlParser.FORALL - 12)) | (1 << (YmlParser.RETURN - 12)) | (1 << (YmlParser.LOCAL - 12)) | (1 << (YmlParser.TRUE - 12)) | (1 << (YmlParser.FALSE - 12)) | (1 << (YmlParser.SWITCH - 12)) | (1 << (YmlParser.BREAK - 12)) | (1 << (YmlParser.WHILE - 12)) | (1 << (YmlParser.FOR - 12)))) !== 0) || ((((_la - 46)) & ~0x1F) === 0 && ((1 << (_la - 46)) & ((1 << (YmlParser.INLINE_DECL_INTRO - 46)) | (1 << (YmlParser.OPEN_PAR - 46)) | (1 << (YmlParser.OPEN_BRACKET - 46)) | (1 << (YmlParser.OPEN_BRACE - 46)) | (1 << (YmlParser.QUESTION_MARK - 46)) | (1 << (YmlParser.OPEN_GRANULE - 46)) | (1 << (YmlParser.OPERATOR - 46)) | (1 << (YmlParser.DATE - 46)) | (1 << (YmlParser.STRING - 46)) | (1 << (YmlParser.DOUBLE - 46)) | (1 << (YmlParser.YMLID - 46)))) !== 0));
 			this.state = 891;
 			this.match(YmlParser.CLOSE_BRACE);
 			}
@@ -4833,9 +4832,6 @@ export class YmlParser extends Parser {
 					this.state = 987;
 					this._errHandler.sync(this);
 					switch (this._input.LA(1)) {
-					case YmlParser.T__0:
-					case YmlParser.T__1:
-					case YmlParser.T__2:
 					case YmlParser.INTERFACE:
 					case YmlParser.IMPLEMENTATION:
 					case YmlParser.EXTENDS:
@@ -4855,6 +4851,9 @@ export class YmlParser extends Parser {
 					case YmlParser.THEN:
 					case YmlParser.ELSE:
 					case YmlParser.ENUM:
+					case YmlParser.DO:
+					case YmlParser.TRY:
+					case YmlParser.CATCH:
 					case YmlParser.FOREACH:
 					case YmlParser.FORALL:
 					case YmlParser.IN:
@@ -5241,8 +5240,8 @@ export class YmlParser extends Parser {
 		"v\x02x\x02z\x02|\x02~\x02\x80\x02\x82\x02\x84\x02\x86\x02\x88\x02\x8A" +
 		"\x02\x8C\x02\x8E\x02\x90\x02\x92\x02\x94\x02\x96\x02\x98\x02\x9A\x02\x9C" +
 		"\x02\x9E\x02\xA0\x02\xA2\x02\xA4\x02\xA6\x02\xA8\x02\xAA\x02\xAC\x02\xAE" +
-		"\x02\xB0\x02\xB2\x02\xB4\x02\xB6\x02\xB8\x02\xBA\x02\x02\b\x05\x02\x13" +
-		"\x13\x1C\x1DNN\x03\x02,/\x03\x02\x1E\x1F\x03\x02\t\f\x03\x02;@\x03\x02" +
+		"\x02\xB0\x02\xB2\x02\xB4\x02\xB6\x02\xB8\x02\xBA\x02\x02\b\x05\x02\x10" +
+		"\x10\x1C\x1DNN\x03\x02,/\x03\x02\x1E\x1F\x03\x02\x06\t\x03\x02;@\x03\x02" +
 		"EF\u043D\x02\xBF\x03\x02\x02\x02\x04\xCB\x03\x02\x02\x02\x06\xD1\x03\x02" +
 		"\x02\x02\b\xD3\x03\x02\x02\x02\n\xD5\x03\x02\x02\x02\f\xED\x03\x02\x02" +
 		"\x02\x0E\xF4\x03\x02\x02\x02\x10\u010B\x03\x02\x02\x02\x12\u011C\x03\x02" +
@@ -5286,7 +5285,7 @@ export class YmlParser extends Parser {
 		"\xCD\xCE\x07*\x02\x02\xCE\xD2\x07*\x02\x02\xCF\xD2\x07*\x02\x02\xD0\xD2" +
 		"\x07+\x02\x02\xD1\xCD\x03\x02\x02\x02\xD1\xCF\x03\x02\x02\x02\xD1\xD0" +
 		"\x03\x02\x02\x02\xD2\x07\x03\x02\x02\x02\xD3\xD4\t\x02\x02\x02\xD4\t\x03" +
-		"\x02\x02\x02\xD5\xD6\x07\x18\x02\x02\xD6\xD7\x05\b\x05\x02\xD7\xE0\x07" +
+		"\x02\x02\x02\xD5\xD6\x07\x15\x02\x02\xD6\xD7\x05\b\x05\x02\xD7\xE0\x07" +
 		"5\x02\x02\xD8\xDD\x05\f\x07\x02\xD9\xDA\x07(\x02\x02\xDA\xDC\x05\f\x07" +
 		"\x02\xDB\xD9\x03\x02\x02\x02\xDC\xDF\x03\x02\x02\x02\xDD\xDB\x03\x02\x02" +
 		"\x02\xDD\xDE\x03\x02\x02\x02\xDE\xE1\x03\x02\x02\x02\xDF\xDD\x03\x02\x02" +
@@ -5307,7 +5306,7 @@ export class YmlParser extends Parser {
 		"\x02\x02\u0103\u0104\x03\x02\x02\x02\u0104\u0105\x03\x02\x02\x02\u0105" +
 		"\u0106\x07\'\x02\x02\u0106\u0107\x05\x10\t\x02\u0107\u0109\x07\'\x02\x02" +
 		"\u0108\u010A\x07\x02\x02\x03\u0109\u0108\x03\x02\x02\x02\u0109\u010A\x03" +
-		"\x02\x02\x02\u010A\x0F\x03\x02\x02\x02\u010B\u010C\x07\x07\x02\x02\u010C" +
+		"\x02\x02\x02\u010A\x0F\x03\x02\x02\x02\u010B\u010C\x07\x04\x02\x02\u010C" +
 		"\u0110\x05\b\x05\x02\u010D\u010F\x05\x14\v\x02\u010E\u010D\x03\x02\x02" +
 		"\x02\u010F\u0112\x03\x02\x02\x02\u0110\u0111\x03\x02\x02\x02\u0110\u010E" +
 		"\x03\x02\x02\x02\u0111\u0114\x03\x02\x02\x02\u0112\u0110\x03\x02\x02\x02" +
@@ -5315,27 +5314,27 @@ export class YmlParser extends Parser {
 		"\x02\x02\x02\u0115\u0119\x03\x02\x02\x02\u0116\u0118\x05(\x15\x02\u0117" +
 		"\u0116\x03\x02\x02\x02\u0118\u011B\x03\x02\x02\x02\u0119\u0117\x03\x02" +
 		"\x02\x02\u0119\u011A\x03\x02\x02\x02\u011A\x11\x03\x02\x02\x02\u011B\u0119" +
-		"\x03\x02\x02\x02\u011C\u011D\x07\x12\x02\x02\u011D\u0121\x075\x02\x02" +
+		"\x03\x02\x02\x02\u011C\u011D\x07\x0F\x02\x02\u011D\u0121\x075\x02\x02" +
 		"\u011E\u0120\x05\x14\v\x02\u011F\u011E\x03\x02\x02\x02\u0120\u0123\x03" +
 		"\x02\x02\x02\u0121\u011F\x03\x02\x02\x02\u0121\u0122\x03\x02\x02\x02\u0122" +
 		"\u0124\x03\x02\x02\x02\u0123\u0121\x03\x02\x02\x02\u0124\u0125\x076\x02" +
 		"\x02\u0125\x13\x03\x02\x02\x02\u0126\u0127\x05\b\x05\x02\u0127\u0128\x07" +
-		"\t\x02\x02\u0128\x15\x03\x02\x02\x02\u0129\u012A\x07\x06\x02\x02\u012A" +
+		"\x06\x02\x02\u0128\x15\x03\x02\x02\x02\u0129\u012A\x07\x03\x02\x02\u012A" +
 		"\u012C\x05\b\x05\x02\u012B\u012D\x05\x18\r\x02\u012C\u012B\x03\x02\x02" +
 		"\x02\u012C\u012D\x03\x02\x02\x02\u012D\x17\x03\x02\x02\x02\u012E\u012F" +
-		"\x07\b\x02\x02\u012F\u0134\x05\x1A\x0E\x02\u0130\u0131\x07(\x02\x02\u0131" +
-		"\u0133\x05\x1A\x0E\x02\u0132\u0130\x03\x02\x02\x02\u0133\u0136\x03\x02" +
-		"\x02\x02\u0134\u0132\x03\x02\x02\x02\u0134\u0135\x03\x02\x02\x02\u0135" +
+		"\x07\x05\x02\x02\u012F\u0134\x05\x1A\x0E\x02\u0130\u0131\x07(\x02\x02" +
+		"\u0131\u0133\x05\x1A\x0E\x02\u0132\u0130\x03\x02\x02\x02\u0133\u0136\x03" +
+		"\x02\x02\x02\u0134\u0132\x03\x02\x02\x02\u0134\u0135\x03\x02\x02\x02\u0135" +
 		"\x19\x03\x02\x02\x02\u0136\u0134\x03\x02\x02\x02\u0137\u0138\x05\b\x05" +
-		"\x02\u0138\x1B\x03\x02\x02\x02\u0139\u013A\x07\x11\x02\x02\u013A\u0149" +
-		"\x05\xB4[\x02\u013B\u013C\x07\x11\x02\x02\u013C\u0145\x071\x02\x02\u013D" +
+		"\x02\u0138\x1B\x03\x02\x02\x02\u0139\u013A\x07\x0E\x02\x02\u013A\u0149" +
+		"\x05\xB4[\x02\u013B\u013C\x07\x0E\x02\x02\u013C\u0145\x071\x02\x02\u013D" +
 		"\u0142\x05<\x1F\x02\u013E\u013F\x07(\x02\x02\u013F\u0141\x05<\x1F\x02" +
 		"\u0140\u013E\x03\x02\x02\x02\u0141\u0144\x03\x02\x02\x02\u0142\u0140\x03" +
 		"\x02\x02\x02\u0142\u0143\x03\x02\x02\x02\u0143\u0146\x03\x02\x02\x02\u0144" +
 		"\u0142\x03\x02\x02\x02\u0145\u013D\x03\x02\x02\x02\u0145\u0146\x03\x02" +
 		"\x02\x02\u0146\u0147\x03\x02\x02\x02\u0147\u0149\x072\x02\x02\u0148\u0139" +
 		"\x03\x02\x02\x02\u0148\u013B\x03\x02\x02\x02\u0149\x1D\x03\x02\x02\x02" +
-		"\u014A\u014B\x07\r\x02\x02\u014B\u014F\x05\b\x05\x02\u014C\u014E\x05(" +
+		"\u014A\u014B\x07\n\x02\x02\u014B\u014F\x05\b\x05\x02\u014C\u014E\x05(" +
 		"\x15\x02\u014D\u014C\x03\x02\x02\x02\u014E\u0151\x03\x02\x02\x02\u014F" +
 		"\u014D\x03\x02\x02\x02\u014F\u0150\x03\x02\x02\x02\u0150\x1F\x03\x02\x02" +
 		"\x02\u0151\u014F\x03\x02\x02\x02\u0152\u0153\x05\"\x12\x02\u0153\u0157" +
@@ -5368,7 +5367,7 @@ export class YmlParser extends Parser {
 		"\u018D\x03\x02\x02\x02\u0190\u0193\x03\x02\x02\x02\u0191\u0192\x03\x02" +
 		"\x02\x02\u0191\u018F\x03\x02\x02\x02\u0192\u0195\x03\x02\x02\x02\u0193" +
 		"\u0191\x03\x02\x02\x02\u0194\u018C\x03\x02\x02\x02\u0194\u0195\x03\x02" +
-		"\x02\x02\u01951\x03\x02\x02\x02\u0196\u019A\x07\x0E\x02\x02\u0197\u0199" +
+		"\x02\x02\u01951\x03\x02\x02\x02\u0196\u019A\x07\v\x02\x02\u0197\u0199" +
 		"\x05(\x15\x02\u0198\u0197\x03\x02\x02\x02\u0199\u019C\x03\x02\x02\x02" +
 		"\u019A\u0198\x03\x02\x02\x02\u019A\u019B\x03\x02\x02\x02\u019B3\x03\x02" +
 		"\x02\x02\u019C\u019A\x03\x02\x02\x02\u019D\u019E\x07J\x02\x02\u019E5\x03" +
@@ -5404,9 +5403,9 @@ export class YmlParser extends Parser {
 		"\x02\u01D9\u01DA\x072\x02\x02\u01DA\u01DB\x05\xA6T\x02\u01DBA\x03\x02" +
 		"\x02\x02\u01DC\u01DE\x05D#\x02\u01DD\u01DF\x07\'\x02\x02\u01DE\u01DD\x03" +
 		"\x02\x02\x02\u01DE\u01DF\x03\x02\x02\x02\u01DFC\x03\x02\x02\x02\u01E0" +
-		"\u01E1\x07\x14\x02\x02\u01E1\u01E2\x071\x02\x02\u01E2\u01E3\x05|?\x02" +
-		"\u01E3\u01E4\x072\x02\x02\u01E4\u01E5\x07\x16\x02\x02\u01E5\u01E6\x05" +
-		"<\x1F\x02\u01E6\u01E7\x07\x17\x02\x02\u01E7\u01E8\x05<\x1F\x02\u01E8E" +
+		"\u01E1\x07\x11\x02\x02\u01E1\u01E2\x071\x02\x02\u01E2\u01E3\x05|?\x02" +
+		"\u01E3\u01E4\x072\x02\x02\u01E4\u01E5\x07\x13\x02\x02\u01E5\u01E6\x05" +
+		"<\x1F\x02\u01E6\u01E7\x07\x14\x02\x02\u01E7\u01E8\x05<\x1F\x02\u01E8E" +
 		"\x03\x02\x02\x02\u01E9\u01EA\t\x04\x02\x02\u01EAG\x03\x02\x02\x02\u01EB" +
 		"\u01F0\x05T+\x02\u01EC\u01F0\x05F$\x02\u01ED\u01F0\x07I\x02\x02\u01EE" +
 		"\u01F0\x07H\x02\x02\u01EF\u01EB\x03\x02\x02\x02\u01EF\u01EC\x03\x02\x02" +
@@ -5449,7 +5448,7 @@ export class YmlParser extends Parser {
 		"\x03\x02\x02\x02\u0242\u0244\x05(\x15\x02\u0243\u0242\x03\x02\x02\x02" +
 		"\u0244\u0247\x03\x02\x02\x02\u0245\u0243\x03\x02\x02\x02\u0245\u0246\x03" +
 		"\x02\x02\x02\u0246\u0248\x03\x02\x02\x02\u0247\u0245\x03\x02\x02\x02\u0248" +
-		"\u0249\x07\'\x02\x02\u0249]\x03\x02\x02\x02\u024A\u024B\x07\x13\x02\x02" +
+		"\u0249\x07\'\x02\x02\u0249]\x03\x02\x02\x02\u024A\u024B\x07\x10\x02\x02" +
 		"\u024B\u024C\x075\x02\x02\u024C\u024D\x05\xACW\x02\u024D\u024E\x076\x02" +
 		"\x02\u024E_\x03\x02\x02\x02\u024F\u0250\x07\x1D\x02\x02\u0250\u0251\x07" +
 		"5\x02\x02\u0251\u0252\x05\xACW\x02\u0252\u0253\x076\x02\x02\u0253a\x03" +
@@ -5538,17 +5537,17 @@ export class YmlParser extends Parser {
 		"\u0314\u0313\x03\x02\x02\x02\u0315\x91\x03\x02\x02\x02\u0316\u0318\x07" +
 		"#\x02\x02\u0317\u0319\x07\'\x02\x02\u0318\u0317\x03\x02\x02\x02\u0318" +
 		"\u0319\x03\x02\x02\x02\u0319\x93\x03\x02\x02\x02\u031A\u0320\x05\x96L" +
-		"\x02\u031B\u031E\x07\x17\x02\x02\u031C\u031F\x05\xA6T\x02\u031D\u031F" +
+		"\x02\u031B\u031E\x07\x14\x02\x02\u031C\u031F\x05\xA6T\x02\u031D\u031F" +
 		"\x05\xA0Q\x02\u031E\u031C\x03\x02\x02\x02\u031E\u031D\x03\x02\x02\x02" +
 		"\u031F\u0321\x03\x02\x02\x02\u0320\u031B\x03\x02\x02\x02\u0320\u0321\x03" +
-		"\x02\x02\x02\u0321\x95\x03\x02\x02\x02\u0322\u0323\x07\x15\x02\x02\u0323" +
+		"\x02\x02\x02\u0321\x95\x03\x02\x02\x02\u0322\u0323\x07\x12\x02\x02\u0323" +
 		"\u0324\x071\x02\x02\u0324\u0325\x05\x88E\x02\u0325\u0328\x072\x02\x02" +
 		"\u0326\u0329\x05\xA6T\x02\u0327\u0329\x05\xA0Q\x02\u0328\u0326\x03\x02" +
 		"\x02\x02\u0328\u0327\x03\x02\x02\x02\u0329\x97\x03\x02\x02\x02\u032A\u032B" +
 		"\x07\x1A\x02\x02\u032B\u032E\x071\x02\x02\u032C\u032F\x05\b\x05\x02\u032D" +
 		"\u032F\x05J&\x02\u032E\u032C\x03\x02\x02\x02\u032E\u032D\x03\x02\x02\x02" +
 		"\u032F\u0330\x03\x02\x02\x02\u0330\u0333\x07\x1B\x02\x02\u0331\u0334\x05" +
-		"<\x1F\x02\u0332\u0334\x07\t\x02\x02\u0333\u0331\x03\x02\x02\x02\u0333" +
+		"<\x1F\x02\u0332\u0334\x07\x06\x02\x02\u0333\u0331\x03\x02\x02\x02\u0333" +
 		"\u0332\x03\x02\x02\x02\u0334\u0335\x03\x02\x02\x02\u0335\u0338\x072\x02" +
 		"\x02\u0336\u0339\x05\xA6T\x02\u0337\u0339\x05\xA0Q\x02\u0338\u0336\x03" +
 		"\x02\x02\x02\u0338\u0337\x03\x02\x02\x02\u0339\x99\x03\x02\x02\x02\u033A" +
@@ -5574,9 +5573,9 @@ export class YmlParser extends Parser {
 		"\x02\x02\u0361\u0358\x03\x02\x02\x02\u0361\u035C\x03\x02\x02\x02\u0361" +
 		"\u035D\x03\x02\x02\x02\u0361\u035E\x03\x02\x02\x02\u0361\u035F\x03\x02" +
 		"\x02\x02\u0361\u0360\x03\x02\x02\x02\u0362\xA1\x03\x02\x02\x02\u0363\u0364" +
-		"\x07\x03\x02\x02\u0364\u0365\x05\xA6T\x02\u0365\xA3\x03\x02\x02\x02\u0366" +
-		"\u0367\x07\x04\x02\x02\u0367\u0368\x071\x02\x02\u0368\u0369\x05\xA2R\x02" +
-		"\u0369\u036A\x07\x05\x02\x02\u036A\u036B\x071\x02\x02\u036B\u0370\x05" +
+		"\x07\x16\x02\x02\u0364\u0365\x05\xA6T\x02\u0365\xA3\x03\x02\x02\x02\u0366" +
+		"\u0367\x07\x17\x02\x02\u0367\u0368\x071\x02\x02\u0368\u0369\x05\xA2R\x02" +
+		"\u0369\u036A\x07\x18\x02\x02\u036A\u036B\x071\x02\x02\u036B\u0370\x05" +
 		"\b\x05\x02\u036C\u036D\x07(\x02\x02\u036D\u036F\x05\b\x05\x02\u036E\u036C" +
 		"\x03\x02\x02\x02\u036F\u0372\x03\x02\x02\x02\u0370\u0371\x03\x02\x02\x02" +
 		"\u0370\u036E\x03\x02\x02\x02\u0371\u0373\x03\x02\x02\x02\u0372\u0370\x03" +
@@ -5601,25 +5600,25 @@ export class YmlParser extends Parser {
 		"\u03A0\x05 \x11\x02\u039F\u039E\x03\x02\x02\x02\u03A0\u03A3\x03\x02\x02" +
 		"\x02\u03A1\u039F\x03\x02\x02\x02\u03A1\u03A2\x03\x02\x02\x02\u03A2\xAD" +
 		"\x03\x02\x02\x02\u03A3\u03A1\x03\x02\x02\x02\u03A4\u03A5\x05\b\x05\x02" +
-		"\u03A5\u03A8\x05\b\x05\x02\u03A6\u03A7\x07\b\x02\x02\u03A7\u03A9\x05\b" +
-		"\x05\x02\u03A8\u03A6\x03\x02\x02\x02\u03A8\u03A9\x03\x02\x02\x02\u03A9" +
+		"\u03A5\u03A8\x05\b\x05\x02\u03A6\u03A7\x07\x05\x02\x02\u03A7\u03A9\x05" +
+		"\b\x05\x02\u03A8\u03A6\x03\x02\x02\x02\u03A8\u03A9\x03\x02\x02\x02\u03A9" +
 		"\u03AB\x03\x02\x02\x02\u03AA\u03AC\x05<\x1F\x02\u03AB\u03AA\x03\x02\x02" +
 		"\x02\u03AB\u03AC\x03\x02\x02\x02\u03AC\u03B0\x03\x02\x02\x02\u03AD\u03AF" +
 		"\x05(\x15\x02\u03AE\u03AD\x03\x02\x02\x02\u03AF\u03B2\x03\x02\x02\x02" +
 		"\u03B0\u03AE\x03\x02\x02\x02\u03B0\u03B1\x03\x02\x02\x02\u03B1\u03B3\x03" +
 		"\x02\x02\x02\u03B2\u03B0\x03\x02\x02\x02\u03B3\u03B4\x07\'\x02\x02\u03B4" +
-		"\xAF\x03\x02\x02\x02\u03B5\u03B8\x07\x0F\x02\x02\u03B6\u03B9\x05d3\x02" +
-		"\u03B7\u03B9\x05 \x11\x02\u03B8\u03B6\x03\x02\x02\x02\u03B8\u03B7\x03" +
-		"\x02\x02\x02\u03B9\u03BA\x03\x02\x02\x02\u03BA\u03BB\x07\'\x02\x02\u03BB" +
-		"\xB1\x03\x02\x02\x02\u03BC\u03BE\x073\x02\x02\u03BD\u03BF\x05<\x1F\x02" +
-		"\u03BE\u03BD\x03\x02\x02\x02\u03BE\u03BF\x03\x02\x02\x02\u03BF\u03C4\x03" +
-		"\x02\x02\x02\u03C0\u03C1\x07(\x02\x02\u03C1\u03C3\x05<\x1F\x02\u03C2\u03C0" +
-		"\x03\x02\x02\x02\u03C3\u03C6\x03\x02\x02\x02\u03C4\u03C2\x03\x02\x02\x02" +
-		"\u03C4\u03C5\x03\x02\x02\x02\u03C5\u03C7\x03\x02\x02\x02\u03C6\u03C4\x03" +
-		"\x02\x02\x02\u03C7\u03C8\x074\x02\x02\u03C8\xB3\x03\x02\x02\x02\u03C9" +
-		"\u03CB\x075\x02\x02\u03CA\u03CC\x05<\x1F\x02\u03CB\u03CA\x03\x02\x02\x02" +
-		"\u03CB\u03CC\x03\x02\x02\x02\u03CC\u03D1\x03\x02\x02\x02\u03CD\u03CE\x07" +
-		"(\x02\x02\u03CE\u03D0\x05<\x1F\x02\u03CF\u03CD\x03\x02\x02\x02\u03D0\u03D3" +
+		"\xAF\x03\x02\x02\x02\u03B5\u03B8\x07\f\x02\x02\u03B6\u03B9\x05d3\x02\u03B7" +
+		"\u03B9\x05 \x11\x02\u03B8\u03B6\x03\x02\x02\x02\u03B8\u03B7\x03\x02\x02" +
+		"\x02\u03B9\u03BA\x03\x02\x02\x02\u03BA\u03BB\x07\'\x02\x02\u03BB\xB1\x03" +
+		"\x02\x02\x02\u03BC\u03BE\x073\x02\x02\u03BD\u03BF\x05<\x1F\x02\u03BE\u03BD" +
+		"\x03\x02\x02\x02\u03BE\u03BF\x03\x02\x02\x02\u03BF\u03C4\x03\x02\x02\x02" +
+		"\u03C0\u03C1\x07(\x02\x02\u03C1\u03C3\x05<\x1F\x02\u03C2\u03C0\x03\x02" +
+		"\x02\x02\u03C3\u03C6\x03\x02\x02\x02\u03C4\u03C2\x03\x02\x02\x02\u03C4" +
+		"\u03C5\x03\x02\x02\x02\u03C5\u03C7\x03\x02\x02\x02\u03C6\u03C4\x03\x02" +
+		"\x02\x02\u03C7\u03C8\x074\x02\x02\u03C8\xB3\x03\x02\x02\x02\u03C9\u03CB" +
+		"\x075\x02\x02\u03CA\u03CC\x05<\x1F\x02\u03CB\u03CA\x03\x02\x02\x02\u03CB" +
+		"\u03CC\x03\x02\x02\x02\u03CC\u03D1\x03\x02\x02\x02\u03CD\u03CE\x07(\x02" +
+		"\x02\u03CE\u03D0\x05<\x1F\x02\u03CF\u03CD\x03\x02\x02\x02\u03D0\u03D3" +
 		"\x03\x02\x02\x02\u03D1\u03CF\x03\x02\x02\x02\u03D1\u03D2\x03\x02\x02\x02" +
 		"\u03D2\u03D4\x03\x02\x02\x02\u03D3\u03D1\x03\x02\x02\x02\u03D4\u03D5\x07" +
 		"6\x02\x02\u03D5\xB5\x03\x02\x02\x02\u03D6\u03DF\x07E\x02\x02\u03D7\u03D9" +
@@ -5630,12 +5629,12 @@ export class YmlParser extends Parser {
 		"\x02\x02\u03DF\u03DD\x03\x02\x02\x02\u03E0\u03E2\x03\x02\x02\x02\u03E1" +
 		"\u03DF\x03\x02\x02\x02\u03E2\u03E4\x07F\x02\x02\u03E3\u03E5\x07\x02\x02" +
 		"\x03\u03E4\u03E3\x03\x02\x02\x02\u03E4\u03E5\x03\x02\x02\x02\u03E5\xB7" +
-		"\x03\x02\x02\x02\u03E6\u03E7\x07\x10\x02\x02\u03E7\u03EB\x05\b\x05\x02" +
-		"\u03E8\u03EA\x05(\x15\x02\u03E9\u03E8\x03\x02\x02\x02\u03EA\u03ED\x03" +
-		"\x02\x02\x02\u03EB\u03E9\x03\x02\x02\x02\u03EB\u03EC\x03\x02\x02\x02\u03EC" +
-		"\u03EE\x03\x02\x02\x02\u03ED\u03EB\x03\x02\x02\x02\u03EE\u03EF\x07\'\x02" +
-		"\x02\u03EF\xB9\x03\x02\x02\x02\u03F0\u03F3\x07\x10\x02\x02\u03F1\u03F4" +
-		"\x05\b\x05\x02\u03F2\u03F4\x07\t\x02\x02\u03F3\u03F1\x03\x02\x02\x02\u03F3" +
+		"\x03\x02\x02\x02\u03E6\u03E7\x07\r\x02\x02\u03E7\u03EB\x05\b\x05\x02\u03E8" +
+		"\u03EA\x05(\x15\x02\u03E9\u03E8\x03\x02\x02\x02\u03EA\u03ED\x03\x02\x02" +
+		"\x02\u03EB\u03E9\x03\x02\x02\x02\u03EB\u03EC\x03\x02\x02\x02\u03EC\u03EE" +
+		"\x03\x02\x02\x02\u03ED\u03EB\x03\x02\x02\x02\u03EE\u03EF\x07\'\x02\x02" +
+		"\u03EF\xB9\x03\x02\x02\x02\u03F0\u03F3\x07\r\x02\x02\u03F1\u03F4\x05\b" +
+		"\x05\x02\u03F2\u03F4\x07\x06\x02\x02\u03F3\u03F1\x03\x02\x02\x02\u03F3" +
 		"\u03F2\x03\x02\x02\x02\u03F4\u03F9\x03\x02\x02\x02\u03F5\u03F8\x05\x1E" +
 		"\x10\x02\u03F6\u03F8\x05d3\x02\u03F7\u03F5\x03\x02\x02\x02\u03F7\u03F6" +
 		"\x03\x02\x02\x02\u03F8\u03FB\x03\x02\x02\x02\u03F9\u03F7\x03\x02\x02\x02" +
@@ -9149,6 +9148,7 @@ export class InstructionContext extends ParserRuleContext {
 
 
 export class Instruction_doContext extends ParserRuleContext {
+	public DO(): TerminalNode { return this.getToken(YmlParser.DO, 0); }
 	public actionBlock(): ActionBlockContext {
 		return this.getRuleContext(0, ActionBlockContext);
 	}
@@ -9181,6 +9181,7 @@ export class Instruction_doContext extends ParserRuleContext {
 
 
 export class Instruction_try_catchContext extends ParserRuleContext {
+	public TRY(): TerminalNode { return this.getToken(YmlParser.TRY, 0); }
 	public OPEN_PAR(): TerminalNode[];
 	public OPEN_PAR(i: number): TerminalNode;
 	public OPEN_PAR(i?: number): TerminalNode | TerminalNode[] {
@@ -9193,6 +9194,7 @@ export class Instruction_try_catchContext extends ParserRuleContext {
 	public instruction_do(): Instruction_doContext {
 		return this.getRuleContext(0, Instruction_doContext);
 	}
+	public CATCH(): TerminalNode { return this.getToken(YmlParser.CATCH, 0); }
 	public CLOSE_PAR(): TerminalNode[];
 	public CLOSE_PAR(i: number): TerminalNode;
 	public CLOSE_PAR(i?: number): TerminalNode | TerminalNode[] {
