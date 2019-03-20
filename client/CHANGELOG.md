@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.X.X (YYYY-MM-DD)
+## 1.5.0 (YYYY-MM-DD)
 
 -   Fix syntax highlighting for keywords `local`, `args`, `Function` and `break`.
 -   Improved completion from Yseop Engine's model. More elements are available such as:
