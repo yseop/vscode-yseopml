@@ -2,7 +2,7 @@
   "name": "vscode-yseopml",
   "displayName": "YML (Yseop Markup Language) support extension",
   "description": "Implementation of YML language server in node.",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "Yseop",
   "license": "MIT",
   "publisher": "Yseop",
@@ -29,18 +29,23 @@
     "test": "npm run test:client && npm run test:server-ci",
     "test:server": "cd server && npm run test",
     "test:server-ci": "cd server && npm run test:ci",
-    "lint:report": "tslint --force --fix -c tslint.json -o report.json -t json '**/src/*.ts'",
-    "lint": "tslint -c tslint.json '**/src/*.ts'"
+    "lint:report": "tslint --project tsconfig.json --force --fix -c tslint.json -o report.json -t json '**/src/*.ts'",
+    "lint": "tslint -c tslint.json --project tsconfig.json '**/src/*.ts'"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "@types/node": "^11.9.5",
     "antlr4ts-cli": "^0.5.0-alpha.2",
     "mocha": "^5.2.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-consistent-codestyle": "^1.15.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-sonarts": "^1.9.0",
     "typescript": "^3.3.3",
-    "vsce": "^1.56.0"
+    "vsce": "^1.57.1"
   },
   "dependencies": {
+    "@types/xml2js": "^0.4.3",
     "tslint": "^5.12.1"
   }
 }

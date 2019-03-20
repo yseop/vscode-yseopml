@@ -78,10 +78,13 @@ import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { Instruction_ifContext } from "./YmlParser";
+import { Instruction_forallContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
 import { Instruction_returnContext } from "./YmlParser";
 import { Instruction_chainedCallContext } from "./YmlParser";
 import { InstructionContext } from "./YmlParser";
+import { Instruction_doContext } from "./YmlParser";
+import { Instruction_try_catchContext } from "./YmlParser";
 import { ActionBlockContext } from "./YmlParser";
 import { ArithmeticExpressionContext } from "./YmlParser";
 import { ExistentialOperatorContext } from "./YmlParser";
@@ -91,7 +94,8 @@ import { ExternDeclarationContext } from "./YmlParser";
 import { ArrayContext } from "./YmlParser";
 import { ConstListContext } from "./YmlParser";
 import { GranuleContext } from "./YmlParser";
-import { CompleteContext } from "./YmlParser";
+import { ObjectCompleteContext } from "./YmlParser";
+import { ClassCompleteContext } from "./YmlParser";
 
 
 /**
@@ -628,6 +632,13 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstruction_if?: (ctx: Instruction_ifContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_forall`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_forall?: (ctx: Instruction_forallContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_while`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -654,6 +665,20 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction?: (ctx: InstructionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_do`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_do?: (ctx: Instruction_doContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_try_catch`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_try_catch?: (ctx: Instruction_try_catchContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.actionBlock`.
@@ -719,10 +744,17 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitGranule?: (ctx: GranuleContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.complete`.
+	 * Visit a parse tree produced by `YmlParser.objectComplete`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitComplete?: (ctx: CompleteContext) => Result;
+	visitObjectComplete?: (ctx: ObjectCompleteContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.classComplete`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitClassComplete?: (ctx: ClassCompleteContext) => Result;
 }
 

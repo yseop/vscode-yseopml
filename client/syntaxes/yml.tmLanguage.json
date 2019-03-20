@@ -24,7 +24,7 @@
         "keywords": {
             "patterns": [{
                     "name": "keyword.control.yml",
-                    "match": "\\b(if|while|for|return|foreach|switch|switchExpr|switchExprExclusive|belongsTo|default|case|interface|class|implementation|private|extends|override|complete|field|method|function|static|classProperties|ifExpr|then|else)\\b",
+                    "match": "\\b(args|belongsTo|break|case|class|classProperties|complete|default|else|extends|field|for|foreach|function|Function|if|ifExpr|implementation|interface|local|method|override|private|return|static|switch|switchExpr|switchExprExclusive|then|while)\\b",
                     "comment": "All YML keywords that should be highlighted."
                 },
                 { "include": "#comments" },
