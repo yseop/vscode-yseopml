@@ -33,7 +33,7 @@ export class EngineModel {
         if (!fs.existsSync(this.uri)) {
             connection.console.warn(`File “${this.uri}” doesn't exist.`);
         } else if (!fs.lstatSync(this.uri).isFile()) {
-            connection.console.warn(`It seems that ${this.uri} is not a file. Therefore it cannot be imported.`);
+            connection.console.warn(`It seems that ${this.uri} is not a normal file. Therefore, it cannot be imported.`);
         } else {
             this.parsePredefinedObjects(this.uri);
         }
