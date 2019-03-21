@@ -1,5 +1,29 @@
 #! /usr/bin/env bash
 
+
+declare -r JSON_INDENT_WIDTH=4
+N_SPACES=$(
+    seq "$JSON_INDENT_WIDTH" | xargs printf '%.0s '
+)
+readonly N_SPACES
+
+
+# stdin ←   Code or JSON, etc. indented with hard tabs.
+# stdout →  The same chunk, indented with $N_SPACES.
+function indent_with_spaces {
+    # To avoid replacing tabs that stand in strings and whatnot,
+    # we only look for tabs situated at the beginning of lines.
+    # Since we can't properly “count” indentation levels,
+    # we replace one tab at a time, applying the substitution command
+    # again as long as it succeeds.
+    sed "
+        : beginning
+        s/^\(\(${N_SPACES}\)*\)\t/\1${N_SPACES}/
+        t beginning
+    "
+}
+
+
 set -e
 
 cd "$(dirname "$(readlink -f -- "$0")")"
@@ -71,7 +95,7 @@ printf 'Edited %s: %s\n' "$CHANGELOG" "$changes"
 for file in {client,server,.}/package.json
 do
     tmp=$(
-        jq ".version = \"${version:?}\"" < "$file"
+        jq --tab ".version = \"${version:?}\"" < "$file" | indent_with_spaces
     )
     printf '%s\n' "${tmp:?}" > "$file"
 done
