@@ -80,8 +80,7 @@ connection.onHover((_params) => {
 });
 
 const validateTextDocumentOnEvent = (event: TextDocumentChangeEvent) => validateTextDocument(event.document);
-documents.onDidOpen(validateTextDocumentOnEvent);
-documents.onDidSave(validateTextDocumentOnEvent);
+documents.onDidChangeContent(validateTextDocumentOnEvent);
 documents.onDidClose((event: TextDocumentChangeEvent) =>
     // Clearing diagnostic for the closed file to avoid spamming the user.
     connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] }),
@@ -121,7 +120,7 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 function validateTextDocument(textDocument: TextDocument): void {
-    connection.console.log(`Yseop.vscode-yseopml − Validating ${textDocument.uri}`);
+    connection.console.log(`Yseop.vscode-yseopml − Parsing ${textDocument.uri}`);
     const textDocUri = textDocument.uri;
     const diagnostics: Diagnostic[] = [];
 
