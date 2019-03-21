@@ -30,10 +30,12 @@ export class EngineModel {
      * Parse the file that is at `uri`.
      */
     public loadPredefinedObjects(): void {
-        if (fs.existsSync(this.uri)) {
-            this.parsePredefinedObjects(this.uri);
-        } else {
+        if (!fs.existsSync(this.uri)) {
             connection.console.warn(`File “${this.uri}” doesn't exist.`);
+        } else if (!fs.lstatSync(this.uri).isFile()) {
+            connection.console.warn(`It seems that ${this.uri} is not a file. Therefore it cannot be imported.`);
+        } else {
+            this.parsePredefinedObjects(this.uri);
         }
     }
 
