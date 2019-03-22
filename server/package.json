@@ -29,8 +29,8 @@
         "compile": "npm run installServer && webpack --mode none",
         "watch": "npm run installServer && webpack --mode none --watch",
         "antlr4ts": "antlr4ts -visitor -o src grammar/Yml.g4",
-        "test": "tsc -p tsconfig.json && cd ../client/server && mocha --recursive",
-        "test:ci": "tsc -p tsconfig.json && cd ../client/server && mocha --reporter xunit --reporter-options output=../../target/test-reports/server-tests.xml --recursive"
+        "test": "tsc -p tsconfig.test.json && cd ./out && mocha --recursive",
+        "test:ci": "tsc -p tsconfig.test.json && cd ./out && mocha --reporter xunit --reporter-options output=../../target/test-reports/server-tests.xml --recursive"
     },
     "devDependencies": {
         "ts-loader": "^5.3.3",
