@@ -166,6 +166,9 @@
     "vscode-languageclient": "^3.5.1"
   },
   "devDependencies": {
-    "vscode": "^1.1.33"
+    "ts-loader": "^5.3.3",
+    "vscode": "^1.1.33",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   }
 }
