@@ -7,3 +7,8 @@ src/**
 .gitignore
 tsconfig.json
 vsc-extension-quickstart.md
+!node_modules/vscode-languageserver
+!node_modules/vscode-languageclient
+!node_modules/vscode-languageserver-protocol
+webpack.config.js
+**/node_modules/

@@ -1,4 +1,4 @@
-import fs = require('fs');
+import * as fs from 'fs';
 import { Parser } from 'xml2js';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
