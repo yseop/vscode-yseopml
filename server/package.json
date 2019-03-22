@@ -14,13 +14,13 @@
     "url": "https://github.com/yseop/vscode-yseopml"
   },
   "dependencies": {
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^11.9.5",
-    "antlr4ts": "^0.5.0-alpha.2",
-    "antlr4ts-cli": "^0.5.0-alpha.2",
-    "tslint": "^5.12.1",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.11.5",
+    "antlr4ts": "^0.5.0-alpha.3",
+    "antlr4ts-cli": "^0.5.0-alpha.3",
     "mocha": "^5.2.0",
-    "typescript": "^3.3.3",
+    "tslint": "^5.14.0",
+    "typescript": "^3.3.4000",
     "vscode-languageserver": "^3.5.1",
     "xml2js": "^0.4.19"
   },

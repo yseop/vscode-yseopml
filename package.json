@@ -33,19 +33,19 @@
     "lint": "tslint -c tslint.json --project tsconfig.json '**/src/*.ts'"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^11.9.5",
-    "antlr4ts-cli": "^0.5.0-alpha.2",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.11.5",
+    "antlr4ts-cli": "^0.5.0-alpha.3",
     "mocha": "^5.2.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-consistent-codestyle": "^1.15.1",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-sonarts": "^1.9.0",
-    "typescript": "^3.3.3",
-    "vsce": "^1.57.1"
+    "typescript": "^3.3.4000",
+    "vsce": "^1.58.0"
   },
   "dependencies": {
     "@types/xml2js": "^0.4.3",
-    "tslint": "^5.12.1"
+    "tslint": "^5.14.0"
   }
 }
