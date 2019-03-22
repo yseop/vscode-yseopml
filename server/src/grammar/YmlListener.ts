@@ -11,6 +11,7 @@ import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
 import { ClassDeclarationContext } from "./YmlParser";
 import { ClassImplementationContext } from "./YmlParser";
+import { AttributeImplementationContext } from "./YmlParser";
 import { OverrideContext } from "./YmlParser";
 import { OverrideInstructionContext } from "./YmlParser";
 import { ClassDeclarationIntroContext } from "./YmlParser";
@@ -190,6 +191,17 @@ export interface YmlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitClassImplementation?: (ctx: ClassImplementationContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.attributeImplementation`.
+	 * @param ctx the parse tree
+	 */
+	enterAttributeImplementation?: (ctx: AttributeImplementationContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.attributeImplementation`.
+	 * @param ctx the parse tree
+	 */
+	exitAttributeImplementation?: (ctx: AttributeImplementationContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.override`.

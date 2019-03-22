@@ -168,8 +168,11 @@ classDeclaration:
 ;
 
 classImplementation:
-    IMPLEMENTATION className=ymlId overrideInstruction*? overrideBlock=override? attributes=field*
+    IMPLEMENTATION className=ymlId attributeImplementation*? overrideInstruction*? overrideBlock=override? attributes=
+        field*
 ;
+
+attributeImplementation: attrName=ymlId attributes=field+;
 
 override: OVERRIDE OPEN_BRACE overrideInstruction* CLOSE_BRACE;
 

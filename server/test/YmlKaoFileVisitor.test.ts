@@ -1,4 +1,4 @@
-import { ANTLRInputStream, CommonTokenStream } from 'antlr4ts';
+import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import * as assert from 'assert';
 import { CompletionItemKind } from 'vscode-languageserver';
 
@@ -10,7 +10,7 @@ import { YmlKaoFileVisitor } from '../src/visitors';
 describe('Extension Server Tests', () => {
     describe('YmlKaoFileVisitor', () => {
         it('should be OK to instantiate YmlKaoFileVisitor', (done) => {
-            const inputStream = new ANTLRInputStream('');
+            const inputStream = CharStreams.fromString('');
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const parser = new YmlParser(tokenStream);
@@ -21,8 +21,27 @@ describe('Extension Server Tests', () => {
             done();
         });
 
+        it('should parse correctly an implementation part', (done) => {
+            const inputStream = CharStreams.fromString(`implementation SentenceToGenerate
+
+    forGroups
+    --> defaultValue theClinicalStudy.groupsOfSubjects
+
+    override {
+        write function
+    }
+;`);
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const parser = new YmlParser(tokenStream);
+
+            const result = parser.classImplementation();
+            assert.notStrictEqual(result, null);
+            done();
+        });
+
         it('should be able to parse a string', (done) => {
-            const inputStream = new ANTLRInputStream('"foo bar"');
+            const inputStream = CharStreams.fromString('"foo bar"');
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const tokens = tokenStream.getTokens();
@@ -33,7 +52,7 @@ describe('Extension Server Tests', () => {
         });
 
         it('should parse a well-written YML class and provide completion for fields', (done) => {
-            const inputStream = new ANTLRInputStream(`
+            const inputStream = CharStreams.fromString(`
             interface City
                 field name
                 --> domains String
@@ -119,7 +138,7 @@ describe('Extension Server Tests', () => {
             done();
         });
         it('should parse a well-written YML class and provide completion for fields and methods', (done) => {
-            const inputStream = new ANTLRInputStream(`
+            const inputStream = CharStreams.fromString(`
               interface City
                   method getName()
                   --> domains String
@@ -249,7 +268,7 @@ describe('Extension Server Tests', () => {
         });
         // tslint:disable-next-line: max-line-length
         it('should parse a well-written YML file containing instances and functions and provide completion for them', (done) => {
-            const inputStream = new ANTLRInputStream(`
+            const inputStream = CharStreams.fromString(`
         function functionWithoutArgs()
           --> domains Text
           --> action {

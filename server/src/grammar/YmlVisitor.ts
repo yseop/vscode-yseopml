@@ -11,6 +11,7 @@ import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
 import { ClassDeclarationContext } from "./YmlParser";
 import { ClassImplementationContext } from "./YmlParser";
+import { AttributeImplementationContext } from "./YmlParser";
 import { OverrideContext } from "./YmlParser";
 import { OverrideInstructionContext } from "./YmlParser";
 import { ClassDeclarationIntroContext } from "./YmlParser";
@@ -161,6 +162,13 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitClassImplementation?: (ctx: ClassImplementationContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.attributeImplementation`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitAttributeImplementation?: (ctx: AttributeImplementationContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.override`.
