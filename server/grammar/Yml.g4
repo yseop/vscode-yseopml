@@ -318,6 +318,8 @@ staticBlock: STATIC OPEN_BRACE staticDeclaration* CLOSE_BRACE;
 
 methodDeclaration: methodIntro memberOption=field*;
 
+methodCompleteDeclaration: methodIntro FUNCTION memberOption=field*;
+
 /*
     // accepts structures like:
 	method aggregateTree
@@ -491,5 +493,10 @@ objectComplete:
 ;
 
 classComplete:
-    COMPLETE (ymlId | FUNCTION) (classAttributeDeclaration | methodDeclaration)* SEMICOLON
+    COMPLETE (ymlId | FUNCTION)
+    (
+        classAttributeDeclaration
+        | methodCompleteDeclaration
+        | memberDeclaration
+    )* SEMICOLON
 ;

@@ -54,6 +54,7 @@ import { ArgsBlockContext } from "./YmlParser";
 import { LocalBlockContext } from "./YmlParser";
 import { StaticBlockContext } from "./YmlParser";
 import { MethodDeclarationContext } from "./YmlParser";
+import { MethodCompleteDeclarationContext } from "./YmlParser";
 import { MethodIntroContext } from "./YmlParser";
 import { ArgumentListContext } from "./YmlParser";
 import { MandatoryArgsContext } from "./YmlParser";
@@ -664,6 +665,17 @@ export interface YmlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitMethodDeclaration?: (ctx: MethodDeclarationContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.methodCompleteDeclaration`.
+	 * @param ctx the parse tree
+	 */
+	enterMethodCompleteDeclaration?: (ctx: MethodCompleteDeclarationContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.methodCompleteDeclaration`.
+	 * @param ctx the parse tree
+	 */
+	exitMethodCompleteDeclaration?: (ctx: MethodCompleteDeclarationContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.methodIntro`.

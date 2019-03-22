@@ -54,6 +54,7 @@ import { ArgsBlockContext } from "./YmlParser";
 import { LocalBlockContext } from "./YmlParser";
 import { StaticBlockContext } from "./YmlParser";
 import { MethodDeclarationContext } from "./YmlParser";
+import { MethodCompleteDeclarationContext } from "./YmlParser";
 import { MethodIntroContext } from "./YmlParser";
 import { ArgumentListContext } from "./YmlParser";
 import { MandatoryArgsContext } from "./YmlParser";
@@ -463,6 +464,13 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitMethodDeclaration?: (ctx: MethodDeclarationContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.methodCompleteDeclaration`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitMethodCompleteDeclaration?: (ctx: MethodCompleteDeclarationContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.methodIntro`.
