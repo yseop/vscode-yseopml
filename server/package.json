@@ -27,6 +27,7 @@
     "scripts": {
         "installServer": "installServerIntoExtension ../client ./package.json ./tsconfig.json",
         "compile": "npm run installServer && webpack --mode none",
+        "compile:prod": "npm run installServer && webpack --mode production",
         "watch": "npm run installServer && webpack --mode none --watch",
         "antlr4ts": "antlr4ts -visitor -o src grammar/Yml.g4",
         "test": "tsc -p tsconfig.test.json && cd ./out && mocha --recursive",
