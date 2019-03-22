@@ -160,12 +160,12 @@
   },
   "dependencies": {
     "event-stream": "3.3.4",
-    "tslint": "^5.12.1",
-    "typescript": "^3.3.3",
-    "vsce": "^1.57.1",
+    "tslint": "^5.14.0",
+    "typescript": "^3.3.4000",
+    "vsce": "^1.58.0",
     "vscode-languageclient": "^3.5.1"
   },
   "devDependencies": {
-    "vscode": "^1.1.29"
+    "vscode": "^1.1.33"
   }
 }
