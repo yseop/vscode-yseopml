@@ -36,6 +36,29 @@ describe('Extension Server Tests', () => {
             const parser = new YmlParser(tokenStream);
 
             const result = parser.classImplementation();
+            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
+            assert.notStrictEqual(result, null);
+            done();
+        });
+        it('should parse correctly a complete of a class adding methods to it', (done) => {
+            const inputStream = CharStreams.fromString(`complete StudyConcept
+
+    method manageUnitLabel(DataStructure localDataStructure, Text unitText {__nullable}) function
+    --> domains Void
+
+    method manageUnit(DataStructure localDataStructure) function
+    --> domains Void
+
+    method getStudyData(PatientGroupPartition group) function
+    --> domains StudyData
+;
+`);
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const parser = new YmlParser(tokenStream);
+
+            const result = parser.classComplete();
+            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
             assert.notStrictEqual(result, null);
             done();
         });
@@ -81,6 +104,8 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
+            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
+            assert.notStrictEqual(result, null);
             const expectedCompletionItems = [
                 {
                     attributes: [],
@@ -171,6 +196,8 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
+            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
+            assert.notStrictEqual(result, null);
             const expectedCompletionItems = [
                 {
                     attributes: [],
@@ -314,6 +341,8 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
+            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
+            assert.notStrictEqual(result, null);
             const expectedCompletionItems = [
                 {
                     data: 'id_static_functionWithoutArgs',
