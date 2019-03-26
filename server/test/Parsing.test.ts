@@ -6,7 +6,8 @@ import { YmlLexer, YmlParser } from '../src/grammar';
 describe('Parsing Tests', () => {
     describe('classImplementation rule', () => {
         it('should parse correctly implementation with attributes and override', (done) => {
-            const inputStream = CharStreams.fromString(`implementation SentenceToGenerate
+            const inputStream = CharStreams.fromString(`
+implementation SentenceToGenerate
 
     forGroups
     --> defaultValue theClinicalStudy.groupsOfSubjects
@@ -27,7 +28,8 @@ describe('Parsing Tests', () => {
     });
     describe('classComplete rule', () => {
         it('should parse correctly a complete of a class adding methods to it', (done) => {
-            const inputStream = CharStreams.fromString(`complete StudyConcept
+            const inputStream = CharStreams.fromString(`
+complete StudyConcept
 
     method manageUnitLabel(DataStructure localDataStructure, Text unitText {__nullable}) function
     --> domains Void
