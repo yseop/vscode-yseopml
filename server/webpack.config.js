@@ -36,7 +36,7 @@ const config = {
         devtoolModuleFilenameTemplate: "../[resource-path]",
         filename: "server.js",
         libraryTarget: "commonjs2",
-        // the bundle is stored in the 'dist' folder (check package.json),
+        // the bundle is stored in the upper 'client/server' folder (check package.json),
         // 📖 -> https://webpack.js.org/configuration/output/
         path: path.resolve(__dirname, "../client/server"),
     },
