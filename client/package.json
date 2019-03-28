@@ -1,171 +1,175 @@
 {
-  "name": "vscode-yseopml",
-  "displayName": "YML (Yseop Markup Language) support extension",
-  "description": "Yseop Markup Language support extension − coloring and code folding for YML",
-  "version": "1.5.0",
-  "author": "Yseop",
-  "license": "MIT",
-  "publisher": "Yseop",
-  "readme": "README.md",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yseop/vscode-yseopml"
-  },
-  "bugs": {
-    "url": "https://github.com/yseop/vscode-yseopml/issues"
-  },
-  "homepage": "https://github.com/yseop/vscode-yseopml/blob/master/README.adoc",
-  "engines": {
-    "vscode": "^1.28.2"
-  },
-  "categories": [
-    "Programming Languages",
-    "Snippets"
-  ],
-  "activationEvents": [
-    "onLanguage:yml",
-    "onCommand:yseopml.batch",
-    "onCommand:yseopml.compile",
-    "onCommand:yseopml.test",
-    "onCommand:yseopml.clean",
-    "onCommand:yseopml.cleanall",
-    "onCommand:yseopml.package",
-    "onCommand:yseopml.info"
-  ],
-  "icon": "images/compose-icon.png",
-  "galleryBanner": {
-    "color": "#27aae1",
-    "theme": "dark"
-  },
-  "main": "./out/src/extension",
-  "contributes": {
-    "configuration": {
-      "type": "object",
-      "title": "Yseop Markup Language configuration",
-      "properties": {
-        "yseopml.activateParsingProblemsReporting": {
-          "scope": "resource",
-          "type": "boolean",
-          "default": true,
-          "description": "Allows to activate (true) or deactivate (false) the parsing problems reporting."
-        },
-        "yseopml.maxNumberOfProblems": {
-          "scope": "resource",
-          "type": "number",
-          "default": 100,
-          "description": "Controls the maximum number of problems produced by the server."
-        },
-        "yseopml.pathToPredefinedObjectsXml": {
-          "scope": "window",
-          "type": "string",
-          "default": "",
-          "description": "Absolute path to an XML file containing the YML types definition."
-        },
-        "yseopml.pathToYseopCli": {
-          "scope": "window",
-          "type": "string",
-          "default": "",
-          "description": "Absolute path to Yseop CLI executable (“yseop” or “yseop.bat” − see Yseop CLI doc for more info)."
-        },
-        "yseopml.trace.server": {
-          "scope": "window",
-          "type": "string",
-          "enum": [
-            "off",
-            "messages",
-            "verbose"
-          ],
-          "default": "off",
-          "description": "Traces the communication between VSCode and the language server."
-        }
-      }
+    "name": "vscode-yseopml",
+    "displayName": "YML (Yseop Markup Language) support extension",
+    "description": "Yseop Markup Language support extension − coloring and code folding for YML",
+    "version": "1.5.0",
+    "author": "Yseop",
+    "license": "MIT",
+    "publisher": "Yseop",
+    "readme": "README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yseop/vscode-yseopml"
     },
-    "commands": [
-      {
-        "command": "yseopml.batch",
-        "title": "Yseop Batch",
-        "category": "Yseop"
-      },
-      {
-        "command": "yseopml.compile",
-        "title": "Yseop Compile",
-        "category": "Yseop"
-      },
-      {
-        "command": "yseopml.test",
-        "title": "Yseop Test",
-        "category": "Yseop"
-      },
-      {
-        "command": "yseopml.clean",
-        "title": "Yseop Clean",
-        "category": "Yseop"
-      },
-      {
-        "command": "yseopml.cleanall",
-        "title": "Yseop Clean All",
-        "category": "Yseop"
-      },
-      {
-        "command": "yseopml.package",
-        "title": "Yseop Package",
-        "category": "Yseop"
-      },
-      {
-        "command": "yseopml.info",
-        "title": "Yseop Info",
-        "category": "Yseop"
-      }
+    "bugs": {
+        "url": "https://github.com/yseop/vscode-yseopml/issues"
+    },
+    "homepage": "https://github.com/yseop/vscode-yseopml/blob/master/README.adoc",
+    "engines": {
+        "vscode": "^1.28.2"
+    },
+    "categories": [
+        "Programming Languages",
+        "Snippets"
     ],
-    "languages": [
-      {
-        "id": "yml",
-        "aliases": [
-          "Yseop Markup Language",
-          "yml"
+    "activationEvents": [
+        "onLanguage:yml",
+        "onCommand:yseopml.batch",
+        "onCommand:yseopml.compile",
+        "onCommand:yseopml.test",
+        "onCommand:yseopml.clean",
+        "onCommand:yseopml.cleanall",
+        "onCommand:yseopml.package",
+        "onCommand:yseopml.info"
+    ],
+    "icon": "images/compose-icon.png",
+    "galleryBanner": {
+        "color": "#27aae1",
+        "theme": "dark"
+    },
+    "main": "./out/extension",
+    "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "Yseop Markup Language configuration",
+            "properties": {
+                "yseopml.activateParsingProblemsReporting": {
+                    "scope": "resource",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allows to activate (true) or deactivate (false) the parsing problems reporting."
+                },
+                "yseopml.maxNumberOfProblems": {
+                    "scope": "resource",
+                    "type": "number",
+                    "default": 100,
+                    "description": "Controls the maximum number of problems produced by the server."
+                },
+                "yseopml.pathToPredefinedObjectsXml": {
+                    "scope": "window",
+                    "type": "string",
+                    "default": "",
+                    "description": "Absolute path to an XML file containing the YML types definition."
+                },
+                "yseopml.pathToYseopCli": {
+                    "scope": "window",
+                    "type": "string",
+                    "default": "",
+                    "description": "Absolute path to Yseop CLI executable (“yseop” or “yseop.bat” − see Yseop CLI doc for more info)."
+                },
+                "yseopml.trace.server": {
+                    "scope": "window",
+                    "type": "string",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
+                    "default": "off",
+                    "description": "Traces the communication between VSCode and the language server."
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "yseopml.batch",
+                "title": "Yseop Batch",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.compile",
+                "title": "Yseop Compile",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.test",
+                "title": "Yseop Test",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.clean",
+                "title": "Yseop Clean",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.cleanall",
+                "title": "Yseop Clean All",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.package",
+                "title": "Yseop Package",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.info",
+                "title": "Yseop Info",
+                "category": "Yseop"
+            }
         ],
-        "extensions": [
-          ".kao",
-          ".yclass",
-          ".ytextfunction",
-          ".yobject",
-          ".ycomplete",
-          ".dcl",
-          ".yml"
+        "languages": [
+            {
+                "id": "yml",
+                "aliases": [
+                    "Yseop Markup Language",
+                    "yml"
+                ],
+                "extensions": [
+                    ".kao",
+                    ".yclass",
+                    ".ytextfunction",
+                    ".yobject",
+                    ".ycomplete",
+                    ".dcl",
+                    ".yml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
         ],
-        "configuration": "./language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "yml",
-        "scopeName": "source.yseop",
-        "path": "./syntaxes/yml.tmLanguage.json"
-      }
-    ],
-    "snippets": [
-      {
-        "language": "yml",
-        "path": "./snippets/snippets.json"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "tsc -p ./",
-    "compile": "tsc -p ./",
-    "watch": "tsc -w -p ./",
-    "update-vscode": "node ./node_modules/vscode/bin/install",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "npm run compile && node ./node_modules/vscode/bin/test"
-  },
-  "dependencies": {
-    "event-stream": "3.3.4",
-    "tslint": "^5.14.0",
-    "typescript": "^3.3.4000",
-    "vsce": "^1.58.0",
-    "vscode-languageclient": "^3.5.1"
-  },
-  "devDependencies": {
-    "vscode": "^1.1.33"
-  }
+        "grammars": [
+            {
+                "language": "yml",
+                "scopeName": "source.yseop",
+                "path": "./syntaxes/yml.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "yml",
+                "path": "./snippets/snippets.json"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "webpack --mode production",
+        "compile": "webpack --mode none",
+        "watch": "webpack --mode none --watch",
+        "test-compile": "tsc -p ./",
+        "update-vscode": "node ./node_modules/vscode/bin/install",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run test-compile && node ./node_modules/vscode/bin/test"
+    },
+    "dependencies": {
+        "event-stream": "3.3.4",
+        "tslint": "^5.14.0",
+        "typescript": "^3.3.4000",
+        "vsce": "^1.58.0",
+        "vscode-languageclient": "^3.5.1"
+    },
+    "devDependencies": {
+        "ts-loader": "^5.3.3",
+        "vscode": "^1.1.33",
+        "webpack": "^4.29.6",
+        "webpack-cli": "^3.3.0"
+    }
 }
