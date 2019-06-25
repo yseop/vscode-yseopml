@@ -89,19 +89,70 @@ export function activate(context: ExtensionContext) {
         ExecYseopCliCommand(yseopCliPath, 'info');
     });
 
-    // Create the language client and start the client.
-    const disposable = new LanguageClient(
+    // Create the language client.
+    const languageClient = new LanguageClient(
         'yseopml',
         'Yseop Markup Language language server',
         serverOptions,
         clientOptions,
         true,
-    ).start();
+    );
+    // Start the language client.
+    const disposable = languageClient.start();
 
     // Push the disposable to the context's subscriptions so that the
     // client can be deactivated on extension deactivation.
     // Also register the custom commands.
     context.subscriptions.push(disposable, batchCmd, compileCmd, testCmd, cleanCmd, cleanallCmd, packageCmd, infoCmd);
+
+    let parseAllProjectFilesAtStartup: boolean = workspace.getConfiguration('yseopml').get('parseAllProjectFilesAtStartup');
+
+    workspace.onDidChangeConfiguration((event) => {
+        if (event.affectsConfiguration('yseopml.parseAllProjectFilesAtStartup')) {
+            parseAllProjectFilesAtStartup = workspace.getConfiguration('yseopml').get('parseAllProjectFilesAtStartup');
+        }
+    });
+
+    if (!parseAllProjectFilesAtStartup) {
+        // nothing more to do
+        return;
+    }
+    /*
+        * List of all the yseopml file extensions known by this extension as set in `client/package.json`.
+        */
+    const yseopmlExtensions = [
+        'kao',
+        'yclass',
+        'ytextfunction',
+        'yobject',
+        'ycomplete',
+        'dcl',
+        'yml',
+    ];
+
+    for (const extension of yseopmlExtensions) {
+        languageClient.info(`Parsing files with extension ${extension}`);
+        parseFilesWithExtensions(extension);
+    }
+}
+
+/**
+ * Find all the files in the workspace that have the extention `extension`.
+ * and open it as a `TextDocument`. This will result to request a parsing of
+ * this file and having it known by the extension.
+ * This function excludes the results from `.generated-yml/`.
+ *
+ * @param extension The extension of the files to look for
+ */
+function parseFilesWithExtensions(extension: string): void {
+    workspace.findFiles(`*/**/*.${extension}`, '.generated-yml/**').then((uris) => {
+        if (!uris || uris.length === 0) {
+            return;
+        }
+        uris.forEach((uri) => {
+            workspace.openTextDocument(uri);
+        });
+    });
 }
 
 function updateSettings(response: string): void {
