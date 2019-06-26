@@ -14,12 +14,18 @@ import {
     StatusBarItem,
     window,
     workspace,
+    WorkspaceConfiguration,
 } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
 
 let yseopCliOutputChannel: OutputChannel;
 let yseopCliStatusBarItem: StatusBarItem;
 let yseopCliPath: string;
+let parseAllProjectFilesAtStartup: boolean;
+
+const yseopmlSectionName = 'yseopml';
+const pathToYseopCliKey = 'pathToYseopCli';
+const parseWholeProjectKey = 'parseAllProjectFilesAtStartup';
 
 export function activate(context: ExtensionContext) {
     yseopCliOutputChannel = window.createOutputChannel('Yseop CLI Output');
@@ -47,45 +53,50 @@ export function activate(context: ExtensionContext) {
         documentSelector: [{ scheme: 'file', language: 'yml' }],
         synchronize: {
             // Synchronize the setting section 'yseopml' to the server
-            configurationSection: 'yseopml',
+            configurationSection: yseopmlSectionName,
             // Notify the server about file changes to '.clientrc files contain in the workspace
             fileEvents: workspace.createFileSystemWatcher('**/.clientrc'),
         },
     };
 
-    yseopCliPath = workspace.getConfiguration('yseopml').get('pathToYseopCli');
+    const yseopmlConfig: WorkspaceConfiguration = workspace.getConfiguration(yseopmlSectionName);
+    yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
+    parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
 
     workspace.onDidChangeConfiguration((event) => {
-        if (event.affectsConfiguration('yseopml.pathToYseopCli')) {
-            yseopCliPath = workspace.getConfiguration('yseopml').get('pathToYseopCli');
+        if (event.affectsConfiguration(`${yseopmlSectionName}.${pathToYseopCliKey}`)) {
+            yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
+        }
+        if (event.affectsConfiguration(`${yseopmlSectionName}.${parseWholeProjectKey}`)) {
+            parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
         }
     });
 
-    const batchCmd = commands.registerCommand('yseopml.batch', () => {
+    const batchCmd = commands.registerCommand(`${yseopmlSectionName}.batch`, () => {
         ExecYseopCliCommand(yseopCliPath, 'batch');
     });
 
-    const compileCmd = commands.registerCommand('yseopml.compile', () => {
+    const compileCmd = commands.registerCommand(`${yseopmlSectionName}.compile`, () => {
         ExecYseopCliCommand(yseopCliPath, 'compile');
     });
 
-    const testCmd = commands.registerCommand('yseopml.test', () => {
+    const testCmd = commands.registerCommand(`${yseopmlSectionName}.test`, () => {
         ExecYseopCliCommand(yseopCliPath, 'test');
     });
 
-    const cleanCmd = commands.registerCommand('yseopml.clean', () => {
+    const cleanCmd = commands.registerCommand(`${yseopmlSectionName}.clean`, () => {
         ExecYseopCliCommand(yseopCliPath, 'clean');
     });
 
-    const cleanallCmd = commands.registerCommand('yseopml.cleanall', () => {
+    const cleanallCmd = commands.registerCommand(`${yseopmlSectionName}.cleanall`, () => {
         ExecYseopCliCommand(yseopCliPath, 'clean', '--all');
     });
 
-    const packageCmd = commands.registerCommand('yseopml.package', () => {
+    const packageCmd = commands.registerCommand(`${yseopmlSectionName}.package`, () => {
         ExecYseopCliCommand(yseopCliPath, 'package');
     });
 
-    const infoCmd = commands.registerCommand('yseopml.info', () => {
+    const infoCmd = commands.registerCommand(`${yseopmlSectionName}.info`, () => {
         ExecYseopCliCommand(yseopCliPath, 'info');
     });
 
@@ -105,21 +116,13 @@ export function activate(context: ExtensionContext) {
     // Also register the custom commands.
     context.subscriptions.push(disposable, batchCmd, compileCmd, testCmd, cleanCmd, cleanallCmd, packageCmd, infoCmd);
 
-    let parseAllProjectFilesAtStartup: boolean = workspace.getConfiguration('yseopml').get('parseAllProjectFilesAtStartup');
-
-    workspace.onDidChangeConfiguration((event) => {
-        if (event.affectsConfiguration('yseopml.parseAllProjectFilesAtStartup')) {
-            parseAllProjectFilesAtStartup = workspace.getConfiguration('yseopml').get('parseAllProjectFilesAtStartup');
-        }
-    });
-
     if (!parseAllProjectFilesAtStartup) {
         // nothing more to do
         return;
     }
     /*
-        * List of all the yseopml file extensions known by this extension as set in `client/package.json`.
-        */
+    * List of all the yseopml file extensions known by this extension as set in `client/package.json`.
+    */
     const yseopmlExtensions = [
         'kao',
         'yclass',
