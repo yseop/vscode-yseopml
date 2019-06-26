@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.6.0 (YYYY-MM-DD)
+
+-   Fix security issue with `js-yaml` version 3.13.0. New version `3.13.1` set instead.
+-   Parse all the YML files in the whole workspace at startup.
+    -   The new parameter `yseopml.parseAllProjectFilesAtStartup` allows to disable this feature.
+
 ## 1.5.0 (2019-03-20)
 
 -   Fix syntax highlighting for keywords `local`, `args`, `Function` and `break`.
