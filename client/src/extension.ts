@@ -14,12 +14,18 @@ import {
     StatusBarItem,
     window,
     workspace,
+    WorkspaceConfiguration,
 } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
 
 let yseopCliOutputChannel: OutputChannel;
 let yseopCliStatusBarItem: StatusBarItem;
 let yseopCliPath: string;
+let parseAllProjectFilesAtStartup: boolean;
+
+const yseopmlSectionName = 'yseopml';
+const pathToYseopCliKey = 'pathToYseopCli';
+const parseWholeProjectKey = 'parseAllProjectFilesAtStartup';
 
 export function activate(context: ExtensionContext) {
     yseopCliOutputChannel = window.createOutputChannel('Yseop CLI Output');
@@ -47,61 +53,105 @@ export function activate(context: ExtensionContext) {
         documentSelector: [{ scheme: 'file', language: 'yml' }],
         synchronize: {
             // Synchronize the setting section 'yseopml' to the server
-            configurationSection: 'yseopml',
+            configurationSection: yseopmlSectionName,
             // Notify the server about file changes to '.clientrc files contain in the workspace
             fileEvents: workspace.createFileSystemWatcher('**/.clientrc'),
         },
     };
 
-    yseopCliPath = workspace.getConfiguration('yseopml').get('pathToYseopCli');
+    const yseopmlConfig: WorkspaceConfiguration = workspace.getConfiguration(yseopmlSectionName);
 
-    workspace.onDidChangeConfiguration((event) => {
-        if (event.affectsConfiguration('yseopml.pathToYseopCli')) {
-            yseopCliPath = workspace.getConfiguration('yseopml').get('pathToYseopCli');
-        }
+    readConfig(yseopmlConfig);
+
+    workspace.onDidChangeConfiguration(() => {
+        readConfig(yseopmlConfig);
     });
 
-    const batchCmd = commands.registerCommand('yseopml.batch', () => {
+    const batchCmd = commands.registerCommand(`${yseopmlSectionName}.batch`, () => {
         ExecYseopCliCommand(yseopCliPath, 'batch');
     });
 
-    const compileCmd = commands.registerCommand('yseopml.compile', () => {
+    const compileCmd = commands.registerCommand(`${yseopmlSectionName}.compile`, () => {
         ExecYseopCliCommand(yseopCliPath, 'compile');
     });
 
-    const testCmd = commands.registerCommand('yseopml.test', () => {
+    const testCmd = commands.registerCommand(`${yseopmlSectionName}.test`, () => {
         ExecYseopCliCommand(yseopCliPath, 'test');
     });
 
-    const cleanCmd = commands.registerCommand('yseopml.clean', () => {
+    const cleanCmd = commands.registerCommand(`${yseopmlSectionName}.clean`, () => {
         ExecYseopCliCommand(yseopCliPath, 'clean');
     });
 
-    const cleanallCmd = commands.registerCommand('yseopml.cleanall', () => {
+    const cleanallCmd = commands.registerCommand(`${yseopmlSectionName}.cleanall`, () => {
         ExecYseopCliCommand(yseopCliPath, 'clean', '--all');
     });
 
-    const packageCmd = commands.registerCommand('yseopml.package', () => {
+    const packageCmd = commands.registerCommand(`${yseopmlSectionName}.package`, () => {
         ExecYseopCliCommand(yseopCliPath, 'package');
     });
 
-    const infoCmd = commands.registerCommand('yseopml.info', () => {
+    const infoCmd = commands.registerCommand(`${yseopmlSectionName}.info`, () => {
         ExecYseopCliCommand(yseopCliPath, 'info');
     });
 
-    // Create the language client and start the client.
-    const disposable = new LanguageClient(
+    // Create the language client.
+    const languageClient = new LanguageClient(
         'yseopml',
         'Yseop Markup Language language server',
         serverOptions,
         clientOptions,
         true,
-    ).start();
+    );
+    // Start the language client.
+    const disposable = languageClient.start();
 
     // Push the disposable to the context's subscriptions so that the
     // client can be deactivated on extension deactivation.
     // Also register the custom commands.
     context.subscriptions.push(disposable, batchCmd, compileCmd, testCmd, cleanCmd, cleanallCmd, packageCmd, infoCmd);
+
+    if (!parseAllProjectFilesAtStartup) {
+        // nothing more to do
+        return;
+    }
+    /*
+     * List of all the yseopml file extensions known by this extension as set in `client/package.json`.
+     */
+    const yseopmlExtensions = ['kao', 'yclass', 'yobject', 'ycomplete', 'dcl', 'yml'];
+
+    for (const extension of yseopmlExtensions) {
+        parseFilesWithExtension(extension);
+    }
+}
+
+/**
+ * Read and save the value of some useful configuration attributes.
+ *
+ * @param yseopmlConfig The workspace's configuration
+ */
+function readConfig(yseopmlConfig: WorkspaceConfiguration): void {
+    yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
+    parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
+}
+
+/**
+ * Find all the files in the workspace that have the extension `extension`
+ * and open them as `TextDocument` objects. This will result in a parsing request for
+ * these files and have it known by the extension.
+ * This function excludes the results from `.generated-yml/`.
+ *
+ * @param extension The extension of the files to look for
+ */
+function parseFilesWithExtension(extension: string): void {
+    workspace.findFiles(`**/*.${extension}`, '.generated-yml/**').then((uris) => {
+        if (!uris) {
+            return;
+        }
+        uris.forEach((uri) => {
+            workspace.openTextDocument(uri);
+        });
+    });
 }
 
 function updateSettings(response: string): void {
