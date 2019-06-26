@@ -146,7 +146,7 @@ export function activate(context: ExtensionContext) {
  */
 function parseFilesWithExtensions(extension: string): void {
     workspace.findFiles(`**/*.${extension}`, '.generated-yml/**').then((uris) => {
-        if (!uris || uris.length === 0) {
+        if (!uris) {
             return;
         }
         uris.forEach((uri) => {
