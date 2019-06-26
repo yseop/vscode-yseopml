@@ -35,22 +35,22 @@
         "watch:server": "cd server && npm run watch"
     },
     "devDependencies": {
-        "@types/mocha": "^5.2.6",
-        "@types/node": "^11.11.5",
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^11.13.15",
         "antlr4ts-cli": "^0.5.0-alpha.3",
         "mocha": "^5.2.0",
-        "ts-loader": "^5.3.3",
+        "ts-loader": "^5.4.5",
         "tslint-config-prettier": "^1.18.0",
         "tslint-consistent-codestyle": "^1.15.1",
         "tslint-eslint-rules": "^5.4.0",
         "tslint-sonarts": "^1.9.0",
-        "typescript": "^3.3.4000",
-        "vsce": "^1.58.0",
-        "webpack": "^4.29.6",
-        "webpack-cli": "^3.3.0"
+        "typescript": "^3.5.2",
+        "vsce": "^1.64.0",
+        "webpack": "^4.35.0",
+        "webpack-cli": "^3.3.5"
     },
     "dependencies": {
-        "@types/xml2js": "^0.4.3",
-        "tslint": "^5.14.0"
+        "@types/xml2js": "^0.4.4",
+        "tslint": "^5.18.0"
     }
 }
