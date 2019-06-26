@@ -60,12 +60,11 @@ export function activate(context: ExtensionContext) {
     };
 
     const yseopmlConfig: WorkspaceConfiguration = workspace.getConfiguration(yseopmlSectionName);
-    yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
-    parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
+
+    readConfig(yseopmlConfig);
 
     workspace.onDidChangeConfiguration(() => {
-        yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
-        parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
+        readConfig(yseopmlConfig);
     });
 
     const batchCmd = commands.registerCommand(`${yseopmlSectionName}.batch`, () => {
@@ -117,20 +116,23 @@ export function activate(context: ExtensionContext) {
         return;
     }
     /*
-    * List of all the yseopml file extensions known by this extension as set in `client/package.json`.
-    */
-    const yseopmlExtensions = [
-        'kao',
-        'yclass',
-        'yobject',
-        'ycomplete',
-        'dcl',
-        'yml',
-    ];
+     * List of all the yseopml file extensions known by this extension as set in `client/package.json`.
+     */
+    const yseopmlExtensions = ['kao', 'yclass', 'yobject', 'ycomplete', 'dcl', 'yml'];
 
     for (const extension of yseopmlExtensions) {
         parseFilesWithExtension(extension);
     }
+}
+
+/**
+ * Read and save the value of some useful configuration attributes.
+ *
+ * @param yseopmlConfig The workspace's configuration
+ */
+function readConfig(yseopmlConfig: WorkspaceConfiguration): void {
+    yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
+    parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
 }
 
 /**
