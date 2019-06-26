@@ -130,8 +130,7 @@ export function activate(context: ExtensionContext) {
     ];
 
     for (const extension of yseopmlExtensions) {
-        languageClient.info(`Parsing files with extension ${extension}`);
-        parseFilesWithExtensions(extension);
+        parseFilesWithExtension(extension);
     }
 }
 
@@ -143,7 +142,7 @@ export function activate(context: ExtensionContext) {
  *
  * @param extension The extension of the files to look for
  */
-function parseFilesWithExtensions(extension: string): void {
+function parseFilesWithExtension(extension: string): void {
     workspace.findFiles(`**/*.${extension}`, '.generated-yml/**').then((uris) => {
         if (!uris) {
             return;
