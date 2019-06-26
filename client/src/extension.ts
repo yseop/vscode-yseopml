@@ -63,13 +63,9 @@ export function activate(context: ExtensionContext) {
     yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
     parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
 
-    workspace.onDidChangeConfiguration((event) => {
-        if (event.affectsConfiguration(`${yseopmlSectionName}.${pathToYseopCliKey}`)) {
-            yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
-        }
-        if (event.affectsConfiguration(`${yseopmlSectionName}.${parseWholeProjectKey}`)) {
-            parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
-        }
+    workspace.onDidChangeConfiguration(() => {
+        yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
+        parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
     });
 
     const batchCmd = commands.registerCommand(`${yseopmlSectionName}.batch`, () => {
