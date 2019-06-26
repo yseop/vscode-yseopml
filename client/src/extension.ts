@@ -137,15 +137,15 @@ export function activate(context: ExtensionContext) {
 }
 
 /**
- * Find all the files in the workspace that have the extention `extension`.
- * and open it as a `TextDocument`. This will result to request a parsing of
- * this file and having it known by the extension.
+ * Find all the files in the workspace that have the extension `extension`
+ * and open them as `TextDocument` objects. This will result in a parsing request for
+ * these files and have it known by the extension.
  * This function excludes the results from `.generated-yml/`.
  *
  * @param extension The extension of the files to look for
  */
 function parseFilesWithExtensions(extension: string): void {
-    workspace.findFiles(`*/**/*.${extension}`, '.generated-yml/**').then((uris) => {
+    workspace.findFiles(`**/*.${extension}`, '.generated-yml/**').then((uris) => {
         if (!uris || uris.length === 0) {
             return;
         }
