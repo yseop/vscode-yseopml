@@ -123,7 +123,6 @@ export function activate(context: ExtensionContext) {
     const yseopmlExtensions = [
         'kao',
         'yclass',
-        'ytextfunction',
         'yobject',
         'ycomplete',
         'dcl',
