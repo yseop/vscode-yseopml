@@ -1,35 +1,41 @@
 {
-  "name": "vscode-yseopml",
-  "displayName": "YML (Yseop Markup Language) support extension",
-  "description": "Implementation of YML language server in node.",
-  "version": "1.5.0",
-  "author": "Yseop",
-  "publisher": "Yseop",
-  "license": "MIT",
-  "engines": {
-    "node": "*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yseop/vscode-yseopml"
-  },
-  "dependencies": {
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^11.9.5",
-    "antlr4ts": "^0.5.0-alpha.2",
-    "antlr4ts-cli": "^0.5.0-alpha.2",
-    "tslint": "^5.12.1",
-    "mocha": "^5.2.0",
-    "typescript": "^3.3.3",
-    "vscode-languageserver": "^3.5.1",
-    "xml2js": "^0.4.19"
-  },
-  "scripts": {
-    "installServer": "installServerIntoExtension ../client ./package.json ./tsconfig.json",
-    "compile": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -p .",
-    "watch": "installServerIntoExtension ../client ./package.json ./tsconfig.json && tsc -w -p .",
-    "antlr4ts": "antlr4ts -visitor -o src grammar/Yml.g4",
-    "test": "tsc -p tsconfig.json && cd ../client/server && mocha --recursive",
-    "test:ci": "tsc -p tsconfig.json && cd ../client/server && mocha --reporter xunit --reporter-options output=../../target/test-reports/server-tests.xml --recursive"
-  }
+    "name": "vscode-yseopml",
+    "displayName": "YML (Yseop Markup Language) support extension",
+    "description": "Implementation of YML language server in node.",
+    "version": "1.6.0",
+    "author": "Yseop",
+    "publisher": "Yseop",
+    "license": "MIT",
+    "engines": {
+        "node": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yseop/vscode-yseopml"
+    },
+    "dependencies": {
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^11.13.15",
+        "antlr4ts": "^0.5.0-alpha.3",
+        "antlr4ts-cli": "^0.5.0-alpha.3",
+        "mocha": "^5.2.0",
+        "tslint": "^5.18.0",
+        "typescript": "^3.5.2",
+        "vscode-languageserver": "^3.5.1",
+        "xml2js": "^0.4.19"
+    },
+    "scripts": {
+        "installServer": "installServerIntoExtension ../client ./package.json ./tsconfig.json",
+        "compile": "npm run installServer && webpack --mode none",
+        "compile:prod": "npm run installServer && webpack --mode production",
+        "watch": "npm run installServer && webpack --mode none --watch",
+        "antlr4ts": "antlr4ts -visitor -o src grammar/Yml.g4",
+        "test": "tsc -p tsconfig.test.json && cd ./out && mocha --recursive",
+        "test:ci": "tsc -p tsconfig.test.json && cd ./out && mocha --reporter xunit --reporter-options output=../../target/test-reports/server-tests.xml --recursive"
+    },
+    "devDependencies": {
+        "ts-loader": "^5.4.5",
+        "webpack": "^4.35.0",
+        "webpack-cli": "^3.3.5"
+    }
 }

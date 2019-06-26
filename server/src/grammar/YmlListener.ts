@@ -1,4 +1,4 @@
-// Generated from grammar/Yml.g4 by ANTLR 4.6-SNAPSHOT
+// Generated from grammar/Yml.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
@@ -11,6 +11,7 @@ import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
 import { ClassDeclarationContext } from "./YmlParser";
 import { ClassImplementationContext } from "./YmlParser";
+import { AttributeImplementationContext } from "./YmlParser";
 import { OverrideContext } from "./YmlParser";
 import { OverrideInstructionContext } from "./YmlParser";
 import { ClassDeclarationIntroContext } from "./YmlParser";
@@ -53,6 +54,7 @@ import { ArgsBlockContext } from "./YmlParser";
 import { LocalBlockContext } from "./YmlParser";
 import { StaticBlockContext } from "./YmlParser";
 import { MethodDeclarationContext } from "./YmlParser";
+import { MethodCompleteDeclarationContext } from "./YmlParser";
 import { MethodIntroContext } from "./YmlParser";
 import { ArgumentListContext } from "./YmlParser";
 import { MandatoryArgsContext } from "./YmlParser";
@@ -190,6 +192,17 @@ export interface YmlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitClassImplementation?: (ctx: ClassImplementationContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.attributeImplementation`.
+	 * @param ctx the parse tree
+	 */
+	enterAttributeImplementation?: (ctx: AttributeImplementationContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.attributeImplementation`.
+	 * @param ctx the parse tree
+	 */
+	exitAttributeImplementation?: (ctx: AttributeImplementationContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.override`.
@@ -652,6 +665,17 @@ export interface YmlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitMethodDeclaration?: (ctx: MethodDeclarationContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.methodCompleteDeclaration`.
+	 * @param ctx the parse tree
+	 */
+	enterMethodCompleteDeclaration?: (ctx: MethodCompleteDeclarationContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.methodCompleteDeclaration`.
+	 * @param ctx the parse tree
+	 */
+	exitMethodCompleteDeclaration?: (ctx: MethodCompleteDeclarationContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.methodIntro`.

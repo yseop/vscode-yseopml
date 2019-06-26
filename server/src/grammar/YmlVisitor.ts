@@ -1,4 +1,4 @@
-// Generated from grammar/Yml.g4 by ANTLR 4.6-SNAPSHOT
+// Generated from grammar/Yml.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
@@ -11,6 +11,7 @@ import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
 import { ClassDeclarationContext } from "./YmlParser";
 import { ClassImplementationContext } from "./YmlParser";
+import { AttributeImplementationContext } from "./YmlParser";
 import { OverrideContext } from "./YmlParser";
 import { OverrideInstructionContext } from "./YmlParser";
 import { ClassDeclarationIntroContext } from "./YmlParser";
@@ -53,6 +54,7 @@ import { ArgsBlockContext } from "./YmlParser";
 import { LocalBlockContext } from "./YmlParser";
 import { StaticBlockContext } from "./YmlParser";
 import { MethodDeclarationContext } from "./YmlParser";
+import { MethodCompleteDeclarationContext } from "./YmlParser";
 import { MethodIntroContext } from "./YmlParser";
 import { ArgumentListContext } from "./YmlParser";
 import { MandatoryArgsContext } from "./YmlParser";
@@ -161,6 +163,13 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitClassImplementation?: (ctx: ClassImplementationContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.attributeImplementation`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitAttributeImplementation?: (ctx: AttributeImplementationContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.override`.
@@ -455,6 +464,13 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitMethodDeclaration?: (ctx: MethodDeclarationContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.methodCompleteDeclaration`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitMethodCompleteDeclaration?: (ctx: MethodCompleteDeclarationContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.methodIntro`.

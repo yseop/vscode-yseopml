@@ -168,8 +168,11 @@ classDeclaration:
 ;
 
 classImplementation:
-    IMPLEMENTATION className=ymlId overrideInstruction*? overrideBlock=override? attributes=field*
+    IMPLEMENTATION className=ymlId attributeImplementation*? overrideInstruction*? overrideBlock=override? attributes=
+        field*
 ;
+
+attributeImplementation: attrName=ymlId attributes=field+;
 
 override: OVERRIDE OPEN_BRACE overrideInstruction* CLOSE_BRACE;
 
@@ -314,6 +317,8 @@ localBlock: LOCAL OPEN_BRACE variableBlockContent CLOSE_BRACE;
 staticBlock: STATIC OPEN_BRACE staticDeclaration* CLOSE_BRACE;
 
 methodDeclaration: methodIntro memberOption=field*;
+
+methodCompleteDeclaration: methodIntro FUNCTION memberOption=field*;
 
 /*
     // accepts structures like:
@@ -488,5 +493,10 @@ objectComplete:
 ;
 
 classComplete:
-    COMPLETE (ymlId | FUNCTION) (classAttributeDeclaration | methodDeclaration)* SEMICOLON
+    COMPLETE (ymlId | FUNCTION)
+    (
+        classAttributeDeclaration
+        | methodCompleteDeclaration
+        | memberDeclaration
+    )* SEMICOLON
 ;

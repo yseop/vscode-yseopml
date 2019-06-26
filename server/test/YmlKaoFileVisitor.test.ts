@@ -1,16 +1,16 @@
-import { ANTLRInputStream, CommonTokenStream } from 'antlr4ts';
+import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import * as assert from 'assert';
 import { CompletionItemKind } from 'vscode-languageserver';
 
-import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
-import { YmlDefinitionProvider } from '../definitions';
-import { YmlLexer, YmlParser } from '../grammar';
-import { YmlKaoFileVisitor } from '../visitors';
+import { YmlCompletionItemsProvider } from '../src/completion/YmlCompletionItemsProvider';
+import { YmlDefinitionProvider } from '../src/definitions';
+import { YmlLexer, YmlParser } from '../src/grammar';
+import { YmlKaoFileVisitor } from '../src/visitors';
 
 describe('Extension Server Tests', () => {
     describe('YmlKaoFileVisitor', () => {
         it('should be OK to instantiate YmlKaoFileVisitor', (done) => {
-            const inputStream = new ANTLRInputStream('');
+            const inputStream = CharStreams.fromString('');
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const parser = new YmlParser(tokenStream);
@@ -22,7 +22,7 @@ describe('Extension Server Tests', () => {
         });
 
         it('should be able to parse a string', (done) => {
-            const inputStream = new ANTLRInputStream('"foo bar"');
+            const inputStream = CharStreams.fromString('"foo bar"');
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const tokens = tokenStream.getTokens();
@@ -33,7 +33,7 @@ describe('Extension Server Tests', () => {
         });
 
         it('should parse a well-written YML class and provide completion for fields', (done) => {
-            const inputStream = new ANTLRInputStream(`
+            const inputStream = CharStreams.fromString(`
             interface City
                 field name
                 --> domains String
@@ -62,6 +62,8 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
+            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
+            assert.notStrictEqual(result, null);
             const expectedCompletionItems = [
                 {
                     attributes: [],
@@ -119,7 +121,7 @@ describe('Extension Server Tests', () => {
             done();
         });
         it('should parse a well-written YML class and provide completion for fields and methods', (done) => {
-            const inputStream = new ANTLRInputStream(`
+            const inputStream = CharStreams.fromString(`
               interface City
                   method getName()
                   --> domains String
@@ -152,6 +154,8 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
+            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
+            assert.notStrictEqual(result, null);
             const expectedCompletionItems = [
                 {
                     attributes: [],
@@ -249,7 +253,7 @@ describe('Extension Server Tests', () => {
         });
         // tslint:disable-next-line: max-line-length
         it('should parse a well-written YML file containing instances and functions and provide completion for them', (done) => {
-            const inputStream = new ANTLRInputStream(`
+            const inputStream = CharStreams.fromString(`
         function functionWithoutArgs()
           --> domains Text
           --> action {
@@ -295,6 +299,8 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
+            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
+            assert.notStrictEqual(result, null);
             const expectedCompletionItems = [
                 {
                     data: 'id_static_functionWithoutArgs',
