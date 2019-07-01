@@ -32,9 +32,9 @@ export function activate(context: ExtensionContext) {
     yseopCliStatusBarItem = window.createStatusBarItem(StatusBarAlignment.Right);
 
     // The server is implemented in node
-    const serverModule = context.asAbsolutePath(path.join('server', 'server.js'));
+    const serverModule = context.asAbsolutePath(path.join('server', 'out', 'server.js'));
     // The debug options for the server
-    const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
+    const debugOptions = { execArgv: ['--nolazy', '--inspect=6010'] };
 
     // If the extension is launched in debug mode then the debug server options are used
     // Otherwise the run options are used
@@ -109,6 +109,7 @@ export function activate(context: ExtensionContext) {
     // Push the disposable to the context's subscriptions so that the
     // client can be deactivated on extension deactivation.
     // Also register the custom commands.
+
     context.subscriptions.push(disposable, batchCmd, compileCmd, testCmd, cleanCmd, cleanallCmd, packageCmd, infoCmd);
 
     if (!parseAllProjectFilesAtStartup) {

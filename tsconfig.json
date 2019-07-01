@@ -1,24 +1,24 @@
 {
+    "extends": "./tsconfig.base.json",
     "compilerOptions": {
+        "module": "commonjs",
         "target": "es6",
-        "lib": [
-            "es2016"
-        ],
-        "experimentalDecorators": true,
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "module": "es6",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
+        "outDir": "out",
+        "rootDir": "src",
+        "lib": ["es6"],
+        "sourceMap": true
     },
     "include": [
-        "client/src", "server/src"
+        "src"
     ],
-    "exclude": ["**/grammar/*.ts"]
+    "exclude": [
+        "node_modules", "**/grammar/*.ts"
+    ],
+    "references": [{
+            "path": "./client"
+        },
+        {
+            "path": "./server"
+        }
+    ]
 }

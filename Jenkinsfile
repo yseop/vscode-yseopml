@@ -3,7 +3,7 @@ pipeline {
     agent {
         node {
             label 'vscode'
-        }        
+        }
     }
 
     options {
@@ -18,9 +18,12 @@ pipeline {
     }
 
     stages {
-        stage ("Build, Package and Test") {
+        stage ("Build, Compile, Test and Package") {
             steps {
                 ansiColor('xterm') {
+                    sh "npm install --unsafe-perm"
+                    sh "npm run compile"
+                    sh "npm run test"
                     sh "npm run package"
                 }
             }
@@ -35,18 +38,18 @@ pipeline {
     post {
         always {
             // xunit reports
-            xunit( 
+            xunit(
                 thresholdMode: 1, // 1 for number, 1 for percent
                 testTimeMargin: "3000",
                 thresholds: [ skipped(failureThreshold: "10"), failed(failureThreshold: "10") ],
-                tools: [ 
-                    JUnit(pattern: "target/test-reports/*-tests.xml") 
-                ] 
+                tools: [
+                    JUnit(pattern: "target/test-reports/*-tests.xml")
+                ]
             )
 
             // clean up our workspace
             cleanWs deleteDirs: true
-            deleteDir() 
+            deleteDir()
         }
         success {
             slackSend (color: 'good', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) <@${SLACK_NOTIFY}>")
