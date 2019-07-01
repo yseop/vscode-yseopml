@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-import { EntityPartPosition, getTokenAtPosInDoc, getYmlEntityNamePart } from '../src/definitions';
+import { EntityPartPosition, getTokenAtPosInDoc, getYmlEntityNamePart } from '../definitions';
 
 describe('Extension Server Tests', () => {
     describe('DefinitionUtils', () => {

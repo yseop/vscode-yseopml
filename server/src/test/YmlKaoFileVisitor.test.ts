@@ -2,10 +2,10 @@ import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import * as assert from 'assert';
 import { CompletionItemKind } from 'vscode-languageserver';
 
-import { YmlCompletionItemsProvider } from '../src/completion/YmlCompletionItemsProvider';
-import { YmlDefinitionProvider } from '../src/definitions';
-import { YmlLexer, YmlParser } from '../src/grammar';
-import { YmlKaoFileVisitor } from '../src/visitors';
+import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
+import { YmlDefinitionProvider } from '../definitions';
+import { YmlLexer, YmlParser } from '../grammar';
+import { YmlKaoFileVisitor } from '../visitors';
 
 describe('Extension Server Tests', () => {
     describe('YmlKaoFileVisitor', () => {
