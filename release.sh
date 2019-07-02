@@ -102,6 +102,7 @@ done
 
 printf 'Version numbers OK.\n'
 
+npm install
 npm run package
 
 git add .
