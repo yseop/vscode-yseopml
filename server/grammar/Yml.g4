@@ -12,10 +12,10 @@ INTERFACE: 'interface';
 IMPLEMENTATION: 'implementation';
 EXTENDS: 'extends';
 FUNCTION: 'function';
-FUNCTION_AS_TYPE: 'Function' -> type(YMLID);
+FUNCTION_AS_TYPE: 'Function';
 METHOD: 'method';
 TEXT_METHOD: 'textMethod';
-TEXT_FUNCTION: 'TextFunction' -> type(YMLID);
+TEXT_FUNCTION: 'TextFunction';
 FIELD: 'field';
 CLASSPROPERTIES: 'classProperties';
 EXTERN: 'extern';
@@ -119,7 +119,7 @@ INTEGER: NUMBER+;
 // Colon are OK inside a YMLID
 // Colons aren't interpreted by YE in a particular way.
 YMLID: ID (COLON? COLON ID)*;
-ID: LETTER ALPHANUM*;
+ID: ALPHANUM* LETTER ALPHANUM*;
 
 fragment MULTILINE_COMMENT_START: '/*';
 fragment MULTILINE_COMMENT_END: '*/';
@@ -152,7 +152,7 @@ ymlEntity:
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
 
-ymlId: YMLID | ARGS | LOCAL | RETURN;
+ymlId: YMLID | ARGS | LOCAL | RETURN | FUNCTION_AS_TYPE | TEXT_FUNCTION;
 
 yenum:
     ENUM yid=ymlId OPEN_BRACE (enumElement ( COMMA enumElement)*)+ CLOSE_BRACE fields=field* SEMICOLON
