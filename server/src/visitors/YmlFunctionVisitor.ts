@@ -38,7 +38,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
         if (!this.isMethodInstanciation(this.functionName)) {
             const func = new YmlFunction(this.functionName, this.uri);
-            func.enrichWith(node.field(), null);
+            func.enrichWith(node.field(), connection);
             this.completionProvider.addCompletionItem(func);
             func.setDefinitionLocation(node.start, node.stop, this.uri);
             this.definitions.addDefinition(func);
