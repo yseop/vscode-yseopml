@@ -12,6 +12,7 @@ import {
     InitializeResult,
     IPCMessageReader,
     IPCMessageWriter,
+    MarkupKind,
     TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
@@ -73,8 +74,8 @@ connection.onHover((_params) => {
     }
     return {
         contents: {
+            kind: MarkupKind.Markdown,
             value: entity.documentation,
-            language: null,
         },
     };
 });
