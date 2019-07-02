@@ -2,10 +2,9 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "author": "Yseop",
     "license": "MIT",
-    "publisher": "Yseop",
     "repository": {
         "type": "git",
         "url": "https://github.com/yseop/vscode-yseopml"
@@ -13,26 +12,167 @@
     "bugs": {
         "url": "https://github.com/yseop/vscode-yseopml/issues"
     },
+    "publisher": "Yseop",
+    "icon": "images/compose-icon.png",
+    "readme": "README.adoc",
+    "homepage": "https://github.com/yseop/vscode-yseopml/blob/master/README.adoc",
+    "categories": [
+        "Programming Languages",
+        "Snippets"
+    ],
     "engines": {
-        "vscode": "^1.28.2"
+        "vscode": "^1.34.0"
+    },
+    "activationEvents": [
+        "onLanguage:yml",
+        "onCommand:yseopml.batch",
+        "onCommand:yseopml.compile",
+        "onCommand:yseopml.test",
+        "onCommand:yseopml.clean",
+        "onCommand:yseopml.cleanall",
+        "onCommand:yseopml.package",
+        "onCommand:yseopml.info"
+    ],
+    "galleryBanner": {
+        "color": "#27aae1",
+        "theme": "dark"
+    },
+    "main": "./client/out/extension",
+    "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "Yseop Markup Language configuration",
+            "properties": {
+                "yseopml.activateParsingProblemsReporting": {
+                    "scope": "resource",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allows to activate (true) or deactivate (false) the parsing problems reporting."
+                },
+                "yseopml.maxNumberOfProblems": {
+                    "scope": "resource",
+                    "type": "number",
+                    "default": 100,
+                    "description": "Controls the maximum number of problems produced by the server."
+                },
+                "yseopml.parseAllProjectFilesAtStartup": {
+                    "scope": "windows",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allows to activate (true) or deactivate (false) the parsing of all YML files in the workspace at startup."
+                },
+                "yseopml.pathToPredefinedObjectsXml": {
+                    "scope": "window",
+                    "type": "string",
+                    "default": "",
+                    "description": "Absolute path to an XML file containing the YML types definition."
+                },
+                "yseopml.pathToYseopCli": {
+                    "scope": "window",
+                    "type": "string",
+                    "default": "",
+                    "description": "Absolute path to Yseop CLI executable (“yseop” or “yseop.bat” − see Yseop CLI doc for more info)."
+                },
+                "yseopml.trace.server": {
+                    "scope": "window",
+                    "type": "string",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
+                    "default": "off",
+                    "description": "Traces the communication between VSCode and the language server."
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "yseopml.batch",
+                "title": "Yseop Batch",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.compile",
+                "title": "Yseop Compile",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.test",
+                "title": "Yseop Test",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.clean",
+                "title": "Yseop Clean",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.cleanall",
+                "title": "Yseop Clean All",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.package",
+                "title": "Yseop Package",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.info",
+                "title": "Yseop Info",
+                "category": "Yseop"
+            }
+        ],
+        "languages": [
+            {
+                "id": "yml",
+                "aliases": [
+                    "Yseop Markup Language",
+                    "yml"
+                ],
+                "extensions": [
+                    ".kao",
+                    ".yclass",
+                    ".ytextfunction",
+                    ".yobject",
+                    ".ycomplete",
+                    ".dcl",
+                    ".yml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "yml",
+                "scopeName": "source.yseop",
+                "path": "./syntaxes/yml.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "yml",
+                "path": "./snippets/snippets.json"
+            }
+        ]
     },
     "scripts": {
         "antlr4ts": "cd server && npm run antlr4ts",
-        "compile": "npm run compile:server && npm run compile:client",
-        "compile:client": "cd client && npm run compile",
-        "compile:prod": "npm run compile:server-prod && npm run compile:client",
-        "compile:server": "cd server && npm run compile",
-        "compile:server-prod": "cd server && npm run compile:prod",
         "lint": "tslint -c tslint.json --project tsconfig.json '**/src/*.ts'",
         "lint:report": "tslint --project tsconfig.json --force --fix -c tslint.json -o report.json -t json '**/src/*.ts'",
-        "package": "npm install --unsafe-perm && npm run compile:prod && npm run test && cd client && vsce package",
-        "postinstall": "cd server && npm install --unsafe-perm && cd ../client && npm install --unsafe-perm",
-        "test": "npm run test:client && npm run test:server-ci",
-        "test:client": "cd client && npm run test",
+        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run webpack",
+        "webpack": "npm run clean && webpack --mode production --config ./client/webpack.config.js && webpack --mode production --config ./server/webpack.config.js",
+        "webpack:dev": "npm run clean && webpack --mode none --config ./client/webpack.config.js && webpack --mode none --config ./server/webpack.config.js",
+        "package": "vsce package",
+        "compile": "tsc -b",
+        "compile:client": "tsc -b ./client/tsconfig.json",
+        "compile:server": "tsc -b ./server/tsconfig.json",
+        "test": "npm run test:server-ci",
         "test:server": "cd server && npm run test",
         "test:server-ci": "cd server && npm run test:ci",
-        "watch:client": "cd client && npm run watch",
-        "watch:server": "cd server && npm run watch"
+        "watch": "tsc -b -w",
+        "clean": "rimraf client/out && rimraf server/out",
+        "postinstall": "cd client && npm install --unsafe-perm && cd ../server && npm install --unsafe-perm && cd .."
     },
     "devDependencies": {
         "@types/mocha": "^5.2.7",
@@ -40,6 +180,7 @@
         "antlr4ts-cli": "^0.5.0-alpha.3",
         "mocha": "^5.2.0",
         "ts-loader": "^5.4.5",
+        "tslint": "^5.18.0",
         "tslint-config-prettier": "^1.18.0",
         "tslint-consistent-codestyle": "^1.15.1",
         "tslint-eslint-rules": "^5.4.0",
@@ -47,10 +188,8 @@
         "typescript": "^3.5.2",
         "vsce": "^1.64.0",
         "webpack": "^4.35.0",
-        "webpack-cli": "^3.3.5"
-    },
-    "dependencies": {
-        "@types/xml2js": "^0.4.4",
-        "tslint": "^5.18.0"
+        "webpack-cli": "^3.3.5",
+        "merge-options": "^1.0.1",
+        "rimraf": "^2.6.3"
     }
 }

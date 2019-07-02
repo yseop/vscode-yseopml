@@ -2,7 +2,7 @@ import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import { ParserRuleContext } from 'antlr4ts/ParserRuleContext';
 import * as assert from 'assert';
 
-import { YmlLexer, YmlParser } from '../src/grammar';
+import { YmlLexer, YmlParser } from '../grammar';
 
 /**
  * Check that the provided YML code extract can be correctly parsed by the provided parser rule.

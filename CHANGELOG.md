@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.6.1 (2019-07-02)
+
+-   Fix build and dependencies issues.
+
 ## 1.6.0 (2019-06-26)
 
 -   Fix security issue with `js-yaml` version 3.13.0. New version `3.13.1` set instead.
