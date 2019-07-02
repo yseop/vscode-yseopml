@@ -26,6 +26,56 @@ function checkInputValidityForRule(ruleToTest: (parser: YmlParser) => ParserRule
 }
 
 describe('Parsing Tests', () => {
+    describe('as rule', () => {
+        it('should parse correctly an `as` instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.as(),
+                `as(?fact, ?att = jointure.attribute, ?fact.?att != null)`,
+            );
+            done();
+        });
+    });
+
+    describe('as assigment rule', () => {
+        it('should parse correctly an assignment with the `as` instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_assignment(),
+                `a = as(?fact, ?att = jointure.attribute, ?fact.?att != null)`,
+            );
+            done();
+        });
+    });
+
+    describe('applyCollection + __where rule', () => {
+        it('should parse correctly an `applyCollection` instruction with __where keyword', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(LibCube:Measure, __where currentElement.includeInJointureConditions == true)`,
+            );
+            done();
+        });
+    });
+
+    describe('applyCollection + __where as a function caller', () => {
+        it('should parse correctly an `applyCollection` instruction with __where keyword used as a function caller', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `applyCollection(LibCube:Measure, __where currentElement.includeInJointureConditions == true).toList()`,
+            );
+            done();
+        });
+    });
+
+    describe('applyCollection + __operation rule', () => {
+        it('should parse correctly an `applyCollection` instruction with __operation keyword', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(toBeProcessedfactsSelections , __operation LibCube:JointureFactsSelection::jointure)`,
+            );
+            done();
+        });
+    });
+
     describe('classImplementation rule', () => {
         it('should parse correctly implementation with attributes and override', (done) => {
             checkInputValidityForRule(
