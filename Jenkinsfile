@@ -29,7 +29,7 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts artifacts: 'client/vscode-yseopml-*.vsix', fingerprint: true
+                    archiveArtifacts artifacts: 'vscode-yseopml-*.vsix', fingerprint: true
                 }
             }
         }
