@@ -2,7 +2,7 @@
 
 ## 1.6.1 (YYYY-MM-DD)
 
--   Fix broken extension.
+-   Fix build and dependencies issues.
 
 ## 1.6.0 (2019-06-26)
 
