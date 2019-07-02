@@ -34,6 +34,7 @@ import { ValueOrConditionContext } from "./YmlParser";
 import { HashMapKeyValueContext } from "./YmlParser";
 import { HashMapValueContext } from "./YmlParser";
 import { ValueContext } from "./YmlParser";
+import { AsContext } from "./YmlParser";
 import { ApplyCollectionContext } from "./YmlParser";
 import { Instruction_forEachContext } from "./YmlParser";
 import { Instruction_forContext } from "./YmlParser";
@@ -325,6 +326,13 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitValue?: (ctx: ValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.as`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitAs?: (ctx: AsContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.applyCollection`.

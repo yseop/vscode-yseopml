@@ -7,6 +7,7 @@ grammar Yml;
 //Keywords
 APPLY_COLLECTION: 'applyCollection';
 WHERE: '__where';
+OPERATION: '__operation';
 INTERFACE: 'interface';
 IMPLEMENTATION: 'implementation';
 EXTENDS: 'extends';
@@ -32,6 +33,7 @@ CATCH: 'catch';
 FOREACH: 'foreach';
 FORALL: 'forall';
 IN: 'in';
+AS: 'as';
 RETURN: 'return';
 LOCAL: 'local';
 TRUE: 'true';
@@ -253,11 +255,23 @@ value:
     | array
     | constList
     | applyCollection
+    | as
     | OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE
 ;
 
+as:
+    AS OPEN_PAR instanciationVariable
+    (
+        COMMA (instruction_assignment | combinedComparison)
+    )*? COMMA combinedComparison CLOSE_PAR
+;
+
 applyCollection:
-    APPLY_COLLECTION OPEN_PAR value COMMA WHERE combinedComparison CLOSE_PAR
+    APPLY_COLLECTION OPEN_PAR value COMMA
+    (
+        WHERE combinedComparison
+        | OPERATION ymlId
+    ) CLOSE_PAR
 ;
 
 instruction_forEach:
@@ -285,6 +299,8 @@ expression:
     | instanciationVariable
     | granule
     | constList
+    | as
+    | applyCollection
 ;
 
 functionCall:

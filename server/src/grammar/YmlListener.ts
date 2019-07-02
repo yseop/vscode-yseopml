@@ -34,6 +34,7 @@ import { ValueOrConditionContext } from "./YmlParser";
 import { HashMapKeyValueContext } from "./YmlParser";
 import { HashMapValueContext } from "./YmlParser";
 import { ValueContext } from "./YmlParser";
+import { AsContext } from "./YmlParser";
 import { ApplyCollectionContext } from "./YmlParser";
 import { Instruction_forEachContext } from "./YmlParser";
 import { Instruction_forContext } from "./YmlParser";
@@ -446,6 +447,17 @@ export interface YmlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitValue?: (ctx: ValueContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.as`.
+	 * @param ctx the parse tree
+	 */
+	enterAs?: (ctx: AsContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.as`.
+	 * @param ctx the parse tree
+	 */
+	exitAs?: (ctx: AsContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.applyCollection`.
