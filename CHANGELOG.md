@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.6.1 (YYYY-MM-DD)
+## 1.6.1 (2019-07-02)
 
 -   Fix build and dependencies issues.
 
