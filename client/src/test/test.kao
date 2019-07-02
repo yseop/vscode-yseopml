@@ -4,13 +4,13 @@
 
 interface	City
 	field	name
-	--> domains	String 
+	--> domains	String
 
 	field	country
 	--> domains	String
 classProperties
 
---> dsl -> Textualization 
+--> dsl -> Textualization
 		--> root "City"
 		--> language LANG_fr
 		--> gender FEMININE
@@ -36,7 +36,7 @@ interface	Address
 	--> domains	City
 classProperties
 
---> dsl -> Textualization 
+--> dsl -> Textualization
 		--> root "Adresse"
 		--> language LANG_fr
 		--> gender FEMININE
@@ -60,22 +60,22 @@ interface	Person
 	field	city
 	--> domains	Text
 
-	field	firstName	
+	field	firstName
 	--> domains	Text
 
-	field	lastName	
+	field	lastName
 	--> domains	Text
 
-	field	colleague	
+	field	colleague
 	--> multivalued		true
 	--> domains			Person
-	
+
 	field	birthday
 	--> domains Date
-	
+
 classProperties
 
---> dsl -> Textualization 
+--> dsl -> Textualization
 		--> root "Personne"
 		--> language LANG_fr
 		--> gender FEMININE
@@ -108,7 +108,7 @@ Person ALBERT_EINSTEIN
 							--> country	"Autriche"
 							;
 				;
-					
+
 ;
 
 Person CEDRIC_V
@@ -161,7 +161,7 @@ Person MARIE_CURIE
 				--> zipCode "69010"
 				--> city	LYON
 				;
-					
+
 ;
 
 //NOTE_AK : premier usage de l'operateur synonym
@@ -190,16 +190,24 @@ List	PIERRE_D_NAMES
 
 //NOTE_AK : usage d'un extends
 Person PIERRE_D extends ALEXANDRE_G
-    
+
     //NOTE_AK : second usage de l'operateur synonym
     --> i18nName_fr	synonym(PIERRE_D_NAMES)
-    
+
     //NOTE_AK : usage de l'operateur ==>
     ==> colleague MARIE_CURIE
 ;
 
 
-Function patate({} args)
+Function patate(Object o, String s, {} args)
+--> documentation """
+Documented function with:
+
+- *@param* `o` An Object.
+- *@param* `s` A String.
+
+*@return* the value `12`
+"""
 --> local ComplexType complexType
 --> domains Integer
 --> action {
