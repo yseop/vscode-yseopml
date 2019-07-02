@@ -86,8 +86,7 @@
                 }
             }
         },
-        "commands": [
-            {
+        "commands": [{
                 "command": "yseopml.batch",
                 "title": "Yseop Batch",
                 "category": "Yseop"
@@ -123,38 +122,32 @@
                 "category": "Yseop"
             }
         ],
-        "languages": [
-            {
-                "id": "yml",
-                "aliases": [
-                    "Yseop Markup Language",
-                    "yml"
-                ],
-                "extensions": [
-                    ".kao",
-                    ".yclass",
-                    ".ytextfunction",
-                    ".yobject",
-                    ".ycomplete",
-                    ".dcl",
-                    ".yml"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "yml",
-                "scopeName": "source.yseop",
-                "path": "./syntaxes/yml.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "yml",
-                "path": "./snippets/snippets.json"
-            }
-        ]
+        "languages": [{
+            "id": "yml",
+            "aliases": [
+                "Yseop Markup Language",
+                "yml"
+            ],
+            "extensions": [
+                ".kao",
+                ".yclass",
+                ".ytextfunction",
+                ".yobject",
+                ".ycomplete",
+                ".dcl",
+                ".yml"
+            ],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "yml",
+            "scopeName": "source.yseop",
+            "path": "./syntaxes/yml.tmLanguage.json"
+        }],
+        "snippets": [{
+            "language": "yml",
+            "path": "./snippets/snippets.json"
+        }]
     },
     "scripts": {
         "antlr4ts": "cd server && npm run antlr4ts",
@@ -167,8 +160,7 @@
         "compile": "tsc -b",
         "compile:client": "tsc -b ./client/tsconfig.json",
         "compile:server": "tsc -b ./server/tsconfig.json",
-        "test": "npm run test:client && npm run test:server-ci",
-        "test:client": "cd client && npm run test",
+        "test": "npm run test:server-ci",
         "test:server": "cd server && npm run test",
         "test:server-ci": "cd server && npm run test:ci",
         "watch": "tsc -b -w",
