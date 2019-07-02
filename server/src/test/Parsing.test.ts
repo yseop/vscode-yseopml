@@ -76,6 +76,36 @@ describe('Parsing Tests', () => {
         });
     });
 
+    describe('function with only one action outside block', () => {
+        it('should parse correctly a function with only one action outside a block', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.function(),
+                `
+function LibCube:Fact::getMeasureValue()
+--> action return getMeasure(MEASURE_VALUE);
+;
+`,
+            );
+            done();
+        });
+    });
+
+    describe('function with a Function object as argument', () => {
+        it('should parse correctly a function with a Function object as argument', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.function(),
+                `
+function Test::applyMyFunction(Function testFunction)
+--> action {
+    testFunction.apply();
+}
+;
+`,
+            );
+            done();
+        });
+    });
+
     describe('classImplementation rule', () => {
         it('should parse correctly implementation with attributes and override', (done) => {
             checkInputValidityForRule(

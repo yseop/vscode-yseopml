@@ -11,10 +11,11 @@ OPERATION: '__operation';
 INTERFACE: 'interface';
 IMPLEMENTATION: 'implementation';
 EXTENDS: 'extends';
-FUNCTION: 'function' | 'Function';
+FUNCTION: 'function';
+FUNCTION_AS_TYPE: 'Function' -> type(YMLID);
 METHOD: 'method';
 TEXT_METHOD: 'textMethod';
-TEXT_FUNCTION: 'TextFunction';
+TEXT_FUNCTION: 'TextFunction' -> type(YMLID);
 FIELD: 'field';
 CLASSPROPERTIES: 'classProperties';
 EXTERN: 'extern';
@@ -235,6 +236,7 @@ classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 documentation: DOCUMENTATION;
 valueOrCondition:
     actionBlock
+    | instruction
     | combinedComparison
     | value
     | hashMapKeyValue
@@ -324,7 +326,7 @@ fieldValue: field | granule;
 
 //Functions
 
-function: (METHOD | FUNCTION | TEXT_METHOD | TEXT_FUNCTION) ymlId
+function: (METHOD | FUNCTION | FUNCTION_AS_TYPE | TEXT_METHOD | TEXT_FUNCTION) ymlId
     (
         argsBlock
         | OPEN_PAR argumentList CLOSE_PAR
