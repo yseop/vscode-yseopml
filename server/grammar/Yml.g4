@@ -5,6 +5,8 @@ grammar Yml;
  */
 
 //Keywords
+APPLY_COLLECTION: 'applyCollection';
+WHERE: '__where';
 INTERFACE: 'interface';
 IMPLEMENTATION: 'implementation';
 EXTENDS: 'extends';
@@ -91,12 +93,7 @@ fragment TIMES: '*';
 OPERATOR: MINUS | PLUS | DIVIDE | TIMES;
 
 fragment NUMBER: [0-9];
-fragment LETTER:
-    [a-zA-Z_']
-    | '\u4e00' ..'\u9faf'
-    | '\u3040' ..'\u309f'
-    | '\u30a0' ..'\u30ff'
-;
+fragment LETTER: [\p{Letter}_];
 
 fragment ALPHANUM: LETTER | [0-9];
 fragment D_LETTER: 'd';
@@ -176,7 +173,7 @@ attributeImplementation: attrName=ymlId attributes=field+;
 
 override: OVERRIDE OPEN_BRACE overrideInstruction* CLOSE_BRACE;
 
-overrideInstruction: ymlId FUNCTION;
+overrideInstruction: ymlId FUNCTION? field*;
 
 classDeclarationIntro: INTERFACE className=ymlId (extendsBlock)?;
 extendsBlock: EXTENDS parentClassName (COMMA parentClassName)*;
@@ -255,7 +252,12 @@ value:
     | ifExprBlock
     | array
     | constList
+    | applyCollection
     | OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE
+;
+
+applyCollection:
+    APPLY_COLLECTION OPEN_PAR value COMMA WHERE combinedComparison CLOSE_PAR
 ;
 
 instruction_forEach:
