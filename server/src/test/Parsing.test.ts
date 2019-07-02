@@ -90,6 +90,29 @@ function LibCube:Fact::getMeasureValue()
         });
     });
 
+    describe('function introduced with type Function', () => {
+        it('should parse correctly a function introduced with type Function', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.function(),
+                `
+Function Test:func
+args {
+    Object arg1
+    Object arg2
+}
+--> documentation "Does things with arg1 and arg2."
+--> domains Void
+--> preAssert arg1 != null && arg2 != null
+--> action {
+    // does nothing
+}
+;
+`,
+            );
+            done();
+        });
+    });
+
     describe('function with a Function object as argument', () => {
         it('should parse correctly a function with a Function object as argument', (done) => {
             checkInputValidityForRule(

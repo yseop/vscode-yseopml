@@ -45,6 +45,30 @@ describe('Extension Server Tests', () => {
             done();
         });
 
+        it('should not be able to parse a number as an identifier', (done) => {
+            const inputStream = CharStreams.fromString('1');
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const tokens = tokenStream.getTokens();
+            assert.equal(tokens.length, 1);
+            assert.equal(tokens[0].startIndex, 0);
+            assert.equal(tokens[0].stopIndex, 0);
+            assert.notEqual(tokens[0].type, YmlLexer.YMLID);
+            done();
+        });
+
+        it('should be able to parse a number and a letter or undercore as an identifier', (done) => {
+            const inputStream = CharStreams.fromString('1_');
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const tokens = tokenStream.getTokens();
+            assert.equal(tokens.length, 1);
+            assert.equal(tokens[0].startIndex, 0);
+            assert.equal(tokens[0].stopIndex, 1);
+            assert.equal(tokens[0].type, YmlLexer.YMLID);
+            done();
+        });
+
         it('should parse a well-written YML class and provide completion for fields', (done) => {
             const inputStream = CharStreams.fromString(`
             interface City
