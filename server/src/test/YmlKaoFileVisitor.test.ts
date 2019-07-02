@@ -29,6 +29,19 @@ describe('Extension Server Tests', () => {
             assert.equal(tokens.length, 1);
             assert.equal(tokens[0].startIndex, 0);
             assert.equal(tokens[0].stopIndex, 8);
+            assert.equal(tokens[0].type, YmlLexer.STRING);
+            done();
+        });
+
+        it('should be able to parse identifier with Japanese characters or accentuated characters', (done) => {
+            const inputStream = CharStreams.fromString('日本語::NE_PAS_ÊTRE');
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const tokens = tokenStream.getTokens();
+            assert.equal(tokens.length, 1);
+            assert.equal(tokens[0].startIndex, 0);
+            assert.equal(tokens[0].stopIndex, 15);
+            assert.equal(tokens[0].type, YmlLexer.YMLID);
             done();
         });
 
