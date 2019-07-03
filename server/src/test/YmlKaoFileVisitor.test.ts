@@ -33,7 +33,7 @@ describe('Extension Server Tests', () => {
             done();
         });
 
-        it('should be able to parse identifier with Japanese characters or accentuated characters', (done) => {
+        it('should be able to parse identifiers with Japanese characters or diacritics', (done) => {
             const inputStream = CharStreams.fromString('日本語::NE_PAS_ÊTRE');
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
