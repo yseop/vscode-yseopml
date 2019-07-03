@@ -5,10 +5,14 @@ grammar Yml;
  */
 
 //Keywords
+APPLY_COLLECTION: 'applyCollection';
+WHERE: '__where';
+OPERATION: '__operation';
 INTERFACE: 'interface';
 IMPLEMENTATION: 'implementation';
 EXTENDS: 'extends';
-FUNCTION: 'function' | 'Function';
+FUNCTION: 'function';
+FUNCTION_AS_TYPE: 'Function';
 METHOD: 'method';
 TEXT_METHOD: 'textMethod';
 TEXT_FUNCTION: 'TextFunction';
@@ -30,6 +34,7 @@ CATCH: 'catch';
 FOREACH: 'foreach';
 FORALL: 'forall';
 IN: 'in';
+AS: 'as';
 RETURN: 'return';
 LOCAL: 'local';
 TRUE: 'true';
@@ -91,12 +96,7 @@ fragment TIMES: '*';
 OPERATOR: MINUS | PLUS | DIVIDE | TIMES;
 
 fragment NUMBER: [0-9];
-fragment LETTER:
-    [a-zA-Z_']
-    | '\u4e00' ..'\u9faf'
-    | '\u3040' ..'\u309f'
-    | '\u30a0' ..'\u30ff'
-;
+fragment LETTER: [\p{Letter}_];
 
 fragment ALPHANUM: LETTER | [0-9];
 fragment D_LETTER: 'd';
@@ -119,7 +119,7 @@ INTEGER: NUMBER+;
 // Colon are OK inside a YMLID
 // Colons aren't interpreted by YE in a particular way.
 YMLID: ID (COLON? COLON ID)*;
-ID: LETTER ALPHANUM*;
+ID: ALPHANUM* LETTER ALPHANUM*;
 
 fragment MULTILINE_COMMENT_START: '/*';
 fragment MULTILINE_COMMENT_END: '*/';
@@ -152,7 +152,7 @@ ymlEntity:
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
 
-ymlId: YMLID | ARGS | LOCAL | RETURN;
+ymlId: YMLID | ARGS | LOCAL | RETURN | FUNCTION_AS_TYPE | TEXT_FUNCTION;
 
 yenum:
     ENUM yid=ymlId OPEN_BRACE (enumElement ( COMMA enumElement)*)+ CLOSE_BRACE fields=field* SEMICOLON
@@ -176,7 +176,7 @@ attributeImplementation: attrName=ymlId attributes=field+;
 
 override: OVERRIDE OPEN_BRACE overrideInstruction* CLOSE_BRACE;
 
-overrideInstruction: ymlId FUNCTION;
+overrideInstruction: ymlId FUNCTION? field*;
 
 classDeclarationIntro: INTERFACE className=ymlId (extendsBlock)?;
 extendsBlock: EXTENDS parentClassName (COMMA parentClassName)*;
@@ -236,6 +236,7 @@ classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 documentation: DOCUMENTATION;
 valueOrCondition:
     actionBlock
+    | instruction
     | combinedComparison
     | value
     | hashMapKeyValue
@@ -255,7 +256,24 @@ value:
     | ifExprBlock
     | array
     | constList
+    | applyCollection
+    | as
     | OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE
+;
+
+as:
+    AS OPEN_PAR instanciationVariable
+    (
+        COMMA (instruction_assignment | combinedComparison)
+    )*? COMMA combinedComparison CLOSE_PAR
+;
+
+applyCollection:
+    APPLY_COLLECTION OPEN_PAR value COMMA
+    (
+        WHERE combinedComparison
+        | OPERATION ymlId
+    ) CLOSE_PAR
 ;
 
 instruction_forEach:
@@ -283,6 +301,8 @@ expression:
     | instanciationVariable
     | granule
     | constList
+    | as
+    | applyCollection
 ;
 
 functionCall:
@@ -306,7 +326,7 @@ fieldValue: field | granule;
 
 //Functions
 
-function: (METHOD | FUNCTION | TEXT_METHOD | TEXT_FUNCTION) ymlId
+function: (METHOD | FUNCTION | FUNCTION_AS_TYPE | TEXT_METHOD | TEXT_FUNCTION) ymlId
     (
         argsBlock
         | OPEN_PAR argumentList CLOSE_PAR

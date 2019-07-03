@@ -29,6 +29,43 @@ describe('Extension Server Tests', () => {
             assert.equal(tokens.length, 1);
             assert.equal(tokens[0].startIndex, 0);
             assert.equal(tokens[0].stopIndex, 8);
+            assert.equal(tokens[0].type, YmlLexer.STRING);
+            done();
+        });
+
+        it('should be able to parse identifiers with Japanese characters or diacritics', (done) => {
+            const inputStream = CharStreams.fromString('日本語::NE_PAS_ÊTRE');
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const tokens = tokenStream.getTokens();
+            assert.equal(tokens.length, 1);
+            assert.equal(tokens[0].startIndex, 0);
+            assert.equal(tokens[0].stopIndex, 15);
+            assert.equal(tokens[0].type, YmlLexer.YMLID);
+            done();
+        });
+
+        it('should not be able to parse a number as an identifier', (done) => {
+            const inputStream = CharStreams.fromString('1');
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const tokens = tokenStream.getTokens();
+            assert.equal(tokens.length, 1);
+            assert.equal(tokens[0].startIndex, 0);
+            assert.equal(tokens[0].stopIndex, 0);
+            assert.notEqual(tokens[0].type, YmlLexer.YMLID);
+            done();
+        });
+
+        it('should be able to parse a number and a letter or undercore as an identifier', (done) => {
+            const inputStream = CharStreams.fromString('1_');
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const tokens = tokenStream.getTokens();
+            assert.equal(tokens.length, 1);
+            assert.equal(tokens[0].startIndex, 0);
+            assert.equal(tokens[0].stopIndex, 1);
+            assert.equal(tokens[0].type, YmlLexer.YMLID);
             done();
         });
 
