@@ -6,6 +6,7 @@ export function run(): Promise<void> {
     // Create the mocha test
     const mocha = new Mocha({
         ui: 'tdd', // the TDD UI is being used in extension.test.ts (suite, test, etc.)
+        useColors: true,
         fullStackTrace: true,
         reporter: 'xunit',
         reporterOptions: {
@@ -13,7 +14,6 @@ export function run(): Promise<void> {
             output: '../target/test-reports/client-tests.xml',
         },
     });
-    mocha.useColors(true);
 
     const testsRoot = path.resolve(__dirname, '..');
 
