@@ -86,8 +86,7 @@
                 }
             }
         },
-        "commands": [
-            {
+        "commands": [{
                 "command": "yseopml.batch",
                 "title": "Yseop Batch",
                 "category": "Yseop"
@@ -123,51 +122,46 @@
                 "category": "Yseop"
             }
         ],
-        "languages": [
-            {
-                "id": "yml",
-                "aliases": [
-                    "Yseop Markup Language",
-                    "yml"
-                ],
-                "extensions": [
-                    ".kao",
-                    ".yclass",
-                    ".ytextfunction",
-                    ".yobject",
-                    ".ycomplete",
-                    ".dcl",
-                    ".yml"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "yml",
-                "scopeName": "source.yseop",
-                "path": "./syntaxes/yml.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "yml",
-                "path": "./snippets/snippets.json"
-            }
-        ]
+        "languages": [{
+            "id": "yml",
+            "aliases": [
+                "Yseop Markup Language",
+                "yml"
+            ],
+            "extensions": [
+                ".kao",
+                ".yclass",
+                ".ytextfunction",
+                ".yobject",
+                ".ycomplete",
+                ".dcl",
+                ".yml"
+            ],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "yml",
+            "scopeName": "source.yseop",
+            "path": "./syntaxes/yml.tmLanguage.json"
+        }],
+        "snippets": [{
+            "language": "yml",
+            "path": "./snippets/snippets.json"
+        }]
     },
     "scripts": {
         "antlr4ts": "cd server && npm run antlr4ts",
         "lint": "tslint -c tslint.json --project tsconfig.json '**/src/*.ts'",
         "lint:report": "tslint --project tsconfig.json --force --fix -c tslint.json -o report.json -t json '**/src/*.ts'",
-        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run webpack",
+        "vscode:prepublish": "npm run webpack",
         "webpack": "npm run clean && webpack --mode production --config ./client/webpack.config.js && webpack --mode production --config ./server/webpack.config.js",
         "webpack:dev": "npm run clean && webpack --mode none --config ./client/webpack.config.js && webpack --mode none --config ./server/webpack.config.js",
         "package": "vsce package",
         "compile": "tsc -b",
         "compile:client": "tsc -b ./client/tsconfig.json",
         "compile:server": "tsc -b ./server/tsconfig.json",
-        "test": "npm run test:server-ci",
+        "test": "npm run test:server-ci && npm run test:client",
+        "test:client": "cd client && npm run test",
         "test:server": "cd server && npm run test",
         "test:server-ci": "cd server && npm run test:ci",
         "watch": "tsc -b -w",
@@ -178,7 +172,9 @@
         "@types/mocha": "^5.2.7",
         "@types/node": "^11.13.15",
         "antlr4ts-cli": "^0.5.0-alpha.3",
+        "merge-options": "^1.0.1",
         "mocha": "^5.2.0",
+        "rimraf": "^2.6.3",
         "ts-loader": "^5.4.5",
         "tslint": "^5.18.0",
         "tslint-config-prettier": "^1.18.0",
@@ -188,8 +184,6 @@
         "typescript": "^3.5.2",
         "vsce": "^1.64.0",
         "webpack": "^4.35.0",
-        "webpack-cli": "^3.3.5",
-        "merge-options": "^1.0.1",
-        "rimraf": "^2.6.3"
+        "webpack-cli": "^3.3.5"
     }
 }
