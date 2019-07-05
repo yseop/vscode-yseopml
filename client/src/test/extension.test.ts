@@ -5,6 +5,7 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
+const YML_EXTENSION_ID = 'Yseop.vscode-yseopml';
 // The module 'assert' provides assertion methods from node
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
@@ -16,7 +17,7 @@ suite('Extension Tests', () => {
         assert.strictEqual(
             true,
             vscode.extensions.all.some((extension) => {
-                return extension.id === 'Yseop.vscode-yseopml';
+                return extension.id === YML_EXTENSION_ID;
             }),
         );
     });
@@ -32,7 +33,7 @@ suite('Extension Tests', () => {
 
     test('not activated YML extension is not active.', () => {
         const ymlExtension = vscode.extensions.all.find((extension) => {
-            return extension.id === 'Yseop.vscode-yseopml';
+            return extension.id === YML_EXTENSION_ID;
         });
         assert.notStrictEqual(ymlExtension, null);
         assert.strictEqual(ymlExtension.isActive, false);
@@ -40,7 +41,7 @@ suite('Extension Tests', () => {
 
     test('YML extension activation activates it.', (done) => {
         const ymlExtension = vscode.extensions.all.find((extension) => {
-            return extension.id === 'Yseop.vscode-yseopml';
+            return extension.id === YML_EXTENSION_ID;
         });
         assert.notStrictEqual(ymlExtension, null);
         assert.strictEqual(ymlExtension.isActive, false);
@@ -54,7 +55,7 @@ suite('Extension Tests', () => {
 
     test('YML extension adds YML support.', (done) => {
         const ymlExtension = vscode.extensions.all.find((extension) => {
-            return extension.id === 'Yseop.vscode-yseopml';
+            return extension.id === YML_EXTENSION_ID;
         });
         assert.notStrictEqual(ymlExtension, null, "Extension doesn't exist.");
         vscode.languages
