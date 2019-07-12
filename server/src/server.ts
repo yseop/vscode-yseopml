@@ -69,8 +69,7 @@ connection.onHover((_params) => {
         return null;
     }
     // Multiple elements can have the same shortName
-    const entities = completionProvider.getAllItemsByShortName(entityName);
-    const entity = entities.find((elem) => !!elem.documentation);
+    const entity = completionProvider.getFirstItemByShortNameMatching(entityName, (elem) => !!elem.documentation);
     if (!entity) {
         return null;
     }

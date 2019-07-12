@@ -8,7 +8,7 @@ import { YmlLexer, YmlParser } from '../grammar';
 import { YmlKaoFileVisitor } from '../visitors';
 
 describe('YmlCompletionItemsProvider', () => {
-    it("should be able to get a method's documentation from its short name", (done) => {
+    it("should get be able to get a method's documentation from its short name", (done) => {
         const inputStream = CharStreams.fromString(`
             interface City
                 method getName()
@@ -42,16 +42,31 @@ describe('YmlCompletionItemsProvider', () => {
         const completionProvider = new YmlCompletionItemsProvider();
         const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
         visitor.visit(result);
-        const allItemsBylabel = completionProvider.getAllItemsByLabel('getName');
-        const allItemsByShortName = completionProvider.getAllItemsByShortName('getName');
-        // just the “getName” keyword
-        assert.strictEqual(allItemsBylabel.length, 1);
-        // keyword and the method
-        assert.strictEqual(allItemsByShortName.length, 2);
+        const methodNameGetName = 'getName';
+        const allItemsByLabel = completionProvider.getAllItemsByLabelMatching(methodNameGetName);
+        const allItemsByShortName = completionProvider.getAllItemsByShortNameMatching(methodNameGetName);
+        const allDocumentedItemsByLabel = completionProvider.getAllItemsByLabelMatching(
+            methodNameGetName,
+            (elem) => !!elem.documentation,
+        );
+        const allDocumentedItemsByShortName = completionProvider.getAllItemsByShortNameMatching(
+            methodNameGetName,
+            (elem) => !!elem.documentation,
+        );
+        assert.strictEqual(allItemsByLabel.length, 1); // just the keyword getName
+        assert.strictEqual(allItemsByShortName.length, 2); // keyword and the method
+
         // keywords have no documentation, should get nothing
-        assert.deepStrictEqual(allItemsBylabel.filter((elem) => !!elem.documentation).length, 0);
-        // the method should be in the list, as it has some documentation.
+        assert.deepStrictEqual(allItemsByLabel.filter((elem) => !!elem.documentation).length, 0);
+        // same as previous instruction
+        assert.deepStrictEqual(allDocumentedItemsByLabel.length, 0);
+        assert.deepStrictEqual(allItemsByLabel.filter((elem) => !!elem.documentation), allDocumentedItemsByLabel);
+
+        // the method should be in the list; the method has the documentation.
         assert.deepStrictEqual(allItemsByShortName.filter((elem) => !!elem.documentation).length, 1);
+        // same as previous instruction
+        assert.deepStrictEqual(allDocumentedItemsByShortName.length, 1);
+        assert.deepStrictEqual(allItemsByShortName.filter((elem) => !!elem.documentation), allDocumentedItemsByShortName);
         done();
     });
 });

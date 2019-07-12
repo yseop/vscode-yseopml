@@ -64,42 +64,83 @@ export class YmlCompletionItemsProvider {
     }
 
     /**
+     *
+     * @param condOne The result of a first filter.
+     * @param obj The object to apply the second optional filter on.
+     * @param optionalFilter An optional filter function. It will take `obj` as argument.
+     * @return `false` iff `condOne` is false or the `optionalFilter` applied to `obj` returns false.
+     */
+    private filterYmlObject(
+        condOne: boolean,
+        obj?: AbstractYmlObject,
+        optionalFilter?: (elem: AbstractYmlObject) => boolean,
+    ): boolean {
+        if (!condOne) {
+            return false;
+        }
+        if (!optionalFilter) {
+            return true;
+        }
+        return optionalFilter(obj);
+    }
+
+    /**
      * Find the *first* completion item that has `entityName` as name.
      *
      * @param entityName The name of the entity searched for.
+     * @param optionalFilter Optional function that will add a filtering possibility.
      * @returns The first completion item that has `entityName` as its label, `null` otherwise.
      */
-    public getItemByLabel(entityName: string): AbstractYmlObject {
-        return this.completions.find((elem) => elem.label === entityName);
+    public getFirstItemByLabelMatching(
+        entityName: string,
+        optionalFilter?: (myElem: AbstractYmlObject) => boolean,
+    ): AbstractYmlObject {
+        return this.completions.find((elem) => this.filterYmlObject(elem.label === entityName, elem, optionalFilter));
     }
 
     /**
      * Find *all* the completion items that have `entityName` as name.
      *
      * @param entityName The name of the entity searched for.
+     * @param optionalFilter Optional function that will add a filtering possibility.
      * @returns An array of completion items that have `entityName` as their label, `[]` otherwise.
      */
-    public getAllItemsByLabel(entityName: string): AbstractYmlObject[] {
-        return this.completions.filter((elem) => elem.label === entityName);
+    public getAllItemsByLabelMatching(
+        entityName: string,
+        optionalFilter?: (myElem: AbstractYmlObject) => boolean,
+    ): AbstractYmlObject[] {
+        return this.completions.filter((elem) => this.filterYmlObject(elem.label === entityName, elem, optionalFilter));
     }
 
     /**
      * Find the *first* completion item that has `entityName` as short name.
      *
      * @param entityName The name of the entity searched for.
+     * @param optionalFilter Optional function that will add a filtering possibility.
      * @returns The first completion item that has `entityName` as its short name, `null` otherwise.
      */
-    public getItemByShortName(entityName: string): AbstractYmlObject {
-        return this.completions.find((elem) => elem.getShortName() === entityName);
+    public getFirstItemByShortNameMatching(
+        entityName: string,
+        optionalFilter?: (myElem: AbstractYmlObject) => boolean,
+    ): AbstractYmlObject {
+        return this.completions.find((elem) =>
+            this.filterYmlObject(elem.getShortName() === entityName, elem, optionalFilter),
+        );
     }
 
     /**
      * Find *all* the completion items that have `entityName` as short name.
      *
      * @param entityName The name of the entity searched for.
+     * @param optionalFilter Optional function that will add a filtering possibility.
      * @returns An array of completion items that have `entityName` as their short name, `[]` otherwise.
      */
-    public getAllItemsByShortName(entityName: string): AbstractYmlObject[] {
-        return this.completions.filter((elem) => elem.getShortName() === entityName);
+    public getAllItemsByShortNameMatching(
+        entityName: string,
+        optionalFilter?: (myElem: AbstractYmlObject) => boolean,
+    ): AbstractYmlObject[] {
+        return this.completions.filter((elem) =>
+            this.filterYmlObject(elem.getShortName() === entityName, elem, optionalFilter),
+        );
     }
 }
