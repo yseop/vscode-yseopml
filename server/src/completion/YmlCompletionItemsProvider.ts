@@ -74,7 +74,7 @@ export class YmlCompletionItemsProvider {
     }
 
     /**
-     * Find *all* the completion items that has `entityName` as name.
+     * Find *all* the completion items that have `entityName` as name.
      *
      * @param entityName The name of the entity searched for.
      * @returns An array of completion items that have `entityName` as their label, `[]` otherwise.
@@ -94,7 +94,7 @@ export class YmlCompletionItemsProvider {
     }
 
     /**
-     * Find *all* the completion items that has `entityName` as short name.
+     * Find *all* the completion items that have `entityName` as short name.
      *
      * @param entityName The name of the entity searched for.
      * @returns An array of completion items that have `entityName` as their short name, `[]` otherwise.
