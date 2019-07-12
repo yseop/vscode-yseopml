@@ -72,4 +72,34 @@ export class YmlCompletionItemsProvider {
     public getItemByLabel(entityName: string): AbstractYmlObject {
         return this.completions.find((elem) => elem.label === entityName);
     }
+
+    /**
+     * Find *all* the completion items that has `entityName` as name.
+     *
+     * @param entityName The name of the entity searched for.
+     * @returns An array of completion items that have `entityName` as their label, `[]` otherwise.
+     */
+    public getAllItemsByLabel(entityName: string): AbstractYmlObject[] {
+        return this.completions.filter((elem) => elem.label === entityName);
+    }
+
+    /**
+     * Find the *first* completion item that has `entityName` as short name.
+     *
+     * @param entityName The name of the entity searched for.
+     * @returns The first completion item that has `entityName` as its short name, `null` otherwise.
+     */
+    public getItemByShortName(entityName: string): AbstractYmlObject {
+        return this.completions.find((elem) => elem.getShortName() === entityName);
+    }
+
+    /**
+     * Find *all* the completion items that has `entityName` as short name.
+     *
+     * @param entityName The name of the entity searched for.
+     * @returns An array of completion items that have `entityName` as their short name, `[]` otherwise.
+     */
+    public getAllItemsByShortName(entityName: string): AbstractYmlObject[] {
+        return this.completions.filter((elem) => elem.getShortName() === entityName);
+    }
 }
