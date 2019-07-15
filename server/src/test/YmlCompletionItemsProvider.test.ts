@@ -43,8 +43,14 @@ describe('YmlCompletionItemsProvider', () => {
         const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
         visitor.visit(result);
         const methodNameGetName = 'getName';
+
         const allItemsByLabel = completionProvider.getAllItemsByLabelMatching(methodNameGetName);
         const allItemsByShortName = completionProvider.getAllItemsByShortNameMatching(methodNameGetName);
+        // just the keyword getName
+        assert.strictEqual(allItemsByLabel.length, 1);
+        // keyword and the method
+        assert.strictEqual(allItemsByShortName.length, 2);
+
         const allDocumentedItemsByLabel = completionProvider.getAllItemsByLabelMatching(
             methodNameGetName,
             (elem) => !!elem.documentation,
@@ -53,8 +59,6 @@ describe('YmlCompletionItemsProvider', () => {
             methodNameGetName,
             (elem) => !!elem.documentation,
         );
-        assert.strictEqual(allItemsByLabel.length, 1); // just the keyword getName
-        assert.strictEqual(allItemsByShortName.length, 2); // keyword and the method
 
         // keywords have no documentation, should get nothing
         assert.deepStrictEqual(allItemsByLabel.filter((elem) => !!elem.documentation).length, 0);
