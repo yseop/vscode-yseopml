@@ -68,8 +68,9 @@ connection.onHover((_params) => {
     if (!entityName) {
         return null;
     }
-    const entity = completionProvider.getItemByLabel(entityName);
-    if (!entity || !entity.documentation) {
+    // Multiple elements can have the same shortName
+    const entity = completionProvider.getFirstItemByShortNameMatching(entityName, (elem) => !!elem.documentation);
+    if (!entity) {
         return null;
     }
     return {
