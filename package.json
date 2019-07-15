@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.6.1",
+    "version": "1.6.2",
     "author": "Yseop",
     "license": "MIT",
     "repository": {
@@ -86,7 +86,8 @@
                 }
             }
         },
-        "commands": [{
+        "commands": [
+            {
                 "command": "yseopml.batch",
                 "title": "Yseop Batch",
                 "category": "Yseop"
@@ -122,32 +123,38 @@
                 "category": "Yseop"
             }
         ],
-        "languages": [{
-            "id": "yml",
-            "aliases": [
-                "Yseop Markup Language",
-                "yml"
-            ],
-            "extensions": [
-                ".kao",
-                ".yclass",
-                ".ytextfunction",
-                ".yobject",
-                ".ycomplete",
-                ".dcl",
-                ".yml"
-            ],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "yml",
-            "scopeName": "source.yseop",
-            "path": "./syntaxes/yml.tmLanguage.json"
-        }],
-        "snippets": [{
-            "language": "yml",
-            "path": "./snippets/snippets.json"
-        }]
+        "languages": [
+            {
+                "id": "yml",
+                "aliases": [
+                    "Yseop Markup Language",
+                    "yml"
+                ],
+                "extensions": [
+                    ".kao",
+                    ".yclass",
+                    ".ytextfunction",
+                    ".yobject",
+                    ".ycomplete",
+                    ".dcl",
+                    ".yml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "yml",
+                "scopeName": "source.yseop",
+                "path": "./syntaxes/yml.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "yml",
+                "path": "./snippets/snippets.json"
+            }
+        ]
     },
     "scripts": {
         "antlr4ts": "cd server && npm run antlr4ts",
