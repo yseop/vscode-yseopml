@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.6.2 (YYYY-MM-DD)
+## 1.6.2 (2019-07-15)
 
 -   Fix security issue with `lodash` version 4.17.11. New version `4.17.14` set instead.
 -   Display a method’s documentation when hovering over its name.
