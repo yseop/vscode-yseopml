@@ -1,4 +1,4 @@
-// Generated from grammar/Yml.g4 by ANTLR 4.7.3-SNAPSHOT
+// Generated from grammar/YmlParser.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
@@ -106,7 +106,7 @@ import { ClassCompleteContext } from "./YmlParser";
  * This interface defines a complete listener for a parse tree produced by
  * `YmlParser`.
  */
-export interface YmlListener extends ParseTreeListener {
+export interface YmlParserListener extends ParseTreeListener {
 	/**
 	 * Enter a parse tree produced by `YmlParser.kaoFile`.
 	 * @param ctx the parse tree

@@ -1,4 +1,4 @@
-// Generated from grammar/Yml.g4 by ANTLR 4.7.3-SNAPSHOT
+// Generated from grammar/YmlParser.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ATN } from "antlr4ts/atn/ATN";
@@ -23,8 +23,8 @@ import { VocabularyImpl } from "antlr4ts/VocabularyImpl";
 
 import * as Utils from "antlr4ts/misc/Utils";
 
-import { YmlListener } from "./YmlListener";
-import { YmlVisitor } from "./YmlVisitor";
+import { YmlParserListener } from "./YmlParserListener";
+import { YmlParserVisitor } from "./YmlParserVisitor";
 
 
 export class YmlParser extends Parser {
@@ -276,7 +276,7 @@ export class YmlParser extends Parser {
 	// tslint:enable:no-trailing-whitespace
 
 	// @Override
-	public get grammarFileName(): string { return "Yml.g4"; }
+	public get grammarFileName(): string { return "YmlParser.g4"; }
 
 	// @Override
 	public get ruleNames(): string[] { return YmlParser.ruleNames; }
@@ -6038,19 +6038,19 @@ export class KaoFileContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_kaoFile; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterKaoFile) {
 			listener.enterKaoFile(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitKaoFile) {
 			listener.exitKaoFile(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitKaoFile) {
 			return visitor.visitKaoFile(this);
 		} else {
@@ -6088,19 +6088,19 @@ export class YmlEntityContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_ymlEntity; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterYmlEntity) {
 			listener.enterYmlEntity(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitYmlEntity) {
 			listener.exitYmlEntity(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitYmlEntity) {
 			return visitor.visitYmlEntity(this);
 		} else {
@@ -6127,19 +6127,19 @@ export class ExpressionMarkerContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_expressionMarker; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterExpressionMarker) {
 			listener.enterExpressionMarker(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitExpressionMarker) {
 			listener.exitExpressionMarker(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitExpressionMarker) {
 			return visitor.visitExpressionMarker(this);
 		} else {
@@ -6162,19 +6162,19 @@ export class YmlIdContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_ymlId; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterYmlId) {
 			listener.enterYmlId(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitYmlId) {
 			listener.exitYmlId(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitYmlId) {
 			return visitor.visitYmlId(this);
 		} else {
@@ -6227,19 +6227,19 @@ export class YenumContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_yenum; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterYenum) {
 			listener.enterYenum(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitYenum) {
 			listener.exitYenum(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitYenum) {
 			return visitor.visitYenum(this);
 		} else {
@@ -6270,19 +6270,19 @@ export class EnumElementContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_enumElement; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterEnumElement) {
 			listener.enterEnumElement(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitEnumElement) {
 			listener.exitEnumElement(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitEnumElement) {
 			return visitor.visitEnumElement(this);
 		} else {
@@ -6345,19 +6345,19 @@ export class ClassDeclarationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_classDeclaration; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterClassDeclaration) {
 			listener.enterClassDeclaration(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitClassDeclaration) {
 			listener.exitClassDeclaration(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitClassDeclaration) {
 			return visitor.visitClassDeclaration(this);
 		} else {
@@ -6411,19 +6411,19 @@ export class ClassImplementationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_classImplementation; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterClassImplementation) {
 			listener.enterClassImplementation(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitClassImplementation) {
 			listener.exitClassImplementation(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitClassImplementation) {
 			return visitor.visitClassImplementation(this);
 		} else {
@@ -6454,19 +6454,19 @@ export class AttributeImplementationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_attributeImplementation; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterAttributeImplementation) {
 			listener.enterAttributeImplementation(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitAttributeImplementation) {
 			listener.exitAttributeImplementation(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitAttributeImplementation) {
 			return visitor.visitAttributeImplementation(this);
 		} else {
@@ -6495,19 +6495,19 @@ export class OverrideContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_override; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterOverride) {
 			listener.enterOverride(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitOverride) {
 			listener.exitOverride(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitOverride) {
 			return visitor.visitOverride(this);
 		} else {
@@ -6537,19 +6537,19 @@ export class OverrideInstructionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_overrideInstruction; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterOverrideInstruction) {
 			listener.enterOverrideInstruction(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitOverrideInstruction) {
 			listener.exitOverrideInstruction(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitOverrideInstruction) {
 			return visitor.visitOverrideInstruction(this);
 		} else {
@@ -6574,19 +6574,19 @@ export class ClassDeclarationIntroContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_classDeclarationIntro; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterClassDeclarationIntro) {
 			listener.enterClassDeclarationIntro(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitClassDeclarationIntro) {
 			listener.exitClassDeclarationIntro(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitClassDeclarationIntro) {
 			return visitor.visitClassDeclarationIntro(this);
 		} else {
@@ -6622,19 +6622,19 @@ export class ExtendsBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_extendsBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterExtendsBlock) {
 			listener.enterExtendsBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitExtendsBlock) {
 			listener.exitExtendsBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitExtendsBlock) {
 			return visitor.visitExtendsBlock(this);
 		} else {
@@ -6654,19 +6654,19 @@ export class ParentClassNameContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_parentClassName; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterParentClassName) {
 			listener.enterParentClassName(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitParentClassName) {
 			listener.exitParentClassName(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitParentClassName) {
 			return visitor.visitParentClassName(this);
 		} else {
@@ -6709,19 +6709,19 @@ export class SynonymContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_synonym; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterSynonym) {
 			listener.enterSynonym(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitSynonym) {
 			listener.exitSynonym(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitSynonym) {
 			return visitor.visitSynonym(this);
 		} else {
@@ -6753,19 +6753,19 @@ export class ClassAttributeDeclarationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_classAttributeDeclaration; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterClassAttributeDeclaration) {
 			listener.enterClassAttributeDeclaration(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitClassAttributeDeclaration) {
 			listener.exitClassAttributeDeclaration(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitClassAttributeDeclaration) {
 			return visitor.visitClassAttributeDeclaration(this);
 		} else {
@@ -6800,19 +6800,19 @@ export class MemberDeclarationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_memberDeclaration; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterMemberDeclaration) {
 			listener.enterMemberDeclaration(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitMemberDeclaration) {
 			listener.exitMemberDeclaration(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitMemberDeclaration) {
 			return visitor.visitMemberDeclaration(this);
 		} else {
@@ -6839,19 +6839,19 @@ export class MemberTypeContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_memberType; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterMemberType) {
 			listener.enterMemberType(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitMemberType) {
 			listener.exitMemberType(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitMemberType) {
 			return visitor.visitMemberType(this);
 		} else {
@@ -6886,19 +6886,19 @@ export class PathContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_path; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterPath) {
 			listener.enterPath(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitPath) {
 			listener.exitPath(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitPath) {
 			return visitor.visitPath(this);
 		} else {
@@ -6921,19 +6921,19 @@ export class YmlIdOrPathContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_ymlIdOrPath; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterYmlIdOrPath) {
 			listener.enterYmlIdOrPath(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitYmlIdOrPath) {
 			listener.exitYmlIdOrPath(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitYmlIdOrPath) {
 			return visitor.visitYmlIdOrPath(this);
 		} else {
@@ -6959,19 +6959,19 @@ export class FieldContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_field; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterField) {
 			listener.enterField(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitField) {
 			listener.exitField(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitField) {
 			return visitor.visitField(this);
 		} else {
@@ -7017,19 +7017,19 @@ export class CommonFieldContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_commonField; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterCommonField) {
 			listener.enterCommonField(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitCommonField) {
 			listener.exitCommonField(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitCommonField) {
 			return visitor.visitCommonField(this);
 		} else {
@@ -7054,19 +7054,19 @@ export class Local_variable_declContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_local_variable_decl; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterLocal_variable_decl) {
 			listener.enterLocal_variable_decl(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitLocal_variable_decl) {
 			listener.exitLocal_variable_decl(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitLocal_variable_decl) {
 			return visitor.visitLocal_variable_decl(this);
 		} else {
@@ -7107,19 +7107,19 @@ export class LocalFieldContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_localField; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterLocalField) {
 			listener.enterLocalField(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitLocalField) {
 			listener.exitLocalField(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitLocalField) {
 			return visitor.visitLocalField(this);
 		} else {
@@ -7160,19 +7160,19 @@ export class ReturnFieldContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_returnField; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterReturnField) {
 			listener.enterReturnField(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitReturnField) {
 			listener.exitReturnField(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitReturnField) {
 			return visitor.visitReturnField(this);
 		} else {
@@ -7200,19 +7200,19 @@ export class ClassPropertiesBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_classPropertiesBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterClassPropertiesBlock) {
 			listener.enterClassPropertiesBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitClassPropertiesBlock) {
 			listener.exitClassPropertiesBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitClassPropertiesBlock) {
 			return visitor.visitClassPropertiesBlock(this);
 		} else {
@@ -7230,19 +7230,19 @@ export class DocumentationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_documentation; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterDocumentation) {
 			listener.enterDocumentation(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitDocumentation) {
 			listener.exitDocumentation(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitDocumentation) {
 			return visitor.visitDocumentation(this);
 		} else {
@@ -7288,19 +7288,19 @@ export class ValueOrConditionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_valueOrCondition; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterValueOrCondition) {
 			listener.enterValueOrCondition(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitValueOrCondition) {
 			listener.exitValueOrCondition(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitValueOrCondition) {
 			return visitor.visitValueOrCondition(this);
 		} else {
@@ -7324,19 +7324,19 @@ export class HashMapKeyValueContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_hashMapKeyValue; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterHashMapKeyValue) {
 			listener.enterHashMapKeyValue(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitHashMapKeyValue) {
 			listener.exitHashMapKeyValue(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitHashMapKeyValue) {
 			return visitor.visitHashMapKeyValue(this);
 		} else {
@@ -7359,19 +7359,19 @@ export class HashMapValueContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_hashMapValue; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterHashMapValue) {
 			listener.enterHashMapValue(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitHashMapValue) {
 			listener.exitHashMapValue(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitHashMapValue) {
 			return visitor.visitHashMapValue(this);
 		} else {
@@ -7438,19 +7438,19 @@ export class ValueContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_value; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterValue) {
 			listener.enterValue(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitValue) {
 			listener.exitValue(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitValue) {
 			return visitor.visitValue(this);
 		} else {
@@ -7500,19 +7500,19 @@ export class AsContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_as; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterAs) {
 			listener.enterAs(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitAs) {
 			listener.exitAs(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitAs) {
 			return visitor.visitAs(this);
 		} else {
@@ -7544,19 +7544,19 @@ export class ApplyCollectionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_applyCollection; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterApplyCollection) {
 			listener.enterApplyCollection(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitApplyCollection) {
 			listener.exitApplyCollection(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitApplyCollection) {
 			return visitor.visitApplyCollection(this);
 		} else {
@@ -7594,19 +7594,19 @@ export class Instruction_forEachContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_forEach; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_forEach) {
 			listener.enterInstruction_forEach(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_forEach) {
 			listener.exitInstruction_forEach(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_forEach) {
 			return visitor.visitInstruction_forEach(this);
 		} else {
@@ -7653,19 +7653,19 @@ export class Instruction_forContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_for; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_for) {
 			listener.enterInstruction_for(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_for) {
 			listener.exitInstruction_for(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_for) {
 			return visitor.visitInstruction_for(this);
 		} else {
@@ -7686,19 +7686,19 @@ export class Instruction_ifExprBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_ifExprBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_ifExprBlock) {
 			listener.enterInstruction_ifExprBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_ifExprBlock) {
 			listener.exitInstruction_ifExprBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_ifExprBlock) {
 			return visitor.visitInstruction_ifExprBlock(this);
 		} else {
@@ -7735,19 +7735,19 @@ export class IfExprBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_ifExprBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterIfExprBlock) {
 			listener.enterIfExprBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitIfExprBlock) {
 			listener.exitIfExprBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitIfExprBlock) {
 			return visitor.visitIfExprBlock(this);
 		} else {
@@ -7766,19 +7766,19 @@ export class BoolContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_bool; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterBool) {
 			listener.enterBool(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitBool) {
 			listener.exitBool(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitBool) {
 			return visitor.visitBool(this);
 		} else {
@@ -7803,19 +7803,19 @@ export class NonArithmeticValueContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_nonArithmeticValue; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterNonArithmeticValue) {
 			listener.enterNonArithmeticValue(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitNonArithmeticValue) {
 			listener.exitNonArithmeticValue(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitNonArithmeticValue) {
 			return visitor.visitNonArithmeticValue(this);
 		} else {
@@ -7836,19 +7836,19 @@ export class InstanciationVariableContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instanciationVariable; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstanciationVariable) {
 			listener.enterInstanciationVariable(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstanciationVariable) {
 			listener.exitInstanciationVariable(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstanciationVariable) {
 			return visitor.visitInstanciationVariable(this);
 		} else {
@@ -7889,19 +7889,19 @@ export class ExpressionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_expression; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterExpression) {
 			listener.enterExpression(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitExpression) {
 			listener.exitExpression(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitExpression) {
 			return visitor.visitExpression(this);
 		} else {
@@ -7941,19 +7941,19 @@ export class FunctionCallContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_functionCall; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterFunctionCall) {
 			listener.enterFunctionCall(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitFunctionCall) {
 			listener.exitFunctionCall(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitFunctionCall) {
 			return visitor.visitFunctionCall(this);
 		} else {
@@ -7978,19 +7978,19 @@ export class IndexedCallContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_indexedCall; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterIndexedCall) {
 			listener.enterIndexedCall(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitIndexedCall) {
 			listener.exitIndexedCall(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitIndexedCall) {
 			return visitor.visitIndexedCall(this);
 		} else {
@@ -8013,19 +8013,19 @@ export class FunctionArgumentContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_functionArgument; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterFunctionArgument) {
 			listener.enterFunctionArgument(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitFunctionArgument) {
 			listener.exitFunctionArgument(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitFunctionArgument) {
 			return visitor.visitFunctionArgument(this);
 		} else {
@@ -8061,19 +8061,19 @@ export class ChainedCallContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_chainedCall; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterChainedCall) {
 			listener.enterChainedCall(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitChainedCall) {
 			listener.exitChainedCall(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitChainedCall) {
 			return visitor.visitChainedCall(this);
 		} else {
@@ -8112,19 +8112,19 @@ export class InlineDeclarationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_inlineDeclaration; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInlineDeclaration) {
 			listener.enterInlineDeclaration(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInlineDeclaration) {
 			listener.exitInlineDeclaration(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInlineDeclaration) {
 			return visitor.visitInlineDeclaration(this);
 		} else {
@@ -8156,19 +8156,19 @@ export class InlineOperationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_inlineOperation; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInlineOperation) {
 			listener.enterInlineOperation(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInlineOperation) {
 			listener.exitInlineOperation(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInlineOperation) {
 			return visitor.visitInlineOperation(this);
 		} else {
@@ -8191,19 +8191,19 @@ export class FieldValueContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_fieldValue; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterFieldValue) {
 			listener.enterFieldValue(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitFieldValue) {
 			listener.exitFieldValue(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitFieldValue) {
 			return visitor.visitFieldValue(this);
 		} else {
@@ -8253,19 +8253,19 @@ export class FunctionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_function; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterFunction) {
 			listener.enterFunction(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitFunction) {
 			listener.exitFunction(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitFunction) {
 			return visitor.visitFunction(this);
 		} else {
@@ -8288,19 +8288,19 @@ export class ArgsBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_argsBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterArgsBlock) {
 			listener.enterArgsBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitArgsBlock) {
 			listener.exitArgsBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitArgsBlock) {
 			return visitor.visitArgsBlock(this);
 		} else {
@@ -8323,19 +8323,19 @@ export class LocalBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_localBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterLocalBlock) {
 			listener.enterLocalBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitLocalBlock) {
 			listener.exitLocalBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitLocalBlock) {
 			return visitor.visitLocalBlock(this);
 		} else {
@@ -8364,19 +8364,19 @@ export class StaticBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_staticBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterStaticBlock) {
 			listener.enterStaticBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitStaticBlock) {
 			listener.exitStaticBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitStaticBlock) {
 			return visitor.visitStaticBlock(this);
 		} else {
@@ -8406,19 +8406,19 @@ export class MethodDeclarationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_methodDeclaration; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterMethodDeclaration) {
 			listener.enterMethodDeclaration(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitMethodDeclaration) {
 			listener.exitMethodDeclaration(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitMethodDeclaration) {
 			return visitor.visitMethodDeclaration(this);
 		} else {
@@ -8449,19 +8449,19 @@ export class MethodCompleteDeclarationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_methodCompleteDeclaration; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterMethodCompleteDeclaration) {
 			listener.enterMethodCompleteDeclaration(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitMethodCompleteDeclaration) {
 			listener.exitMethodCompleteDeclaration(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitMethodCompleteDeclaration) {
 			return visitor.visitMethodCompleteDeclaration(this);
 		} else {
@@ -8493,19 +8493,19 @@ export class MethodIntroContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_methodIntro; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterMethodIntro) {
 			listener.enterMethodIntro(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitMethodIntro) {
 			listener.exitMethodIntro(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitMethodIntro) {
 			return visitor.visitMethodIntro(this);
 		} else {
@@ -8528,19 +8528,19 @@ export class ArgumentListContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_argumentList; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterArgumentList) {
 			listener.enterArgumentList(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitArgumentList) {
 			listener.exitArgumentList(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitArgumentList) {
 			return visitor.visitArgumentList(this);
 		} else {
@@ -8575,19 +8575,19 @@ export class MandatoryArgsContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_mandatoryArgs; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterMandatoryArgs) {
 			listener.enterMandatoryArgs(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitMandatoryArgs) {
 			listener.exitMandatoryArgs(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitMandatoryArgs) {
 			return visitor.visitMandatoryArgs(this);
 		} else {
@@ -8615,19 +8615,19 @@ export class MandatoryArgDeclContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_mandatoryArgDecl; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterMandatoryArgDecl) {
 			listener.enterMandatoryArgDecl(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitMandatoryArgDecl) {
 			listener.exitMandatoryArgDecl(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitMandatoryArgDecl) {
 			return visitor.visitMandatoryArgDecl(this);
 		} else {
@@ -8670,19 +8670,19 @@ export class OptionalArgsContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_optionalArgs; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterOptionalArgs) {
 			listener.enterOptionalArgs(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitOptionalArgs) {
 			listener.exitOptionalArgs(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitOptionalArgs) {
 			return visitor.visitOptionalArgs(this);
 		} else {
@@ -8718,19 +8718,19 @@ export class OptionalArgDeclContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_optionalArgDecl; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterOptionalArgDecl) {
 			listener.enterOptionalArgDecl(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitOptionalArgDecl) {
 			listener.exitOptionalArgDecl(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitOptionalArgDecl) {
 			return visitor.visitOptionalArgDecl(this);
 		} else {
@@ -8769,19 +8769,19 @@ export class ArgOptionListContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_argOptionList; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterArgOptionList) {
 			listener.enterArgOptionList(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitArgOptionList) {
 			listener.exitArgOptionList(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitArgOptionList) {
 			return visitor.visitArgOptionList(this);
 		} else {
@@ -8806,19 +8806,19 @@ export class ArgOptionBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_argOptionBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterArgOptionBlock) {
 			listener.enterArgOptionBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitArgOptionBlock) {
 			listener.exitArgOptionBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitArgOptionBlock) {
 			return visitor.visitArgOptionBlock(this);
 		} else {
@@ -8841,19 +8841,19 @@ export class Order1BlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_order1Block; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterOrder1Block) {
 			listener.enterOrder1Block(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitOrder1Block) {
 			listener.exitOrder1Block(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitOrder1Block) {
 			return visitor.visitOrder1Block(this);
 		} else {
@@ -8873,19 +8873,19 @@ export class InstanciationConditionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instanciationCondition; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstanciationCondition) {
 			listener.enterInstanciationCondition(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstanciationCondition) {
 			listener.exitInstanciationCondition(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstanciationCondition) {
 			return visitor.visitInstanciationCondition(this);
 		} else {
@@ -8914,19 +8914,19 @@ export class Order1FullConditionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_order1FullCondition; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterOrder1FullCondition) {
 			listener.enterOrder1FullCondition(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitOrder1FullCondition) {
 			listener.exitOrder1FullCondition(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitOrder1FullCondition) {
 			return visitor.visitOrder1FullCondition(this);
 		} else {
@@ -8961,19 +8961,19 @@ export class CombinedComparisonContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_combinedComparison; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterCombinedComparison) {
 			listener.enterCombinedComparison(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitCombinedComparison) {
 			listener.exitCombinedComparison(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitCombinedComparison) {
 			return visitor.visitCombinedComparison(this);
 		} else {
@@ -9004,19 +9004,19 @@ export class ComparisonContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_comparison; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterComparison) {
 			listener.enterComparison(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitComparison) {
 			listener.exitComparison(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitComparison) {
 			return visitor.visitComparison(this);
 		} else {
@@ -9039,19 +9039,19 @@ export class ComparisonOperatorContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_comparisonOperator; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterComparisonOperator) {
 			listener.enterComparisonOperator(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitComparisonOperator) {
 			listener.exitComparisonOperator(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitComparisonOperator) {
 			return visitor.visitComparisonOperator(this);
 		} else {
@@ -9080,19 +9080,19 @@ export class Instruction_multivaluedAssignmentContext extends ParserRuleContext 
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_multivaluedAssignment; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_multivaluedAssignment) {
 			listener.enterInstruction_multivaluedAssignment(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_multivaluedAssignment) {
 			listener.exitInstruction_multivaluedAssignment(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_multivaluedAssignment) {
 			return visitor.visitInstruction_multivaluedAssignment(this);
 		} else {
@@ -9121,19 +9121,19 @@ export class Instruction_assignmentContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_assignment; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_assignment) {
 			listener.enterInstruction_assignment(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_assignment) {
 			listener.exitInstruction_assignment(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_assignment) {
 			return visitor.visitInstruction_assignment(this);
 		} else {
@@ -9159,19 +9159,19 @@ export class ConditionBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_conditionBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterConditionBlock) {
 			listener.enterConditionBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitConditionBlock) {
 			listener.exitConditionBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitConditionBlock) {
 			return visitor.visitConditionBlock(this);
 		} else {
@@ -9194,19 +9194,19 @@ export class Order0ConditionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_order0Condition; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterOrder0Condition) {
 			listener.enterOrder0Condition(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitOrder0Condition) {
 			listener.exitOrder0Condition(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitOrder0Condition) {
 			return visitor.visitOrder0Condition(this);
 		} else {
@@ -9243,19 +9243,19 @@ export class Instruction_switchCase_withValueContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_switchCase_withValue; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_switchCase_withValue) {
 			listener.enterInstruction_switchCase_withValue(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_switchCase_withValue) {
 			listener.exitInstruction_switchCase_withValue(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_switchCase_withValue) {
 			return visitor.visitInstruction_switchCase_withValue(this);
 		} else {
@@ -9287,19 +9287,19 @@ export class Instruction_switchCase_asIfContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_switchCase_asIf; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_switchCase_asIf) {
 			listener.enterInstruction_switchCase_asIf(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_switchCase_asIf) {
 			listener.exitInstruction_switchCase_asIf(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_switchCase_asIf) {
 			return visitor.visitInstruction_switchCase_asIf(this);
 		} else {
@@ -9329,19 +9329,19 @@ export class InstructionCaseContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instructionCase; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstructionCase) {
 			listener.enterInstructionCase(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstructionCase) {
 			listener.exitInstructionCase(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstructionCase) {
 			return visitor.visitInstructionCase(this);
 		} else {
@@ -9366,19 +9366,19 @@ export class InstructionDefaultContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instructionDefault; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstructionDefault) {
 			listener.enterInstructionDefault(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstructionDefault) {
 			listener.exitInstructionDefault(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstructionDefault) {
 			return visitor.visitInstructionDefault(this);
 		} else {
@@ -9397,19 +9397,19 @@ export class Instruction_breakContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_break; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_break) {
 			listener.enterInstruction_break(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_break) {
 			listener.exitInstruction_break(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_break) {
 			return visitor.visitInstruction_break(this);
 		} else {
@@ -9436,19 +9436,19 @@ export class Instruction_ifElseContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_ifElse; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_ifElse) {
 			listener.enterInstruction_ifElse(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_ifElse) {
 			listener.exitInstruction_ifElse(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_ifElse) {
 			return visitor.visitInstruction_ifElse(this);
 		} else {
@@ -9477,19 +9477,19 @@ export class Instruction_ifContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_if; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_if) {
 			listener.enterInstruction_if(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_if) {
 			listener.exitInstruction_if(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_if) {
 			return visitor.visitInstruction_if(this);
 		} else {
@@ -9526,19 +9526,19 @@ export class Instruction_forallContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_forall; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_forall) {
 			listener.enterInstruction_forall(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_forall) {
 			listener.exitInstruction_forall(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_forall) {
 			return visitor.visitInstruction_forall(this);
 		} else {
@@ -9564,19 +9564,19 @@ export class Instruction_whileContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_while; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_while) {
 			listener.enterInstruction_while(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_while) {
 			listener.exitInstruction_while(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_while) {
 			return visitor.visitInstruction_while(this);
 		} else {
@@ -9598,19 +9598,19 @@ export class Instruction_returnContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_return; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_return) {
 			listener.enterInstruction_return(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_return) {
 			listener.exitInstruction_return(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_return) {
 			return visitor.visitInstruction_return(this);
 		} else {
@@ -9630,19 +9630,19 @@ export class Instruction_chainedCallContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_chainedCall; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_chainedCall) {
 			listener.enterInstruction_chainedCall(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_chainedCall) {
 			listener.exitInstruction_chainedCall(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_chainedCall) {
 			return visitor.visitInstruction_chainedCall(this);
 		} else {
@@ -9702,19 +9702,19 @@ export class InstructionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction) {
 			listener.enterInstruction(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction) {
 			listener.exitInstruction(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction) {
 			return visitor.visitInstruction(this);
 		} else {
@@ -9735,19 +9735,19 @@ export class Instruction_doContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_do; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_do) {
 			listener.enterInstruction_do(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_do) {
 			listener.exitInstruction_do(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_do) {
 			return visitor.visitInstruction_do(this);
 		} else {
@@ -9808,19 +9808,19 @@ export class Instruction_try_catchContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_instruction_try_catch; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterInstruction_try_catch) {
 			listener.enterInstruction_try_catch(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitInstruction_try_catch) {
 			listener.exitInstruction_try_catch(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitInstruction_try_catch) {
 			return visitor.visitInstruction_try_catch(this);
 		} else {
@@ -9848,19 +9848,19 @@ export class ActionBlockContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_actionBlock; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterActionBlock) {
 			listener.enterActionBlock(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitActionBlock) {
 			listener.exitActionBlock(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitActionBlock) {
 			return visitor.visitActionBlock(this);
 		} else {
@@ -9904,19 +9904,19 @@ export class ArithmeticExpressionContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_arithmeticExpression; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterArithmeticExpression) {
 			listener.enterArithmeticExpression(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitArithmeticExpression) {
 			listener.exitArithmeticExpression(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitArithmeticExpression) {
 			return visitor.visitArithmeticExpression(this);
 		} else {
@@ -9942,19 +9942,19 @@ export class ExistentialOperatorContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_existentialOperator; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterExistentialOperator) {
 			listener.enterExistentialOperator(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitExistentialOperator) {
 			listener.exitExistentialOperator(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitExistentialOperator) {
 			return visitor.visitExistentialOperator(this);
 		} else {
@@ -9980,19 +9980,19 @@ export class VariableBlockContentContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_variableBlockContent; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterVariableBlockContent) {
 			listener.enterVariableBlockContent(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitVariableBlockContent) {
 			listener.exitVariableBlockContent(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitVariableBlockContent) {
 			return visitor.visitVariableBlockContent(this);
 		} else {
@@ -10036,19 +10036,19 @@ export class StaticDeclarationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_staticDeclaration; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterStaticDeclaration) {
 			listener.enterStaticDeclaration(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitStaticDeclaration) {
 			listener.exitStaticDeclaration(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitStaticDeclaration) {
 			return visitor.visitStaticDeclaration(this);
 		} else {
@@ -10073,19 +10073,19 @@ export class ExternDeclarationContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_externDeclaration; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterExternDeclaration) {
 			listener.enterExternDeclaration(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitExternDeclaration) {
 			listener.exitExternDeclaration(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitExternDeclaration) {
 			return visitor.visitExternDeclaration(this);
 		} else {
@@ -10124,19 +10124,19 @@ export class ArrayContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_array; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterArray) {
 			listener.enterArray(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitArray) {
 			listener.exitArray(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitArray) {
 			return visitor.visitArray(this);
 		} else {
@@ -10175,19 +10175,19 @@ export class ConstListContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_constList; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterConstList) {
 			listener.enterConstList(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitConstList) {
 			listener.exitConstList(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitConstList) {
 			return visitor.visitConstList(this);
 		} else {
@@ -10232,19 +10232,19 @@ export class GranuleContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_granule; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterGranule) {
 			listener.enterGranule(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitGranule) {
 			listener.exitGranule(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitGranule) {
 			return visitor.visitGranule(this);
 		} else {
@@ -10277,19 +10277,19 @@ export class ObjectCompleteContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_objectComplete; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterObjectComplete) {
 			listener.enterObjectComplete(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitObjectComplete) {
 			listener.exitObjectComplete(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitObjectComplete) {
 			return visitor.visitObjectComplete(this);
 		} else {
@@ -10339,19 +10339,19 @@ export class ClassCompleteContext extends ParserRuleContext {
 	// @Override
 	public get ruleIndex(): number { return YmlParser.RULE_classComplete; }
 	// @Override
-	public enterRule(listener: YmlListener): void {
+	public enterRule(listener: YmlParserListener): void {
 		if (listener.enterClassComplete) {
 			listener.enterClassComplete(this);
 		}
 	}
 	// @Override
-	public exitRule(listener: YmlListener): void {
+	public exitRule(listener: YmlParserListener): void {
 		if (listener.exitClassComplete) {
 			listener.exitClassComplete(this);
 		}
 	}
 	// @Override
-	public accept<Result>(visitor: YmlVisitor<Result>): Result {
+	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
 		if (visitor.visitClassComplete) {
 			return visitor.visitClassComplete(this);
 		} else {

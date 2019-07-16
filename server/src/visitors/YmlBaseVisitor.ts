@@ -3,9 +3,9 @@ import { AbstractParseTreeVisitor } from 'antlr4ts/tree/AbstractParseTreeVisitor
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
-import { YmlVisitor } from '../grammar';
+import { YmlParserVisitor } from '../grammar';
 
-export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements YmlVisitor<void> {
+export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements YmlParserVisitor<void> {
     constructor(
         public completionProvider: YmlCompletionItemsProvider,
         public uri: string,

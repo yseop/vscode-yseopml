@@ -1,4 +1,4 @@
-// Generated from grammar/Yml.g4 by ANTLR 4.7.3-SNAPSHOT
+// Generated from grammar/YmlLexer.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ATN } from "antlr4ts/atn/ATN";
@@ -176,7 +176,7 @@ export class YmlLexer extends Lexer {
 	}
 
 	// @Override
-	public get grammarFileName(): string { return "Yml.g4"; }
+	public get grammarFileName(): string { return "YmlLexer.g4"; }
 
 	// @Override
 	public get ruleNames(): string[] { return YmlLexer.ruleNames; }

@@ -1,4 +1,4 @@
-// Generated from grammar/Yml.g4 by ANTLR 4.7.3-SNAPSHOT
+// Generated from grammar/YmlParser.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
@@ -109,7 +109,7 @@ import { ClassCompleteContext } from "./YmlParser";
  * @param <Result> The return type of the visit operation. Use `void` for
  * operations with no return type.
  */
-export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
+export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	/**
 	 * Visit a parse tree produced by `YmlParser.kaoFile`.
 	 * @param ctx the parse tree

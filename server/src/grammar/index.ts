@@ -1,4 +1,4 @@
 export * from './YmlLexer';
-export * from './YmlListener';
-export * from './YmlVisitor';
+export * from './YmlParserListener';
+export * from './YmlParserVisitor';
 export * from './YmlParser';
