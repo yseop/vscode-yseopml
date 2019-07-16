@@ -4,6 +4,9 @@ lexer grammar YmlLexer;
  * Lexer rules
  */
 
+// We are in a declaration file, use another tokenization mode.
+FILETYPE: '_FILE_TYPE_' [ \t]+ ('M' | 'F') -> mode(DECLARATION_FILE);
+
 //Keywords
 APPLY_COLLECTION: 'applyCollection';
 WHERE: '__where';
@@ -133,3 +136,18 @@ LINE_COMMENT: '//' ~[\n\r]* -> channel(HIDDEN);
 MULTILINE_COMMENT:
     MULTILINE_COMMENT_START .*? MULTILINE_COMMENT_END -> channel(HIDDEN)
 ;
+
+mode DECLARATION_FILE;
+
+DECL_FILE_PREPROCESSING: PREPROCESSING -> channel(HIDDEN);
+DECL_FILE_LINE_COMMENT: LINE_COMMENT -> channel(HIDDEN);
+DECL_FILE_MULTILINE_COMMENT: MULTILINE_COMMENT -> channel(HIDDEN);
+
+NAME: '.'? ALPHANUM+ ('-' ALPHANUM+)*;
+
+// Could be more complicated, but should be enough in a first place.
+FILE_DECLARATION: ('./'? | '../'*) NAME ('/' NAME)* ('.' NAME)*;
+DECL_FILE_WS: WS -> channel(HIDDEN);
+
+// the only way to leave this mode is to go to the end of the file.
+END_OF_FILE: EOF -> mode(DEFAULT_MODE);

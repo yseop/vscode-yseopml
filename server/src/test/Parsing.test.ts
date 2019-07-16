@@ -199,5 +199,37 @@ function myFunction(TypeA aObj, TypeB || TypeC bOrC_obj)
             checkInputValidityForRule((parser) => parser.ymlId(), `a:bc:::d`);
             done();
         });
+
+        it('should parse an import declaration file', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.kaoFile(),
+                `_FILE_TYPE_ M
+// a simple file
+function.dcl
+// dir/file
+_domainObjects/functions
+// dir/file.ext
+_domainObjects/functions.dcl
+// dir/file.ext1.ext2
+_domainObjects/functions.dcl.old
+/*
+ Multiple relative path declaration
+ to some files named “functions.dcl” with some empty lines here and there
+ */
+./_domainObjects/functions.dcl
+../_domainObjects/functions.dcl
+
+../../_domainObjects/functions.dcl
+
+
+../../../src/_domainObjects/functions.dcl
+
+@if(exists_file(".generated-yml/verb.lib.yml") == true)
+    .generated-yml/verb.lib.yml
+@endif
+`,
+            );
+            done();
+        });
     });
 });

@@ -10,7 +10,9 @@ options
  */
 // Base rule when parsing a file. Basically, this describes all valid YML files.
 // TODO: add a rule for the `project.kao`-like files.
-kaoFile: entities=ymlEntity* EOF;
+declarationFile: FILETYPE FILE_DECLARATION*? EOF?;
+
+kaoFile: (entities=ymlEntity* | declarationFile) EOF;
 
 ymlEntity:
     classDeclaration

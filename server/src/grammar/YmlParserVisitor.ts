@@ -3,6 +3,7 @@
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
 
+import { DeclarationFileContext } from "./YmlParser";
 import { KaoFileContext } from "./YmlParser";
 import { YmlEntityContext } from "./YmlParser";
 import { ExpressionMarkerContext } from "./YmlParser";
@@ -110,6 +111,13 @@ import { ClassCompleteContext } from "./YmlParser";
  * operations with no return type.
  */
 export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
+	/**
+	 * Visit a parse tree produced by `YmlParser.declarationFile`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitDeclarationFile?: (ctx: DeclarationFileContext) => Result;
+
 	/**
 	 * Visit a parse tree produced by `YmlParser.kaoFile`.
 	 * @param ctx the parse tree
