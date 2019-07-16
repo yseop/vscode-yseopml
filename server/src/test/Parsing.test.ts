@@ -167,5 +167,37 @@ complete StudyConcept
             );
             done();
         });
+
+        it('should parse a function declaration with simple type arguments', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.function(),
+                `
+function LibDocument:printRangeValues(LibKPI:KeyPerformanceIndicator KPI,
+    LibCube:TwoFactsOneMeasureComparison reference)
+    --> text \\( \\)
+;`,
+            );
+            done();
+        });
+
+        it('should parse a function declaration with multi type arguments', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.function(),
+                `
+function myFunction(TypeA aObj, TypeB || TypeC bOrC_obj)
+    --> text \\( \\)
+;`,
+            );
+            done();
+        });
+
+        it('should accept different kinds of ymlId', (done) => {
+            checkInputValidityForRule((parser) => parser.ymlId(), `abc`);
+            checkInputValidityForRule((parser) => parser.ymlId(), `a:bc`);
+            checkInputValidityForRule((parser) => parser.ymlId(), `a:bc:d`);
+            checkInputValidityForRule((parser) => parser.ymlId(), `a:bc::d`);
+            checkInputValidityForRule((parser) => parser.ymlId(), `a:bc:::d`);
+            done();
+        });
     });
 });

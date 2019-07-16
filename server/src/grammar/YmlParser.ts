@@ -3171,7 +3171,7 @@ export class YmlParser extends Parser {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 703;
-			_localctx._argType = this.ymlId();
+			_localctx._argType = this.memberType();
 			this.state = 704;
 			_localctx._argName = this.ymlId();
 			this.state = 706;
@@ -5820,7 +5820,7 @@ export class YmlParser extends Parser {
 		"\x07-\x02\x02\u02BB\u02BD\x05t;\x02\u02BC\u02BA\x03\x02\x02\x02\u02BD" +
 		"\u02C0\x03\x02\x02\x02\u02BE\u02BC\x03\x02\x02\x02\u02BE\u02BF\x03\x02" +
 		"\x02\x02\u02BFs\x03\x02\x02\x02\u02C0\u02BE\x03\x02\x02\x02\u02C1\u02C2" +
-		"\x05\b\x05\x02\u02C2\u02C4\x05\b\x05\x02\u02C3\u02C5\x05z>\x02\u02C4\u02C3" +
+		"\x05$\x13\x02\u02C2\u02C4\x05\b\x05\x02\u02C3\u02C5\x05z>\x02\u02C4\u02C3" +
 		"\x03\x02\x02\x02\u02C4\u02C5\x03\x02\x02\x02\u02C5u\x03\x02\x02\x02\u02C6" +
 		"\u02C8\x07-\x02\x02\u02C7\u02C6\x03\x02\x02\x02\u02C7\u02C8\x03\x02\x02" +
 		"\x02\u02C8\u02C9\x03\x02\x02\x02\u02C9\u02D2\x07:\x02\x02\u02CA\u02CF" +
@@ -8598,16 +8598,13 @@ export class MandatoryArgsContext extends ParserRuleContext {
 
 
 export class MandatoryArgDeclContext extends ParserRuleContext {
-	public _argType: YmlIdContext;
+	public _argType: MemberTypeContext;
 	public _argName: YmlIdContext;
-	public ymlId(): YmlIdContext[];
-	public ymlId(i: number): YmlIdContext;
-	public ymlId(i?: number): YmlIdContext | YmlIdContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(YmlIdContext);
-		} else {
-			return this.getRuleContext(i, YmlIdContext);
-		}
+	public memberType(): MemberTypeContext {
+		return this.getRuleContext(0, MemberTypeContext);
+	}
+	public ymlId(): YmlIdContext {
+		return this.getRuleContext(0, YmlIdContext);
 	}
 	public argOptionList(): ArgOptionListContext | undefined {
 		return this.tryGetRuleContext(0, ArgOptionListContext);

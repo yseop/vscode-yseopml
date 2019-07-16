@@ -116,9 +116,13 @@ WS: [ \r\t\n]+ -> channel(HIDDEN);
 DOUBLE: MINUS? NUMBER+ (DOT NUMBER+)?;
 INTEGER: NUMBER+;
 
-// Colon are OK inside a YMLID
-// Colons aren't interpreted by YE in a particular way.
-YMLID: ID (COLON? COLON ID)*;
+/*
+ * Colon is OK inside a YMLID
+ * Simple colon has no specific meaning, however:
+ * − double colons are used to define a class' method;
+ * − triple colons are used as a pointer towards a class' method or attribute.
+ */
+YMLID: ID (COLON ID)* (COLON? COLON ID)?;
 ID: ALPHANUM* LETTER ALPHANUM*;
 
 fragment MULTILINE_COMMENT_START: '/*';
@@ -362,7 +366,7 @@ argumentList: mandatoryArgs? optionalArgs?;
 
 mandatoryArgs: mandatoryArgDecl (COMMA mandatoryArgDecl)*;
 
-mandatoryArgDecl: argType=ymlId argName=ymlId argOptionList?;
+mandatoryArgDecl: argType=memberType argName=ymlId argOptionList?;
 
 optionalArgs:
     COMMA? OPEN_BRACE
