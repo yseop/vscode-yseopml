@@ -125,7 +125,7 @@ INTEGER: NUMBER+;
  * − double colons are used to define a class' method;
  * − triple colons are used as a pointer towards a class' method or attribute.
  */
-YMLID: ID (COLON ID)* (COLON? COLON ID)?;
+YMLID: ID (COLON ID)* (COLON? COLON? COLON ID)?;
 ID: ALPHANUM* LETTER ALPHANUM*;
 
 fragment MULTILINE_COMMENT_START: '/*';

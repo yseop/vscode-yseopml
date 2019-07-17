@@ -77,6 +77,14 @@ describe('Parsing Tests', () => {
             checkInputValidityForRule((parser) => parser.chainedCall(), `aObj[b][c].aAttr.get()[12]`);
             done();
         });
+
+        it('should parse correctly a call with an optional argument using an attribute pointer', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `myCollection.sort(_DESCENDANT, _RELATIVE_ORDER_OF: Domain:ClassName:::classMember)`,
+            );
+            done();
+        });
     });
 
     describe('function rule', () => {
