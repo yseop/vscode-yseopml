@@ -171,10 +171,10 @@ nonArithmeticValue: chainedCall | bool | STRING | DATE;
 
 instanciationVariable: QUESTION_MARK ymlId;
 
+expressionWithIndex: expression withIndex*;
 expression:
     ymlId
     | functionCall
-    | indexedCall
     | instanciationVariable
     | granule
     | constList
@@ -185,11 +185,13 @@ expression:
 functionCall:
     ymlId OPEN_PAR (functionArgument (COMMA functionArgument)*)? CLOSE_PAR
 ;
-indexedCall: ymlId OPEN_BRACKET functionArgument CLOSE_BRACKET;
+withIndex: OPEN_BRACKET functionArgument CLOSE_BRACKET;
 
 functionArgument: (argKey=ID COLON)? valueOrCondition;
 
-chainedCall: expression (marker=expressionMarker expression)*;
+chainedCall:
+    expressionWithIndex (marker=expressionMarker expressionWithIndex)*
+;
 
 inlineDeclaration:
     INLINE_DECL_INTRO className=ymlId (instanceName=ymlId)? (fieldValue)* SEMICOLON

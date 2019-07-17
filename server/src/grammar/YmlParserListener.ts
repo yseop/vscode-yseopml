@@ -44,9 +44,10 @@ import { IfExprBlockContext } from "./YmlParser";
 import { BoolContext } from "./YmlParser";
 import { NonArithmeticValueContext } from "./YmlParser";
 import { InstanciationVariableContext } from "./YmlParser";
+import { ExpressionWithIndexContext } from "./YmlParser";
 import { ExpressionContext } from "./YmlParser";
 import { FunctionCallContext } from "./YmlParser";
-import { IndexedCallContext } from "./YmlParser";
+import { WithIndexContext } from "./YmlParser";
 import { FunctionArgumentContext } from "./YmlParser";
 import { ChainedCallContext } from "./YmlParser";
 import { InlineDeclarationContext } from "./YmlParser";
@@ -560,6 +561,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitInstanciationVariable?: (ctx: InstanciationVariableContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `YmlParser.expressionWithIndex`.
+	 * @param ctx the parse tree
+	 */
+	enterExpressionWithIndex?: (ctx: ExpressionWithIndexContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.expressionWithIndex`.
+	 * @param ctx the parse tree
+	 */
+	exitExpressionWithIndex?: (ctx: ExpressionWithIndexContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `YmlParser.expression`.
 	 * @param ctx the parse tree
 	 */
@@ -582,15 +594,15 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitFunctionCall?: (ctx: FunctionCallContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.indexedCall`.
+	 * Enter a parse tree produced by `YmlParser.withIndex`.
 	 * @param ctx the parse tree
 	 */
-	enterIndexedCall?: (ctx: IndexedCallContext) => void;
+	enterWithIndex?: (ctx: WithIndexContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.indexedCall`.
+	 * Exit a parse tree produced by `YmlParser.withIndex`.
 	 * @param ctx the parse tree
 	 */
-	exitIndexedCall?: (ctx: IndexedCallContext) => void;
+	exitWithIndex?: (ctx: WithIndexContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.functionArgument`.

@@ -44,9 +44,10 @@ import { IfExprBlockContext } from "./YmlParser";
 import { BoolContext } from "./YmlParser";
 import { NonArithmeticValueContext } from "./YmlParser";
 import { InstanciationVariableContext } from "./YmlParser";
+import { ExpressionWithIndexContext } from "./YmlParser";
 import { ExpressionContext } from "./YmlParser";
 import { FunctionCallContext } from "./YmlParser";
-import { IndexedCallContext } from "./YmlParser";
+import { WithIndexContext } from "./YmlParser";
 import { FunctionArgumentContext } from "./YmlParser";
 import { ChainedCallContext } from "./YmlParser";
 import { InlineDeclarationContext } from "./YmlParser";
@@ -399,6 +400,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstanciationVariable?: (ctx: InstanciationVariableContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.expressionWithIndex`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitExpressionWithIndex?: (ctx: ExpressionWithIndexContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.expression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -413,11 +421,11 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitFunctionCall?: (ctx: FunctionCallContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.indexedCall`.
+	 * Visit a parse tree produced by `YmlParser.withIndex`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitIndexedCall?: (ctx: IndexedCallContext) => Result;
+	visitWithIndex?: (ctx: WithIndexContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.functionArgument`.

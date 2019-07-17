@@ -72,6 +72,11 @@ describe('Parsing Tests', () => {
             );
             done();
         });
+
+        it('should parse correctly a chained call with indexed accesses', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(), `aObj[b][c].aAttr.get()[12]`);
+            done();
+        });
     });
 
     describe('function rule', () => {
