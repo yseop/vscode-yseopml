@@ -36,7 +36,7 @@ describe('Parsing Tests', () => {
         });
     });
 
-    describe('as assigment rule', () => {
+    describe('assigment rule', () => {
         it('should parse correctly an assignment with the `as` instruction', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.instruction_assignment(),
@@ -46,7 +46,7 @@ describe('Parsing Tests', () => {
         });
     });
 
-    describe('applyCollection + __where rule', () => {
+    describe('applyCollection', () => {
         it('should parse correctly an `applyCollection` instruction with __where keyword', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.applyCollection(),
@@ -54,19 +54,7 @@ describe('Parsing Tests', () => {
             );
             done();
         });
-    });
 
-    describe('applyCollection + __where as a function caller', () => {
-        it('should parse correctly an `applyCollection` instruction with __where keyword used as a function caller', (done) => {
-            checkInputValidityForRule(
-                (parser) => parser.chainedCall(),
-                `applyCollection(LibCube:Measure, __where currentElement.includeInJointureConditions == true).toList()`,
-            );
-            done();
-        });
-    });
-
-    describe('applyCollection + __operation rule', () => {
         it('should parse correctly an `applyCollection` instruction with __operation keyword', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.applyCollection(),
@@ -76,7 +64,17 @@ describe('Parsing Tests', () => {
         });
     });
 
-    describe('function with only one action outside block', () => {
+    describe('chainedCall rule', () => {
+        it('should parse correctly an `applyCollection` instruction with __where keyword used as a function caller', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `applyCollection(LibCube:Measure, __where currentElement.includeInJointureConditions == true).toList()`,
+            );
+            done();
+        });
+    });
+
+    describe('function rule', () => {
         it('should parse correctly a function with only one action outside a block', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.function(),
@@ -88,9 +86,21 @@ function LibCube:Fact::getMeasureValue()
             );
             done();
         });
-    });
 
-    describe('function introduced with type Function', () => {
+        it('should parse correctly a function with a Function object as argument', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.function(),
+                `
+function Test::applyMyFunction(Function testFunction)
+--> action {
+    testFunction.apply();
+}
+;
+`,
+            );
+            done();
+        });
+
         it('should parse correctly a function introduced with type Function', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.function(),
@@ -106,62 +116,6 @@ args {
 --> action {
     // does nothing
 }
-;
-`,
-            );
-            done();
-        });
-    });
-
-    describe('function with a Function object as argument', () => {
-        it('should parse correctly a function with a Function object as argument', (done) => {
-            checkInputValidityForRule(
-                (parser) => parser.function(),
-                `
-function Test::applyMyFunction(Function testFunction)
---> action {
-    testFunction.apply();
-}
-;
-`,
-            );
-            done();
-        });
-    });
-
-    describe('classImplementation rule', () => {
-        it('should parse correctly implementation with attributes and override', (done) => {
-            checkInputValidityForRule(
-                (parser) => parser.classImplementation(),
-                `
-implementation SentenceToGenerate
-
-    forGroups
-    --> defaultValue theClinicalStudy.groupsOfSubjects
-
-    override {
-        write function
-    }
-;`,
-            );
-            done();
-        });
-    });
-    describe('classComplete rule', () => {
-        it('should parse correctly a complete of a class adding methods to it', (done) => {
-            checkInputValidityForRule(
-                (parser) => parser.classComplete(),
-                `
-complete StudyConcept
-
-    method manageUnitLabel(DataStructure localDataStructure, Text unitText {__nullable}) function
-    --> domains Void
-
-    method manageUnit(DataStructure localDataStructure) function
-    --> domains Void
-
-    method getStudyData(PatientGroupPartition group) function
-    --> domains StudyData
 ;
 `,
             );
@@ -190,7 +144,50 @@ function myFunction(TypeA aObj, TypeB || TypeC bOrC_obj)
             );
             done();
         });
+    });
 
+    describe('classImplementation rule', () => {
+        it('should parse correctly implementation with attributes and override', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.classImplementation(),
+                `
+implementation SentenceToGenerate
+
+    forGroups
+    --> defaultValue theClinicalStudy.groupsOfSubjects
+
+    override {
+        write function
+    }
+;`,
+            );
+            done();
+        });
+    });
+
+    describe('classComplete rule', () => {
+        it('should parse correctly a complete of a class adding methods to it', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.classComplete(),
+                `
+complete StudyConcept
+
+    method manageUnitLabel(DataStructure localDataStructure, Text unitText {__nullable}) function
+    --> domains Void
+
+    method manageUnit(DataStructure localDataStructure) function
+    --> domains Void
+
+    method getStudyData(PatientGroupPartition group) function
+    --> domains StudyData
+;
+`,
+            );
+            done();
+        });
+    });
+
+    describe('ymlId rule', () => {
         it('should accept different kinds of ymlId', (done) => {
             checkInputValidityForRule((parser) => parser.ymlId(), `abc`);
             checkInputValidityForRule((parser) => parser.ymlId(), `a:bc`);
@@ -199,7 +196,9 @@ function myFunction(TypeA aObj, TypeB || TypeC bOrC_obj)
             checkInputValidityForRule((parser) => parser.ymlId(), `a:bc:::d`);
             done();
         });
+    });
 
+    describe('kaoFile rule', () => {
         it('should parse an import declaration file', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.kaoFile(),
