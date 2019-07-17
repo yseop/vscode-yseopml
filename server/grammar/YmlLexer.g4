@@ -145,7 +145,7 @@ DECL_FILE_MULTILINE_COMMENT: MULTILINE_COMMENT -> channel(HIDDEN);
 
 NAME: '.'? ALPHANUM+ ('-' ALPHANUM+)*;
 
-// Could be more complicated, but should be enough in a first place.
+// Could be more complicated, but should be enough for the time being.
 FILE_DECLARATION: ('./'? | '../'*) NAME ('/' NAME)* ('.' NAME)*;
 DECL_FILE_WS: WS -> channel(HIDDEN);
 
