@@ -249,7 +249,7 @@ optionalArgs:
         optionalArguments+=optionalArgDecl
         (
             COMMA optionalArguments+=optionalArgDecl
-        )*
+        )* COMMA?
     )? CLOSE_BRACE argSetName=ymlId?
 ;
 

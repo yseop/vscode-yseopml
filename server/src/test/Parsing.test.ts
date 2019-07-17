@@ -159,6 +159,13 @@ function myFunction(TypeA aObj, TypeB || TypeC bOrC_obj)
         });
     });
 
+    describe('argumentList rule', () => {
+        it('should parse an argument list with optional args finishing with a comma', (done) => {
+            checkInputValidityForRule((parser) => parser.argumentList(), `{[_KEY]: Symbol mode {__nullable},} args`);
+            done();
+        });
+    });
+
     describe('classImplementation rule', () => {
         it('should parse correctly implementation with attributes and override', (done) => {
             checkInputValidityForRule(
