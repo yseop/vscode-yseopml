@@ -143,10 +143,9 @@ DECL_FILE_PREPROCESSING: PREPROCESSING -> channel(HIDDEN);
 DECL_FILE_LINE_COMMENT: LINE_COMMENT -> channel(HIDDEN);
 DECL_FILE_MULTILINE_COMMENT: MULTILINE_COMMENT -> channel(HIDDEN);
 
-NAME: '.'? ALPHANUM+ ('-' ALPHANUM+)*;
-
+NAME: ('-' | '.' | ALPHANUM)+?;
 // Could be more complicated, but should be enough for the time being.
-FILE_DECLARATION: ('./'? | '../'*) NAME ('/' NAME)* ('.' NAME)*;
+FILE_DECLARATION: NAME+ ('/' NAME)*;
 DECL_FILE_WS: WS -> channel(HIDDEN);
 
 // the only way to leave this mode is to go to the end of the file.

@@ -243,6 +243,12 @@ _domainObjects/functions.dcl.old
 @if(exists_file(".generated-yml/verb.lib.yml") == true)
     .generated-yml/verb.lib.yml
 @endif
+
+// Some cultural stuff
+Music/mesarthim/_.-_-..._..._._-._-.-/flac/05_-_......flac
+Music/drudkh/they_often_see_dreams_about_the_spring/flac/02_-_u_dakhiv_irzhavim_kolossyu....flac
+Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesiac_oplakuje_swit....flac
+
 `,
             );
             done();
