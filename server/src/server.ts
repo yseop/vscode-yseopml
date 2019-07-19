@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 'use strict';
-import { ANTLRInputStream, CommonTokenStream } from 'antlr4ts';
+import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import {
     CompletionItem,
     createConnection,
@@ -131,7 +131,7 @@ function validateTextDocument(textDocument: TextDocument): void {
     const diagnostics: Diagnostic[] = [];
 
     // Create the lexer and parser
-    const inputStream = new ANTLRInputStream(textDocument.getText());
+    const inputStream = CharStreams.fromString(textDocument.getText());
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);

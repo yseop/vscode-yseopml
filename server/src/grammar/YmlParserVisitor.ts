@@ -1,8 +1,9 @@
-// Generated from grammar/Yml.g4 by ANTLR 4.7.3-SNAPSHOT
+// Generated from grammar/YmlParser.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
 
+import { DeclarationFileContext } from "./YmlParser";
 import { KaoFileContext } from "./YmlParser";
 import { YmlEntityContext } from "./YmlParser";
 import { ExpressionMarkerContext } from "./YmlParser";
@@ -43,9 +44,10 @@ import { IfExprBlockContext } from "./YmlParser";
 import { BoolContext } from "./YmlParser";
 import { NonArithmeticValueContext } from "./YmlParser";
 import { InstanciationVariableContext } from "./YmlParser";
+import { PossiblyIndexedExpressionContext } from "./YmlParser";
 import { ExpressionContext } from "./YmlParser";
 import { FunctionCallContext } from "./YmlParser";
-import { IndexedCallContext } from "./YmlParser";
+import { IndexContext } from "./YmlParser";
 import { FunctionArgumentContext } from "./YmlParser";
 import { ChainedCallContext } from "./YmlParser";
 import { InlineDeclarationContext } from "./YmlParser";
@@ -109,7 +111,14 @@ import { ClassCompleteContext } from "./YmlParser";
  * @param <Result> The return type of the visit operation. Use `void` for
  * operations with no return type.
  */
-export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
+export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
+	/**
+	 * Visit a parse tree produced by `YmlParser.declarationFile`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitDeclarationFile?: (ctx: DeclarationFileContext) => Result;
+
 	/**
 	 * Visit a parse tree produced by `YmlParser.kaoFile`.
 	 * @param ctx the parse tree
@@ -391,6 +400,13 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstanciationVariable?: (ctx: InstanciationVariableContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.possiblyIndexedExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitPossiblyIndexedExpression?: (ctx: PossiblyIndexedExpressionContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.expression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -405,11 +421,11 @@ export interface YmlVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitFunctionCall?: (ctx: FunctionCallContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.indexedCall`.
+	 * Visit a parse tree produced by `YmlParser.index`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitIndexedCall?: (ctx: IndexedCallContext) => Result;
+	visitIndex?: (ctx: IndexContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.functionArgument`.
