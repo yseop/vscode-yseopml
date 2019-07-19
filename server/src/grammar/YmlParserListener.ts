@@ -44,10 +44,10 @@ import { IfExprBlockContext } from "./YmlParser";
 import { BoolContext } from "./YmlParser";
 import { NonArithmeticValueContext } from "./YmlParser";
 import { InstanciationVariableContext } from "./YmlParser";
-import { ExpressionWithIndexContext } from "./YmlParser";
+import { PossiblyIndexedExpressionContext } from "./YmlParser";
 import { ExpressionContext } from "./YmlParser";
 import { FunctionCallContext } from "./YmlParser";
-import { WithIndexContext } from "./YmlParser";
+import { IndexContext } from "./YmlParser";
 import { FunctionArgumentContext } from "./YmlParser";
 import { ChainedCallContext } from "./YmlParser";
 import { InlineDeclarationContext } from "./YmlParser";
@@ -561,15 +561,15 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitInstanciationVariable?: (ctx: InstanciationVariableContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.expressionWithIndex`.
+	 * Enter a parse tree produced by `YmlParser.possiblyIndexedExpression`.
 	 * @param ctx the parse tree
 	 */
-	enterExpressionWithIndex?: (ctx: ExpressionWithIndexContext) => void;
+	enterPossiblyIndexedExpression?: (ctx: PossiblyIndexedExpressionContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.expressionWithIndex`.
+	 * Exit a parse tree produced by `YmlParser.possiblyIndexedExpression`.
 	 * @param ctx the parse tree
 	 */
-	exitExpressionWithIndex?: (ctx: ExpressionWithIndexContext) => void;
+	exitPossiblyIndexedExpression?: (ctx: PossiblyIndexedExpressionContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.expression`.
@@ -594,15 +594,15 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitFunctionCall?: (ctx: FunctionCallContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.withIndex`.
+	 * Enter a parse tree produced by `YmlParser.index`.
 	 * @param ctx the parse tree
 	 */
-	enterWithIndex?: (ctx: WithIndexContext) => void;
+	enterIndex?: (ctx: IndexContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.withIndex`.
+	 * Exit a parse tree produced by `YmlParser.index`.
 	 * @param ctx the parse tree
 	 */
-	exitWithIndex?: (ctx: WithIndexContext) => void;
+	exitIndex?: (ctx: IndexContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.functionArgument`.

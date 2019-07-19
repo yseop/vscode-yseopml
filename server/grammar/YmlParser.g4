@@ -171,7 +171,7 @@ nonArithmeticValue: chainedCall | bool | STRING | DATE;
 
 instanciationVariable: QUESTION_MARK ymlId;
 
-expressionWithIndex: expression withIndex*;
+possiblyIndexedExpression: expression index*;
 expression:
     ymlId
     | functionCall
@@ -185,12 +185,15 @@ expression:
 functionCall:
     ymlId OPEN_PAR (functionArgument (COMMA functionArgument)*)? CLOSE_PAR
 ;
-withIndex: OPEN_BRACKET functionArgument CLOSE_BRACKET;
+index: OPEN_BRACKET functionArgument CLOSE_BRACKET;
 
 functionArgument: (argKey=ID COLON)? valueOrCondition;
 
 chainedCall:
-    expressionWithIndex (marker=expressionMarker expressionWithIndex)*
+    possiblyIndexedExpression
+    (
+        marker=expressionMarker possiblyIndexedExpression
+    )*
 ;
 
 inlineDeclaration:

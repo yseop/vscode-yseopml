@@ -232,10 +232,10 @@ ifExprBlock
 bool
 nonArithmeticValue
 instanciationVariable
-expressionWithIndex
+possiblyIndexedExpression
 expression
 functionCall
-withIndex
+index
 functionArgument
 chainedCall
 inlineDeclaration

@@ -162,10 +162,10 @@ export class YmlParser extends Parser {
 	public static readonly RULE_bool = 38;
 	public static readonly RULE_nonArithmeticValue = 39;
 	public static readonly RULE_instanciationVariable = 40;
-	public static readonly RULE_expressionWithIndex = 41;
+	public static readonly RULE_possiblyIndexedExpression = 41;
 	public static readonly RULE_expression = 42;
 	public static readonly RULE_functionCall = 43;
-	public static readonly RULE_withIndex = 44;
+	public static readonly RULE_index = 44;
 	public static readonly RULE_functionArgument = 45;
 	public static readonly RULE_chainedCall = 46;
 	public static readonly RULE_inlineDeclaration = 47;
@@ -231,7 +231,7 @@ export class YmlParser extends Parser {
 		"valueOrCondition", "hashMapKeyValue", "hashMapValue", "value", "as", 
 		"applyCollection", "instruction_forEach", "instruction_for", "instruction_ifExprBlock", 
 		"ifExprBlock", "bool", "nonArithmeticValue", "instanciationVariable", 
-		"expressionWithIndex", "expression", "functionCall", "withIndex", "functionArgument", 
+		"possiblyIndexedExpression", "expression", "functionCall", "index", "functionArgument", 
 		"chainedCall", "inlineDeclaration", "inlineOperation", "fieldValue", "function", 
 		"argsBlock", "localBlock", "staticBlock", "methodDeclaration", "methodCompleteDeclaration", 
 		"methodIntro", "argumentList", "mandatoryArgs", "mandatoryArgDecl", "optionalArgs", 
@@ -2444,9 +2444,9 @@ export class YmlParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public expressionWithIndex(): ExpressionWithIndexContext {
-		let _localctx: ExpressionWithIndexContext = new ExpressionWithIndexContext(this._ctx, this.state);
-		this.enterRule(_localctx, 82, YmlParser.RULE_expressionWithIndex);
+	public possiblyIndexedExpression(): PossiblyIndexedExpressionContext {
+		let _localctx: PossiblyIndexedExpressionContext = new PossiblyIndexedExpressionContext(this._ctx, this.state);
+		this.enterRule(_localctx, 82, YmlParser.RULE_possiblyIndexedExpression);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
@@ -2461,7 +2461,7 @@ export class YmlParser extends Parser {
 					{
 					{
 					this.state = 575;
-					this.withIndex();
+					this.index();
 					}
 					}
 				}
@@ -2621,9 +2621,9 @@ export class YmlParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public withIndex(): WithIndexContext {
-		let _localctx: WithIndexContext = new WithIndexContext(this._ctx, this.state);
-		this.enterRule(_localctx, 88, YmlParser.RULE_withIndex);
+	public index(): IndexContext {
+		let _localctx: IndexContext = new IndexContext(this._ctx, this.state);
+		this.enterRule(_localctx, 88, YmlParser.RULE_index);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
@@ -2696,7 +2696,7 @@ export class YmlParser extends Parser {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 614;
-			this.expressionWithIndex();
+			this.possiblyIndexedExpression();
 			this.state = 620;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 56, this._ctx);
@@ -2707,7 +2707,7 @@ export class YmlParser extends Parser {
 					this.state = 615;
 					_localctx._marker = this.expressionMarker();
 					this.state = 616;
-					this.expressionWithIndex();
+					this.possiblyIndexedExpression();
 					}
 					}
 				}
@@ -8062,40 +8062,40 @@ export class InstanciationVariableContext extends ParserRuleContext {
 }
 
 
-export class ExpressionWithIndexContext extends ParserRuleContext {
+export class PossiblyIndexedExpressionContext extends ParserRuleContext {
 	public expression(): ExpressionContext {
 		return this.getRuleContext(0, ExpressionContext);
 	}
-	public withIndex(): WithIndexContext[];
-	public withIndex(i: number): WithIndexContext;
-	public withIndex(i?: number): WithIndexContext | WithIndexContext[] {
+	public index(): IndexContext[];
+	public index(i: number): IndexContext;
+	public index(i?: number): IndexContext | IndexContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(WithIndexContext);
+			return this.getRuleContexts(IndexContext);
 		} else {
-			return this.getRuleContext(i, WithIndexContext);
+			return this.getRuleContext(i, IndexContext);
 		}
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return YmlParser.RULE_expressionWithIndex; }
+	public get ruleIndex(): number { return YmlParser.RULE_possiblyIndexedExpression; }
 	// @Override
 	public enterRule(listener: YmlParserListener): void {
-		if (listener.enterExpressionWithIndex) {
-			listener.enterExpressionWithIndex(this);
+		if (listener.enterPossiblyIndexedExpression) {
+			listener.enterPossiblyIndexedExpression(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: YmlParserListener): void {
-		if (listener.exitExpressionWithIndex) {
-			listener.exitExpressionWithIndex(this);
+		if (listener.exitPossiblyIndexedExpression) {
+			listener.exitPossiblyIndexedExpression(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
-		if (visitor.visitExpressionWithIndex) {
-			return visitor.visitExpressionWithIndex(this);
+		if (visitor.visitPossiblyIndexedExpression) {
+			return visitor.visitPossiblyIndexedExpression(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -8205,7 +8205,7 @@ export class FunctionCallContext extends ParserRuleContext {
 }
 
 
-export class WithIndexContext extends ParserRuleContext {
+export class IndexContext extends ParserRuleContext {
 	public OPEN_BRACKET(): TerminalNode { return this.getToken(YmlParser.OPEN_BRACKET, 0); }
 	public functionArgument(): FunctionArgumentContext {
 		return this.getRuleContext(0, FunctionArgumentContext);
@@ -8215,23 +8215,23 @@ export class WithIndexContext extends ParserRuleContext {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return YmlParser.RULE_withIndex; }
+	public get ruleIndex(): number { return YmlParser.RULE_index; }
 	// @Override
 	public enterRule(listener: YmlParserListener): void {
-		if (listener.enterWithIndex) {
-			listener.enterWithIndex(this);
+		if (listener.enterIndex) {
+			listener.enterIndex(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: YmlParserListener): void {
-		if (listener.exitWithIndex) {
-			listener.exitWithIndex(this);
+		if (listener.exitIndex) {
+			listener.exitIndex(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
-		if (visitor.visitWithIndex) {
-			return visitor.visitWithIndex(this);
+		if (visitor.visitIndex) {
+			return visitor.visitIndex(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -8276,13 +8276,13 @@ export class FunctionArgumentContext extends ParserRuleContext {
 
 export class ChainedCallContext extends ParserRuleContext {
 	public _marker: ExpressionMarkerContext;
-	public expressionWithIndex(): ExpressionWithIndexContext[];
-	public expressionWithIndex(i: number): ExpressionWithIndexContext;
-	public expressionWithIndex(i?: number): ExpressionWithIndexContext | ExpressionWithIndexContext[] {
+	public possiblyIndexedExpression(): PossiblyIndexedExpressionContext[];
+	public possiblyIndexedExpression(i: number): PossiblyIndexedExpressionContext;
+	public possiblyIndexedExpression(i?: number): PossiblyIndexedExpressionContext | PossiblyIndexedExpressionContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(ExpressionWithIndexContext);
+			return this.getRuleContexts(PossiblyIndexedExpressionContext);
 		} else {
-			return this.getRuleContext(i, ExpressionWithIndexContext);
+			return this.getRuleContext(i, PossiblyIndexedExpressionContext);
 		}
 	}
 	public expressionMarker(): ExpressionMarkerContext[];
