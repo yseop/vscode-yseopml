@@ -2,14 +2,14 @@
 
 ## 1.6.3 (2019-07-23)
 
--   Improved parsing for some new cases such as:
-    -   function or method's optional arguments list finishing with a comma;
-    -   function or method with a two types argument, like `TypeA || TypeB myArg`;
+-   Improved parsing for:
+    -   function or method optional argument list ending with a comma;
+    -   function or method argument with alternative types, like `TypeA || TypeB myArg`;
     -   function or method having a `Function` object as an argument;
     -   `*.kao` files containing file name declarations;
     -   `as` instruction;
     -   `applyCollection` using the `__operation` operator;
-    -   some YML identifiers.
+    -   YML identifiers.
 
 ## 1.6.2 (2019-07-15)
 
