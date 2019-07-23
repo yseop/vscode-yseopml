@@ -1,5 +1,16 @@
 # Release Notes
 
+## 1.6.3 (2019-07-23)
+
+-   Improved parsing for:
+    -   function or method optional argument list ending with a comma;
+    -   function or method argument with alternative types, like `TypeA || TypeB myArg`;
+    -   function or method having a `Function` object as an argument;
+    -   `*.kao` files containing file name declarations;
+    -   `as` instruction;
+    -   `applyCollection` using the `__operation` operator;
+    -   YML identifiers.
+
 ## 1.6.2 (2019-07-15)
 
 -   Fix security issue with `lodash` version 4.17.11. New version `4.17.14` set instead.
