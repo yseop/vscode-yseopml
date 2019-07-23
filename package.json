@@ -14,8 +14,7 @@
     },
     "publisher": "Yseop",
     "icon": "images/compose-icon.png",
-    "readme": "README.adoc",
-    "homepage": "https://github.com/yseop/vscode-yseopml/blob/master/README.adoc",
+    "homepage": "https://github.com/yseop/vscode-yseopml",
     "categories": [
         "Programming Languages",
         "Snippets"
@@ -86,8 +85,7 @@
                 }
             }
         },
-        "commands": [
-            {
+        "commands": [{
                 "command": "yseopml.batch",
                 "title": "Yseop Batch",
                 "category": "Yseop"
@@ -123,38 +121,32 @@
                 "category": "Yseop"
             }
         ],
-        "languages": [
-            {
-                "id": "yml",
-                "aliases": [
-                    "Yseop Markup Language",
-                    "yml"
-                ],
-                "extensions": [
-                    ".kao",
-                    ".yclass",
-                    ".ytextfunction",
-                    ".yobject",
-                    ".ycomplete",
-                    ".dcl",
-                    ".yml"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "yml",
-                "scopeName": "source.yseop",
-                "path": "./syntaxes/yml.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "yml",
-                "path": "./snippets/snippets.json"
-            }
-        ]
+        "languages": [{
+            "id": "yml",
+            "aliases": [
+                "Yseop Markup Language",
+                "yml"
+            ],
+            "extensions": [
+                ".kao",
+                ".yclass",
+                ".ytextfunction",
+                ".yobject",
+                ".ycomplete",
+                ".dcl",
+                ".yml"
+            ],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "yml",
+            "scopeName": "source.yseop",
+            "path": "./syntaxes/yml.tmLanguage.json"
+        }],
+        "snippets": [{
+            "language": "yml",
+            "path": "./snippets/snippets.json"
+        }]
     },
     "scripts": {
         "antlr4ts": "cd server && npm run antlr4ts",
