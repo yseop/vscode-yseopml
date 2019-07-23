@@ -1,8 +1,9 @@
-// Generated from grammar/Yml.g4 by ANTLR 4.7.3-SNAPSHOT
+// Generated from grammar/YmlParser.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
+import { DeclarationFileContext } from "./YmlParser";
 import { KaoFileContext } from "./YmlParser";
 import { YmlEntityContext } from "./YmlParser";
 import { ExpressionMarkerContext } from "./YmlParser";
@@ -43,9 +44,10 @@ import { IfExprBlockContext } from "./YmlParser";
 import { BoolContext } from "./YmlParser";
 import { NonArithmeticValueContext } from "./YmlParser";
 import { InstanciationVariableContext } from "./YmlParser";
+import { PossiblyIndexedExpressionContext } from "./YmlParser";
 import { ExpressionContext } from "./YmlParser";
 import { FunctionCallContext } from "./YmlParser";
-import { IndexedCallContext } from "./YmlParser";
+import { IndexContext } from "./YmlParser";
 import { FunctionArgumentContext } from "./YmlParser";
 import { ChainedCallContext } from "./YmlParser";
 import { InlineDeclarationContext } from "./YmlParser";
@@ -106,7 +108,18 @@ import { ClassCompleteContext } from "./YmlParser";
  * This interface defines a complete listener for a parse tree produced by
  * `YmlParser`.
  */
-export interface YmlListener extends ParseTreeListener {
+export interface YmlParserListener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by `YmlParser.declarationFile`.
+	 * @param ctx the parse tree
+	 */
+	enterDeclarationFile?: (ctx: DeclarationFileContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.declarationFile`.
+	 * @param ctx the parse tree
+	 */
+	exitDeclarationFile?: (ctx: DeclarationFileContext) => void;
+
 	/**
 	 * Enter a parse tree produced by `YmlParser.kaoFile`.
 	 * @param ctx the parse tree
@@ -548,6 +561,17 @@ export interface YmlListener extends ParseTreeListener {
 	exitInstanciationVariable?: (ctx: InstanciationVariableContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `YmlParser.possiblyIndexedExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterPossiblyIndexedExpression?: (ctx: PossiblyIndexedExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.possiblyIndexedExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitPossiblyIndexedExpression?: (ctx: PossiblyIndexedExpressionContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `YmlParser.expression`.
 	 * @param ctx the parse tree
 	 */
@@ -570,15 +594,15 @@ export interface YmlListener extends ParseTreeListener {
 	exitFunctionCall?: (ctx: FunctionCallContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.indexedCall`.
+	 * Enter a parse tree produced by `YmlParser.index`.
 	 * @param ctx the parse tree
 	 */
-	enterIndexedCall?: (ctx: IndexedCallContext) => void;
+	enterIndex?: (ctx: IndexContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.indexedCall`.
+	 * Exit a parse tree produced by `YmlParser.index`.
 	 * @param ctx the parse tree
 	 */
-	exitIndexedCall?: (ctx: IndexedCallContext) => void;
+	exitIndex?: (ctx: IndexContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.functionArgument`.

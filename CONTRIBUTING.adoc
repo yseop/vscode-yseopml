@@ -1,8 +1,8 @@
 :vsc: VS{nbsp}Code
 
-# README
+# CONTRIBUTING
 
-## This is the README for the “vscode-yseopml” project
+## This is the CONTRIBUTING file for the “vscode-yseopml” project
 
 This folder contains the {vsc}{nbsp}extension that runs a YML (Yseop Markup Language) language server.
 
@@ -26,7 +26,7 @@ The language server is located in the `server`{nbsp}directory.
 ## How to generate antlr4 files
 
 . If you did not already, install `ANTLR tool` as explained http://www.antlr.org/download.html[here] and https://github.com/antlr/antlr4/blob/master/doc/getting-started.md[here].
-. Edit the `YmlToBdl.g4` grammar file.
+. Edit the `YmlParser.g4` or the `YmlLexer.g4` grammar files.
 . Run `npm run antlr4ts` to generate tokens, lexer and parser files.
 
 
@@ -49,7 +49,7 @@ npm run package
 It should end with a line like:
 
 ```
-Created: /PATH/TO/vscode-yseopml/client/vscode-yseopml-X.X.X.vsix
+Created: /PATH/TO/vscode-yseopml/vscode-yseopml-X.X.X.vsix
 ```
 
 This `vsix`{nbsp}file in the `client`{nbsp}directory is the packaged extension that can be provided to {vsc} to install the extension.
@@ -79,6 +79,6 @@ While developing and testing, lazy Linux users can also use the local `install.s
 
 You're free to contribute to this project as long as you respect its guidelines.
 
-If you add a significant feature to the extension, insert a short description of it into the `client/README.md`{nbsp}file. Furthermore, available code snippets should be listed in this client ReadMe to make sure users can know which snippets are available and how to trigger them. This snippet list can be automatically regenerated using `list-snippets.sh`.
+If you add a significant feature to the extension, insert a short description of it into the `README.md`{nbsp}file. Furthermore, available code snippets should be listed in this README to make sure users can know which snippets are available and how to trigger them. This snippet list can be automatically regenerated using `list-snippets.sh`.
 
 Documentation on the subject of snippets can be found https://code.visualstudio.com/docs/editor/userdefinedsnippets[here].
