@@ -29,7 +29,15 @@ ymlEntity:
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
 
-ymlId: YMLID | ARGS | LOCAL | RETURN | FUNCTION_AS_TYPE | TEXT_FUNCTION;
+ymlId:
+    YMLID
+    | ARGS
+    | LOCAL
+    | RETURN
+    | FUNCTION_AS_TYPE
+    | TEXT_FUNCTION
+    | IMPLEMENTATION
+;
 
 yenum:
     ENUM yid=ymlId OPEN_BRACE (enumElement ( COMMA enumElement)*)+ CLOSE_BRACE fields=field* SEMICOLON
