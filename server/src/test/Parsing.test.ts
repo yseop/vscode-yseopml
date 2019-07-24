@@ -254,4 +254,17 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
             done();
         });
     });
+
+    describe('static declaration rule', () => {
+        it('should parse an object with an "implementation" attribute', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.staticDeclaration(),
+                `MyClass myObject
+--> implementation {
+    as(?fact, ?att = myObj.attribute, ?fact.?att != null);
+};`,
+            );
+            done();
+        });
+    });
 });
