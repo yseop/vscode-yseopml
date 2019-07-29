@@ -77,6 +77,7 @@ import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
 import { Instruction_assignmentContext } from "./YmlParser";
 import { ConditionBlockContext } from "./YmlParser";
 import { Order0ConditionContext } from "./YmlParser";
+import { ActionBlockOrInstructionContext } from "./YmlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlParser";
 import { Instruction_switchCase_asIfContext } from "./YmlParser";
 import { InstructionCaseContext } from "./YmlParser";
@@ -922,6 +923,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitOrder0Condition?: (ctx: Order0ConditionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.actionBlockOrInstruction`.
+	 * @param ctx the parse tree
+	 */
+	enterActionBlockOrInstruction?: (ctx: ActionBlockOrInstructionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.actionBlockOrInstruction`.
+	 * @param ctx the parse tree
+	 */
+	exitActionBlockOrInstruction?: (ctx: ActionBlockOrInstructionContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_switchCase_withValue`.

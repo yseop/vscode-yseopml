@@ -9,8 +9,8 @@ FILETYPE: '_FILE_TYPE_' [ \t]+ ('M' | 'F') -> mode(DECLARATION_FILE);
 
 //Keywords
 APPLY_COLLECTION: 'applyCollection';
-WHERE: '__where';
-OPERATION: '__operation';
+WHERE: '__where' | 'where';
+OPERATION: '__operation' | 'operation';
 INTERFACE: 'interface';
 IMPLEMENTATION: 'implementation';
 EXTENDS: 'extends';
