@@ -120,8 +120,7 @@ classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 
 documentation: DOCUMENTATION;
 valueOrCondition:
-    actionBlock
-    | instruction
+    actionBlockOrInstruction
     | combinedComparison
     | value
     | hashMapKeyValue
@@ -162,11 +161,11 @@ applyCollection:
 ;
 
 instruction_forEach:
-    FOREACH OPEN_PAR (type=ymlId? name=ymlId) COMMA value CLOSE_PAR actionBlock
+    FOREACH OPEN_PAR (type=ymlId? name=ymlId) COMMA value CLOSE_PAR actionBlockOrInstruction
 ;
 
 instruction_for:
-    FOR OPEN_PAR name=ymlId COMMA step=value COMMA collection=value CLOSE_PAR actionBlock
+    FOR OPEN_PAR name=ymlId COMMA step=value COMMA collection=value CLOSE_PAR actionBlockOrInstruction
 ;
 
 instruction_ifExprBlock: ifExprBlock SEMICOLON?;
@@ -311,6 +310,8 @@ conditionBlock: order0Condition+;
 
 order0Condition: combinedComparison | existentialOperator;
 
+actionBlockOrInstruction: actionBlock | instruction;
+
 instruction_switchCase_withValue:
     SWITCH OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
 ;
@@ -318,14 +319,15 @@ instruction_switchCase_asIf:
     SWITCH OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
 ;
 instructionCase:
-    CASE OPEN_PAR valueOrCondition CLOSE_PAR COLON (instruction | actionBlock)
+    CASE OPEN_PAR valueOrCondition CLOSE_PAR COLON actionBlockOrInstruction
 ;
-instructionDefault: DEFAULT COLON (instruction | actionBlock);
+instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
 
-instruction_ifElse: instruction_if (ELSE (actionBlock | instruction))?;
+instruction_ifElse: instruction_if (ELSE actionBlockOrInstruction)?;
+
 instruction_if:
-    IF OPEN_PAR order0Condition CLOSE_PAR (actionBlock | instruction)
+    IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
 ;
 
 /*
@@ -334,13 +336,11 @@ instruction_if:
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR (ymlId | instanciationVariable) IN (value | FUNCTION) CLOSE_PAR
-    (
-        actionBlock
-        | instruction
-    )
+    FORALL OPEN_PAR (ymlId | instanciationVariable) IN (value | FUNCTION) CLOSE_PAR actionBlockOrInstruction
 ;
-instruction_while: WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlock;
+instruction_while:
+    WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
+;
 instruction_return: RETURN value SEMICOLON?;
 instruction_chainedCall: chainedCall;
 instruction:

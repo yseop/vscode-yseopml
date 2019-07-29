@@ -44,10 +44,26 @@ describe('Parsing Tests', () => {
     });
 
     describe('applyCollection', () => {
+        it('should parse without errors an `applyCollection` instruction with where keyword', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(Namespace:ClassName, where currentElement.attribute == true)`,
+            );
+            done();
+        });
+
         it('should parse without errors an `applyCollection` instruction with __where keyword', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.applyCollection(),
                 `applyCollection(Namespace:ClassName, __where currentElement.attribute == true)`,
+            );
+            done();
+        });
+
+        it('should parse without errors an `applyCollection` instruction with operation keyword', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(myCollection , operation Namespace:ClassName::member)`,
             );
             done();
         });
@@ -151,6 +167,68 @@ function Namespace:funcName(Namespace:ClassNameA obj,
 function myFunction(TypeA aObj, TypeB || TypeC bOrC_obj)
     --> text \\( \\)
 ;`,
+            );
+            done();
+        });
+    });
+
+    describe('instruction rule', () => {
+        it('should parse a foreach with a single instruction not in a block', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+foreach(_obj, coll) myVar = _obj;
+`,
+            );
+            done();
+        });
+
+        it('should parse a foreach with a single instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+foreach(_obj, coll) { myVar = _obj; }
+`,
+            );
+            done();
+        });
+
+        it('should parse a for with a single instruction not in a block', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+for(_idx, 1, coll) myVar = _idx;
+`,
+            );
+            done();
+        });
+
+        it('should parse a for with a single instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+for(_idx, 1, coll) { myVar = _idx; }
+`,
+            );
+            done();
+        });
+
+        it('should parse a while with a single instruction not in a block', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+while(_myVar < 10) incr(_myVar);
+`,
+            );
+            done();
+        });
+
+        it('should parse a while with a single instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+while(_myVar < 10) { incr(_myVar); }
+`,
             );
             done();
         });
