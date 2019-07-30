@@ -63,7 +63,7 @@ describe('Parsing Tests', () => {
             done();
         });
 
-        it('should parse without errors an `applyCollection` instruction with __operation ans __arguments keywords', (done) => {
+        it('should parse without errors an `applyCollection` instruction with __operation and __arguments keywords', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.applyCollection(),
                 `applyCollection(list0, __operation fct1, __arguments [2]);`,
