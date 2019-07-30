@@ -44,14 +44,6 @@ describe('Parsing Tests', () => {
     });
 
     describe('applyCollection', () => {
-        it('should parse without errors an `applyCollection` instruction with where keyword', (done) => {
-            checkInputValidityForRule(
-                (parser) => parser.applyCollection(),
-                `applyCollection(Namespace:ClassName, where currentElement.attribute == true)`,
-            );
-            done();
-        });
-
         it('should parse without errors an `applyCollection` instruction with __where keyword', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.applyCollection(),
@@ -59,19 +51,80 @@ describe('Parsing Tests', () => {
             );
             done();
         });
-
-        it('should parse without errors an `applyCollection` instruction with operation keyword', (done) => {
-            checkInputValidityForRule(
-                (parser) => parser.applyCollection(),
-                `applyCollection(myCollection , operation Namespace:ClassName::member)`,
-            );
-            done();
-        });
-
-        it('should parse without errors an `applyCollection` instruction with __operation keyword', (done) => {
+        it('should parse without errors an `applyCollection` instruction with __operation keyword on class member', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.applyCollection(),
                 `applyCollection(myCollection , __operation Namespace:ClassName::member)`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation keyword on function name', (done) => {
+            checkInputValidityForRule((parser) => parser.applyCollection(), `applyCollection(list0, __operation carre);`);
+            done();
+        });
+
+        it('should parse without errors an `applyCollection` instruction with __operation ans __arguments keywords', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list0, __operation fct1, __arguments [2]);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation and __arguments keywords with multiple args', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list0, __operation fct2, __arguments [2, 3]);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation keyword on class attribute', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list4, __operation Person::firstName);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation on attribute name and __where keywords', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list4, __operation Person::firstName, __where currentElement != "alain");`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation on Symbol and __where keywords', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list4, __operation _NO_EVAL, __where currentElement != P2);`,
+            );
+            done();
+        });
+    });
+    describe('applyCollectionOn', () => {
+        it('should parse without errors an `applyCollectionOn` instruction with select keyword', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollectionOn(),
+                `applyCollectionOn(_elt in list0, select carre(_elt));`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollectionOn` instruction with select keyword on attribute value', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollectionOn(),
+                `applyCollectionOn(_elt in list4, select _elt.firstName);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollectionOn` instruction with select and where keywords', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollectionOn(),
+                `applyCollectionOn(_elt in list4, select _NO_EVAL, where _elt != P2);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollectionOn` instruction with where keyword', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollectionOn(),
+                `applyCollectionOn(_elt in list4, where _elt != P2);`,
             );
             done();
         });

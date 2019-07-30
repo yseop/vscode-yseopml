@@ -9,8 +9,13 @@ FILETYPE: '_FILE_TYPE_' [ \t]+ ('M' | 'F') -> mode(DECLARATION_FILE);
 
 //Keywords
 APPLY_COLLECTION: 'applyCollection';
-WHERE: '__where' | 'where';
-OPERATION: '__operation' | 'operation';
+WHERE_APPLY_COLLECTION: '__where';
+OPERATION_APPLY_COLLECTION: '__operation';
+ARGUMENTS_APPLY_COLLECTION: '__arguments';
+APPLY_COLLECTION_ON: 'applyCollectionOn';
+WHERE_APPLY_COLLECTION_ON: 'where';
+OPERATION_APPLY_COLLECTION_ON: 'operation';
+SELECT_APPLY_COLLECTION_ON: 'select';
 INTERFACE: 'interface';
 IMPLEMENTATION: 'implementation';
 EXTENDS: 'extends';
