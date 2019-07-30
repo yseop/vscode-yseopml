@@ -37,6 +37,7 @@ import { HashMapValueContext } from "./YmlParser";
 import { ValueContext } from "./YmlParser";
 import { AsContext } from "./YmlParser";
 import { ApplyCollectionContext } from "./YmlParser";
+import { ApplyCollectionOnContext } from "./YmlParser";
 import { Instruction_forEachContext } from "./YmlParser";
 import { Instruction_forContext } from "./YmlParser";
 import { Instruction_ifExprBlockContext } from "./YmlParser";
@@ -85,6 +86,7 @@ import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { Instruction_ifContext } from "./YmlParser";
+import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
 import { Instruction_returnContext } from "./YmlParser";
@@ -483,6 +485,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitApplyCollection?: (ctx: ApplyCollectionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.applyCollectionOn`.
+	 * @param ctx the parse tree
+	 */
+	enterApplyCollectionOn?: (ctx: ApplyCollectionOnContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.applyCollectionOn`.
+	 * @param ctx the parse tree
+	 */
+	exitApplyCollectionOn?: (ctx: ApplyCollectionOnContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_forEach`.
@@ -1011,6 +1024,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitInstruction_if?: (ctx: Instruction_ifContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.inValue`.
+	 * @param ctx the parse tree
+	 */
+	enterInValue?: (ctx: InValueContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.inValue`.
+	 * @param ctx the parse tree
+	 */
+	exitInValue?: (ctx: InValueContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_forall`.

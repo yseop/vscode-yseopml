@@ -37,6 +37,7 @@ import { HashMapValueContext } from "./YmlParser";
 import { ValueContext } from "./YmlParser";
 import { AsContext } from "./YmlParser";
 import { ApplyCollectionContext } from "./YmlParser";
+import { ApplyCollectionOnContext } from "./YmlParser";
 import { Instruction_forEachContext } from "./YmlParser";
 import { Instruction_forContext } from "./YmlParser";
 import { Instruction_ifExprBlockContext } from "./YmlParser";
@@ -85,6 +86,7 @@ import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { Instruction_ifContext } from "./YmlParser";
+import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
 import { Instruction_returnContext } from "./YmlParser";
@@ -350,6 +352,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitApplyCollection?: (ctx: ApplyCollectionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.applyCollectionOn`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitApplyCollectionOn?: (ctx: ApplyCollectionOnContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_forEach`.
@@ -686,6 +695,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction_if?: (ctx: Instruction_ifContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.inValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInValue?: (ctx: InValueContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_forall`.

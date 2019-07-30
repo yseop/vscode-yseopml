@@ -140,7 +140,9 @@ value:
     | ifExprBlock
     | array
     | constList
+    | inValue
     | applyCollection
+    | applyCollectionOn
     | as
     | OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE
 ;
@@ -155,9 +157,35 @@ as:
 applyCollection:
     APPLY_COLLECTION OPEN_PAR value COMMA
     (
-        WHERE combinedComparison
-        | OPERATION ymlId
-    ) CLOSE_PAR
+        WHERE_APPLY_COLLECTION combinedComparison
+        | OPERATION_APPLY_COLLECTION ymlId
+        | ARGUMENTS_APPLY_COLLECTION value
+    )
+    (
+        COMMA
+        (
+            WHERE_APPLY_COLLECTION combinedComparison
+            | OPERATION_APPLY_COLLECTION ymlId
+            | ARGUMENTS_APPLY_COLLECTION value
+        )
+    )* CLOSE_PAR
+;
+
+applyCollectionOn:
+    APPLY_COLLECTION_ON OPEN_PAR value COMMA
+    (
+        WHERE_APPLY_COLLECTION_ON combinedComparison
+        | OPERATION_APPLY_COLLECTION_ON ymlId
+        | SELECT_APPLY_COLLECTION_ON value
+    )
+    (
+        COMMA
+        (
+            WHERE_APPLY_COLLECTION_ON combinedComparison
+            | OPERATION_APPLY_COLLECTION_ON ymlId
+            | SELECT_APPLY_COLLECTION_ON value
+        )
+    )* CLOSE_PAR
 ;
 
 instruction_forEach:
@@ -330,13 +358,15 @@ instruction_if:
     IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
 ;
 
+inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
+
 /*
  * Handles code like `forall(item in myCollection) {}` (loop over the elements of a collection)
  * or `forall(item in Type)` (loop over all elements having the type `Type`).
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR (ymlId | instanciationVariable) IN (value | FUNCTION) CLOSE_PAR actionBlockOrInstruction
+    FORALL OPEN_PAR inValue CLOSE_PAR actionBlockOrInstruction
 ;
 instruction_while:
     WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
