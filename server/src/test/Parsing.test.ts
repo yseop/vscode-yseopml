@@ -131,10 +131,18 @@ describe('Parsing Tests', () => {
     });
 
     describe('chainedCall rule', () => {
-        it('should parse without errors an `applyCollection` instruction with __where keyword used as a function caller', (done) => {
+        it('should parse without errors an `applyCollection` instruction used as a function caller', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.chainedCall(),
                 `applyCollection(Namespace:ClassName, __where currentElement.attr == true).toList()`,
+            );
+            done();
+        });
+
+        it('should parse without errors an `applyCollectionOn` instruction used as a function caller', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `applyCollectionOn(_elt in list4, where _elt != P2).toList()`,
             );
             done();
         });
