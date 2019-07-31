@@ -41,6 +41,35 @@ describe('Parsing Tests', () => {
             );
             done();
         });
+        it('should parse without errors an assignment with the `switchExprExclusive` instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_assignment(),
+                `
+myVal = switchExprExclusive {
+    case(label == "a") : 1
+    case(label == "ab") : -1
+    case(label == "abc") : -1
+    default : 0
+}
+`,
+            );
+            done();
+        });
+        it('should parse without errors an assignment with the `switchExpr` instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_assignment(),
+                `
+finalVal = switchExpr( myValue ) {
+    case CASE_1 : val1
+    case CASE_2 : val2
+    case CASE_3 : val3
+    case CASE_4 : val4
+};
+`,
+            );
+            done();
+        });
+
     });
 
     describe('applyCollection', () => {
@@ -149,6 +178,43 @@ describe('Parsing Tests', () => {
 
         it('should parse without errors a chained call with indexed accesses', (done) => {
             checkInputValidityForRule((parser) => parser.chainedCall(), `aObj[b][c].aAttr.get()[12]`);
+            done();
+        });
+
+        it('should parse without errors a chained call with hashMap', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(), `{KEY : myVal}.get(KEY)`);
+            done();
+        });
+        it('should parse without errors a chained call with an array', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(), `["a", "b"].get(_FIRST)`);
+            done();
+        });
+        it('should parse without errors a chained call with an ifExpr', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(),
+            `(ifExpr(a ==b) then ["a", "b"] else ["c", "d"]).get(_FIRST)`);
+            done();
+        });
+        it('should parse without errors a chained call with an switchExpr', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(),
+            `
+(switchExpr( myValue ) {
+    case CASE_1 : [val1, val2]
+    case CASE_2 : [val3, val4]
+    case CASE_3 : [val5, val6]
+    case CASE_4 : [val7, val8]
+}).get(_RANDOM)`);
+            done();
+        });
+
+        it('should parse without errors a chained call with an switchExpr', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(),
+            `
+(switchExprExclusive {
+    case myValue == CASE_1 : [val1, val2]
+    case myValue == CASE_2 : [val3, val4]
+    case myValue == CASE_3 : [val5, val6]
+    case myValue == CASE_4 : [val7, val8]
+}).get(_RANDOM)`);
             done();
         });
 

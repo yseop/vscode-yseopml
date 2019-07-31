@@ -80,8 +80,12 @@ import { Instruction_assignmentContext } from "./YmlParser";
 import { ConditionBlockContext } from "./YmlParser";
 import { Order0ConditionContext } from "./YmlParser";
 import { ActionBlockOrInstructionContext } from "./YmlParser";
+import { Instruction_switchExpr_withValueContext } from "./YmlParser";
+import { Instruction_switchExprExclusive_asIfContext } from "./YmlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlParser";
 import { Instruction_switchCase_asIfContext } from "./YmlParser";
+import { InstructionDefault_withValueContext } from "./YmlParser";
+import { InstructionCase_withValueContext } from "./YmlParser";
 import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
@@ -656,6 +660,20 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitActionBlockOrInstruction?: (ctx: ActionBlockOrInstructionContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_switchExpr_withValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_switchExpr_withValue?: (ctx: Instruction_switchExpr_withValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_switchExprExclusive_asIf`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_switchExprExclusive_asIf?: (ctx: Instruction_switchExprExclusive_asIfContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_switchCase_withValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -668,6 +686,20 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction_switchCase_asIf?: (ctx: Instruction_switchCase_asIfContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instructionDefault_withValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstructionDefault_withValue?: (ctx: InstructionDefault_withValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instructionCase_withValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstructionCase_withValue?: (ctx: InstructionCase_withValueContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instructionCase`.

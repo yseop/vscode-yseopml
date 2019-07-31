@@ -37,6 +37,8 @@ ymlId:
     | FUNCTION_AS_TYPE
     | TEXT_FUNCTION
     | IMPLEMENTATION
+    | OPERATION_APPLY_COLLECTION_ON
+    | CASE
 ;
 
 yenum:
@@ -147,6 +149,8 @@ value:
     | applyCollectionOn
     | as
     | hashMap
+    | instruction_switchExpr_withValue
+    | instruction_switchExprExclusive_asIf
 ;
 
 as:
@@ -218,6 +222,11 @@ expression:
     | as
     | applyCollection
     | applyCollectionOn
+    | array
+    | hashMap
+    | OPEN_PAR instruction_switchExpr_withValue CLOSE_PAR
+    | OPEN_PAR instruction_switchExprExclusive_asIf CLOSE_PAR
+    | OPEN_PAR ifExprBlock CLOSE_PAR
 ;
 
 functionCall:
@@ -343,12 +352,32 @@ order0Condition: combinedComparison | existentialOperator;
 
 actionBlockOrInstruction: actionBlock | instruction;
 
+instruction_switchExpr_withValue:
+    SWITCH_EXPR OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
+;
+instruction_switchExprExclusive_asIf:
+    SWITCH_EXPR_EXCLUSIVE OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
+;
+
 instruction_switchCase_withValue:
     SWITCH OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
 ;
 instruction_switchCase_asIf:
     SWITCH OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
 ;
+
+instructionDefault_withValue:
+    DEFAULT COLON (value | OPEN_BRACE value CLOSE_BRACE)
+;
+
+instructionCase_withValue:
+    CASE (OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON
+    (
+        value
+        | OPEN_BRACE value CLOSE_BRACE
+    )
+;
+
 instructionCase:
     CASE (OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON actionBlockOrInstruction
 ;

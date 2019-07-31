@@ -48,6 +48,8 @@ LOCAL: 'local';
 TRUE: 'true';
 FALSE: 'false';
 SWITCH: 'switch';
+SWITCH_EXPR: 'switchExpr';
+SWITCH_EXPR_EXCLUSIVE: 'switchExprExclusive';
 CASE: 'case';
 DEFAULT: 'default';
 BREAK: 'break';
