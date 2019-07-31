@@ -321,6 +321,49 @@ implementation SentenceToGenerate
         });
     });
 
+    describe('hashMap rule', () => {
+        it('should parse without errors a hashMap with integers as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: VAL, 2: VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with doubles as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1.2: VAL, 2.3: VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with string as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{"1": VAL, "2": VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with arrays as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{[1,2]: VAL, [3,4]: VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with constList as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{{_1,_2}: VAL, {_3,_4}: VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with integer as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: 2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with double as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: 2.3}`);
+            done();
+        });
+        it('should parse without errors a hashMap with string as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: "str"}`);
+            done();
+        });
+        it('should parse without errors a hashMap with arrays as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: [VAL, VAL_2]}`);
+            done();
+        });
+        it('should parse without errors a hashMap with constList as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: {VAL, VAL_2}}`);
+            done();
+        });
+    });
+
     describe('switch rule', () => {
         it('should parse without errors a switch with cases without parentheses around the value', (done) => {
             checkInputValidityForRule(
