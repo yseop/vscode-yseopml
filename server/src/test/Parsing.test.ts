@@ -313,6 +313,42 @@ implementation SentenceToGenerate
         });
     });
 
+    describe('switch rule', () => {
+        it('should parse without errors a switch with cases without parenthesis', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchCase_withValue(),
+                `
+switch( val ) {
+    case VALUE_1 : {
+        // do stuff
+    }
+    case VALUE_2 : {
+        // do something else
+    }
+}
+;`,
+            );
+            done();
+        });
+
+        it('should parse without errors a switch with cases between parenthesis', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchCase_withValue(),
+                `
+switch( val ) {
+    case (VALUE_1) : {
+        // do stuff
+    }
+    case (VALUE_2) : {
+        // do something else
+    }
+}
+;`,
+            );
+            done();
+        });
+    });
+
     describe('classComplete rule', () => {
         it('should parse without errors a complete of a class adding methods to it', (done) => {
             checkInputValidityForRule(
