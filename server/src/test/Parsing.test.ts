@@ -60,10 +60,9 @@ myVal = switchExprExclusive {
                 (parser) => parser.instruction_assignment(),
                 `
 finalVal = switchExpr( myValue ) {
-    case CASE_1 : val1
-    case CASE_2 : val2
-    case CASE_3 : val3
-    case CASE_4 : val4
+    case myValue > 0 : 1
+    case myValue < 1 : 0
+    case myValue > 1 : -1
 };
 `,
             );
@@ -210,10 +209,9 @@ finalVal = switchExpr( myValue ) {
             checkInputValidityForRule((parser) => parser.chainedCall(),
             `
 (switchExprExclusive {
-    case myValue == CASE_1 : [val1, val2]
-    case myValue == CASE_2 : [val3, val4]
-    case myValue == CASE_3 : [val5, val6]
-    case myValue == CASE_4 : [val7, val8]
+    case myValue > 0 : [val1, val2]
+    case myValue < 1 : [val3, val4]
+    case myValue > 1 : [val5, val6]
 }).get(_RANDOM)`);
             done();
         });
