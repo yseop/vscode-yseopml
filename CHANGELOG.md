@@ -1,5 +1,14 @@
 # Release Notes
 
+## 1.6.4 (2019-07-31)
+
+-   Improved parsing for:
+    -   Hashmap keys;
+    -   `switchExpr` and `switchExprExclusive` instructions;
+    -   `applyCollection` and `applyCollectionOn` instructions;
+    -   YML identifiers;
+    -   `foreach`, `for` and `while` instructions can be used with only one instruction without using parenthesis.
+
 ## 1.6.3 (2019-07-23)
 
 -   Improved parsing for:
