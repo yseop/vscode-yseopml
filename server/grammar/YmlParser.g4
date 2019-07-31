@@ -29,7 +29,17 @@ ymlEntity:
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
 
-ymlId: YMLID | ARGS | LOCAL | RETURN | FUNCTION_AS_TYPE | TEXT_FUNCTION;
+ymlId:
+    YMLID
+    | ARGS
+    | LOCAL
+    | RETURN
+    | FUNCTION_AS_TYPE
+    | TEXT_FUNCTION
+    | IMPLEMENTATION
+    | OPERATION_APPLY_COLLECTION_ON
+    | CASE
+;
 
 yenum:
     ENUM yid=ymlId OPEN_BRACE (enumElement ( COMMA enumElement)*)+ CLOSE_BRACE fields=field* SEMICOLON
@@ -112,8 +122,7 @@ classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 
 documentation: DOCUMENTATION;
 valueOrCondition:
-    actionBlock
-    | instruction
+    actionBlockOrInstruction
     | combinedComparison
     | value
     | hashMapKeyValue
@@ -121,7 +130,9 @@ valueOrCondition:
     | type=ymlId name=ymlId
 ;
 
-hashMapKeyValue: nonArithmeticValue COLON hashMapValue;
+hashMap: OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE;
+hashMapKeyValue: (nonArithmeticValue | DOUBLE | array | constList) COLON hashMapValue
+;
 hashMapValue: value | combinedComparison;
 
 value:
@@ -133,9 +144,13 @@ value:
     | ifExprBlock
     | array
     | constList
+    | inValue
     | applyCollection
+    | applyCollectionOn
     | as
-    | OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE
+    | hashMap
+    | instruction_switchExpr_withValue
+    | instruction_switchExpr_asIf
 ;
 
 as:
@@ -148,17 +163,43 @@ as:
 applyCollection:
     APPLY_COLLECTION OPEN_PAR value COMMA
     (
-        WHERE combinedComparison
-        | OPERATION ymlId
-    ) CLOSE_PAR
+        WHERE_APPLY_COLLECTION combinedComparison
+        | OPERATION_APPLY_COLLECTION ymlId
+        | ARGUMENTS_APPLY_COLLECTION value
+    )
+    (
+        COMMA
+        (
+            WHERE_APPLY_COLLECTION combinedComparison
+            | OPERATION_APPLY_COLLECTION ymlId
+            | ARGUMENTS_APPLY_COLLECTION value
+        )
+    )* CLOSE_PAR
+;
+
+applyCollectionOn:
+    APPLY_COLLECTION_ON OPEN_PAR value COMMA
+    (
+        WHERE_APPLY_COLLECTION_ON combinedComparison
+        | OPERATION_APPLY_COLLECTION_ON ymlId
+        | SELECT_APPLY_COLLECTION_ON value
+    )
+    (
+        COMMA
+        (
+            WHERE_APPLY_COLLECTION_ON combinedComparison
+            | OPERATION_APPLY_COLLECTION_ON ymlId
+            | SELECT_APPLY_COLLECTION_ON value
+        )
+    )* CLOSE_PAR
 ;
 
 instruction_forEach:
-    FOREACH OPEN_PAR (type=ymlId? name=ymlId) COMMA value CLOSE_PAR actionBlock
+    FOREACH OPEN_PAR (type=ymlId? name=ymlId) COMMA value CLOSE_PAR actionBlockOrInstruction
 ;
 
 instruction_for:
-    FOR OPEN_PAR name=ymlId COMMA step=value COMMA collection=value CLOSE_PAR actionBlock
+    FOR OPEN_PAR name=ymlId COMMA step=value COMMA collection=value CLOSE_PAR actionBlockOrInstruction
 ;
 
 instruction_ifExprBlock: ifExprBlock SEMICOLON?;
@@ -180,6 +221,12 @@ expression:
     | constList
     | as
     | applyCollection
+    | applyCollectionOn
+    | array
+    | hashMap
+    | OPEN_PAR instruction_switchExpr_withValue CLOSE_PAR
+    | OPEN_PAR instruction_switchExpr_asIf CLOSE_PAR
+    | OPEN_PAR ifExprBlock CLOSE_PAR
 ;
 
 functionCall:
@@ -303,22 +350,47 @@ conditionBlock: order0Condition+;
 
 order0Condition: combinedComparison | existentialOperator;
 
+actionBlockOrInstruction: actionBlock | instruction;
+
+instruction_switchExpr_withValue:
+    SWITCH_EXPR OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
+;
+instruction_switchExpr_asIf:
+    SWITCH_EXPR OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
+;
+
 instruction_switchCase_withValue:
     SWITCH OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
 ;
 instruction_switchCase_asIf:
     SWITCH OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
 ;
-instructionCase:
-    CASE OPEN_PAR valueOrCondition CLOSE_PAR COLON (instruction | actionBlock)
+
+instructionDefault_withValue:
+    DEFAULT COLON (value | OPEN_BRACE value CLOSE_BRACE)
 ;
-instructionDefault: DEFAULT COLON (instruction | actionBlock);
+
+instructionCase_withValue:
+    CASE (OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON
+    (
+        value
+        | OPEN_BRACE value CLOSE_BRACE
+    )
+;
+
+instructionCase:
+    CASE (OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON actionBlockOrInstruction
+;
+instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
 
-instruction_ifElse: instruction_if (ELSE (actionBlock | instruction))?;
+instruction_ifElse: instruction_if (ELSE actionBlockOrInstruction)?;
+
 instruction_if:
-    IF OPEN_PAR order0Condition CLOSE_PAR (actionBlock | instruction)
+    IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
 ;
+
+inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
 
 /*
  * Handles code like `forall(item in myCollection) {}` (loop over the elements of a collection)
@@ -326,13 +398,11 @@ instruction_if:
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR (ymlId | instanciationVariable) IN (value | FUNCTION) CLOSE_PAR
-    (
-        actionBlock
-        | instruction
-    )
+    FORALL OPEN_PAR inValue CLOSE_PAR actionBlockOrInstruction
 ;
-instruction_while: WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlock;
+instruction_while:
+    WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
+;
 instruction_return: RETURN value SEMICOLON?;
 instruction_chainedCall: chainedCall;
 instruction:

@@ -32,11 +32,13 @@ import { ReturnFieldContext } from "./YmlParser";
 import { ClassPropertiesBlockContext } from "./YmlParser";
 import { DocumentationContext } from "./YmlParser";
 import { ValueOrConditionContext } from "./YmlParser";
+import { HashMapContext } from "./YmlParser";
 import { HashMapKeyValueContext } from "./YmlParser";
 import { HashMapValueContext } from "./YmlParser";
 import { ValueContext } from "./YmlParser";
 import { AsContext } from "./YmlParser";
 import { ApplyCollectionContext } from "./YmlParser";
+import { ApplyCollectionOnContext } from "./YmlParser";
 import { Instruction_forEachContext } from "./YmlParser";
 import { Instruction_forContext } from "./YmlParser";
 import { Instruction_ifExprBlockContext } from "./YmlParser";
@@ -77,13 +79,19 @@ import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
 import { Instruction_assignmentContext } from "./YmlParser";
 import { ConditionBlockContext } from "./YmlParser";
 import { Order0ConditionContext } from "./YmlParser";
+import { ActionBlockOrInstructionContext } from "./YmlParser";
+import { Instruction_switchExpr_withValueContext } from "./YmlParser";
+import { Instruction_switchExpr_asIfContext } from "./YmlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlParser";
 import { Instruction_switchCase_asIfContext } from "./YmlParser";
+import { InstructionDefault_withValueContext } from "./YmlParser";
+import { InstructionCase_withValueContext } from "./YmlParser";
 import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { Instruction_ifContext } from "./YmlParser";
+import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
 import { Instruction_returnContext } from "./YmlParser";
@@ -316,6 +324,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitValueOrCondition?: (ctx: ValueOrConditionContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.hashMap`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitHashMap?: (ctx: HashMapContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.hashMapKeyValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -349,6 +364,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitApplyCollection?: (ctx: ApplyCollectionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.applyCollectionOn`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitApplyCollectionOn?: (ctx: ApplyCollectionOnContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_forEach`.
@@ -631,6 +653,27 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitOrder0Condition?: (ctx: Order0ConditionContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.actionBlockOrInstruction`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitActionBlockOrInstruction?: (ctx: ActionBlockOrInstructionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_switchExpr_withValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_switchExpr_withValue?: (ctx: Instruction_switchExpr_withValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_switchExpr_asIf`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_switchExpr_asIf?: (ctx: Instruction_switchExpr_asIfContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_switchCase_withValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -643,6 +686,20 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction_switchCase_asIf?: (ctx: Instruction_switchCase_asIfContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instructionDefault_withValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstructionDefault_withValue?: (ctx: InstructionDefault_withValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instructionCase_withValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstructionCase_withValue?: (ctx: InstructionCase_withValueContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instructionCase`.
@@ -678,6 +735,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction_if?: (ctx: Instruction_ifContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.inValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInValue?: (ctx: InValueContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_forall`.

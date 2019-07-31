@@ -41,6 +41,34 @@ describe('Parsing Tests', () => {
             );
             done();
         });
+        it('should parse without errors an assignment with the `switchExprExclusive` instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_assignment(),
+                `
+myVal = switchExprExclusive {
+    case(label == "a") : 1
+    case(label == "ab") : -1
+    case(label == "abc") : -1
+    default : 0
+}
+`,
+            );
+            done();
+        });
+        it('should parse without errors an assignment with the `switchExpr` instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_assignment(),
+                `
+finalVal = switchExpr( myValue ) {
+    case myValue > 0 : 1
+    case myValue < 1 : 0
+    case myValue > 1 : -1
+};
+`,
+            );
+            done();
+        });
+
     });
 
     describe('applyCollection', () => {
@@ -51,18 +79,87 @@ describe('Parsing Tests', () => {
             );
             done();
         });
-
-        it('should parse without errors an `applyCollection` instruction with __operation keyword', (done) => {
+        it('should parse without errors an `applyCollection` instruction with __operation keyword on class member', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.applyCollection(),
                 `applyCollection(myCollection , __operation Namespace:ClassName::member)`,
             );
             done();
         });
+        it('should parse without errors an `applyCollection` instruction with __operation keyword on function name', (done) => {
+            checkInputValidityForRule((parser) => parser.applyCollection(), `applyCollection(list0, __operation carre);`);
+            done();
+        });
+
+        it('should parse without errors an `applyCollection` instruction with __operation and __arguments keywords', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list0, __operation fct1, __arguments [2]);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation and __arguments keywords with multiple args', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list0, __operation fct2, __arguments [2, 3]);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation keyword on class attribute', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list4, __operation Person::firstName);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation on attribute name and __where keywords', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list4, __operation Person::firstName, __where currentElement != "alain");`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollection` instruction with __operation on Symbol and __where keywords', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list4, __operation _NO_EVAL, __where currentElement != P2);`,
+            );
+            done();
+        });
+    });
+    describe('applyCollectionOn', () => {
+        it('should parse without errors an `applyCollectionOn` instruction with select keyword', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollectionOn(),
+                `applyCollectionOn(_elt in list0, select carre(_elt));`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollectionOn` instruction with select keyword on attribute value', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollectionOn(),
+                `applyCollectionOn(_elt in list4, select _elt.firstName);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollectionOn` instruction with select and where keywords', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollectionOn(),
+                `applyCollectionOn(_elt in list4, select _NO_EVAL, where _elt != P2);`,
+            );
+            done();
+        });
+        it('should parse without errors an `applyCollectionOn` instruction with where keyword', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.applyCollectionOn(),
+                `applyCollectionOn(_elt in list4, where _elt != P2);`,
+            );
+            done();
+        });
     });
 
     describe('chainedCall rule', () => {
-        it('should parse without errors an `applyCollection` instruction with __where keyword used as a function caller', (done) => {
+        it('should parse without errors an `applyCollection` instruction used as a function caller', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.chainedCall(),
                 `applyCollection(Namespace:ClassName, __where currentElement.attr == true).toList()`,
@@ -70,8 +167,52 @@ describe('Parsing Tests', () => {
             done();
         });
 
+        it('should parse without errors an `applyCollectionOn` instruction used as a function caller', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `applyCollectionOn(_elt in list4, where _elt != P2).toList()`,
+            );
+            done();
+        });
+
         it('should parse without errors a chained call with indexed accesses', (done) => {
             checkInputValidityForRule((parser) => parser.chainedCall(), `aObj[b][c].aAttr.get()[12]`);
+            done();
+        });
+
+        it('should parse without errors a chained call with hashMap', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(), `{KEY : myVal}.get(KEY)`);
+            done();
+        });
+        it('should parse without errors a chained call with an array', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(), `["a", "b"].get(_FIRST)`);
+            done();
+        });
+        it('should parse without errors a chained call with an ifExpr', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(),
+            `(ifExpr(a ==b) then ["a", "b"] else ["c", "d"]).get(_FIRST)`);
+            done();
+        });
+        it('should parse without errors a chained call with an switchExpr', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(),
+            `
+(switchExpr( myValue ) {
+    case CASE_1 : [val1, val2]
+    case CASE_2 : [val3, val4]
+    case CASE_3 : [val5, val6]
+    case CASE_4 : [val7, val8]
+}).get(_RANDOM)`);
+            done();
+        });
+
+        it('should parse without errors a chained call with an switchExpr', (done) => {
+            checkInputValidityForRule((parser) => parser.chainedCall(),
+            `
+(switchExprExclusive {
+    case myValue > 0 : [val1, val2]
+    case myValue < 1 : [val3, val4]
+    case myValue > 1 : [val5, val6]
+}).get(_RANDOM)`);
             done();
         });
 
@@ -156,6 +297,68 @@ function myFunction(TypeA aObj, TypeB || TypeC bOrC_obj)
         });
     });
 
+    describe('instruction rule', () => {
+        it('should parse a foreach with a single instruction not in a block', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+foreach(_obj, coll) myVar = _obj;
+`,
+            );
+            done();
+        });
+
+        it('should parse a foreach with a single instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+foreach(_obj, coll) { myVar = _obj; }
+`,
+            );
+            done();
+        });
+
+        it('should parse a for with a single instruction not in a block', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+for(_idx, 1, coll) myVar = _idx;
+`,
+            );
+            done();
+        });
+
+        it('should parse a for with a single instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+for(_idx, 1, coll) { myVar = _idx; }
+`,
+            );
+            done();
+        });
+
+        it('should parse a while with a single instruction not in a block', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+while(_myVar < 10) incr(_myVar);
+`,
+            );
+            done();
+        });
+
+        it('should parse a while with a single instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.argumentList(),
+                `
+while(_myVar < 10) { incr(_myVar); }
+`,
+            );
+            done();
+        });
+    });
+
     describe('argumentList rule', () => {
         it('should parse without errors an argument list with optional args finishing with a comma', (done) => {
             checkInputValidityForRule((parser) => parser.argumentList(), `{[_KEY]: Symbol mode {__nullable},} args`);
@@ -176,6 +379,102 @@ implementation SentenceToGenerate
     override {
         write function
     }
+;`,
+            );
+            done();
+        });
+    });
+
+    describe('hashMap rule', () => {
+        it('should parse without errors a hashMap with integers as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: VAL, 2: VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with doubles as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1.2: VAL, 2.3: VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with string as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{"1": VAL, "2": VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with arrays as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{[1,2]: VAL, [3,4]: VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with constList as keys', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{{_1,_2}: VAL, {_3,_4}: VAL_2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with integer as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: 2}`);
+            done();
+        });
+        it('should parse without errors a hashMap with double as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: 2.3}`);
+            done();
+        });
+        it('should parse without errors a hashMap with string as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: "str"}`);
+            done();
+        });
+        it('should parse without errors a hashMap with arrays as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: [VAL, VAL_2]}`);
+            done();
+        });
+        it('should parse without errors a hashMap with constList as value', (done) => {
+            checkInputValidityForRule((parser) => parser.hashMap(), `{1: {VAL, VAL_2}}`);
+            done();
+        });
+    });
+
+    describe('switch rule', () => {
+        it('should parse without errors a switch with cases without parentheses around the value', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchCase_withValue(),
+                `
+switch( val ) {
+    case VALUE_1 : {
+        // do stuff
+    }
+    case VALUE_2 : {
+        // do something else
+    }
+}
+;`,
+            );
+            done();
+        });
+
+        it('should parse without errors a switch with parentheses around values', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchCase_withValue(),
+                `
+switch( val ) {
+    case (VALUE_1) : {
+        // do stuff
+    }
+    case (VALUE_2) : {
+        // do something else
+    }
+}
+;`,
+            );
+            done();
+        });
+
+        it('should parse without errors a switch with parentheses around some values', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchCase_withValue(),
+                `
+switch( val ) {
+    case (VALUE_1) : {
+        // do stuff
+    }
+    case VALUE_2 : {
+        // do something else
+    }
+}
 ;`,
             );
             done();
@@ -250,6 +549,19 @@ Music/drudkh/they_often_see_dreams_about_the_spring/flac/02_-_u_dakhiv_irzhavim_
 Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesiac_oplakuje_swit....flac
 
 `,
+            );
+            done();
+        });
+    });
+
+    describe('static declaration rule', () => {
+        it('should parse an object with an "implementation" attribute', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.staticDeclaration(),
+                `MyClass myObject
+--> implementation {
+    as(?fact, ?att = myObj.attribute, ?fact.?att != null);
+};`,
             );
             done();
         });

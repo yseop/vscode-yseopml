@@ -32,11 +32,13 @@ import { ReturnFieldContext } from "./YmlParser";
 import { ClassPropertiesBlockContext } from "./YmlParser";
 import { DocumentationContext } from "./YmlParser";
 import { ValueOrConditionContext } from "./YmlParser";
+import { HashMapContext } from "./YmlParser";
 import { HashMapKeyValueContext } from "./YmlParser";
 import { HashMapValueContext } from "./YmlParser";
 import { ValueContext } from "./YmlParser";
 import { AsContext } from "./YmlParser";
 import { ApplyCollectionContext } from "./YmlParser";
+import { ApplyCollectionOnContext } from "./YmlParser";
 import { Instruction_forEachContext } from "./YmlParser";
 import { Instruction_forContext } from "./YmlParser";
 import { Instruction_ifExprBlockContext } from "./YmlParser";
@@ -77,13 +79,19 @@ import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
 import { Instruction_assignmentContext } from "./YmlParser";
 import { ConditionBlockContext } from "./YmlParser";
 import { Order0ConditionContext } from "./YmlParser";
+import { ActionBlockOrInstructionContext } from "./YmlParser";
+import { Instruction_switchExpr_withValueContext } from "./YmlParser";
+import { Instruction_switchExpr_asIfContext } from "./YmlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlParser";
 import { Instruction_switchCase_asIfContext } from "./YmlParser";
+import { InstructionDefault_withValueContext } from "./YmlParser";
+import { InstructionCase_withValueContext } from "./YmlParser";
 import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { Instruction_ifContext } from "./YmlParser";
+import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
 import { Instruction_returnContext } from "./YmlParser";
@@ -429,6 +437,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitValueOrCondition?: (ctx: ValueOrConditionContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `YmlParser.hashMap`.
+	 * @param ctx the parse tree
+	 */
+	enterHashMap?: (ctx: HashMapContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.hashMap`.
+	 * @param ctx the parse tree
+	 */
+	exitHashMap?: (ctx: HashMapContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `YmlParser.hashMapKeyValue`.
 	 * @param ctx the parse tree
 	 */
@@ -482,6 +501,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitApplyCollection?: (ctx: ApplyCollectionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.applyCollectionOn`.
+	 * @param ctx the parse tree
+	 */
+	enterApplyCollectionOn?: (ctx: ApplyCollectionOnContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.applyCollectionOn`.
+	 * @param ctx the parse tree
+	 */
+	exitApplyCollectionOn?: (ctx: ApplyCollectionOnContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_forEach`.
@@ -924,6 +954,39 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitOrder0Condition?: (ctx: Order0ConditionContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `YmlParser.actionBlockOrInstruction`.
+	 * @param ctx the parse tree
+	 */
+	enterActionBlockOrInstruction?: (ctx: ActionBlockOrInstructionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.actionBlockOrInstruction`.
+	 * @param ctx the parse tree
+	 */
+	exitActionBlockOrInstruction?: (ctx: ActionBlockOrInstructionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.instruction_switchExpr_withValue`.
+	 * @param ctx the parse tree
+	 */
+	enterInstruction_switchExpr_withValue?: (ctx: Instruction_switchExpr_withValueContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.instruction_switchExpr_withValue`.
+	 * @param ctx the parse tree
+	 */
+	exitInstruction_switchExpr_withValue?: (ctx: Instruction_switchExpr_withValueContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.instruction_switchExpr_asIf`.
+	 * @param ctx the parse tree
+	 */
+	enterInstruction_switchExpr_asIf?: (ctx: Instruction_switchExpr_asIfContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.instruction_switchExpr_asIf`.
+	 * @param ctx the parse tree
+	 */
+	exitInstruction_switchExpr_asIf?: (ctx: Instruction_switchExpr_asIfContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_switchCase_withValue`.
 	 * @param ctx the parse tree
 	 */
@@ -944,6 +1007,28 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitInstruction_switchCase_asIf?: (ctx: Instruction_switchCase_asIfContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.instructionDefault_withValue`.
+	 * @param ctx the parse tree
+	 */
+	enterInstructionDefault_withValue?: (ctx: InstructionDefault_withValueContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.instructionDefault_withValue`.
+	 * @param ctx the parse tree
+	 */
+	exitInstructionDefault_withValue?: (ctx: InstructionDefault_withValueContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.instructionCase_withValue`.
+	 * @param ctx the parse tree
+	 */
+	enterInstructionCase_withValue?: (ctx: InstructionCase_withValueContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.instructionCase_withValue`.
+	 * @param ctx the parse tree
+	 */
+	exitInstructionCase_withValue?: (ctx: InstructionCase_withValueContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instructionCase`.
@@ -999,6 +1084,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitInstruction_if?: (ctx: Instruction_ifContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.inValue`.
+	 * @param ctx the parse tree
+	 */
+	enterInValue?: (ctx: InValueContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.inValue`.
+	 * @param ctx the parse tree
+	 */
+	exitInValue?: (ctx: InValueContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_forall`.
