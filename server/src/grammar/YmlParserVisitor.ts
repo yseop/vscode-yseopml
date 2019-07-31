@@ -81,7 +81,7 @@ import { ConditionBlockContext } from "./YmlParser";
 import { Order0ConditionContext } from "./YmlParser";
 import { ActionBlockOrInstructionContext } from "./YmlParser";
 import { Instruction_switchExpr_withValueContext } from "./YmlParser";
-import { Instruction_switchExprExclusive_asIfContext } from "./YmlParser";
+import { Instruction_switchExpr_asIfContext } from "./YmlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlParser";
 import { Instruction_switchCase_asIfContext } from "./YmlParser";
 import { InstructionDefault_withValueContext } from "./YmlParser";
@@ -667,11 +667,11 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstruction_switchExpr_withValue?: (ctx: Instruction_switchExpr_withValueContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.instruction_switchExprExclusive_asIf`.
+	 * Visit a parse tree produced by `YmlParser.instruction_switchExpr_asIf`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitInstruction_switchExprExclusive_asIf?: (ctx: Instruction_switchExprExclusive_asIfContext) => Result;
+	visitInstruction_switchExpr_asIf?: (ctx: Instruction_switchExpr_asIfContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_switchCase_withValue`.

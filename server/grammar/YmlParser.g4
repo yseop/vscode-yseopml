@@ -150,7 +150,7 @@ value:
     | as
     | hashMap
     | instruction_switchExpr_withValue
-    | instruction_switchExprExclusive_asIf
+    | instruction_switchExpr_asIf
 ;
 
 as:
@@ -225,7 +225,7 @@ expression:
     | array
     | hashMap
     | OPEN_PAR instruction_switchExpr_withValue CLOSE_PAR
-    | OPEN_PAR instruction_switchExprExclusive_asIf CLOSE_PAR
+    | OPEN_PAR instruction_switchExpr_asIf CLOSE_PAR
     | OPEN_PAR ifExprBlock CLOSE_PAR
 ;
 
@@ -355,8 +355,8 @@ actionBlockOrInstruction: actionBlock | instruction;
 instruction_switchExpr_withValue:
     SWITCH_EXPR OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
 ;
-instruction_switchExprExclusive_asIf:
-    SWITCH_EXPR_EXCLUSIVE OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
+instruction_switchExpr_asIf:
+    SWITCH_EXPR OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
 ;
 
 instruction_switchCase_withValue:
