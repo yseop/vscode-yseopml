@@ -215,6 +215,7 @@ expression:
     | constList
     | as
     | applyCollection
+    | applyCollectionOn
 ;
 
 functionCall:
