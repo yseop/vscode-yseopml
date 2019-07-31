@@ -128,7 +128,9 @@ valueOrCondition:
     | type=ymlId name=ymlId
 ;
 
-hashMapKeyValue: nonArithmeticValue COLON hashMapValue;
+hashMap: OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE;
+hashMapKeyValue: (nonArithmeticValue | DOUBLE | array | constList) COLON hashMapValue
+;
 hashMapValue: value | combinedComparison;
 
 value:
@@ -144,7 +146,7 @@ value:
     | applyCollection
     | applyCollectionOn
     | as
-    | OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE
+    | hashMap
 ;
 
 as:
