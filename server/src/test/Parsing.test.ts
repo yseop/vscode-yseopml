@@ -314,7 +314,7 @@ implementation SentenceToGenerate
     });
 
     describe('switch rule', () => {
-        it('should parse without errors a switch with cases without parenthesis', (done) => {
+        it('should parse without errors a switch with cases without parentheses around the value', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.instruction_switchCase_withValue(),
                 `
@@ -331,7 +331,7 @@ switch( val ) {
             done();
         });
 
-        it('should parse without errors a switch with cases between parenthesis', (done) => {
+        it('should parse without errors a switch with parentheses around values', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.instruction_switchCase_withValue(),
                 `
@@ -340,6 +340,23 @@ switch( val ) {
         // do stuff
     }
     case (VALUE_2) : {
+        // do something else
+    }
+}
+;`,
+            );
+            done();
+        });
+
+        it('should parse without errors a switch with parentheses around some values', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchCase_withValue(),
+                `
+switch( val ) {
+    case (VALUE_1) : {
+        // do stuff
+    }
+    case VALUE_2 : {
         // do something else
     }
 }
