@@ -347,7 +347,7 @@ instruction_switchCase_asIf:
     SWITCH OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
 ;
 instructionCase:
-    CASE OPEN_PAR valueOrCondition CLOSE_PAR COLON actionBlockOrInstruction
+    CASE (OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON actionBlockOrInstruction
 ;
 instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
