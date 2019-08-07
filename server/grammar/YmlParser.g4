@@ -22,13 +22,14 @@ ymlEntity:
     | yenum
     | function
     | externDeclaration
+    | instruction_rename
 ;
 /**
     Expression marker can be a dot `.` or `>>`.
     Double dot `..` is for static function call like in `Date..stringtoDate("2012-05-10")`.
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
-
+instruction_rename: RENAME ymlId TO ymlId FOR_CLASS ymlId;
 ymlId:
     YMLID
     | ARGS
@@ -39,6 +40,9 @@ ymlId:
     | IMPLEMENTATION
     | OPERATION_APPLY_COLLECTION_ON
     | CASE
+    | RENAME
+    | TO
+    | FOR_CLASS
 ;
 
 yenum:

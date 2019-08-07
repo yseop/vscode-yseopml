@@ -55,6 +55,9 @@ BREAK: 'break';
 STATIC: 'static';
 WHILE: 'while';
 FOR: 'for';
+RENAME: 'rename';
+TO: 'to';
+FOR_CLASS: 'forClass';
 
 //Symbols
 SEMICOLON: ';';

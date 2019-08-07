@@ -26,6 +26,17 @@ function checkInputValidityForRule(ruleToTest: (parser: YmlParser) => ParserRule
 }
 
 describe('Parsing Tests', () => {
+    describe('intruction_rename rule', () => {
+        it('should parse without errors an `intruction_rename` instruction', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_rename(), `rename myAttr to myOtherAttr forClass MyClass`);
+            done();
+        });
+        it('should parse without errors an `intruction_rename` instruction using other existing keywords', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_rename(), `rename rename to forClass forClass Function`);
+            done();
+        });
+    });
+
     describe('as rule', () => {
         it('should parse without errors an `as` instruction', (done) => {
             checkInputValidityForRule((parser) => parser.as(), `as(?fact, ?att = myObj.attribute, ?fact.?att != null)`);

@@ -7,6 +7,7 @@ import { DeclarationFileContext } from "./YmlParser";
 import { KaoFileContext } from "./YmlParser";
 import { YmlEntityContext } from "./YmlParser";
 import { ExpressionMarkerContext } from "./YmlParser";
+import { Instruction_renameContext } from "./YmlParser";
 import { YmlIdContext } from "./YmlParser";
 import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
@@ -161,6 +162,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitExpressionMarker?: (ctx: ExpressionMarkerContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.instruction_rename`.
+	 * @param ctx the parse tree
+	 */
+	enterInstruction_rename?: (ctx: Instruction_renameContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.instruction_rename`.
+	 * @param ctx the parse tree
+	 */
+	exitInstruction_rename?: (ctx: Instruction_renameContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.ymlId`.
