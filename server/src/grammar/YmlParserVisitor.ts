@@ -7,6 +7,7 @@ import { DeclarationFileContext } from "./YmlParser";
 import { KaoFileContext } from "./YmlParser";
 import { YmlEntityContext } from "./YmlParser";
 import { ExpressionMarkerContext } from "./YmlParser";
+import { Instruction_renameContext } from "./YmlParser";
 import { YmlIdContext } from "./YmlParser";
 import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
@@ -148,6 +149,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitExpressionMarker?: (ctx: ExpressionMarkerContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_rename`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_rename?: (ctx: Instruction_renameContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.ymlId`.
