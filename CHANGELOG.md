@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.6.5 (YYYY-MM-DD)
+
+-   Improved parsing for:
+    -   `forall` instructions
+    -   `(condition).check()`-like expressions.
+
 ## 1.6.4 (2019-07-31)
 
 -   Improved parsing for:

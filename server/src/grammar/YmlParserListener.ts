@@ -72,6 +72,7 @@ import { ArgOptionBlockContext } from "./YmlParser";
 import { Order1BlockContext } from "./YmlParser";
 import { InstanciationConditionContext } from "./YmlParser";
 import { Order1FullConditionContext } from "./YmlParser";
+import { ParenthesisConditionContext } from "./YmlParser";
 import { CombinedComparisonContext } from "./YmlParser";
 import { ComparisonContext } from "./YmlParser";
 import { ComparisonOperatorContext } from "./YmlParser";
@@ -875,6 +876,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitOrder1FullCondition?: (ctx: Order1FullConditionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.parenthesisCondition`.
+	 * @param ctx the parse tree
+	 */
+	enterParenthesisCondition?: (ctx: ParenthesisConditionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.parenthesisCondition`.
+	 * @param ctx the parse tree
+	 */
+	exitParenthesisCondition?: (ctx: ParenthesisConditionContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.combinedComparison`.

@@ -206,6 +206,13 @@ finalVal = switchExpr( myValue ) {
     });
 
     describe('chainedCall rule', () => {
+        it('should parse without errors a condition used as a function caller', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `((a == b && c == d) || myVal > e ).check()`,
+            );
+            done();
+        });
         it('should parse without errors an `applyCollection` instruction used as a function caller', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.chainedCall(),

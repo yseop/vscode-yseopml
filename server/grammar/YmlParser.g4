@@ -224,6 +224,7 @@ expression:
     | applyCollectionOn
     | array
     | hashMap
+    | parenthesisCondition
     | OPEN_PAR instruction_switchExpr_withValue CLOSE_PAR
     | OPEN_PAR instruction_switchExpr_asIf CLOSE_PAR
     | OPEN_PAR ifExprBlock CLOSE_PAR
@@ -322,9 +323,10 @@ instanciationCondition: inlineOperation;
 
 order1FullCondition: conditionBlock? order1Block*;
 
+parenthesisCondition: OPEN_PAR combinedComparison CLOSE_PAR;
 //Comparisons
 combinedComparison:
-    OPEN_PAR combinedComparison CLOSE_PAR
+    parenthesisCondition
     | leftCondition=combinedComparison COND_AND rightCondition=combinedComparison
     | leftCondition=combinedComparison COND_OR rightCondition=combinedComparison
     | comparison
