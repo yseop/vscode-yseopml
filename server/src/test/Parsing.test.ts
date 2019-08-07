@@ -33,6 +33,53 @@ describe('Parsing Tests', () => {
         });
     });
 
+    describe('forall rule', () => {
+        it('should parse without errors a `forall` instruction with only one instanciation and some conditions', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+forall(?obj in coll
+       ?obj.att == myObj.attribute
+       ?obj.att.subAttr != null) {
+           // do things
+}
+`,
+);
+            done();
+        });
+        it('should parse without errors a `forall` instruction with multiple instanciations and a condition', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+forall(?obj in coll
+        ?obj2 in coll2
+        ?obj == ?obj2) {
+           // do things
+}
+`,
+);
+            done();
+        });
+        it('should parse without errors a `forall` instruction with instanciations only', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+forall(?obj in coll
+        ?obj2 in coll2
+        ?obj3 in coll3){
+           // do things
+}
+`,
+);
+            done();
+        });
+        it('should parse without errors a `forall` instruction with only one instanciation and some conditions using comma', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+forall(?obj in coll,
+       ?obj.att == myObj.attribute,
+       ?obj.att.subAttr != null) {
+           // do things
+}
+`,
+);
+            done();
+        });
+    });
+
     describe('assigment rule', () => {
         it('should parse without errors an assignment with the `as` instruction', (done) => {
             checkInputValidityForRule(

@@ -398,7 +398,7 @@ inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR inValue CLOSE_PAR actionBlockOrInstruction
+    FORALL OPEN_PAR inValue (COMMA? inValue)* (COMMA? combinedComparison)* CLOSE_PAR actionBlockOrInstruction
 ;
 instruction_while:
     WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
