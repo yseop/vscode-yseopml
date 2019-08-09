@@ -203,6 +203,8 @@ Function patate(Object o, String s, {} args)
 --> documentation """
 Documented function with:
 
+# coucou
+
 - *@param* `o` An Object.
 - *@param* `s` A String.
 
@@ -215,3 +217,25 @@ Documented function with:
 	return 12;
 }
 ;
+
+function function_name
+args{}
+--> action {
+    if (value == true) {
+        foreach(_var, coll) {
+            switch(_var) {
+                case(case_a) : {
+                }
+                case(case_b) : {
+
+                }
+                case(case_c) : {
+
+                }
+                default: {
+
+                }
+            }
+        }
+    }
+};
