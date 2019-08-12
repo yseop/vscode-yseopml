@@ -32,7 +32,7 @@ The language server is located in the `server`{nbsp}directory.
 
 ## How to update syntax highlighting
 
-In order to update the syntax highlighting, you must edit `syntaxes/yml.tmLanguage.YAML-tmLanguage` using http://manual.macromates.com/en/language_grammars#language_grammars[the TextMate manual] as reference. Then you need to convert this file into JSON and replace the content of `syntaxes/yml.tmLanguage.json` which is the file used by the extention for syntax highlighting.
+In order to update the syntax highlighting, you must edit `syntaxes/yml.tmLanguage.YAML-tmLanguage` using http://manual.macromates.com/en/language_grammars#language_grammars[the TextMate manual] as reference. Then you need to convert this file into JSON https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#using-yaml-to-write-a-grammar[as indicated here] and replace the content of `syntaxes/yml.tmLanguage.json` which is the file used by the extension for syntax highlighting.
 
 The format used throughout this manual is slightly different from the one we are using{nbsp}(JSON). It is, however, easy to understand how to adapt examples.
 
