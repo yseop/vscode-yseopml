@@ -12,6 +12,8 @@ import {
     OutputChannel,
     StatusBarAlignment,
     StatusBarItem,
+    TextDocument,
+    Uri,
     window,
     workspace,
     WorkspaceConfiguration,
@@ -116,14 +118,80 @@ export function activate(context: ExtensionContext) {
         // nothing more to do
         return;
     }
-    /*
-     * List of all the yseopml file extensions known by this extension as set in `client/package.json`.
-     */
-    const yseopmlExtensions = ['kao', 'yclass', 'yobject', 'ycomplete', 'dcl', 'yml'];
 
+    // First check recursively all the files set in `project.kao`-like files, starting with `project.kao`.
+    workspace.findFiles(`**/project.kao`).then((uris) => {
+        uris.forEach((uri) => {
+            openProjectFile(uri);
+            // There should be only one `project.kao` file.
+            return;
+        });
+    });
+
+    /*
+     * List of all the yseopml file extensions known by this extension as set in `client/package.json`
+     * but never explictly set in project.kao-like files.
+     */
+    const yseopmlExtensions = ['yclass', 'yobject', 'ycomplete'];
     for (const extension of yseopmlExtensions) {
         parseFilesWithExtension(extension);
     }
+}
+
+/**
+ * Try to open a file with URI `fileUri`.
+ * Then, if the file is a `project.kao`-like file (i.e. is a list files used for the project),
+ * read its content and apply this function recursivly for each line that are existing file's URI.
+ *
+ * @param fileUri An existing file URI.
+ */
+function openProjectFile(fileUri: Uri): void {
+    // Try to open the file. If it is opened, the server will parse it.
+    workspace.openTextDocument(fileUri).then(
+        // The document exists and was successfully opened and should be parsed already.
+        (doc) => {
+            console.debug(`Parsing ${fileUri}.`);
+            const lines = doc.getText().split('\n');
+            if (lines.length === 0 || !lines[0].trim().startsWith('_FILE_TYPE_')) {
+                // We are not in a `project.kao`-like file. Stop the going further.
+                return;
+            }
+            lines.forEach((line) => {
+                // line can be indented in the file.
+                line = line.trim();
+
+                /*
+                 * Ignore:
+                 * - any empty line
+                 * - lines that are just preprocessing stuff or Yseop Engine instruction.
+                 * - every file from .generated-yml/ directory
+                 */
+                if (
+                    line.length === 0 ||
+                    line.indexOf('@') >= 0 ||
+                    line.indexOf('_FILE_TYPE_') >= 0 ||
+                    line.indexOf('.generated-yml') >= 0
+                ) {
+                    return;
+                }
+                const maybeFilePath = path.join(path.dirname(doc.uri.fsPath), line);
+                if (!fs.existsSync(maybeFilePath)) {
+                    // File doesn't exist. Go to the next line.
+                    return;
+                }
+                // We are parsing file URIs.
+                const maybeFilePathAsUri = Uri.parse(`file://${maybeFilePath}`);
+                openProjectFile(maybeFilePathAsUri);
+            });
+        },
+        (error) => {
+            if (error) {
+                console.error(error);
+            } else {
+                console.error(`Unexpected error when opening ${fileUri}.`);
+            }
+        },
+    );
 }
 
 /**
@@ -145,11 +213,12 @@ function readConfig(yseopmlConfig: WorkspaceConfiguration): void {
  * @param extension The extension of the files to look for
  */
 function parseFilesWithExtension(extension: string): void {
-    workspace.findFiles(`**/*.${extension}`, '.generated-yml/**').then((uris) => {
+    workspace.findFiles(`**/*.${extension}`, '**/.generated-yml/**').then((uris) => {
         if (!uris) {
             return;
         }
         uris.forEach((uri) => {
+            console.debug(`Parsing ${uri}.`);
             workspace.openTextDocument(uri);
         });
     });

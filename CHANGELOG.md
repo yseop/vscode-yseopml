@@ -2,6 +2,10 @@
 
 ## 1.6.5 (YYYY-MM-DD)
 
+-   Greatly improved project files parsing. Less useless files are parsed. Now:
+    -   parse the files mentioned in the `project.kao` file;
+    -   parse `*.yclass`, `*.yobject` and `*.ycomplete` files;
+    -   avoid parsing the files in `.generated-yml/` directory, wherever it is.
 -   Improved parsing for:
     -   `forall` instructions;
     -   `(condition).check()`-like expressions;
