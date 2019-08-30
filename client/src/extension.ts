@@ -153,7 +153,7 @@ function openProjectFile(fileUri: Uri): void {
             console.debug(`Parsing ${fileUri}.`);
             const lines = doc.getText().split('\n');
             if (lines.length === 0 || !lines[0].trim().startsWith('_FILE_TYPE_')) {
-                // We are not in a `project.kao`-like file. Stop the going further.
+                // We are not in a `project.kao`-like file. Do not go further.
                 return;
             }
             lines.forEach((line) => {
@@ -163,7 +163,7 @@ function openProjectFile(fileUri: Uri): void {
                 /*
                  * Ignore:
                  * - any empty line
-                 * - lines that are just preprocessing stuff or Yseop Engine instruction.
+                 * - lines that are just preprocessing or Yseop Engine instruction
                  * - every file from .generated-yml/ directory
                  */
                 if (
