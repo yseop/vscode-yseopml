@@ -8,6 +8,7 @@ import {
     CompletionItem,
     createConnection,
     Diagnostic,
+    DiagnosticSeverity,
     IConnection,
     InitializeResult,
     IPCMessageReader,
@@ -24,6 +25,16 @@ import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import { YmlLexer, YmlParser } from './grammar';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
+
+/**
+ * Map between the string available as option and real `DiagnosticSeverity` enum values.
+ */
+const diagSeverityMap = new Map<string, DiagnosticSeverity>([
+    ['error', DiagnosticSeverity.Error],
+    ['warning', DiagnosticSeverity.Warning],
+    ['information', DiagnosticSeverity.Information],
+    ['hint', DiagnosticSeverity.Hint],
+]);
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
@@ -97,24 +108,27 @@ interface ISettings {
     yseopml: IServerSettings;
 }
 
-// These are the example settings we defined in the client's package.json
-// file
+// These are the example settings we defined in the client's package.json file
 interface IServerSettings {
-    maxNumberOfProblems: number;
     activateParsingProblemsReporting: boolean;
     pathToPredefinedObjectsXml: string;
+    diagnosticLevel: string;
 }
 
 let engineModel: EngineModel;
-// hold the maxNumberOfProblems setting
 let pathToPredefinedObjectsXml: string;
 let activateParsingProblemsReporting: boolean;
-// The settings have changed. Is send on server activation
-// as well.
+
+// By default, the severity is Information.
+export let severity: DiagnosticSeverity = DiagnosticSeverity.Information;
+
+// The settings have changed. Is send on server activation as well.
 connection.onDidChangeConfiguration((change) => {
     const settings = change.settings as ISettings;
     activateParsingProblemsReporting = settings.yseopml.activateParsingProblemsReporting;
     pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
+    // One of the diagnostic level possible, or Information.
+    severity = diagSeverityMap.get(settings.yseopml.diagnosticLevel.toLowerCase()) || DiagnosticSeverity.Information;
     if (engineModel == null) {
         engineModel = new EngineModel(pathToPredefinedObjectsXml, completionProvider);
         engineModel.loadPredefinedObjects();
@@ -168,12 +182,10 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
 });
 
 // This handler provides the initial list of the completion items.
-connection.onCompletion(
-    (pos: TextDocumentPositionParams): CompletionItem[] => {
-        const doc: TextDocument = documents.get(pos.textDocument.uri);
-        return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
-    },
-);
+connection.onCompletion((pos: TextDocumentPositionParams): CompletionItem[] => {
+    const doc: TextDocument = documents.get(pos.textDocument.uri);
+    return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
+});
 
 // Listen on the connection
 connection.listen();

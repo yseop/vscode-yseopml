@@ -1,6 +1,8 @@
 import { ANTLRErrorListener, RecognitionException, Recognizer, Token } from 'antlr4ts';
 import { Diagnostic, DiagnosticSeverity, Range } from 'vscode-languageserver';
 
+import { severity } from '../server';
+
 export class YmlParsingErrorListener implements ANTLRErrorListener<Token> {
     constructor(public diagnostics: Diagnostic[]) {}
 
@@ -22,7 +24,7 @@ export class YmlParsingErrorListener implements ANTLRErrorListener<Token> {
         const diagnostic = Diagnostic.create(
             Range.create(currentEditorLine, charPositionInLine, currentEditorLine, endPosition),
             msg,
-            DiagnosticSeverity.Error,
+            severity,
         );
         this.diagnostics.push(diagnostic);
     }

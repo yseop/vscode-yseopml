@@ -2,6 +2,8 @@
 
 ## 1.6.5 (YYYY-MM-DD)
 
+-   Remove unused option `maxNumberOfProblems`;
+-   New option `diagnosticLevel` allowing to set the way parsing problems are displayed;
 -   Improved parsing for:
     -   `forall` instructions;
     -   `(condition).check()`-like expressions;

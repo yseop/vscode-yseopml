@@ -48,12 +48,6 @@
                     "default": true,
                     "description": "Allows to activate (true) or deactivate (false) the parsing problems reporting."
                 },
-                "yseopml.maxNumberOfProblems": {
-                    "scope": "resource",
-                    "type": "number",
-                    "default": 100,
-                    "description": "Controls the maximum number of problems produced by the server."
-                },
                 "yseopml.parseAllProjectFilesAtStartup": {
                     "scope": "windows",
                     "type": "boolean",
@@ -71,6 +65,18 @@
                     "type": "string",
                     "default": "",
                     "description": "Absolute path to Yseop CLI executable (“yseop” or “yseop.bat” − see Yseop CLI doc for more info)."
+                },
+                "yseopml.diagnosticLevel": {
+                    "type": "string",
+                    "scope": "window",
+                    "enum": [
+                        "Error",
+                        "Warning",
+                        "Information",
+                        "Hint"
+                    ],
+                    "default": "Information",
+                    "description": "Issues found by parser are marked with a Diagnostic Severity Level. This affects the color of squiggle."
                 },
                 "yseopml.trace.server": {
                     "scope": "window",
