@@ -122,9 +122,10 @@ export function activate(context: ExtensionContext) {
     // First check recursively all the files set in `project.kao`-like files, starting with `project.kao`.
     workspace.findFiles(`**/project.kao`).then((uris) => {
         uris.forEach((uri) => {
-            openProjectFile(uri);
-            // There should be only one `project.kao` file.
-            return;
+            if (openProjectFile(uri)) {
+                // There should be only one `project.kao` file. If we found a good candidate, stop the loop.
+                return;
+            }
         });
     });
 
@@ -144,8 +145,12 @@ export function activate(context: ExtensionContext) {
  * read its content and apply this function recursivly for each line that are existing file's URI.
  *
  * @param fileUri An existing file URI.
+ *
+ * @return `true` only if the provided URI was a `*.kao`-like file i.e. its first line starts with `_FILE_TYPE_`.
  */
-function openProjectFile(fileUri: Uri): void {
+function openProjectFile(fileUri: Uri): boolean {
+    let wasKaoFile = true;
+
     // Try to open the file. If it is opened, the server will parse it.
     workspace.openTextDocument(fileUri).then(
         // The document exists and was successfully opened and should be parsed already.
@@ -154,6 +159,7 @@ function openProjectFile(fileUri: Uri): void {
             const lines = doc.getText().split('\n');
             if (lines.length === 0 || !lines[0].trim().startsWith('_FILE_TYPE_')) {
                 // We are not in a `project.kao`-like file. Do not go further.
+                wasKaoFile = false;
                 return;
             }
             lines
@@ -186,6 +192,7 @@ function openProjectFile(fileUri: Uri): void {
             }
         },
     );
+    return wasKaoFile;
 }
 
 /**
