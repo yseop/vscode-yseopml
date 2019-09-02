@@ -76,7 +76,7 @@
                         "Hint"
                     ],
                     "default": "Information",
-                    "description": "Issues found by parser are marked with a Diagnostic Severity Level. This affects the color of squiggle."
+                    "description": "Issues found by the parser are marked with a Diagnostic Severity Level. This affects the way these issues are highlighted in the code."
                 },
                 "yseopml.trace.server": {
                     "scope": "window",
