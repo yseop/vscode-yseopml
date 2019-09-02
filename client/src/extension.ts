@@ -156,33 +156,27 @@ function openProjectFile(fileUri: Uri): void {
                 // We are not in a `project.kao`-like file. Do not go further.
                 return;
             }
-            lines.forEach((line) => {
+            lines
                 // line can be indented in the file.
-                line = line.trim();
-
+                .map((line) => line.trim())
                 /*
                  * Ignore:
                  * - any empty line
                  * - lines that are just preprocessing or Yseop Engine instruction
-                 * - every file from .generated-yml/ directory
+                 * - every file from any .generated-yml/ directory
                  */
-                if (
-                    line.length === 0 ||
-                    line.indexOf('@') >= 0 ||
-                    line.indexOf('_FILE_TYPE_') >= 0 ||
-                    line.indexOf('.generated-yml') >= 0
-                ) {
-                    return;
-                }
-                const maybeFilePath = path.join(path.dirname(doc.uri.fsPath), line);
-                if (!fs.existsSync(maybeFilePath)) {
-                    // File doesn't exist. Go to the next line.
-                    return;
-                }
-                // We are parsing file URIs.
-                const maybeFilePathAsUri = Uri.parse(`file://${maybeFilePath}`);
-                openProjectFile(maybeFilePathAsUri);
-            });
+                .filter((line) => {
+                    return (
+                        line.length > 0 &&
+                        !line.startsWith('@') &&
+                        !line.startsWith('_FILE_TYPE_') &&
+                        line.search(/(^\.generated-yml\/)|(\/\.generated-yml\/)/) === -1
+                    );
+                })
+                .map((line) => path.join(path.dirname(doc.uri.fsPath), line))
+                .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
+                .map((filePath) => Uri.parse(`file://${filePath}`))
+                .forEach((uri) => openProjectFile(uri));
         },
         (error) => {
             if (error) {
