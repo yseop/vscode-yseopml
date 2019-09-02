@@ -169,6 +169,7 @@ function openProjectFile(fileUri: Uri): boolean {
                  * Ignore:
                  * - any empty line
                  * - lines that are just preprocessing or Yseop Engine instruction
+                 * - lines that are one-line comments
                  * - every file from any .generated-yml/ directory
                  */
                 .filter((line) => {
@@ -176,6 +177,7 @@ function openProjectFile(fileUri: Uri): boolean {
                         line.length > 0 &&
                         !line.startsWith('@') &&
                         !line.startsWith('_FILE_TYPE_') &&
+                        !line.startsWith('//') &&
                         line.search(/(^\.generated-yml\/)|(\/\.generated-yml\/)/) === -1
                     );
                 })
