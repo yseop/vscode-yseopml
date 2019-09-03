@@ -130,8 +130,8 @@ export function activate(context: ExtensionContext) {
     });
 
     /*
-     * List of all the yseopml file extensions known by this extension as set in `client/package.json`
-     * but never explictly set in project.kao-like files.
+     * List of the file-extensions of yseopml files that are never set by the user in `project.kao`-like files.
+     * This list is a subset of the file-extensions known by this extension as set in `client/package.json`.
      */
     const yseopmlExtensions = ['yclass', 'yobject', 'ycomplete'];
     for (const extension of yseopmlExtensions) {
