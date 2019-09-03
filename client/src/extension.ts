@@ -170,23 +170,25 @@ function openProjectFile(fileUri: Uri): boolean {
                 .split('\n')
                 // line can be indented in the file.
                 .map((line) => line.trim())
-                /*
-                 * Ignore:
-                 * - any empty line
-                 * - lines that are just preprocessing or Yseop Engine instruction
-                 * - lines that are one-line comments
-                 * - every file from any .generated-yml/ directory
-                 */
                 .filter((line) => {
                     return (
+                        // Ignore empty lines
                         line.length > 0 &&
+                        // Ignore lines that are just preprocessing or Yseop Engine instruction
                         !line.startsWith('@') &&
+                        // Ignore the lines with the _FILE_TYPE_ instruction
                         !line.startsWith('_FILE_TYPE_') &&
+                        // Ignore single-line comments
                         !line.startsWith('//') &&
-                        line.search(/(^\.generated-yml\/)|(\/\.generated-yml\/)/) === -1
+                        // Ignore multi-lines comments starting with “/*”
+                        !line.startsWith('/*') &&
+                        // Ignore multi-lines comments starting with just “*“ (includes “*/”)
+                        !line.startsWith('*') &&
+                        // Drop files from any .generated-yml/ directory
                     );
                 })
                 .map((line) => path.join(path.dirname(doc.uri.fsPath), line))
+                // Make sure the file exists and drop directories
                 .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
                 .map((filePath) => Uri.parse(`file://${filePath}`))
                 .forEach((uri) => openProjectFile(uri));
