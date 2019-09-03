@@ -25,6 +25,7 @@ let yseopCliStatusBarItem: StatusBarItem;
 let yseopCliPath: string;
 let parseAllProjectFilesAtStartup: boolean;
 
+const GENERATED_YML_DIR_REGEX = /(^\.generated-yml\/)|(\/\.generated-yml\/)/;
 const yseopmlSectionName = 'yseopml';
 const pathToYseopCliKey = 'pathToYseopCli';
 const parseWholeProjectKey = 'parseAllProjectFilesAtStartup';
@@ -185,6 +186,7 @@ function openProjectFile(fileUri: Uri): boolean {
                         // Ignore multi-lines comments starting with just “*“ (includes “*/”)
                         !line.startsWith('*') &&
                         // Drop files from any .generated-yml/ directory
+                        line.search(GENERATED_YML_DIR_REGEX) === -1
                     );
                 })
                 .map((line) => path.join(path.dirname(doc.uri.fsPath), line))
