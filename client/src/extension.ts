@@ -24,7 +24,7 @@ let yseopCliStatusBarItem: StatusBarItem;
 let yseopCliPath: string;
 let parseAllProjectFilesAtStartup: boolean;
 
-const GENERATED_YML_DIR_REGEX = /(^\.generated-yml\/)|(\/\.generated-yml\/)/;
+const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
 const yseopmlSectionName = 'yseopml';
 const pathToYseopCliKey = 'pathToYseopCli';
 const parseWholeProjectKey = 'parseAllProjectFilesAtStartup';
