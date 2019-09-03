@@ -156,13 +156,18 @@ function openProjectFile(fileUri: Uri): boolean {
         // The document exists and was successfully opened and should be parsed already.
         (doc) => {
             console.debug(`Parsing ${fileUri}.`);
-            const lines = doc.getText().split('\n');
-            if (lines.length === 0 || !lines[0].trim().startsWith('_FILE_TYPE_')) {
+            if (
+                doc
+                    .getText()
+                    .trim()
+                    .startsWith('_FILE_TYPE_')
+            ) {
                 // We are not in a `project.kao`-like file. Do not go further.
                 wasKaoFile = false;
                 return;
             }
-            lines
+            doc.getText()
+                .split('\n')
                 // line can be indented in the file.
                 .map((line) => line.trim())
                 /*
