@@ -12,7 +12,6 @@ import {
     OutputChannel,
     StatusBarAlignment,
     StatusBarItem,
-    TextDocument,
     Uri,
     window,
     workspace,
