@@ -2,6 +2,8 @@
 
 ## 1.6.5 (YYYY-MM-DD)
 
+-   Remove unused option `maxNumberOfProblems`;
+-   New option `ymlParsingIssueSeverityLevel` allowing to set the way parsing problems are displayed;
 -   Improved project files parsing. Fewer irrelevant files are parsed. The new behavior is as follows:
     -   parse the files mentioned in the `project.kao` file;
     -   parse `*.yclass`, `*.yobject` and `*.ycomplete` files;
