@@ -141,12 +141,12 @@ export function activate(context: ExtensionContext) {
 
 /**
  * Try to open a file with URI `fileUri`.
- * Then, if the file is a `project.kao`-like file (i.e. is a list files used for the project),
- * read its content and apply this function recursivly for each line that are existing file's URI.
+ * Then, if the file is a `project.kao`-like file (i.e., a list of files used for the project),
+ * read its content and apply this function recursively for each line that is an existing file’s URI.
  *
  * @param fileUri An existing file URI.
  *
- * @return `true` only if the provided URI was a `*.kao`-like file i.e. its first line starts with `_FILE_TYPE_`.
+ * @return `true` only if the provided URI was a `*.kao`-like file, i.e. it starts with `_FILE_TYPE_`.
  */
 function openProjectFile(fileUri: Uri): boolean {
     let wasKaoFile = true;
