@@ -120,15 +120,16 @@ let pathToPredefinedObjectsXml: string;
 let activateParsingProblemsReporting: boolean;
 
 // By default, the severity is Information.
-export let severity: DiagnosticSeverity = DiagnosticSeverity.Information;
+export let parsingIssueSeverityLevel: DiagnosticSeverity = DiagnosticSeverity.Information;
 
 // The settings have changed. Is send on server activation as well.
 connection.onDidChangeConfiguration((change) => {
     const settings = change.settings as ISettings;
     activateParsingProblemsReporting = settings.yseopml.activateParsingProblemsReporting;
     pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
-    // One of the diagnostic level possible, or Information.
-    severity = diagSeverityMap.get(settings.yseopml.diagnosticLevel.toLowerCase()) || DiagnosticSeverity.Information;
+    // One of the severity levels possible, or `Information`.
+    parsingIssueSeverityLevel =
+        diagSeverityMap.get(settings.yseopml.diagnosticLevel.toLowerCase()) || DiagnosticSeverity.Information;
     if (engineModel == null) {
         engineModel = new EngineModel(pathToPredefinedObjectsXml, completionProvider);
         engineModel.loadPredefinedObjects();

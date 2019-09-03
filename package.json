@@ -46,7 +46,7 @@
                     "scope": "resource",
                     "type": "boolean",
                     "default": true,
-                    "description": "Allows to activate (true) or deactivate (false) the parsing problems reporting."
+                    "description": "Allows to activate (true) or deactivate (false) the YML parsing problems reporting."
                 },
                 "yseopml.parseAllProjectFilesAtStartup": {
                     "scope": "windows",
@@ -66,7 +66,7 @@
                     "default": "",
                     "description": "Absolute path to Yseop CLI executable (“yseop” or “yseop.bat” − see Yseop CLI doc for more info)."
                 },
-                "yseopml.diagnosticLevel": {
+                "yseopml.ymlParsingIssueSeverityLevel": {
                     "type": "string",
                     "scope": "window",
                     "enum": [
@@ -76,7 +76,7 @@
                         "Hint"
                     ],
                     "default": "Information",
-                    "description": "Issues found by the parser are marked with a Diagnostic Severity Level. This affects the way these issues are highlighted in the code."
+                    "description": "Issues found by the YML parser are marked with a severity Level. This affects the way these issues are highlighted in the code."
                 },
                 "yseopml.trace.server": {
                     "scope": "window",
@@ -87,7 +87,7 @@
                         "verbose"
                     ],
                     "default": "off",
-                    "description": "Traces the communication between VSCode and the language server."
+                    "description": "Traces the communication between VSCode and the YML language server."
                 }
             }
         },
