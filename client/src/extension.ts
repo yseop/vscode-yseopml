@@ -157,7 +157,7 @@ function openProjectFile(fileUri: Uri): boolean {
         (doc) => {
             console.debug(`Parsing ${fileUri}.`);
             if (
-                doc
+                !doc
                     .getText()
                     .trim()
                     .startsWith('_FILE_TYPE_')
