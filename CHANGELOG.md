@@ -4,6 +4,10 @@
 
 -   Remove unused option `maxNumberOfProblems`;
 -   New option `ymlParsingIssueSeverityLevel` allowing to set the way parsing problems are displayed;
+-   Improved project files parsing. Fewer irrelevant files are parsed. The new behavior is as follows:
+    -   parse the files mentioned in the `project.kao` file;
+    -   parse `*.yclass`, `*.yobject` and `*.ycomplete` files;
+    -   avoid parsing the files in `.generated-yml/` directory, wherever this directory stands.
 -   Improved parsing for:
     -   `forall` instructions;
     -   `(condition).check()`-like expressions;
