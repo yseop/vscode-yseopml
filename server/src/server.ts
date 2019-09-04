@@ -112,7 +112,7 @@ interface ISettings {
 interface IServerSettings {
     activateParsingProblemsReporting: boolean;
     pathToPredefinedObjectsXml: string;
-    diagnosticLevel: string;
+    ymlParsingIssueSeverityLevel: string;
 }
 
 let engineModel: EngineModel;
@@ -129,7 +129,8 @@ connection.onDidChangeConfiguration((change) => {
     pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
     // One of the severity levels possible, or `Information`.
     parsingIssueSeverityLevel =
-        diagSeverityMap.get(settings.yseopml.diagnosticLevel.toLowerCase()) || DiagnosticSeverity.Information;
+        diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
+        DiagnosticSeverity.Information;
     if (engineModel == null) {
         engineModel = new EngineModel(pathToPredefinedObjectsXml, completionProvider);
         engineModel.loadPredefinedObjects();
