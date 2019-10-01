@@ -6,7 +6,7 @@ import {
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
-import { connection } from '../server';
+import { session } from '../server';
 import { YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 
@@ -38,7 +38,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
         if (!this.isMethodInstanciation(this.functionName)) {
             const func = new YmlFunction(this.functionName, this.uri);
-            func.enrichWith(node.field(), connection);
+            func.enrichWith(node.field(), session.connection);
             this.completionProvider.addCompletionItem(func);
             func.setDefinitionLocation(node.start, node.stop, this.uri);
             this.definitions.addDefinition(func);
@@ -68,7 +68,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         const arg = new YmlArgument(node._argName.text, this.uri);
         arg.enrichWith(
             [],
-            connection,
+            session.connection,
             this.functionName,
             node._argType.text,
             this.scopeStartOffset,
@@ -95,7 +95,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         const variable = new YmlObjectInstance(node.ymlId().text, this.uri);
         variable.enrichWith(
             node.field(),
-            connection,
+            session.connection,
             this.functionName,
             node._type.text,
             this.scopeStartOffset,

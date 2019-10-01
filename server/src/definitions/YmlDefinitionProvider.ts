@@ -1,4 +1,4 @@
-import { Definition, Location } from 'vscode-languageserver';
+import { Definition, Location } from 'vscode-languageserver-protocol';
 
 import { AbstractYmlObject } from '../yml-objects';
 

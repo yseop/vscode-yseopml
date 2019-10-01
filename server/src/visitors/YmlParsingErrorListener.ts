@@ -1,10 +1,12 @@
 import { ANTLRErrorListener, RecognitionException, Recognizer, Token } from 'antlr4ts';
-import { Diagnostic, DiagnosticSeverity, Range } from 'vscode-languageserver';
-
-import { parsingIssueSeverityLevel } from '../server';
+import { Diagnostic, DiagnosticSeverity, Range } from 'vscode-languageserver-protocol';
 
 export class YmlParsingErrorListener implements ANTLRErrorListener<Token> {
-    constructor(public diagnostics: Diagnostic[]) {}
+    constructor(public diagnostics: Diagnostic[], public severity?: DiagnosticSeverity) {
+        if (!severity) {
+            this.severity = DiagnosticSeverity.Information;
+        }
+    }
 
     public syntaxError(
         // tslint:disable-next-line: variable-name
@@ -24,7 +26,7 @@ export class YmlParsingErrorListener implements ANTLRErrorListener<Token> {
         const diagnostic = Diagnostic.create(
             Range.create(currentEditorLine, charPositionInLine, currentEditorLine, endPosition),
             msg,
-            parsingIssueSeverityLevel,
+            this.severity,
         );
         this.diagnostics.push(diagnostic);
     }

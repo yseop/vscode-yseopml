@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { Parser } from 'xml2js';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
-import { connection } from '../server';
+import { session } from '../server';
 import { YmlAttribute, YmlClass, YmlFunction } from '../yml-objects';
 import { AbstractYmlFunction } from '../yml-objects/AbstractYmlFunction';
 import { YmlMethod } from '../yml-objects/YmlMethod';
@@ -31,11 +31,9 @@ export class EngineModel {
      */
     public loadPredefinedObjects(): void {
         if (!fs.existsSync(this.uri)) {
-            connection.console.warn(`File “${this.uri}” doesn't exist.`);
+            session.warn(`File “${this.uri}” doesn't exist.`);
         } else if (!fs.lstatSync(this.uri).isFile()) {
-            connection.console.warn(
-                `It seems that ${this.uri} is not a normal file. Therefore, it cannot be imported.`,
-            );
+            session.warn(`It seems that ${this.uri} is not a normal file. Therefore, it cannot be imported.`);
         } else {
             this.parsePredefinedObjects(this.uri);
         }
@@ -118,13 +116,13 @@ export class EngineModel {
     }
 
     private parsePredefinedObjects(uri: string): void {
-        connection.console.log(`Parsing definition file: ${uri}`);
+        session.log(`Parsing definition file: ${uri}`);
         fs.readFile(uri, (err, data) => {
             parser.parseString(data, (parseErr, predefinedObjects) => {
                 if (err != null) {
-                    connection.console.error(`Something went wrong during YE model import:\n ${parseErr}`);
+                    session.error(`Something went wrong during YE model import:\n ${parseErr}`);
                 } else if (predefinedObjects == null) {
-                    connection.console.error('Something went wrong during YE model import. Your file seems empty.');
+                    session.error('Something went wrong during YE model import. Your file seems empty.');
                 } else {
                     try {
                         const dataAndFeatures = predefinedObjects['data-and-features'];
@@ -132,12 +130,10 @@ export class EngineModel {
                         this.importFunctions(dataAndFeatures);
                         this.importTags(dataAndFeatures);
                     } catch (importErr) {
-                        connection.console.error(`Something went wrong during YE model import:\n ${importErr}`);
+                        session.error(`Something went wrong during YE model import:\n ${importErr}`);
                     }
                 }
-                connection.console.log(
-                    `Done with classes size=${this.classes.length}\nfunctions size=${this.functions.length}`,
-                );
+                session.log(`Done with classes size=${this.classes.length}\nfunctions size=${this.functions.length}`);
             });
         });
     }
@@ -167,7 +163,7 @@ export class EngineModel {
      * @param dataAndFeatures The data structure resulting from the parsing of `predefinedObjects.xml`.
      */
     private importClasses(dataAndFeatures: any): void {
-        connection.console.log('Importing classes from Yseop Engine model.');
+        session.log('Importing classes from Yseop Engine model.');
         // Get the single “classes” element.
         const classesByPackage = dataAndFeatures.classes[0].package;
         classesByPackage.forEach((ypackage) => {

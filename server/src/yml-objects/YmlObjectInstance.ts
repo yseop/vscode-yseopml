@@ -1,4 +1,4 @@
-import { CompletionItemKind } from 'vscode-languageserver';
+import { CompletionItemKind } from 'vscode-languageserver-protocol';
 
 import { AbstractYmlObject, YmlType } from './AbstractYmlObject';
 

@@ -8,6 +8,7 @@ import {
     Location,
     TextEdit,
 } from 'vscode-languageserver';
+
 import { FieldContext } from '../grammar';
 
 export type YmlType = string | string[];
@@ -104,7 +105,6 @@ export abstract class AbstractYmlObject implements CompletionItem {
             uri,
         };
     }
-
 }
 
 function getDocumentation(fieldOptions: FieldContext[], connection: IConnection): string {
