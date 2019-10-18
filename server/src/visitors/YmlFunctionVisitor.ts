@@ -36,16 +36,21 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         this.scopeEndOffset = 0;
         this.functionName = node.ymlId().text;
 
+        // Always keep track of the definition of the location.
+        // When the Function is a method instanciation
+        // the most important part is where this Function is implemented
+        // not where the function is declared.
+        const func = new YmlFunction(this.functionName, this.uri);
+        func.enrichWith(node.field(), connection);
+        func.setDefinitionLocation(node.start, node.stop, this.uri);
+        this.definitions.addDefinition(func);
+
         if (!this.isMethodInstanciation(this.functionName)) {
-            const func = new YmlFunction(this.functionName, this.uri);
-            func.enrichWith(node.field(), connection);
             this.completionProvider.addCompletionItem(func);
-            func.setDefinitionLocation(node.start, node.stop, this.uri);
-            this.definitions.addDefinition(func);
         } else {
             /*
              * The function is a method instance.
-             * It has already been added as a completion item and a definition by YmlClassVisitor.
+             * It has already been added as a completion item.
              */
         }
         /*

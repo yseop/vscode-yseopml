@@ -23,4 +23,9 @@ export abstract class AbstractYmlFunction extends AbstractYmlObject {
      * Arguments of the function.
      */
     public args: YmlArgs;
+
+    public getShortName() {
+        const functionNameSubParts = this.label.split('::');
+        return functionNameSubParts.pop();
+    }
 }

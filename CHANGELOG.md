@@ -12,6 +12,7 @@
     -   `forall` instructions;
     -   `(condition).check()`-like expressions;
     -   `rename` instructions.
+-   Improved definition provider. `Go To Definition` on a method name gives the list of the locations where the method is declared and where it is implemented.
 
 ## 1.6.4 (2019-07-31)
 
