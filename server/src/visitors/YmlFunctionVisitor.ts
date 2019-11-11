@@ -36,7 +36,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         this.scopeEndOffset = 0;
         this.functionName = node.ymlId().text;
 
-        // Always keep track of the definition of the location.
+        // Always keep track of the location of the implementation.
         // When the Function is a method instanciation
         // the most important part is where this Function is implemented
         // not where the function is declared.
