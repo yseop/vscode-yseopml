@@ -66,6 +66,7 @@ connection.onInitialize(
                 },
                 hoverProvider: true,
                 definitionProvider: true,
+                implementationProvider: true,
                 // Tell the client that the server works in FULL text document sync mode
                 textDocumentSync: documents.syncKind,
             },
@@ -158,6 +159,8 @@ function validateTextDocument(textDocument: TextDocument): void {
     const result = parser.kaoFile();
     // Reset all the document's definitions.
     definitionsProvider.removeDocumentDefinitions(textDocUri);
+    // Reset all the document's implementations informations.
+    definitionsProvider.removeDocumentImplementations(textDocUri);
     // Reset all the document's completion items.
     completionProvider.removeDocumentCompletionItems(textDocUri);
 
@@ -181,6 +184,15 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
         return null;
     }
     return definitionsProvider.findDefinitions(entityName);
+});
+
+connection.onImplementation((pos: TextDocumentPositionParams) => {
+    const doc: TextDocument = documents.get(pos.textDocument.uri);
+    const entityName = getTokenAtPosInDoc(doc.getText(), doc.offsetAt(pos.position));
+    if (!entityName) {
+        return null;
+    }
+    return definitionsProvider.findImplementations(entityName);
 });
 
 // This handler provides the initial list of the completion items.

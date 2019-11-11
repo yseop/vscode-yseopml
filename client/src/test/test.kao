@@ -8,6 +8,11 @@ interface	City
 
 	field	country
 	--> domains	String
+
+    method getCityName()
+    --> domains String
+    --> documentation """Get the name of this City."""
+
 classProperties
 
 --> dsl -> Textualization
@@ -23,6 +28,9 @@ classProperties
 implementation	City
 ;
 
+function City::getCityName()
+--> return this.name
+;
 
 // ---------------------------------------------------------------------
 // ---------------------  Address --------------------------------------
@@ -117,7 +125,7 @@ Person CEDRIC_V
 				--> referential {	"Cédric V.",
 									"Cedrick V."
 								 }
-				--> anaphor		PERSONAL_PRONOUN
+				--> anaphor		PERSONAL_PRONOUN.getCityName()
 			;
 ;
 

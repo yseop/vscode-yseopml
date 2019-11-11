@@ -43,9 +43,15 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         const func = new YmlFunction(this.functionName, this.uri);
         func.enrichWith(node.field(), connection);
         func.setDefinitionLocation(node.start, node.stop, this.uri);
-        this.definitions.addDefinition(func);
+        this.definitions.addImplementation(func);
 
         if (!this.isMethodInstanciation(this.functionName)) {
+            // For a simple Function, also keep track of its definition's location.
+            // For now, we'll considere that
+            // definition location is the same as implementation location.
+            // This is not true since definition can be done
+            // with a the `extern` instruction.
+            this.definitions.addDefinition(func);
             this.completionProvider.addCompletionItem(func);
         } else {
             /*
