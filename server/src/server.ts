@@ -89,10 +89,7 @@ connection.onHover((_params) => {
         }
     }
     return {
-        contents: {
-            kind: MarkupKind.Markdown,
-            value: entity.documentation,
-        },
+        contents: entity.documentation,
     };
 });
 

@@ -1,11 +1,16 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import * as assert from 'assert';
-import { CompletionItemKind } from 'vscode-languageserver';
+import { CompletionItemKind, MarkupContent } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import { YmlLexer, YmlParser } from '../grammar';
 import { YmlKaoFileVisitor } from '../visitors';
+
+const NOT_DOCUMENTED: MarkupContent = {
+    kind: 'markdown',
+    value: 'not documented',
+};
 
 describe('Extension Server Tests', () => {
     describe('YmlKaoFileVisitor', () => {
@@ -127,7 +132,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'String',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Property,
                     label: 'name',
                     uri: '',
@@ -148,7 +153,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'String',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Property,
                     label: 'country',
                     uri: '',
@@ -219,7 +224,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'String',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Method,
                     label: 'City::getName',
                     uri: '',
@@ -252,7 +257,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'String',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Method,
                     label: 'City::writeCountry',
                     uri: '',
@@ -279,7 +284,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'Collection − Person',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Property,
                     label: 'inhabitants',
                     uri: '',
@@ -355,7 +360,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'Text',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Function,
                     label: 'functionWithoutArgs',
                     uri: '',
@@ -376,7 +381,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'Text',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'simpleInstance',
                     uri: '',
@@ -397,7 +402,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'Text',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Function,
                     label: 'functionWithoutArgs2',
                     uri: '',
@@ -418,7 +423,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'Collection',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'collection',
                     uri: '',
@@ -439,7 +444,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'Text',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Function,
                     label: 'functionWithoutArgsWithPar',
                     uri: '',
@@ -447,7 +452,7 @@ describe('Extension Server Tests', () => {
                 {
                     data: 'id_functionWithoutArgsWithPar_arg1',
                     detail: 'Object',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'arg1',
                     scopeEndOffset: 497,
@@ -457,7 +462,7 @@ describe('Extension Server Tests', () => {
                 {
                     data: 'id_functionWithoutArgsWithPar_arg2',
                     detail: 'Text',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'arg2',
                     scopeEndOffset: 497,
@@ -480,7 +485,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'Collection − Text',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'collectionWithLevel2',
                     uri: '',
@@ -501,7 +506,7 @@ describe('Extension Server Tests', () => {
                         uri: '',
                     },
                     detail: 'Text',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Function,
                     label: 'functionWithArgsAsBlock',
                     uri: '',
@@ -509,7 +514,7 @@ describe('Extension Server Tests', () => {
                 {
                     data: 'id_functionWithArgsAsBlock_arg1',
                     detail: 'Object',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'arg1',
                     scopeEndOffset: 753,
@@ -519,7 +524,7 @@ describe('Extension Server Tests', () => {
                 {
                     data: 'id_functionWithArgsAsBlock_arg2',
                     detail: 'Text',
-                    documentation: 'not documented',
+                    documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'arg2',
                     scopeEndOffset: 753,
