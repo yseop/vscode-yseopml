@@ -94,7 +94,8 @@ export abstract class AbstractYmlObject implements CompletionItem {
 
     /**
      * Set the documentation of this object as a `MarkupContent`.
-     * @param doc The documentation as string of this object.
+     * Set the documentation to `null` if empty.
+     * @param doc The documentation of this object, as a Markdown string.
      *
      * @see MarkupContent
      */
@@ -143,7 +144,7 @@ function getDocumentation(fieldOptions: FieldContext[], connection: IConnection)
     } catch (err) {
         connection.console.error(err);
     }
-    return 'not documented';
+    return 'Not documented.';
 }
 
 function getType(fieldOptions: FieldContext[], connection: IConnection, baseType?: string): string {
