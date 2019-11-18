@@ -61,7 +61,7 @@ export class EngineModel {
         }
         ymlAbstractFunction.data = `id_${sourceType ? sourceType : 'static'}_${ymlAbstractFunction.label}`;
         if (!!func.doc) {
-            ymlAbstractFunction.documentation = func.doc[0];
+            ymlAbstractFunction.setDocumentation(func.doc[0]);
         }
         return ymlAbstractFunction;
     }
@@ -93,7 +93,7 @@ export class EngineModel {
             });
         }
         if (!!yclass.doc) {
-            ymlClass.documentation = yclass.doc[0];
+            ymlClass.setDocumentation(yclass.doc[0]);
         }
         this.classes.push(ymlClass);
         this.enrichYmlClass(ymlClass);
@@ -104,7 +104,7 @@ export class EngineModel {
         const attribute = new YmlAttribute(attributeXmlElement.$.ident, this.uri);
         attribute.detail = `[${sourceType}].${attribute.label}`;
         if (!!attributeXmlElement.doc) {
-            attribute.documentation = attributeXmlElement.doc[0];
+            attribute.setDocumentation(attributeXmlElement.doc[0]);
         }
         attributeXmlElement.return.forEach((returnType) => {
             if (returnType.domains) {

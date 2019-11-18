@@ -6,8 +6,11 @@ import {
     IConnection,
     InsertTextFormat,
     Location,
+    MarkupContent,
+    MarkupKind,
     TextEdit,
 } from 'vscode-languageserver';
+
 import { FieldContext } from '../grammar';
 
 export type YmlType = string | string[];
@@ -17,7 +20,7 @@ const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 export abstract class AbstractYmlObject implements CompletionItem {
     /* Start overriden properties (doc in CompletionItem). */
     public detail?: string;
-    public documentation?: string;
+    public documentation?: MarkupContent;
     public sortText?: string;
     public filterText?: string;
     public insertText?: string;
@@ -81,12 +84,28 @@ export abstract class AbstractYmlObject implements CompletionItem {
     ): void {
         sourceElementName = sourceElementName ? sourceElementName : 'static';
         this.data = `id_${sourceElementName}_${this.label}`;
-        this.documentation = getDocumentation(fields, connection);
+        this.setDocumentation(getDocumentation(fields, connection));
         this.detail = getType(fields, connection, baseType);
         if (scopeEndOffset && scopeStartOffset) {
             this.scopeEndOffset = scopeEndOffset;
             this.scopeStartOffset = scopeStartOffset;
         }
+    }
+
+    /**
+     * Set the documentation of this object as a `MarkupContent`.
+     * @param doc The documentation as string of this object.
+     *
+     * @see MarkupContent
+     */
+    public setDocumentation(doc: string): void {
+        if (!doc) {
+            this.documentation = null;
+        }
+        this.documentation = {
+            kind: MarkupKind.Markdown,
+            value: doc,
+        };
     }
 
     public setDefinitionLocation(startToken: Token, endToken: Token, uri: string): void {
@@ -104,7 +123,6 @@ export abstract class AbstractYmlObject implements CompletionItem {
             uri,
         };
     }
-
 }
 
 function getDocumentation(fieldOptions: FieldContext[], connection: IConnection): string {
@@ -112,11 +130,11 @@ function getDocumentation(fieldOptions: FieldContext[], connection: IConnection)
         for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
             const option = element.commonField();
             if (option != null && option._optionName.text === 'documentation') {
-                let documentation = option._optionValues[0].text;
-                if (documentation !== null && documentation !== undefined) {
-                    documentation = documentation.replace(BEGINNING_QUOTES_REGEX, '');
-                    documentation = documentation.replace(ENDING_QUOTES_REGEX, '');
-                    return documentation;
+                let _documentation = option._optionValues[0].text;
+                if (_documentation !== null && _documentation !== undefined) {
+                    _documentation = _documentation.replace(BEGINNING_QUOTES_REGEX, '');
+                    _documentation = _documentation.replace(ENDING_QUOTES_REGEX, '');
+                    return _documentation;
                 }
             } else {
                 // YML fields unrelated to documentation.
