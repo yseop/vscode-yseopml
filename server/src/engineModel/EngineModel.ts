@@ -3,8 +3,9 @@ import { Parser } from 'xml2js';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { connection } from '../server';
-import { YmlAttribute, YmlClass, YmlFunction } from '../yml-objects';
+import { YmlArgs, YmlAttribute, YmlClass, YmlFunction } from '../yml-objects';
 import { AbstractYmlFunction } from '../yml-objects/AbstractYmlFunction';
+import { YmlArgument } from '../yml-objects/YmlArgument';
 import { YmlMethod } from '../yml-objects/YmlMethod';
 
 const parser = new Parser();
@@ -55,6 +56,10 @@ export class EngineModel {
             ymlAbstractFunction = new YmlFunction(func.$.ident, this.uri);
             this.functions.push(ymlAbstractFunction);
             ymlAbstractFunction.detail = `[${sourceType}].${ymlAbstractFunction.label}`;
+            // There is always only one `args` attribute.
+            if (!!func.args && !!func.args[0].$) {
+                this.addFunctionArgs(ymlAbstractFunction, func.args[0]);
+            }
         } else {
             ymlAbstractFunction = new YmlMethod(func.$.ident, this.uri);
             ymlAbstractFunction.detail = `[STATIC] ${ymlAbstractFunction.label}`;
@@ -64,6 +69,27 @@ export class EngineModel {
             ymlAbstractFunction.setDocumentation(func.doc[0]);
         }
         return ymlAbstractFunction;
+    }
+
+    /*
+     * <args arity-min="0" arity-max="0"></args>
+     */
+    private addFunctionArgs(ymlAbstractFunction: AbstractYmlFunction, args: any) {
+        const functionArgs = new YmlArgs();
+        ymlAbstractFunction.args = functionArgs;
+        functionArgs.arguments = [];
+        functionArgs.arityMin = args.$['arity-min'];
+        functionArgs.arityMax = args.$['arity-max'];
+        functionArgs.namedArguments = args.$['named-arguments'];
+        if (functionArgs.arityMax === 0 || !args.arg) {
+            return;
+        }
+        for (const argDefinition of args.arg) {
+            console.log(argDefinition);
+            const argName = !!argDefinition.$ ? argDefinition.$.name : 'arg';
+            const currentArg = new YmlArgument(argName, this.uri);
+            functionArgs.arguments.push(currentArg);
+        }
     }
 
     /**

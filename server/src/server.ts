@@ -6,6 +6,7 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import {
     CompletionItem,
+    CompletionItemKind,
     createConnection,
     Diagnostic,
     DiagnosticSeverity,
@@ -14,6 +15,7 @@ import {
     IPCMessageReader,
     IPCMessageWriter,
     MarkupKind,
+    SignatureHelp,
     TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
@@ -24,6 +26,7 @@ import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvi
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import { YmlLexer, YmlParser } from './grammar';
+import { SignatureHelpProvider } from './signatureHelp/SignatureHelpProvider';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
 /**
@@ -43,6 +46,7 @@ connection.console.log('Yseop.vscode-yseopml − Creating connection with client
 
 const definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
 const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsProvider();
+const signatureHelpProvider: SignatureHelpProvider = new SignatureHelpProvider();
 
 // Create a simple text document manager. The text document manager
 // supports full document sync only
@@ -68,6 +72,9 @@ connection.onInitialize(
                 definitionProvider: true,
                 // Tell the client that the server works in FULL text document sync mode
                 textDocumentSync: documents.syncKind,
+                signatureHelpProvider: {
+                    triggerCharacters: ['('],
+                },
             },
         };
     },
@@ -185,6 +192,25 @@ connection.onCompletion((pos: TextDocumentPositionParams): CompletionItem[] => {
     const doc: TextDocument = documents.get(pos.textDocument.uri);
     return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
 });
+
+// This handler provides the initial list of the completion items.
+connection.onSignatureHelp(
+    (_pos: TextDocumentPositionParams): SignatureHelp => {
+        const doc: TextDocument = documents.get(_pos.textDocument.uri);
+        const functionName = getTokenAtPosInDoc(doc.getText(), doc.offsetAt(_pos.position) - 1);
+        const candidates = completionProvider.getAllItemsByLabelMatching(
+            functionName,
+            (_elem) => _elem.kind === CompletionItemKind.Method || _elem.kind === CompletionItemKind.Function,
+        );
+        const signatures = signatureHelpProvider.functionsToSignatureHelp(candidates);
+        // const doc: TextDocument = documents.get(_pos.textDocument.uri);
+        return {
+            signatures,
+            activeParameter: null,
+            activeSignature: null,
+        };
+    },
+);
 
 // Listen on the connection
 connection.listen();
