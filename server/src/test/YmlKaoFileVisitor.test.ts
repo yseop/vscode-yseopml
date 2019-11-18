@@ -9,7 +9,7 @@ import { YmlKaoFileVisitor } from '../visitors';
 
 const NOT_DOCUMENTED: MarkupContent = {
     kind: 'markdown',
-    value: 'not documented',
+    value: 'Not documented.',
 };
 
 describe('Extension Server Tests', () => {
