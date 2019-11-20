@@ -4,6 +4,10 @@
  * ------------------------------------------------------------------------------------------ */
 'use strict';
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
+import * as fs from 'fs';
+import * as glob from 'glob';
+import * as path from 'path';
+import * as url from 'url';
 import {
     CompletionItem,
     createConnection,
@@ -13,7 +17,6 @@ import {
     InitializeResult,
     IPCMessageReader,
     IPCMessageWriter,
-    MarkupKind,
     TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
@@ -73,6 +76,135 @@ connection.onInitialize(
         };
     },
 );
+
+connection.onInitialized((_params) => {
+    connection.workspace.getWorkspaceFolders().then((_value) => {
+        const workspacePath = url.fileURLToPath(_value[0].uri);
+        glob(
+            '**/project.kao',
+            {
+                cwd: workspacePath,
+            },
+            (_error, _matches) => {
+                if (!!_error) {
+                    console.error(_error);
+                    return;
+                }
+                for (const filePath of _matches) {
+                    if (openProjectFile(workspacePath, filePath)) {
+                        // There should be only one `project.kao` file. If we found a good candidate, stop the loop.
+                        return;
+                    }
+                }
+            },
+        );
+        /*
+         * List of the file-extensions of yseopml files that are never set by the user in `project.kao`-like files.
+         * This list is a subset of the file-extensions known by this extension as set in `client/package.json`.
+         */
+        const yseopmlExtensions = ['yclass', 'yobject', 'ycomplete'];
+        for (const extension of yseopmlExtensions) {
+            parseFilesWithExtension(workspacePath, extension);
+        }
+    });
+});
+
+/**
+ * Find all the files in the workspace that have the extension `extension`
+ * and open them as `TextDocument` objects. This will result in a parsing request for
+ * these files and have it known by the extension.
+ * This function excludes the results from `.generated-yml/`.
+ *
+ * @param extension The extension of the files to look for
+ */
+function parseFilesWithExtension(workspacePath: string, extension: string): void {
+    glob(
+        `**/*.${extension}`,
+        {
+            cwd: workspacePath,
+            ignore: '**/.generated-yml/**',
+        },
+        (_error, _matches) => {
+            if (!!_error) {
+                console.error(_error);
+                return;
+            }
+            if (!_matches) {
+                return;
+            }
+            _matches.forEach((uri) => {
+                fs.readFile(uri, (_err, _doc) => {
+                    if (!!_err) {
+                        connection.console.error(`${_err}`);
+                        return;
+                    }
+                    const doc = _doc.toString();
+                    parseFile(`file://${workspacePath}/${uri}`, doc);
+                });
+            });
+        },
+    );
+}
+
+const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
+
+/**
+ * Try to open a file with URI `fileUri`.
+ * Then, if the file is a `project.kao`-like file (i.e., a list of files used for the project),
+ * read its content and apply this function recursively for each line that is an existing file’s URI.
+ *
+ * @param fileUri An existing file URI.
+ *
+ * @return `true` only if the provided URI was a `*.kao`-like file, i.e. it starts with `_FILE_TYPE_`.
+ */
+function openProjectFile(workspacePath: string, fileUri: string): boolean {
+    let wasKaoFile = true;
+    // Try to open the file. If it is opened, the server will parse it.
+    fs.readFile(
+        fileUri,
+        // The document exists and was successfully opened and should be parsed already.
+        (_err, _doc) => {
+            if (!!_err) {
+                connection.console.error(`${_err}`);
+                return;
+            }
+            const doc = _doc.toString();
+            parseFile(`file://${workspacePath}/${fileUri}`, doc);
+            if (!doc.trim().startsWith('_FILE_TYPE_')) {
+                // We are not in a `project.kao`-like file. Do not go further.
+                wasKaoFile = false;
+                return;
+            }
+            doc.split('\n')
+                // line can be indented in the file.
+                .map((line) => line.trim())
+                .filter((line) => {
+                    // Ignore empty lines
+                    return (
+                        line.length > 0 &&
+                        // Ignore lines that are just preprocessing or Yseop Engine instruction
+                        !line.startsWith('@') &&
+                        // Ignore the lines with the _FILE_TYPE_ instruction
+                        !line.startsWith('_FILE_TYPE_') &&
+                        // Ignore single-line comments
+                        !line.startsWith('//') &&
+                        // Ignore multi-lines comments starting with “/*”
+                        !line.startsWith('/*') &&
+                        // Ignore multi-lines comments starting with just “*“ (includes “*/”)
+                        !line.startsWith('*') &&
+                        // Drop files from any .generated-yml/ directory
+                        line.search(GENERATED_YML_DIR_REGEX) === -1
+                    );
+                })
+                .map((line) => path.join(path.dirname(fileUri), line))
+                // Make sure the file exists and drop directories
+                .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
+                // .map((filePath) => Uri.parse(`file://${filePath}`))
+                .forEach((uri) => openProjectFile(workspacePath, uri));
+        },
+    );
+    return wasKaoFile;
+}
 
 connection.onHover((_params) => {
     const doc: TextDocument = documents.get(_params.textDocument.uri);
@@ -140,12 +272,16 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 function validateTextDocument(textDocument: TextDocument): void {
-    connection.console.log(`Yseop.vscode-yseopml − Parsing ${textDocument.uri}`);
     const textDocUri = textDocument.uri;
-    const diagnostics: Diagnostic[] = [];
+    const docContent = textDocument.getText();
+    parseFile(textDocUri, docContent);
+}
 
+function parseFile(textDocUri: string, docContent: string) {
+    connection.console.log(`Yseop.vscode-yseopml − Parsing ${textDocUri}`);
+    const diagnostics: Diagnostic[] = [];
     // Create the lexer and parser
-    const inputStream = CharStreams.fromString(textDocument.getText());
+    const inputStream = CharStreams.fromString(docContent);
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
