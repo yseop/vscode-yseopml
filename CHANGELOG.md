@@ -12,6 +12,7 @@
     -   `forall` instructions;
     -   `(condition).check()`-like expressions;
     -   `rename` instructions.
+-   Improved location provider. `Go To Implementation` using `ctrl+F12` on a method name gives the list of the locations where the method is implemented. See [this link](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-implementation) for more information.
 
 ## 1.6.4 (2019-07-31)
 

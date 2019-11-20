@@ -37,14 +37,14 @@ export function getTokenAtPosInDoc(source: string, offset: number): string | nul
      * Search for the first part of a valid YML entity name or a full entity name
      * from the end of the “documentContentToPos” string.
      */
-    const firstPart = getYmlEntityNamePart(documentContentToPos, EntityPartPosition.END);
+    const firstPart = getYmlEntityNamePartWithoutClassName(documentContentToPos, EntityPartPosition.END);
 
     /*
      * Search for the second part of a valid YML entity name or a full entity name
      * from the beginning of the “documentContentFromPos” string.
      */
     const documentContentFromPos = source.substr(offset);
-    const secondPart = getYmlEntityNamePart(documentContentFromPos, EntityPartPosition.BEGINNING);
+    const secondPart = getYmlEntityNamePartWithoutClassName(documentContentFromPos, EntityPartPosition.BEGINNING);
     if (secondPart != null && firstPart != null) {
         // input: "variable"; position: > 0
         // ⇒ first part and second part exists.
@@ -79,4 +79,19 @@ export function getYmlEntityNamePart(text: string, position: EntityPartPosition)
     }
     // Get the matched input.
     return matchArray[0];
+}
+
+/**
+ * Find in a text the substring that could be a valid YML entity name's substring depending on the position asked.
+ * @param text Some text.
+ * @param position EntityPartPosition where to find the part.
+ * @returns the canditate entity's name or null if nothing could be found.
+ */
+export function getYmlEntityNamePartWithoutClassName(text: string, position: EntityPartPosition) {
+    const result = getYmlEntityNamePart(text, position);
+    if (!result) {
+        return null;
+    }
+    const parts = result.split('::');
+    return parts[parts.length - 1];
 }

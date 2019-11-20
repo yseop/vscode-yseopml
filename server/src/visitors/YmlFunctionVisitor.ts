@@ -36,16 +36,27 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         this.scopeEndOffset = 0;
         this.functionName = node.ymlId().text;
 
+        // Always keep track of the location of the implementation.
+        // When the Function is a method instanciation
+        // the most important part is where this Function is implemented
+        // not where the function is declared.
+        const func = new YmlFunction(this.functionName, this.uri);
+        func.enrichWith(node.field(), connection);
+        func.setDefinitionLocation(node.start, node.stop, this.uri);
+        this.definitions.addImplementation(func);
+
         if (!this.isMethodInstanciation(this.functionName)) {
-            const func = new YmlFunction(this.functionName, this.uri);
-            func.enrichWith(node.field(), connection);
-            this.completionProvider.addCompletionItem(func);
-            func.setDefinitionLocation(node.start, node.stop, this.uri);
+            // For a simple Function, also keep track of its definition's location.
+            // For now, we'll considere that
+            // definition location is the same as implementation location.
+            // This is not true since definition can be done
+            // with a the `extern` instruction.
             this.definitions.addDefinition(func);
+            this.completionProvider.addCompletionItem(func);
         } else {
             /*
              * The function is a method instance.
-             * It has already been added as a completion item and a definition by YmlClassVisitor.
+             * It has already been added as a completion item.
              */
         }
         /*
@@ -106,20 +117,12 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
     /**
      * Check if the provided function name is the name of a class method instanciation.
-     * If the function name is the name of a class method instanciation:
-     * - it follows the format “className” + “::” + “methodName”
-     * - it already exists as a completion item thanks to `YmlClassVisitor`
+     * If the function name is the name of a class method instanciation if
+     * it follows the format “className” + “::” + “methodName”
      * @param fullName The name of a function.
      * @returns `true` iff the provided functionName is a class method instanciation.
      */
     private isMethodInstanciation(fullName: string): boolean {
-        let className: string;
-        let methodName: string;
-        const functionNameSubParts = fullName.split('::');
-        if (functionNameSubParts.length > 1) {
-            methodName = functionNameSubParts.pop();
-            className = fullName.replace(RegExp(`::${methodName}$`, 'u'), '');
-        }
-        return className && this.completionProvider.getItem(`id_${className}_${fullName}`);
+        return fullName.split('::').length > 1;
     }
 }
