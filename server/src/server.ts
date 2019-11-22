@@ -5,7 +5,8 @@
 'use strict';
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import * as fs from 'fs';
-import * as glob from 'glob';
+import { promises as fsPromises } from 'fs-extra';
+import * as glob from 'glob-promise';
 import * as path from 'path';
 import * as url from 'url';
 import {
@@ -80,24 +81,18 @@ connection.onInitialize(
 connection.onInitialized((_params) => {
     connection.workspace.getWorkspaceFolders().then((_value) => {
         const workspacePath = url.fileURLToPath(_value[0].uri);
-        glob(
-            '**/project.kao',
-            {
-                cwd: workspacePath,
-            },
-            (_error, _matches) => {
-                if (!!_error) {
-                    console.error(_error);
-                    return;
-                }
+        glob('**/project.kao', {
+            cwd: workspacePath,
+        })
+            .then((_matches) => {
                 for (const filePath of _matches) {
                     if (openProjectFile(workspacePath, filePath)) {
                         // There should be only one `project.kao` file. If we found a good candidate, stop the loop.
                         return;
                     }
                 }
-            },
-        );
+            })
+            .catch((_error) => console.error(_error));
         /*
          * List of the file-extensions of yseopml files that are never set by the user in `project.kao`-like files.
          * This list is a subset of the file-extensions known by this extension as set in `client/package.json`.
@@ -118,32 +113,30 @@ connection.onInitialized((_params) => {
  * @param extension The extension of the files to look for
  */
 function parseFilesWithExtension(workspacePath: string, extension: string): void {
-    glob(
-        `**/*.${extension}`,
-        {
-            cwd: workspacePath,
-            ignore: '**/.generated-yml/**',
-        },
-        (_error, _matches) => {
-            if (!!_error) {
-                console.error(_error);
-                return;
-            }
+    glob(`**/*.${extension}`, {
+        cwd: workspacePath,
+        ignore: '**/.generated-yml/**',
+    })
+        .then((_matches) => {
             if (!_matches) {
                 return;
             }
             _matches.forEach((uri) => {
-                fs.readFile(uri, (_err, _doc) => {
-                    if (!!_err) {
-                        connection.console.error(`${_err}`);
-                        return;
-                    }
-                    const doc = _doc.toString();
-                    parseFile(`file://${workspacePath}/${uri}`, doc);
-                });
+                fsPromises
+                    .readFile(uri)
+                    .then((_doc) => {
+                        const doc = _doc.toString();
+                        parseFile(`file://${workspacePath}/${uri}`, doc);
+                    })
+                    .catch((_err) => {
+                        if (!!_err) {
+                            connection.console.error(`${_err}`);
+                            return;
+                        }
+                    });
             });
-        },
-    );
+        })
+        .catch((_error) => console.error(_error));
 }
 
 const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
@@ -160,14 +153,9 @@ const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
 function openProjectFile(workspacePath: string, fileUri: string): boolean {
     let wasKaoFile = true;
     // Try to open the file. If it is opened, the server will parse it.
-    fs.readFile(
-        fileUri,
-        // The document exists and was successfully opened and should be parsed already.
-        (_err, _doc) => {
-            if (!!_err) {
-                connection.console.error(`${_err}`);
-                return;
-            }
+    fsPromises
+        .readFile(fileUri)
+        .then((_doc) => {
             const doc = _doc.toString();
             parseFile(`file://${workspacePath}/${fileUri}`, doc);
             if (!doc.trim().startsWith('_FILE_TYPE_')) {
@@ -201,8 +189,13 @@ function openProjectFile(workspacePath: string, fileUri: string): boolean {
                 .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
                 // .map((filePath) => Uri.parse(`file://${filePath}`))
                 .forEach((uri) => openProjectFile(workspacePath, uri));
-        },
-    );
+        })
+        .catch((_err) => {
+            if (!!_err) {
+                connection.console.error(`${_err}`);
+            }
+        });
+    // The document exists and was successfully opened and should be parsed already.
     return wasKaoFile;
 }
 
@@ -281,7 +274,7 @@ function parseFile(textDocUri: string, docContent: string) {
     connection.console.log(`Yseop.vscode-yseopml − Parsing ${textDocUri}`);
     const diagnostics: Diagnostic[] = [];
     // Create the lexer and parser
-    const inputStream = CharStreams.fromString(docContent);
+    const inputStream = CharStreams.fromString(docContent, textDocUri);
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
