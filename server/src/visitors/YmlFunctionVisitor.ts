@@ -123,6 +123,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      * @returns `true` iff the provided functionName is a class method instanciation.
      */
     private isMethodInstanciation(fullName: string): boolean {
-        return fullName.split('::').length > 1;
+        // At least one character and “::”.
+        return fullName.indexOf('::') > 0;
     }
 }

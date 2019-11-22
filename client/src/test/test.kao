@@ -1,3 +1,8 @@
+/*
+ * Note: The purpose of this file is to provide code examples that are syntactically correct,
+ * even if it won't compile because some symbols, objects, functions… don't exist.
+ */
+
 // ---------------------------------------------------------------------
 // ---------------------  City --------------------------------------
 // ---------------------------------------------------------------------
@@ -131,7 +136,7 @@ Person CEDRIC_V
 				--> referential {	"Cédric V.",
 									"Cedrick V."
 								 }
-				--> anaphor		PERSONAL_PRONOUN.getCityName()
+				--> anaphor		PERSONAL_PRONOUN
 			;
 ;
 
