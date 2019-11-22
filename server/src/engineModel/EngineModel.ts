@@ -6,6 +6,7 @@ import { connection } from '../server';
 import { YmlAttribute, YmlClass, YmlFunction } from '../yml-objects';
 import { AbstractYmlFunction } from '../yml-objects/AbstractYmlFunction';
 import { YmlMethod } from '../yml-objects/YmlMethod';
+import { YmlObjectInstance } from '../yml-objects/YmlObjectInstance';
 
 const parser = new Parser();
 
@@ -92,12 +93,32 @@ export class EngineModel {
                 this.completionProvider.addCompletionItem(method);
             });
         }
+
+        if (!!yclass.instances && !!yclass.instances[0].item) {
+            yclass.instances[0].item.forEach((_instance) => {
+                if (ymlClass.extends.indexOf('yseop.lang.Enum') >= 0) {
+                    const instance = this.buildEnumValue(_instance, ymlClass.label);
+                    this.completionProvider.addCompletionItem(instance);
+                }
+            });
+        }
         if (!!yclass.doc) {
             ymlClass.setDocumentation(yclass.doc[0]);
         }
         this.classes.push(ymlClass);
         this.enrichYmlClass(ymlClass);
         this.completionProvider.addCompletionItem(ymlClass);
+    }
+
+    private buildEnumValue(instanceXmlElement: any, sourceType: string): YmlObjectInstance {
+        const identifier = `${sourceType}::${instanceXmlElement.$.ident}`;
+        const instance = new YmlObjectInstance(identifier, this.uri);
+        instance.detail = `${identifier} − Value of enum ${sourceType}`;
+        if (!!instanceXmlElement.doc) {
+            instance.setDocumentation(instanceXmlElement.doc[0]);
+        }
+        instance.domains = sourceType;
+        return instance;
     }
 
     private buildAttribute(attributeXmlElement: any, sourceType: string): YmlAttribute {
