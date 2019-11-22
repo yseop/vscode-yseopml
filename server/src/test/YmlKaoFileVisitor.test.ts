@@ -209,7 +209,7 @@ describe('Extension Server Tests', () => {
                     uri: '',
                 },
                 {
-                    data: 'id_City_City::getName',
+                    data: 'id_City_getName',
                     definitionLocation: {
                         range: {
                             end: {
@@ -226,23 +226,11 @@ describe('Extension Server Tests', () => {
                     detail: 'String',
                     documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Method,
-                    label: 'City::getName',
-                    uri: '',
-                },
-                {
-                    data: 'keyword_City',
-                    kind: CompletionItemKind.Text,
-                    label: 'City',
-                    uri: '',
-                },
-                {
-                    data: 'keyword_getName',
-                    kind: CompletionItemKind.Text,
                     label: 'getName',
                     uri: '',
                 },
                 {
-                    data: 'id_City_City::writeCountry',
+                    data: 'id_City_writeCountry',
                     definitionLocation: {
                         range: {
                             end: {
@@ -259,12 +247,6 @@ describe('Extension Server Tests', () => {
                     detail: 'String',
                     documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Method,
-                    label: 'City::writeCountry',
-                    uri: '',
-                },
-                {
-                    data: 'keyword_writeCountry',
-                    kind: CompletionItemKind.Text,
                     label: 'writeCountry',
                     uri: '',
                 },

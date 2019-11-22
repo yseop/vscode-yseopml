@@ -22,7 +22,7 @@ export class YmlClassVisitor extends YmlBaseVisitor {
          * A class “MyClass” that declares a method “myMethod” will implement it by naming it “MyClass::myMethod”.
          * Otherwise, there will be compilation errors.
          */
-        const method = new YmlMethod(`${this.classId}::${node.methodIntro().ymlId().text}`, this.uri);
+        const method = new YmlMethod(`${node.methodIntro().ymlId().text}`, this.uri);
         method.enrichWith(node.field(), connection, this.classId);
         this.completionProvider.addCompletionItem(method);
         method.setDefinitionLocation(node.start, node.stop, this.uri);
