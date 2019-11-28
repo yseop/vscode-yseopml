@@ -21,11 +21,9 @@ import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } f
 let yseopCliOutputChannel: OutputChannel;
 let yseopCliStatusBarItem: StatusBarItem;
 let yseopCliPath: string;
-let parseAllProjectFilesAtStartup: boolean;
 
 const yseopmlSectionName = 'yseopml';
 const pathToYseopCliKey = 'pathToYseopCli';
-const parseWholeProjectKey = 'parseAllProjectFilesAtStartup';
 
 export function activate(context: ExtensionContext) {
     yseopCliOutputChannel = window.createOutputChannel('Yseop CLI Output');
@@ -120,7 +118,6 @@ export function activate(context: ExtensionContext) {
  */
 function readConfig(yseopmlConfig: WorkspaceConfiguration): void {
     yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
-    parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
 }
 
 function updateSettings(response: string): void {
