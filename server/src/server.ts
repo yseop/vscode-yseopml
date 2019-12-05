@@ -38,15 +38,16 @@ interface ISettings {
 // These are the example settings we defined in the client's package.json file
 interface IServerSettings {
     activateParsingProblemsReporting: boolean;
+    parseAllProjectFilesAtStartup: boolean;
     pathToPredefinedObjectsXml: string;
     ymlParsingIssueSeverityLevel: string;
-    parseAllProjectFilesAtStartup: boolean;
 }
 
 let engineModel: EngineModel;
-let pathToPredefinedObjectsXml: string;
+
 let activateParsingProblemsReporting: boolean;
 let parseAllProjectFilesAtStartup: boolean;
+let pathToPredefinedObjectsXml: string;
 
 /**
  * Map between the string available as option and real `DiagnosticSeverity` enum values.
