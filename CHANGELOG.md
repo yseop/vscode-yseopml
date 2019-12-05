@@ -4,15 +4,17 @@
 
 -   Remove unused option `maxNumberOfProblems`;
 -   New option `ymlParsingIssueSeverityLevel` allowing to set the way parsing problems are displayed;
--   Improved project files parsing. Fewer irrelevant files are parsed. The new behavior is as follows:
-    -   parse the files mentioned in the `project.kao` file;
-    -   parse `*.yclass`, `*.yobject` and `*.ycomplete` files;
-    -   avoid parsing the files in `.generated-yml/` directory, wherever this directory stands.
 -   Improved parsing for:
     -   `forall` instructions;
     -   `(condition).check()`-like expressions;
     -   `rename` instructions.
 -   Improved location provider. `Go To Implementation` using `ctrl+F12` on a method name gives the list of the locations where the method is implemented. See [this link](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-implementation) for more information.
+-   Improved project files parsing. Fewer irrelevant files are parsed. The new behavior is as follows:
+    -   parse the files mentioned in the `project.kao` file;
+    -   parse `*.yclass`, `*.yobject` and `*.ycomplete` files;
+    -   avoid parsing the files in `.generated-yml/` directory, wherever this directory stands.
+
+_Note that the whole project parsing may take some time, depending on your project size. During the project parsing, suggestions list won't be available._
 
 ## 1.6.4 (2019-07-31)
 
