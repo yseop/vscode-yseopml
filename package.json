@@ -182,21 +182,21 @@
     },
     "devDependencies": {
         "@types/mocha": "^5.2.7",
-        "@types/node": "^11.13.15",
+        "@types/node": "^11.15.3",
         "antlr4ts-cli": "^0.5.0-alpha.3",
         "js-yaml": "^3.13.1",
         "merge-options": "^1.0.1",
         "mocha": "^5.2.0",
-        "rimraf": "^2.6.3",
+        "rimraf": "^2.7.1",
         "ts-loader": "^5.4.5",
-        "tslint": "^5.18.0",
+        "tslint": "^5.20.1",
         "tslint-config-prettier": "^1.18.0",
-        "tslint-consistent-codestyle": "^1.15.1",
+        "tslint-consistent-codestyle": "^1.16.0",
         "tslint-eslint-rules": "^5.4.0",
         "tslint-sonarts": "^1.9.0",
-        "typescript": "^3.5.2",
-        "vsce": "^1.69.0",
-        "webpack": "^4.35.0",
-        "webpack-cli": "^3.3.5"
+        "typescript": "^3.7.3",
+        "vsce": "^1.70.0",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.10"
     }
 }
