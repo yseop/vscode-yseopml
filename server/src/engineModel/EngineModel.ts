@@ -3,7 +3,7 @@ import { Parser } from 'xml2js';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { connection } from '../server';
-import { YmlAttribute, YmlClass, YmlFunction } from '../yml-objects';
+import { YmlAttribute, YmlClass, YmlEnumValue, YmlFunction } from '../yml-objects';
 import { AbstractYmlFunction } from '../yml-objects/AbstractYmlFunction';
 import { YmlMethod } from '../yml-objects/YmlMethod';
 import { YmlObjectInstance } from '../yml-objects/YmlObjectInstance';
@@ -68,7 +68,7 @@ export class EngineModel {
     }
 
     /**
-     * Import all the YML text tags.
+     * Import all the YML classes.
      *
      * @param yclass The data structure resulting from the parsing of `predefinedObjects.xml`.
      */
@@ -94,12 +94,24 @@ export class EngineModel {
             });
         }
 
+        /* A class (or enum) with instances has the following format:
+        <class ident="EnumClassName">
+            <extends>yseop.lang.Enum</extends>
+            <instances count="2">
+                <item ident="EnumInstance_1"></item>
+                <item ident="EnumInstance_1"></item>
+            </instances>
+        </class>
+        */
         if (!!yclass.instances && !!yclass.instances[0].item) {
+            // The current class has already existing instances.
+            // Iterate over each instances items.
             yclass.instances[0].item.forEach((_instance) => {
-                if (ymlClass.extends.indexOf('yseop.lang.Enum') >= 0) {
-                    const instance = this.buildEnumValue(_instance, ymlClass.label);
-                    this.completionProvider.addCompletionItem(instance);
-                }
+                const instance =
+                    ymlClass.extends.indexOf('yseop.lang.Enum') !== -1
+                        ? this.buildEnumValue(_instance, ymlClass.label)
+                        : this.buildClassInstance(_instance, ymlClass.label);
+                this.completionProvider.addCompletionItem(instance);
             });
         }
         if (!!yclass.doc) {
@@ -110,10 +122,21 @@ export class EngineModel {
         this.completionProvider.addCompletionItem(ymlClass);
     }
 
-    private buildEnumValue(instanceXmlElement: any, sourceType: string): YmlObjectInstance {
-        const identifier = `${sourceType}::${instanceXmlElement.$.ident}`;
+    private buildClassInstance(instanceXmlElement: any, sourceType: string): YmlObjectInstance {
+        const identifier = instanceXmlElement.$.ident;
         const instance = new YmlObjectInstance(identifier, this.uri);
-        instance.detail = `${identifier} − Value of enum ${sourceType}`;
+        instance.detail = sourceType;
+        if (!!instanceXmlElement.doc) {
+            instance.setDocumentation(instanceXmlElement.doc[0]);
+        }
+        instance.domains = sourceType;
+        return instance;
+    }
+
+    private buildEnumValue(instanceXmlElement: any, sourceType: string): YmlEnumValue {
+        const identifier = instanceXmlElement.$.ident;
+        const instance = new YmlEnumValue(identifier, this.uri);
+        instance.detail = `${sourceType}::${instanceXmlElement.$.ident}`;
         if (!!instanceXmlElement.doc) {
             instance.setDocumentation(instanceXmlElement.doc[0]);
         }
