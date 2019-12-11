@@ -5,6 +5,7 @@ export * from './YmlArgs';
 export * from './YmlArgument';
 export * from './YmlAttribute';
 export * from './YmlClass';
+export * from './YmlEnumValue';
 export * from './YmlFunction';
 export * from './YmlMethod';
 export * from './YmlObjectInstance';
