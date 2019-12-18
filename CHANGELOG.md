@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.6.5 (YYYY-MM-DD)
+## 1.6.5 (2019-12-19)
 
 -   Remove unused option `maxNumberOfProblems`;
 -   New option `ymlParsingIssueSeverityLevel` allowing to set the way parsing problems are displayed;

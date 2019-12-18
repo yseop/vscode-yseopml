@@ -2,7 +2,7 @@
     "name": "vscode-yseopml-server",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.6.4",
+    "version": "1.6.5",
     "private": true,
     "author": "Yseop",
     "publisher": "Yseop",
