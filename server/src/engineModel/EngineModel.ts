@@ -33,7 +33,9 @@ export class EngineModel {
         if (!fs.existsSync(this.uri)) {
             connection.console.warn(`File “${this.uri}” doesn't exist.`);
         } else if (!fs.lstatSync(this.uri).isFile()) {
-            connection.console.warn(`It seems that ${this.uri} is not a normal file. Therefore, it cannot be imported.`);
+            connection.console.warn(
+                `It seems that ${this.uri} is not a normal file. Therefore, it cannot be imported.`,
+            );
         } else {
             this.parsePredefinedObjects(this.uri);
         }
@@ -58,6 +60,9 @@ export class EngineModel {
             ymlAbstractFunction.detail = `[STATIC] ${ymlAbstractFunction.label}`;
         }
         ymlAbstractFunction.data = `id_${sourceType ? sourceType : 'static'}_${ymlAbstractFunction.label}`;
+        if (!!func.doc) {
+            ymlAbstractFunction.setDocumentation(func.doc[0]);
+        }
         return ymlAbstractFunction;
     }
 
@@ -87,6 +92,9 @@ export class EngineModel {
                 this.completionProvider.addCompletionItem(method);
             });
         }
+        if (!!yclass.doc) {
+            ymlClass.setDocumentation(yclass.doc[0]);
+        }
         this.classes.push(ymlClass);
         this.enrichYmlClass(ymlClass);
         this.completionProvider.addCompletionItem(ymlClass);
@@ -95,6 +103,9 @@ export class EngineModel {
     private buildAttribute(attributeXmlElement: any, sourceType: string): YmlAttribute {
         const attribute = new YmlAttribute(attributeXmlElement.$.ident, this.uri);
         attribute.detail = `[${sourceType}].${attribute.label}`;
+        if (!!attributeXmlElement.doc) {
+            attribute.setDocumentation(attributeXmlElement.doc[0]);
+        }
         attributeXmlElement.return.forEach((returnType) => {
             if (returnType.domains) {
                 attribute.domains = returnType.domains;
@@ -227,8 +238,12 @@ export class EngineModel {
     private importTags(dataAndFeatures: any): void {
         // Get the single “text-tags” element.
         const textTags = dataAndFeatures['text-tags'][0];
-        textTags.tag.forEach((tag) => {
-            const textTag = this.buildYmlFunction(tag);
+        textTags.tag.forEach((_tag) => {
+            if (!_tag.$.ident) {
+                // invalid tag element without identifier
+                return;
+            }
+            const textTag = this.buildYmlFunction(_tag);
             this.completionProvider.addCompletionItem(textTag);
         });
     }

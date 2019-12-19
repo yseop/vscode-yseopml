@@ -1,3 +1,8 @@
+/*
+ * Note: The purpose of this file is to provide code examples that are syntactically correct,
+ * even if it won't compile because some symbols, objects, functions… don't exist.
+ */
+
 // ---------------------------------------------------------------------
 // ---------------------  City --------------------------------------
 // ---------------------------------------------------------------------
@@ -8,6 +13,11 @@ interface	City
 
 	field	country
 	--> domains	String
+
+    method getCityName()
+    --> domains String
+    --> documentation """Get the name of this City."""
+
 classProperties
 
 --> dsl -> Textualization
@@ -19,10 +29,19 @@ classProperties
 --> hasAccessorFunction true
 ;
 
-
 implementation	City
 ;
+function City::getCityName()
+--> action {
+	getCityName();
+	getCityName();
+}
+--> return this.name
+;
 
+function Patate::getCityName()
+--> return ""
+;
 
 // ---------------------------------------------------------------------
 // ---------------------  Address --------------------------------------
@@ -203,6 +222,8 @@ Function patate(Object o, String s, {} args)
 --> documentation """
 Documented function with:
 
+# coucou
+
 - *@param* `o` An Object.
 - *@param* `s` A String.
 
@@ -215,3 +236,25 @@ Documented function with:
 	return 12;
 }
 ;
+
+function function_name
+args{}
+--> action {
+    if (value == true) {
+        foreach(_var, coll) {
+            switch(_var) {
+                case(case_a) : {
+                }
+                case(case_b) : {
+
+                }
+                case(case_c) : {
+
+                }
+                default: {
+
+                }
+            }
+        }
+    }
+};

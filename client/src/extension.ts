@@ -21,11 +21,9 @@ import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } f
 let yseopCliOutputChannel: OutputChannel;
 let yseopCliStatusBarItem: StatusBarItem;
 let yseopCliPath: string;
-let parseAllProjectFilesAtStartup: boolean;
 
 const yseopmlSectionName = 'yseopml';
 const pathToYseopCliKey = 'pathToYseopCli';
-const parseWholeProjectKey = 'parseAllProjectFilesAtStartup';
 
 export function activate(context: ExtensionContext) {
     yseopCliOutputChannel = window.createOutputChannel('Yseop CLI Output');
@@ -111,19 +109,6 @@ export function activate(context: ExtensionContext) {
     // Also register the custom commands.
 
     context.subscriptions.push(disposable, batchCmd, compileCmd, testCmd, cleanCmd, cleanallCmd, packageCmd, infoCmd);
-
-    if (!parseAllProjectFilesAtStartup) {
-        // nothing more to do
-        return;
-    }
-    /*
-     * List of all the yseopml file extensions known by this extension as set in `client/package.json`.
-     */
-    const yseopmlExtensions = ['kao', 'yclass', 'yobject', 'ycomplete', 'dcl', 'yml'];
-
-    for (const extension of yseopmlExtensions) {
-        parseFilesWithExtension(extension);
-    }
 }
 
 /**
@@ -133,26 +118,6 @@ export function activate(context: ExtensionContext) {
  */
 function readConfig(yseopmlConfig: WorkspaceConfiguration): void {
     yseopCliPath = yseopmlConfig.get(pathToYseopCliKey);
-    parseAllProjectFilesAtStartup = yseopmlConfig.get(parseWholeProjectKey);
-}
-
-/**
- * Find all the files in the workspace that have the extension `extension`
- * and open them as `TextDocument` objects. This will result in a parsing request for
- * these files and have it known by the extension.
- * This function excludes the results from `.generated-yml/`.
- *
- * @param extension The extension of the files to look for
- */
-function parseFilesWithExtension(extension: string): void {
-    workspace.findFiles(`**/*.${extension}`, '.generated-yml/**').then((uris) => {
-        if (!uris) {
-            return;
-        }
-        uris.forEach((uri) => {
-            workspace.openTextDocument(uri);
-        });
-    });
 }
 
 function updateSettings(response: string): void {

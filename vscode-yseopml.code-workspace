@@ -53,8 +53,8 @@
             "source.fixAll.tslint": true
         },
         "jest.pathToJest": "npm test --",
-        "prettier.stylelintIntegration": true,
-        "prettier.tslintIntegration": true,
+        "prettier.trailingComma": "all",
+        "prettier.arrowParens": "always",
         "tslint.jsEnable": true,
         "typescriptHero.imports.organizeOnSave": true,
         "typescriptHero.imports.multiLineWrapThreshold": 120,

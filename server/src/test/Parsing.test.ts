@@ -26,9 +26,67 @@ function checkInputValidityForRule(ruleToTest: (parser: YmlParser) => ParserRule
 }
 
 describe('Parsing Tests', () => {
+    describe('intruction_rename rule', () => {
+        it('should parse without errors an `intruction_rename` instruction', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_rename(), `rename myAttr to myOtherAttr forClass MyClass`);
+            done();
+        });
+        it('should parse without errors an `intruction_rename` instruction using other existing keywords', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_rename(), `rename rename to forClass forClass Function`);
+            done();
+        });
+    });
+
     describe('as rule', () => {
         it('should parse without errors an `as` instruction', (done) => {
             checkInputValidityForRule((parser) => parser.as(), `as(?fact, ?att = myObj.attribute, ?fact.?att != null)`);
+            done();
+        });
+    });
+
+    describe('forall rule', () => {
+        it('should parse without errors a `forall` instruction with only one instanciation and some conditions', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+forall(?obj in coll
+       ?obj.att == myObj.attribute
+       ?obj.att.subAttr != null) {
+           // do things
+}
+`,
+);
+            done();
+        });
+        it('should parse without errors a `forall` instruction with multiple instanciations and a condition', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+forall(?obj in coll
+        ?obj2 in coll2
+        ?obj == ?obj2) {
+           // do things
+}
+`,
+);
+            done();
+        });
+        it('should parse without errors a `forall` instruction with instanciations only', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+forall(?obj in coll
+        ?obj2 in coll2
+        ?obj3 in coll3){
+           // do things
+}
+`,
+);
+            done();
+        });
+        it('should parse without errors a `forall` instruction with only one instanciation and some conditions using comma', (done) => {
+            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+forall(?obj in coll,
+       ?obj.att == myObj.attribute,
+       ?obj.att.subAttr != null) {
+           // do things
+}
+`,
+);
             done();
         });
     });
@@ -159,6 +217,13 @@ finalVal = switchExpr( myValue ) {
     });
 
     describe('chainedCall rule', () => {
+        it('should parse without errors a condition used as a function caller', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `((a == b && c == d) || myVal > e ).check()`,
+            );
+            done();
+        });
         it('should parse without errors an `applyCollection` instruction used as a function caller', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.chainedCall(),

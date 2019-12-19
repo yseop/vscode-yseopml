@@ -4,15 +4,20 @@
  * ------------------------------------------------------------------------------------------ */
 'use strict';
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
+import * as fs from 'fs';
+import { promises as fsPromises } from 'fs-extra';
+import * as glob from 'glob-promise';
+import * as path from 'path';
+import * as url from 'url';
 import {
     CompletionItem,
     createConnection,
     Diagnostic,
+    DiagnosticSeverity,
     IConnection,
     InitializeResult,
     IPCMessageReader,
     IPCMessageWriter,
-    MarkupKind,
     TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
@@ -24,6 +29,38 @@ import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import { YmlLexer, YmlParser } from './grammar';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
+
+// The settings interface describe the server relevant settings part
+interface ISettings {
+    yseopml: IServerSettings;
+}
+
+// These are the example settings we defined in the client's package.json file
+interface IServerSettings {
+    activateParsingProblemsReporting: boolean;
+    parseAllProjectFilesAtStartup: boolean;
+    pathToPredefinedObjectsXml: string;
+    ymlParsingIssueSeverityLevel: string;
+}
+
+let engineModel: EngineModel;
+
+let activateParsingProblemsReporting: boolean;
+let parseAllProjectFilesAtStartup: boolean;
+let pathToPredefinedObjectsXml: string;
+
+/**
+ * Map between the string available as option and real `DiagnosticSeverity` enum values.
+ */
+const diagSeverityMap = new Map<string, DiagnosticSeverity>([
+    ['error', DiagnosticSeverity.Error],
+    ['warning', DiagnosticSeverity.Warning],
+    ['information', DiagnosticSeverity.Information],
+    ['hint', DiagnosticSeverity.Hint],
+]);
+
+/** Regex that matches paths containing the `.generated-yml` directory. */
+const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
@@ -55,12 +92,136 @@ connection.onInitialize(
                 },
                 hoverProvider: true,
                 definitionProvider: true,
+                implementationProvider: true,
                 // Tell the client that the server works in FULL text document sync mode
                 textDocumentSync: documents.syncKind,
             },
         };
     },
 );
+
+connection.onInitialized((_params) => {
+    connection.workspace.getConfiguration('yseopml.parseAllProjectFilesAtStartup').then((_confValue) => {
+        parseAllProjectFilesAtStartup = _confValue;
+        if (!parseAllProjectFilesAtStartup) {
+            connection.console.log('Not parsing project files at startup.');
+            return;
+        }
+        connection.console.log('Parsing project files at startup.');
+        connection.workspace.getWorkspaceFolders().then((_value) => {
+            const workspacePath = url.fileURLToPath(_value[0].uri);
+            glob('**/project.kao', {
+                cwd: workspacePath,
+            })
+                .then((_matches) => {
+                    for (const filePath of _matches) {
+                        if (openProjectFile(workspacePath, filePath)) {
+                            // There should be only one `project.kao` file. If we found a good candidate, stop the loop.
+                            return;
+                        }
+                    }
+                })
+                .catch((_error) => console.error(_error));
+            parseAutoExportedFiles(workspacePath);
+        });
+    });
+});
+
+/**
+ *  Parse all the files that are included automatically by Yseop CLI
+ *  (the files with extensions `yclass` or `yobject` or `ycomplete`)
+ *  ignoring files from `.generated-yml/`.
+ *
+ *  @param workspacePath The absolute path to the workspace.
+ */
+function parseAutoExportedFiles(workspacePath: string): void {
+    // Parse all the files with extensions `yclass` or `yobject` or `ycomplete`, ignoring files from `.generated-yml/`.
+    glob(`**/*.@(yclass|yobject|ycomplete)`, {
+        cwd: workspacePath,
+        ignore: '**/.generated-yml/**',
+    })
+        .then((_matches) => {
+            _matches
+                // Ignore directories.
+                .filter((uri) => !fs.lstatSync(uri).isDirectory())
+                .forEach((uri) => {
+                    fsPromises
+                        .readFile(uri)
+                        .then((_doc) => {
+                            parseFile(`file://${workspacePath}/${uri}`, _doc.toString());
+                        })
+                        .catch((_err) => {
+                            if (!!_err) {
+                                connection.console.error(`${_err}`);
+                            } else {
+                                connection.console.error(`An unexpected error occured when reading file ${uri}`);
+                            }
+                        });
+                });
+        })
+        .catch((_error) => connection.console.error(_error));
+}
+
+/**
+ * Try to open a file with URI `fileUri`.
+ * Then, if the file is a `project.kao`-like file (i.e., a list of files used for the project),
+ * read and parse its content and apply this function recursively for each line that is an existing file’s URI.
+ *
+ * @param workspacePath The absolute path to the workspace.
+ * @param fileUri An existing file URI.
+ *
+ * @return `true` only if the provided URI was a `*.kao`-like file, i.e. it starts with `_FILE_TYPE_`.
+ */
+function openProjectFile(workspacePath: string, fileUri: string): boolean {
+    let wasKaoFile = true;
+    // Try to open the file. If it is opened, the server will parse it.
+    fsPromises
+        .readFile(fileUri)
+        .then((_file) => {
+            const fileContent = _file.toString();
+            parseFile(`file://${workspacePath}/${fileUri}`, fileContent);
+            if (!fileContent.trim().startsWith('_FILE_TYPE_')) {
+                // We are not in a `project.kao`-like file. Do not go further.
+                wasKaoFile = false;
+                return;
+            }
+            fileContent
+                .split('\n')
+                // line can be indented in the file.
+                .map((line) => line.trim())
+                .filter((line) => {
+                    return (
+                        // Ignore empty lines
+                        line.length > 0 &&
+                        // Ignore lines that are just preprocessing or Yseop Engine instruction
+                        !line.startsWith('@') &&
+                        // Ignore the lines with the _FILE_TYPE_ instruction
+                        !line.startsWith('_FILE_TYPE_') &&
+                        // Ignore single-line comments
+                        !line.startsWith('//') &&
+                        // Ignore multi-lines comments starting with “/*”
+                        !line.startsWith('/*') &&
+                        // Ignore multi-lines comments starting with just “*“ (includes “*/”)
+                        !line.startsWith('*') &&
+                        // Drop files from any .generated-yml/ directory
+                        line.search(GENERATED_YML_DIR_REGEX) === -1
+                    );
+                })
+                .map((line) => path.join(path.dirname(fileUri), line))
+                // Make sure the file exists and drop directories
+                .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
+                .forEach((uri) => openProjectFile(workspacePath, uri));
+        })
+        .catch((_err) => {
+            if (!!_err) {
+                connection.console.error(`${_err}`);
+                return;
+            }
+            connection.console.error(`Error while trying to process file ${fileUri} from workspace ${workspacePath}`);
+        });
+    // The document exists and was successfully opened and should be parsed already.
+    return wasKaoFile;
+}
 
 connection.onHover((_params) => {
     const doc: TextDocument = documents.get(_params.textDocument.uri);
@@ -78,43 +239,29 @@ connection.onHover((_params) => {
         }
     }
     return {
-        contents: {
-            kind: MarkupKind.Markdown,
-            value: entity.documentation,
-        },
+        contents: entity.documentation,
     };
 });
 
-const validateTextDocumentOnEvent = (event: TextDocumentChangeEvent) => validateTextDocument(event.document);
-documents.onDidChangeContent(validateTextDocumentOnEvent);
+const parseTextDocumentOnEvent = (event: TextDocumentChangeEvent) => parseTextDocument(event.document);
+documents.onDidChangeContent(parseTextDocumentOnEvent);
 documents.onDidClose((event: TextDocumentChangeEvent) =>
     // Clearing diagnostic for the closed file to avoid spamming the user.
     connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] }),
 );
 
-// The settings interface describe the server relevant settings part
-interface ISettings {
-    yseopml: IServerSettings;
-}
+// By default, the severity is Information.
+export let parsingIssueSeverityLevel: DiagnosticSeverity = DiagnosticSeverity.Information;
 
-// These are the example settings we defined in the client's package.json
-// file
-interface IServerSettings {
-    maxNumberOfProblems: number;
-    activateParsingProblemsReporting: boolean;
-    pathToPredefinedObjectsXml: string;
-}
-
-let engineModel: EngineModel;
-// hold the maxNumberOfProblems setting
-let pathToPredefinedObjectsXml: string;
-let activateParsingProblemsReporting: boolean;
-// The settings have changed. Is send on server activation
-// as well.
+// The settings have changed. Is send on server activation as well.
 connection.onDidChangeConfiguration((change) => {
     const settings = change.settings as ISettings;
     activateParsingProblemsReporting = settings.yseopml.activateParsingProblemsReporting;
     pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
+    // One of the severity levels possible, or `Information`.
+    parsingIssueSeverityLevel =
+        diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
+        DiagnosticSeverity.Information;
     if (engineModel == null) {
         engineModel = new EngineModel(pathToPredefinedObjectsXml, completionProvider);
         engineModel.loadPredefinedObjects();
@@ -122,16 +269,31 @@ connection.onDidChangeConfiguration((change) => {
         engineModel.reload(pathToPredefinedObjectsXml, completionProvider);
     }
     // Revalidate any open text documents
-    documents.all().forEach(validateTextDocument);
+    documents.all().forEach(parseTextDocument);
 });
 
-function validateTextDocument(textDocument: TextDocument): void {
-    connection.console.log(`Yseop.vscode-yseopml − Parsing ${textDocument.uri}`);
+/**
+ * Parse a Text Document, as defined by the Language Server Protocol.
+ *
+ * @param textDocument The text document to parse.
+ */
+function parseTextDocument(textDocument: TextDocument): void {
     const textDocUri = textDocument.uri;
-    const diagnostics: Diagnostic[] = [];
+    const docContent = textDocument.getText();
+    parseFile(textDocUri, docContent);
+}
 
+/**
+ * Parse the content of a YML file and keep a list of potential parsing issues to send to the client.
+ *
+ * @param textDocUri The document URI.
+ * @param docContent The document content.
+ */
+function parseFile(textDocUri: string, docContent: string) {
+    connection.console.log(`Yseop.vscode-yseopml − Parsing ${textDocUri}`);
+    const diagnostics: Diagnostic[] = [];
     // Create the lexer and parser
-    const inputStream = CharStreams.fromString(textDocument.getText());
+    const inputStream = CharStreams.fromString(docContent, textDocUri);
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
@@ -142,6 +304,8 @@ function validateTextDocument(textDocument: TextDocument): void {
     const result = parser.kaoFile();
     // Reset all the document's definitions.
     definitionsProvider.removeDocumentDefinitions(textDocUri);
+    // Reset all the document's implementations informations.
+    definitionsProvider.removeDocumentImplementations(textDocUri);
     // Reset all the document's completion items.
     completionProvider.removeDocumentCompletionItems(textDocUri);
 
@@ -167,13 +331,20 @@ connection.onDefinition((pos: TextDocumentPositionParams) => {
     return definitionsProvider.findDefinitions(entityName);
 });
 
+connection.onImplementation((pos: TextDocumentPositionParams) => {
+    const doc: TextDocument = documents.get(pos.textDocument.uri);
+    const entityName = getTokenAtPosInDoc(doc.getText(), doc.offsetAt(pos.position));
+    if (!entityName) {
+        return null;
+    }
+    return definitionsProvider.findImplementations(entityName);
+});
+
 // This handler provides the initial list of the completion items.
-connection.onCompletion(
-    (pos: TextDocumentPositionParams): CompletionItem[] => {
-        const doc: TextDocument = documents.get(pos.textDocument.uri);
-        return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
-    },
-);
+connection.onCompletion((pos: TextDocumentPositionParams): CompletionItem[] => {
+    const doc: TextDocument = documents.get(pos.textDocument.uri);
+    return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
+});
 
 // Listen on the connection
 connection.listen();

@@ -22,13 +22,14 @@ ymlEntity:
     | yenum
     | function
     | externDeclaration
+    | instruction_rename
 ;
 /**
     Expression marker can be a dot `.` or `>>`.
     Double dot `..` is for static function call like in `Date..stringtoDate("2012-05-10")`.
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
-
+instruction_rename: RENAME ymlId TO ymlId FOR_CLASS ymlId;
 ymlId:
     YMLID
     | ARGS
@@ -39,6 +40,9 @@ ymlId:
     | IMPLEMENTATION
     | OPERATION_APPLY_COLLECTION_ON
     | CASE
+    | RENAME
+    | TO
+    | FOR_CLASS
 ;
 
 yenum:
@@ -224,6 +228,7 @@ expression:
     | applyCollectionOn
     | array
     | hashMap
+    | parenthesisCondition
     | OPEN_PAR instruction_switchExpr_withValue CLOSE_PAR
     | OPEN_PAR instruction_switchExpr_asIf CLOSE_PAR
     | OPEN_PAR ifExprBlock CLOSE_PAR
@@ -322,9 +327,10 @@ instanciationCondition: inlineOperation;
 
 order1FullCondition: conditionBlock? order1Block*;
 
+parenthesisCondition: OPEN_PAR combinedComparison CLOSE_PAR;
 //Comparisons
 combinedComparison:
-    OPEN_PAR combinedComparison CLOSE_PAR
+    parenthesisCondition
     | leftCondition=combinedComparison COND_AND rightCondition=combinedComparison
     | leftCondition=combinedComparison COND_OR rightCondition=combinedComparison
     | comparison
@@ -398,7 +404,7 @@ inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR inValue CLOSE_PAR actionBlockOrInstruction
+    FORALL OPEN_PAR inValue (COMMA? inValue)* (COMMA? combinedComparison)* CLOSE_PAR actionBlockOrInstruction
 ;
 instruction_while:
     WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
