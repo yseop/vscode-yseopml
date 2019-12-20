@@ -1,5 +1,9 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
+-   Fix an issue that occurs when writing attributes named `domains`, `domainsLevel2` and `documentation`.
+
 ## 1.6.5 (2019-12-19)
 
 -   Remove unused option `maxNumberOfProblems`;
