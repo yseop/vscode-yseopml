@@ -62,9 +62,9 @@ const diagSeverityMap = new Map<string, DiagnosticSeverity>([
 /** Regex that matches paths containing the `.generated-yml` directory. */
 const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
 /** Regex that matches the `_FILE_TYPE_ F` instruction. */
-const FILE_TYPE_F = /^_FILE_TYPE_\s+F\s*/;
+const FILE_TYPE_F = /^_FILE_TYPE_\s+F\b/;
 /** Regex that matches the `_FILE_TYPE_ M` instruction. */
-const FILE_TYPE_M = /^_FILE_TYPE_\s+M\s*/;
+const FILE_TYPE_M = /^_FILE_TYPE_\s+M\b/;
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
