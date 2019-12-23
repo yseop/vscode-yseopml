@@ -3,6 +3,7 @@
 ## X.X.X (YYYY-MM-DD)
 
 -   Fix an issue that occurs when writing attributes named `domains`, `domainsLevel2` and `documentation`.
+-   Fix `*.kao` files parsing at startup (“F” and “M” types differentiation).
 
 ## 1.6.5 (2019-12-19)
 

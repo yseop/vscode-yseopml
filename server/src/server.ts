@@ -61,6 +61,10 @@ const diagSeverityMap = new Map<string, DiagnosticSeverity>([
 
 /** Regex that matches paths containing the `.generated-yml` directory. */
 const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
+/** Regex that matches the `_FILE_TYPE_ F` instruction. */
+const FILE_TYPE_F = /^_FILE_TYPE_\s+F\b/;
+/** Regex that matches the `_FILE_TYPE_ M` instruction. */
+const FILE_TYPE_M = /^_FILE_TYPE_\s+M\b/;
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
@@ -115,7 +119,7 @@ connection.onInitialized((_params) => {
             })
                 .then((_matches) => {
                     for (const filePath of _matches) {
-                        if (openProjectFile(workspacePath, filePath)) {
+                        if (openProjectFile(workspacePath, path.join(workspacePath, filePath))) {
                             // There should be only one `project.kao` file. If we found a good candidate, stop the loop.
                             return;
                         }
@@ -179,8 +183,10 @@ function openProjectFile(workspacePath: string, fileUri: string): boolean {
         .readFile(fileUri)
         .then((_file) => {
             const fileContent = _file.toString();
-            parseFile(`file://${workspacePath}/${fileUri}`, fileContent);
-            if (!fileContent.trim().startsWith('_FILE_TYPE_')) {
+            const isTypeF = fileContent.search(FILE_TYPE_F) !== -1;
+            const isTypeM = !isTypeF && fileContent.search(FILE_TYPE_M) !== -1;
+            parseFile(`file://${fileUri}`, fileContent);
+            if (!isTypeF && !isTypeM) {
                 // We are not in a `project.kao`-like file. Do not go further.
                 wasKaoFile = false;
                 return;
@@ -207,7 +213,13 @@ function openProjectFile(workspacePath: string, fileUri: string): boolean {
                         line.search(GENERATED_YML_DIR_REGEX) === -1
                     );
                 })
-                .map((line) => path.join(path.dirname(fileUri), line))
+                .map((line) => {
+                    // In a M type *.kao file, paths are relative to the current *.kao file.
+                    // In a F type *.kao file, paths are relative to the project's root.
+                    // Here we assume that the root is the workspace path.
+                    const from = isTypeM ? path.dirname(fileUri) : workspacePath;
+                    return path.join(from, line);
+                })
                 // Make sure the file exists and drop directories
                 .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
                 .forEach((uri) => openProjectFile(workspacePath, uri));
