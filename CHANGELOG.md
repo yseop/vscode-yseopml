@@ -1,5 +1,9 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
+-   Fix `*.kao` files parsing at startup (“F” and “M” types differentiation).
+
 ## 1.6.5 (2019-12-19)
 
 -   Remove unused option `maxNumberOfProblems`;
