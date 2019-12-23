@@ -213,14 +213,13 @@ function openProjectFile(workspacePath: string, fileUri: string): boolean {
                         line.search(GENERATED_YML_DIR_REGEX) === -1
                     );
                 })
-                .map((line) =>
-                    isTypeM
-                        ? // In a M type *.kao file, paths are relative to the current *.kao file.
-                          path.join(path.dirname(fileUri), line)
-                        : // In a F type *.kao file, paths are relative to the project's root.
-                          // Here we assume that the root is the workspace path.
-                          path.join(workspacePath, line),
-                )
+                .map((line) => {
+                    // In a M type *.kao file, paths are relative to the current *.kao file.
+                    // In a F type *.kao file, paths are relative to the project's root.
+                    // Here we assume that the root is the workspace path.
+                    const from = isTypeM ? path.dirname(fileUri) : workspacePath;
+                    return path.join(from, line);
+                })
                 // Make sure the file exists and drop directories
                 .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
                 .forEach((uri) => openProjectFile(workspacePath, uri));
