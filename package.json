@@ -38,6 +38,13 @@
     },
     "main": "./client/out/extension",
     "contributes": {
+        "iconThemes": [
+            {
+                "id": "yseopml-icons-theme",
+                "label": "YseopML Icons Theme",
+                "path": "./fileicons/yseopml-icons-theme.json"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "Yseop Markup Language configuration",

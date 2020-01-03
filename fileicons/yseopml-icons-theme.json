@@ -1,0 +1,13 @@
+{
+    "iconDefinitions": {
+        "yseopml_file_dark": {
+            "iconPath": "./images/bulle-yseop.svg"
+        },
+        "yseopml_file_light": {
+            "iconPath": "./images/bulle-yseop.svg"
+        }
+    },
+    "languageIds": {
+        "yml": "yseopml_file_dark"
+    }
+}
