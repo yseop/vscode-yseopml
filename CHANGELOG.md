@@ -9,8 +9,8 @@
     -   arithmetic expressions;
     -   text granules;
     -   rulesets and Rule objects;
-    -   expressions using `mod` operator;
-    -   expressions with `noDefault` keyword.
+    -   expressions using the `mod` operator;
+    -   expressions with the `noDefault` keyword.
 
 ## 1.6.5 (2019-12-19)
 

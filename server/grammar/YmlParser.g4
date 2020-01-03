@@ -127,7 +127,7 @@ commonField:
 local_variable_decl: type=memberType memberName=ymlId;
 
 localField:
-    fieldArrow= FIELD_INTRO optionName=LOCAL
+    fieldArrow=FIELD_INTRO optionName=LOCAL
     (
         optionValues+=local_variable_decl
         (
@@ -137,7 +137,7 @@ localField:
 ;
 
 returnField:
-    fieldArrow= FIELD_INTRO optionName=RETURN optionValue=objectReturnAttributeValue
+    fieldArrow=FIELD_INTRO optionName=RETURN optionValue=objectReturnAttributeValue
 ;
 
 classPropertiesBlock: CLASSPROPERTIES classOption=field*;
