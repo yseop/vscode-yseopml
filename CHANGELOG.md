@@ -2,8 +2,14 @@
 
 ## X.X.X (YYYY-MM-DD)
 
--   Fix a parsing issue that occurs when editing the value of attributes named `domains`, `domainsLevel2` and `documentation`.
--   Fix `*.kao` files parsing at startup (“F” and “M” types differentiation).
+-   Fix a parsing issue that occurs when editing the value of attributes named `domains`, `domainsLevel2` and `documentation`;
+-   Fix `*.kao` files parsing at startup (“F” and “M” types differentiation);
+-   Improved parsing performance;
+-   Improved parsing for:
+    -   arithmetic expressions;
+    -   text granules;
+    -   expressions using `mod` operator;
+    -   expressions with `noDefault` keyword.
 
 ## 1.6.5 (2019-12-19)
 

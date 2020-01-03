@@ -31,8 +31,7 @@ ymlEntity:
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
 instruction_rename: RENAME ymlId TO ymlId FOR_CLASS ymlId;
 ymlId:
-    YMLID
-    | ARGS
+    ARGS
     | LOCAL
     | RETURN
     | FUNCTION_AS_TYPE
@@ -43,6 +42,9 @@ ymlId:
     | RENAME
     | TO
     | FOR_CLASS
+    | MOD
+    | AS
+    | YMLID
 ;
 
 yenum:
@@ -88,7 +90,26 @@ memberType: ymlId (COND_OR ymlId)?;
 path: ymlId (DOT ymlId)+?;
 ymlIdOrPath: ymlId | path;
 
-field: commonField | returnField | localField;
+field:
+    actionField
+    | commonField
+    | returnField
+    | localField
+    | implementationField
+;
+
+actionField: FIELD_INTRO optionName=ACTION actionFieldValues;
+
+actionFieldValues:
+    actionBlock
+    | chainedCall
+    | instruction_return
+    | ifExprBlock
+;
+
+implementationField: FIELD_INTRO IMPLEMENTATION actionBlock;
+
+instructionNoSemi: ifExprBlock | chainedCall | instruction_return;
 
 commonField:
     fieldArrow=
@@ -97,10 +118,7 @@ commonField:
         | REPLACE_FIELD_VALUE_INTRO
         | REMOVE_FIELD
         | ADD_FIELD
-    ) optionName=ymlIdOrPath
-    (
-        optionValues+=valueOrCondition (COMMA optionValues+=valueOrCondition)*?
-    )?
+    ) optionName=ymlIdOrPath optionValue=objectAttributeValue
 ;
 
 local_variable_decl: type=memberType memberName=ymlId;
@@ -116,18 +134,37 @@ localField:
 ;
 
 returnField:
-    fieldArrow= FIELD_INTRO optionName=RETURN
-    (
-        optionValues+=valueOrCondition (COMMA optionValues+=valueOrCondition)*?
-    )?
+    fieldArrow= FIELD_INTRO optionName=RETURN optionValue=objectReturnAttributeValue
 ;
 
 classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 
 documentation: DOCUMENTATION;
-valueOrCondition:
-    actionBlockOrInstruction
+
+objectReturnAttributeValue:
+    ifExprBlock
     | combinedComparison
+    | value
+    | hashMapKeyValue
+    | documentation
+    | type=ymlId name=ymlId
+    | simpleList
+;
+
+objectAttributeValue:
+    actionBlock
+    | instruction_return
+    | ifExprBlock
+    | combinedComparison
+    | value
+    | hashMapKeyValue
+    | documentation
+    | type=ymlId name=ymlId
+    | simpleList
+;
+
+valueOrCondition:
+    combinedComparison
     | value
     | hashMapKeyValue
     | documentation
@@ -135,8 +172,8 @@ valueOrCondition:
 ;
 
 hashMap: OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE;
-hashMapKeyValue: (nonArithmeticValue | DOUBLE | array | constList) COLON hashMapValue
-;
+hashMapKeyValue: hashMapKey COLON hashMapValue;
+hashMapKey: bool | STRING | DATE | chainedCall | NUMBER | array | constList;
 hashMapValue: value | combinedComparison;
 
 value:
@@ -206,13 +243,13 @@ instruction_for:
     FOR OPEN_PAR name=ymlId COMMA step=value COMMA collection=value CLOSE_PAR actionBlockOrInstruction
 ;
 
-instruction_ifExprBlock: ifExprBlock SEMICOLON?;
+instruction_ifExprBlock: ifExprBlock;
 ifExprBlock:
     IF_EXPR OPEN_PAR condition=combinedComparison CLOSE_PAR THEN thenValue=value ELSE elseValue=value
 ;
 
 bool: TRUE | FALSE;
-nonArithmeticValue: chainedCall | bool | STRING | DATE;
+nonArithmeticValue: bool | STRING | DATE;
 
 instanciationVariable: QUESTION_MARK ymlId;
 
@@ -348,9 +385,13 @@ comparisonOperator:
 ;
 
 instruction_multivaluedAssignment:
-    leftHand=value MULTIVALUED_ASSIGNMENT rightHand=value
+    leftHand=assignment_leftHandSide MULTIVALUED_ASSIGNMENT rightHand=value
 ;
-instruction_assignment: leftHand=value EQUAL_ASSIGNMENT rightHand=value;
+instruction_assignment:
+    leftHand=assignment_leftHandSide EQUAL_ASSIGNMENT rightHand=value
+;
+
+assignment_leftHandSide: chainedCall;
 
 conditionBlock: order0Condition+;
 
@@ -362,11 +403,19 @@ instruction_switchExpr_withValue:
     SWITCH_EXPR OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
 ;
 instruction_switchExpr_asIf:
-    SWITCH_EXPR OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
+    SWITCH_EXPR OPEN_BRACE instructionCase_withValue*
+    (
+        instructionDefault_withValue
+        | NO_DEFAULT
+    )? CLOSE_BRACE
 ;
 
 instruction_switchCase_withValue:
-    SWITCH OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
+    SWITCH OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase*
+    (
+        instructionDefault
+        | NO_DEFAULT
+    )? CLOSE_BRACE
 ;
 instruction_switchCase_asIf:
     SWITCH OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
@@ -409,7 +458,7 @@ instruction_forall:
 instruction_while:
     WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
 ;
-instruction_return: RETURN value SEMICOLON?;
+instruction_return: RETURN value;
 instruction_chainedCall: chainedCall;
 instruction:
     instruction_chainedCall SEMICOLON?
@@ -418,7 +467,7 @@ instruction:
     | instruction_for
     | instruction_forEach
     | instruction_forall
-    | instruction_return
+    | instruction_return SEMICOLON?
     | instruction_ifElse
     | instruction_try_catch SEMICOLON?
     | instruction_switchCase_asIf
@@ -435,13 +484,14 @@ instruction_try_catch:
 
 actionBlock: OPEN_BRACE instruction+ CLOSE_BRACE;
 
+arithmeticOperator: ADD | SUB | MUL | DIV | MOD;
+
+unaryExpression: SUB unaryExpression | chainedCall | NUMBER;
+
 arithmeticExpression:
     OPEN_PAR parenthizedExpression=arithmeticExpression CLOSE_PAR
-    | leftExpression=arithmeticExpression infixedOperator=OPERATOR rightExpression=arithmeticExpression
-    | prefixedOperator=OPERATOR arithmeticExpression
-    | chainedCall OPERATOR arithmeticExpression
-    | chainedCall OPERATOR chainedCall
-    | DOUBLE
+    | arithmeticExpression arithmeticOperator arithmeticExpression
+    | unaryExpression
 ;
 
 existentialOperator: operator=ymlId OPEN_PAR order1FullCondition CLOSE_PAR;
@@ -458,13 +508,14 @@ externDeclaration: EXTERN (methodDeclaration | memberDeclaration) SEMICOLON;
 array:
     OPEN_BRACKET elements+=value? (COMMA elements+=value)* CLOSE_BRACKET
 ;
+
+simpleList: elements+=value (COMMA elements+=value)+;
+
 constList:
     OPEN_BRACE elements+=value? (COMMA elements+=value)* CLOSE_BRACE
 ;
 
-granule:
-    OPEN_GRANULE (~(OPEN_GRANULE | CLOSE_GRANULE)+ | granule)*? CLOSE_GRANULE EOF?
-;
+granule: OPEN_GRANULE granule*? CLOSE_GRANULE;
 
 objectComplete:
     COMPLETE completedElemId=ymlId memberOption=field* SEMICOLON

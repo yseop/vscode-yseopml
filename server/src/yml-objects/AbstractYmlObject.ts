@@ -134,14 +134,13 @@ function getDocumentation(fieldOptions: FieldContext[], connection: IConnection)
                 !option ||
                 !option._optionName ||
                 option._optionName.text !== 'documentation' ||
-                !option._optionValues ||
-                option._optionValues.length === 0 ||
-                !option._optionValues[0].text
+                !option._optionValue ||
+                !option._optionValue.text
             ) {
                 // There is no option, or option name isn't “documentation” or there is no text value associated.
                 continue;
             }
-            let _documentation = option._optionValues[0].text;
+            let _documentation = option._optionValue.text;
             _documentation = _documentation.replace(BEGINNING_QUOTES_REGEX, '');
             _documentation = _documentation.replace(ENDING_QUOTES_REGEX, '');
             return _documentation;
@@ -162,14 +161,14 @@ function getType(fieldOptions: FieldContext[], connection: IConnection, baseType
     try {
         for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
             const option = element.commonField();
-            if (!option || !option._optionName || !option._optionValues || option._optionValues.length === 0) {
+            if (!option || !option._optionName || !option._optionValue) {
                 continue;
             }
             const optionName = option._optionName.text;
             if (optionName === 'domains') {
-                domains = option._optionValues[0].text;
+                domains = option._optionValue.text;
             } else if (optionName === 'domainsLevel2') {
-                domainsLevel2 = ` − ${option._optionValues[0].text}`;
+                domainsLevel2 = ` − ${option._optionValue.text}`;
             } else {
                 // YML fields unrelated to domains.
             }

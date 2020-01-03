@@ -26,15 +26,22 @@ import { MemberTypeContext } from "./YmlParser";
 import { PathContext } from "./YmlParser";
 import { YmlIdOrPathContext } from "./YmlParser";
 import { FieldContext } from "./YmlParser";
+import { ActionFieldContext } from "./YmlParser";
+import { ActionFieldValuesContext } from "./YmlParser";
+import { ImplementationFieldContext } from "./YmlParser";
+import { InstructionNoSemiContext } from "./YmlParser";
 import { CommonFieldContext } from "./YmlParser";
 import { Local_variable_declContext } from "./YmlParser";
 import { LocalFieldContext } from "./YmlParser";
 import { ReturnFieldContext } from "./YmlParser";
 import { ClassPropertiesBlockContext } from "./YmlParser";
 import { DocumentationContext } from "./YmlParser";
+import { ObjectReturnAttributeValueContext } from "./YmlParser";
+import { ObjectAttributeValueContext } from "./YmlParser";
 import { ValueOrConditionContext } from "./YmlParser";
 import { HashMapContext } from "./YmlParser";
 import { HashMapKeyValueContext } from "./YmlParser";
+import { HashMapKeyContext } from "./YmlParser";
 import { HashMapValueContext } from "./YmlParser";
 import { ValueContext } from "./YmlParser";
 import { AsContext } from "./YmlParser";
@@ -79,6 +86,7 @@ import { ComparisonContext } from "./YmlParser";
 import { ComparisonOperatorContext } from "./YmlParser";
 import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
 import { Instruction_assignmentContext } from "./YmlParser";
+import { Assignment_leftHandSideContext } from "./YmlParser";
 import { ConditionBlockContext } from "./YmlParser";
 import { Order0ConditionContext } from "./YmlParser";
 import { ActionBlockOrInstructionContext } from "./YmlParser";
@@ -102,12 +110,15 @@ import { InstructionContext } from "./YmlParser";
 import { Instruction_doContext } from "./YmlParser";
 import { Instruction_try_catchContext } from "./YmlParser";
 import { ActionBlockContext } from "./YmlParser";
+import { ArithmeticOperatorContext } from "./YmlParser";
+import { UnaryExpressionContext } from "./YmlParser";
 import { ArithmeticExpressionContext } from "./YmlParser";
 import { ExistentialOperatorContext } from "./YmlParser";
 import { VariableBlockContentContext } from "./YmlParser";
 import { StaticDeclarationContext } from "./YmlParser";
 import { ExternDeclarationContext } from "./YmlParser";
 import { ArrayContext } from "./YmlParser";
+import { SimpleListContext } from "./YmlParser";
 import { ConstListContext } from "./YmlParser";
 import { GranuleContext } from "./YmlParser";
 import { ObjectCompleteContext } from "./YmlParser";
@@ -284,6 +295,34 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitField?: (ctx: FieldContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.actionField`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitActionField?: (ctx: ActionFieldContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.actionFieldValues`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitActionFieldValues?: (ctx: ActionFieldValuesContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.implementationField`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitImplementationField?: (ctx: ImplementationFieldContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instructionNoSemi`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstructionNoSemi?: (ctx: InstructionNoSemiContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.commonField`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -326,6 +365,20 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitDocumentation?: (ctx: DocumentationContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.objectReturnAttributeValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitObjectReturnAttributeValue?: (ctx: ObjectReturnAttributeValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.objectAttributeValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitObjectAttributeValue?: (ctx: ObjectAttributeValueContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.valueOrCondition`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -345,6 +398,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitHashMapKeyValue?: (ctx: HashMapKeyValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.hashMapKey`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitHashMapKey?: (ctx: HashMapKeyContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.hashMapValue`.
@@ -655,6 +715,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstruction_assignment?: (ctx: Instruction_assignmentContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.assignment_leftHandSide`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitAssignment_leftHandSide?: (ctx: Assignment_leftHandSideContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.conditionBlock`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -816,6 +883,20 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitActionBlock?: (ctx: ActionBlockContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.arithmeticOperator`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitArithmeticOperator?: (ctx: ArithmeticOperatorContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.unaryExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitUnaryExpression?: (ctx: UnaryExpressionContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -856,6 +937,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitArray?: (ctx: ArrayContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.simpleList`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitSimpleList?: (ctx: SimpleListContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.constList`.
