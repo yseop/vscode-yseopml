@@ -60,6 +60,8 @@ FOR: 'for';
 RENAME: 'rename';
 TO: 'to';
 FOR_CLASS: 'forClass';
+RULESET: 'ruleset';
+RULE_TYPE: 'Rule';
 
 //Symbols
 SEMICOLON: ';';

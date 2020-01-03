@@ -123,6 +123,9 @@ import { ConstListContext } from "./YmlParser";
 import { GranuleContext } from "./YmlParser";
 import { ObjectCompleteContext } from "./YmlParser";
 import { ClassCompleteContext } from "./YmlParser";
+import { RulesetContext } from "./YmlParser";
+import { RulesContext } from "./YmlParser";
+import { YmlruleContext } from "./YmlParser";
 
 
 /**
@@ -1449,5 +1452,38 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitClassComplete?: (ctx: ClassCompleteContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.ruleset`.
+	 * @param ctx the parse tree
+	 */
+	enterRuleset?: (ctx: RulesetContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.ruleset`.
+	 * @param ctx the parse tree
+	 */
+	exitRuleset?: (ctx: RulesetContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.rules`.
+	 * @param ctx the parse tree
+	 */
+	enterRules?: (ctx: RulesContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.rules`.
+	 * @param ctx the parse tree
+	 */
+	exitRules?: (ctx: RulesContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.ymlrule`.
+	 * @param ctx the parse tree
+	 */
+	enterYmlrule?: (ctx: YmlruleContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.ymlrule`.
+	 * @param ctx the parse tree
+	 */
+	exitYmlrule?: (ctx: YmlruleContext) => void;
 }
 

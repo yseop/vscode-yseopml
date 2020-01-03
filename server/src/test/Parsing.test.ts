@@ -696,4 +696,54 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
             done();
         });
     });
+    describe('ruleset rule', () => {
+        it('should parse an empty ruleset without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.ruleset(),
+                `ruleset {}`,
+            );
+            done();
+        });
+        it('should parse a ruleset with some rules without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.ruleset(),
+                `ruleset {
+                    Rule personAliveHasOnlyOneOver18Child
+                    if(?person in Person
+                        ?person.isAlive() == true
+                        ?person.hasChildren() == true
+                        ?person.isMultiple() == false
+                        // Specific case because this intention can only have one children which is on ACCORD_PIDU
+                        ?child = ?person.children.get(_FIRST)
+                        ?child.age >= 18)
+                    then
+                        logInfo("Person named ", ?person.name,
+                            " has only one child. This child is over 18: ", ?child.name);
+                    ;
+
+                }`,
+            );
+            done();
+        });
+        it('should parse a ruleset with some rules and some attributes without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.ruleset(),
+                `ruleset {
+                    Rule personAliveHasOnlyOneOver18Child
+                    if(?person in Person
+                        ?person.isAlive() == true
+                        ?person.hasChildren() == true
+                        ?person.isMultiple() == false
+                        ?child = ?person.children.get(_FIRST)
+                        ?child.age >= 18)
+                    then
+                        logInfo("Person named ", ?person.name,
+                            " has only one child. This child is over 18: ", ?child.name);
+                    --> documentation "find a person that has only one child and which is over 18."
+                    ;
+                }`,
+            );
+            done();
+        });
+    });
 });

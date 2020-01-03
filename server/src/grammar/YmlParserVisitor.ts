@@ -123,6 +123,9 @@ import { ConstListContext } from "./YmlParser";
 import { GranuleContext } from "./YmlParser";
 import { ObjectCompleteContext } from "./YmlParser";
 import { ClassCompleteContext } from "./YmlParser";
+import { RulesetContext } from "./YmlParser";
+import { RulesContext } from "./YmlParser";
+import { YmlruleContext } from "./YmlParser";
 
 
 /**
@@ -972,5 +975,26 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitClassComplete?: (ctx: ClassCompleteContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.ruleset`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitRuleset?: (ctx: RulesetContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.rules`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitRules?: (ctx: RulesContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.ymlrule`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitYmlrule?: (ctx: YmlruleContext) => Result;
 }
 

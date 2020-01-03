@@ -19,6 +19,7 @@ ymlEntity:
     | staticDeclaration
     | classComplete
     | objectComplete
+    | ymlrule
     | yenum
     | function
     | externDeclaration
@@ -45,6 +46,8 @@ ymlId:
     | MOD
     | AS
     | YMLID
+    | RULESET
+    | RULE_TYPE
 ;
 
 yenum:
@@ -276,7 +279,8 @@ functionCall:
 ;
 index: OPEN_BRACKET functionArgument CLOSE_BRACKET;
 
-functionArgument: (argKey=ID COLON)? valueOrCondition;
+functionArgument: (argKey=ID COLON)? (valueOrCondition | instanciationVariable)
+;
 
 chainedCall:
     possiblyIndexedExpression
@@ -301,7 +305,7 @@ function: (METHOD | FUNCTION | FUNCTION_AS_TYPE | TEXT_METHOD | TEXT_FUNCTION) y
     (
         argsBlock
         | OPEN_PAR argumentList CLOSE_PAR
-    ) localBlock? staticBlock? memberOption=field* SEMICOLON
+    ) localBlock? staticBlock? ruleset? memberOption=field* SEMICOLON
 ;
 argsBlock: ARGS OPEN_BRACE variableBlockContent CLOSE_BRACE;
 localBlock: LOCAL OPEN_BRACE variableBlockContent CLOSE_BRACE;
@@ -528,4 +532,15 @@ classComplete:
         | methodCompleteDeclaration
         | memberDeclaration
     )* SEMICOLON
+;
+
+ruleset: RULESET OPEN_BRACE rules? CLOSE_BRACE;
+rules: ymlrule+;
+ymlrule:
+    RULE_TYPE ymlId IF OPEN_PAR
+    (
+        combinedComparison
+        | inValue
+        | instruction_assignment
+    )+ CLOSE_PAR THEN instruction+ field* SEMICOLON
 ;

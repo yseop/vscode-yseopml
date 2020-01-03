@@ -8,6 +8,7 @@
 -   Improved parsing for:
     -   arithmetic expressions;
     -   text granules;
+    -   rulesets and Rule objects;
     -   expressions using `mod` operator;
     -   expressions with `noDefault` keyword.
 
