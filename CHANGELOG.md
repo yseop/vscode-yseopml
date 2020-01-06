@@ -1,6 +1,6 @@
 # Release Notes
 
-## X.X.X (YYYY-MM-DD)
+## 1.7.0 (2020-01-06)
 
 -   Fix a parsing issue that occurs when editing the value of attributes named `domains`, `domainsLevel2` and `documentation`;
 -   Fix `*.kao` files parsing at startup (“F” and “M” types differentiation);
