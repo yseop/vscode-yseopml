@@ -1,4 +1,5 @@
-import { CharStreams, CommonTokenStream } from 'antlr4ts';
+import { CharStreams, CommonTokenStream, DiagnosticErrorListener } from 'antlr4ts';
+import { PredictionMode } from 'antlr4ts/atn/PredictionMode';
 import { ParserRuleContext } from 'antlr4ts/ParserRuleContext';
 import * as assert from 'assert';
 
@@ -13,12 +14,21 @@ import { YmlLexer, YmlParser } from '../grammar';
  *
  * @param ruleToTest The parser rule that should work for the provided YML code input.
  * @param ymlCode YML code extract that should be parsed correctly with the provided rule.
+ * @param detectAmbiguity `true` if parsing ambiguities should be detected and counted as error. Default to `false`.
  */
-function checkInputValidityForRule(ruleToTest: (parser: YmlParser) => ParserRuleContext, ymlCode: string): void {
+function checkInputValidityForRule(
+    ruleToTest: (parser: YmlParser) => ParserRuleContext,
+    ymlCode: string,
+    failOnAmbiguity = false,
+): void {
     const inputStream = CharStreams.fromString(ymlCode);
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
+    if (failOnAmbiguity) {
+        parser.addErrorListener(new DiagnosticErrorListener(true));
+        parser.interpreter.setPredictionMode(PredictionMode.LL_EXACT_AMBIG_DETECTION);
+    }
 
     const result = ruleToTest(parser);
     assert.strictEqual(parser.numberOfSyntaxErrors, 0);
@@ -28,11 +38,17 @@ function checkInputValidityForRule(ruleToTest: (parser: YmlParser) => ParserRule
 describe('Parsing Tests', () => {
     describe('intruction_rename rule', () => {
         it('should parse without errors an `intruction_rename` instruction', (done) => {
-            checkInputValidityForRule((parser) => parser.instruction_rename(), `rename myAttr to myOtherAttr forClass MyClass`);
+            checkInputValidityForRule(
+                (parser) => parser.instruction_rename(),
+                `rename myAttr to myOtherAttr forClass MyClass`,
+            );
             done();
         });
         it('should parse without errors an `intruction_rename` instruction using other existing keywords', (done) => {
-            checkInputValidityForRule((parser) => parser.instruction_rename(), `rename rename to forClass forClass Function`);
+            checkInputValidityForRule(
+                (parser) => parser.instruction_rename(),
+                `rename rename to forClass forClass Function`,
+            );
             done();
         });
     });
@@ -46,47 +62,55 @@ describe('Parsing Tests', () => {
 
     describe('forall rule', () => {
         it('should parse without errors a `forall` instruction with only one instanciation and some conditions', (done) => {
-            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+            checkInputValidityForRule(
+                (parser) => parser.instruction_forall(),
+                `
 forall(?obj in coll
        ?obj.att == myObj.attribute
        ?obj.att.subAttr != null) {
            // do things
 }
 `,
-);
+            );
             done();
         });
         it('should parse without errors a `forall` instruction with multiple instanciations and a condition', (done) => {
-            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+            checkInputValidityForRule(
+                (parser) => parser.instruction_forall(),
+                `
 forall(?obj in coll
         ?obj2 in coll2
         ?obj == ?obj2) {
            // do things
 }
 `,
-);
+            );
             done();
         });
         it('should parse without errors a `forall` instruction with instanciations only', (done) => {
-            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+            checkInputValidityForRule(
+                (parser) => parser.instruction_forall(),
+                `
 forall(?obj in coll
         ?obj2 in coll2
         ?obj3 in coll3){
            // do things
 }
 `,
-);
+            );
             done();
         });
         it('should parse without errors a `forall` instruction with only one instanciation and some conditions using comma', (done) => {
-            checkInputValidityForRule((parser) => parser.instruction_forall(), `
+            checkInputValidityForRule(
+                (parser) => parser.instruction_forall(),
+                `
 forall(?obj in coll,
        ?obj.att == myObj.attribute,
        ?obj.att.subAttr != null) {
            // do things
 }
 `,
-);
+            );
             done();
         });
     });
@@ -126,7 +150,6 @@ finalVal = switchExpr( myValue ) {
             );
             done();
         });
-
     });
 
     describe('applyCollection', () => {
@@ -145,7 +168,10 @@ finalVal = switchExpr( myValue ) {
             done();
         });
         it('should parse without errors an `applyCollection` instruction with __operation keyword on function name', (done) => {
-            checkInputValidityForRule((parser) => parser.applyCollection(), `applyCollection(list0, __operation carre);`);
+            checkInputValidityForRule(
+                (parser) => parser.applyCollection(),
+                `applyCollection(list0, __operation carre);`,
+            );
             done();
         });
 
@@ -218,10 +244,7 @@ finalVal = switchExpr( myValue ) {
 
     describe('chainedCall rule', () => {
         it('should parse without errors a condition used as a function caller', (done) => {
-            checkInputValidityForRule(
-                (parser) => parser.chainedCall(),
-                `((a == b && c == d) || myVal > e ).check()`,
-            );
+            checkInputValidityForRule((parser) => parser.chainedCall(), `((a == b && c == d) || myVal > e).check()`);
             done();
         });
         it('should parse without errors an `applyCollection` instruction used as a function caller', (done) => {
@@ -254,30 +277,36 @@ finalVal = switchExpr( myValue ) {
             done();
         });
         it('should parse without errors a chained call with an ifExpr', (done) => {
-            checkInputValidityForRule((parser) => parser.chainedCall(),
-            `(ifExpr(a ==b) then ["a", "b"] else ["c", "d"]).get(_FIRST)`);
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `(ifExpr(a ==b) then ["a", "b"] else ["c", "d"]).get(_FIRST)`,
+            );
             done();
         });
         it('should parse without errors a chained call with an switchExpr', (done) => {
-            checkInputValidityForRule((parser) => parser.chainedCall(),
-            `
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `
 (switchExpr( myValue ) {
     case CASE_1 : [val1, val2]
     case CASE_2 : [val3, val4]
     case CASE_3 : [val5, val6]
     case CASE_4 : [val7, val8]
-}).get(_RANDOM)`);
+}).get(_RANDOM)`,
+            );
             done();
         });
 
         it('should parse without errors a chained call with an switchExpr', (done) => {
-            checkInputValidityForRule((parser) => parser.chainedCall(),
-            `
+            checkInputValidityForRule(
+                (parser) => parser.chainedCall(),
+                `
 (switchExprExclusive {
     case myValue > 0 : [val1, val2]
     case myValue < 1 : [val3, val4]
     case myValue > 1 : [val5, val6]
-}).get(_RANDOM)`);
+}).get(_RANDOM)`,
+            );
             done();
         });
 
@@ -627,6 +656,92 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
 --> implementation {
     as(?fact, ?att = myObj.attribute, ?fact.?att != null);
 };`,
+            );
+            done();
+        });
+    });
+    describe('arithmetic expression rule', () => {
+        it('should parse an arithmetic expression without error', (done) => {
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a + b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a / b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a * b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a - b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a - -b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `-a - -b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `-a - b`);
+
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a + 1`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a / 1`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a * 1`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a - 1`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `a - -1`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `-a - -1`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `-a - 1`);
+
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `1 + b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `1 / b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `1 * b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `1 - b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `1 - -b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `-1 - -b`);
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `-1 - b`);
+
+            checkInputValidityForRule((parser) => parser.arithmeticExpression(), `date.year mod 4`);
+
+            checkInputValidityForRule(
+                (parser) => parser.arithmeticExpression(),
+                `(1 - analysisN1.varEndVal) / analysisD1.varEndVal`,
+            );
+
+            done();
+        });
+    });
+    describe('ruleset rule', () => {
+        it('should parse an empty ruleset without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.ruleset(),
+                `ruleset {}`,
+            );
+            done();
+        });
+        it('should parse a ruleset with some rules without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.ruleset(),
+                `ruleset {
+                    Rule personAliveHasOnlyOneOver18Child
+                    if(?person in Person
+                        ?person.isAlive() == true
+                        ?person.hasChildren() == true
+                        ?person.isMultiple() == false
+                        // Specific case because this intention can only have one children which is on ACCORD_PIDU
+                        ?child = ?person.children.get(_FIRST)
+                        ?child.age >= 18)
+                    then
+                        logInfo("Person named ", ?person.name,
+                            " has only one child. This child is over 18: ", ?child.name);
+                    ;
+
+                }`,
+            );
+            done();
+        });
+        it('should parse a ruleset with some rules and some attributes without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.ruleset(),
+                `ruleset {
+                    Rule personAliveHasOnlyOneOver18Child
+                    if(?person in Person
+                        ?person.isAlive() == true
+                        ?person.hasChildren() == true
+                        ?person.isMultiple() == false
+                        ?child = ?person.children.get(_FIRST)
+                        ?child.age >= 18)
+                    then
+                        logInfo("Person named ", ?person.name,
+                            " has only one child. This child is over 18: ", ?child.name);
+                    --> documentation "find a person that has only one child and which is over 18."
+                    ;
+                }`,
             );
             done();
         });

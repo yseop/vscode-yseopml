@@ -15,6 +15,9 @@ export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
     }
 
     public visitStaticDeclaration(node: StaticDeclarationContext): void {
+        if (!node._declarationName) {
+            return;
+        }
         const instance = new YmlObjectInstance(node._declarationName.text, this.uri);
         instance.enrichWith(node.field(), connection, null, node._declarationType.text);
         this.completionProvider.addCompletionItem(instance);

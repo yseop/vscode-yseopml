@@ -51,6 +51,8 @@ SWITCH: 'switch';
 SWITCH_EXPR: 'switchExpr' | 'switchExprExclusive';
 CASE: 'case';
 DEFAULT: 'default';
+ACTION: 'action';
+NO_DEFAULT: 'noDefault';
 BREAK: 'break';
 STATIC: 'static';
 WHILE: 'while';
@@ -58,6 +60,8 @@ FOR: 'for';
 RENAME: 'rename';
 TO: 'to';
 FOR_CLASS: 'forClass';
+RULESET: 'ruleset';
+RULE_TYPE: 'Rule';
 
 //Symbols
 SEMICOLON: ';';
@@ -97,24 +101,25 @@ COND_OR: '||';
 EQUAL_ASSIGNMENT: '=';
 MULTIVALUED_ASSIGNMENT: ':=';
 
-OPEN_GRANULE: BACKSLASH OPEN_PAR;
-CLOSE_GRANULE: BACKSLASH CLOSE_PAR;
+OPEN_GRANULE: BACKSLASH OPEN_PAR -> pushMode(TEXT_GRANULE_MODE);
 
-fragment MINUS: '-';
-fragment PLUS: '+';
-fragment DIVIDE: '/';
-fragment TIMES: '*';
+ADD: '+';
+DIV: '/';
+MUL: '*';
+SUB: '-';
+MOD: 'mod';
 
-OPERATOR: MINUS | PLUS | DIVIDE | TIMES;
+fragment NON_ZERO_DIGIT: [1-9];
+fragment DIGIT: '0' | NON_ZERO_DIGIT;
+fragment MINUS_SIGN: '-';
 
-fragment NUMBER: [0-9];
 fragment LETTER: [\p{Letter}_];
 
 fragment ALPHANUM: LETTER | [0-9];
 fragment D_LETTER: 'd';
 
 DATE:
-    SINGLE_QUOTE D_LETTER COLON NUMBER NUMBER NUMBER NUMBER MINUS NUMBER NUMBER MINUS NUMBER NUMBER SINGLE_QUOTE
+    SINGLE_QUOTE D_LETTER COLON DIGIT DIGIT DIGIT DIGIT MINUS_SIGN DIGIT DIGIT MINUS_SIGN DIGIT DIGIT SINGLE_QUOTE
 ;
 
 fragment ESCAPED_QUOTE: '\\"';
@@ -125,8 +130,9 @@ DOCUMENTATION: TRIPLE_QUOTE (.*?) TRIPLE_QUOTE;
 //We store the whitespace in hidden channel to take back the ones around comments
 WS: [ \r\t\n]+ -> channel(HIDDEN);
 
-DOUBLE: MINUS? NUMBER+ (DOT NUMBER+)?;
-INTEGER: NUMBER+;
+NUMBER: DOUBLE | INTEGER;
+DOUBLE: DIGIT+ DOT DIGIT*;
+INTEGER: NON_ZERO_DIGIT DIGIT+ | DIGIT+;
 
 /*
  * Colon is OK inside a YMLID
@@ -159,3 +165,11 @@ DECL_FILE_WS: WS -> channel(HIDDEN);
 
 // the only way to leave this mode is to go to the end of the file.
 END_OF_FILE: EOF -> mode(DEFAULT_MODE);
+
+mode TEXT_GRANULE_MODE;
+
+OPEN_TEXT_GRANULE:
+    OPEN_GRANULE -> type(OPEN_GRANULE), pushMode(TEXT_GRANULE_MODE)
+;
+CLOSE_GRANULE: BACKSLASH CLOSE_PAR -> popMode;
+SKIP_OTHER: . -> skip;

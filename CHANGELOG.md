@@ -1,5 +1,17 @@
 # Release Notes
 
+## 1.7.0 (2020-01-06)
+
+-   Fix a parsing issue that occurs when editing the value of attributes named `domains`, `domainsLevel2` and `documentation`;
+-   Fix `*.kao` files parsing at startup (“F” and “M” types differentiation);
+-   Improved parsing performance;
+-   Improved parsing for:
+    -   arithmetic expressions;
+    -   text granules;
+    -   rulesets and Rule objects;
+    -   expressions using the `mod` operator;
+    -   expressions with the `noDefault` keyword.
+
 ## 1.6.5 (2019-12-19)
 
 -   Remove unused option `maxNumberOfProblems`;

@@ -130,19 +130,27 @@ function getDocumentation(fieldOptions: FieldContext[], connection: IConnection)
     try {
         for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
             const option = element.commonField();
-            if (option != null && option._optionName.text === 'documentation') {
-                let _documentation = option._optionValues[0].text;
-                if (_documentation !== null && _documentation !== undefined) {
-                    _documentation = _documentation.replace(BEGINNING_QUOTES_REGEX, '');
-                    _documentation = _documentation.replace(ENDING_QUOTES_REGEX, '');
-                    return _documentation;
-                }
-            } else {
-                // YML fields unrelated to documentation.
+            if (
+                !option ||
+                !option._optionName ||
+                option._optionName.text !== 'documentation' ||
+                !option._optionValue ||
+                !option._optionValue.text
+            ) {
+                // There is no option, or option name isn't “documentation” or there is no text value associated.
+                continue;
             }
+            let _documentation = option._optionValue.text;
+            _documentation = _documentation.replace(BEGINNING_QUOTES_REGEX, '');
+            _documentation = _documentation.replace(ENDING_QUOTES_REGEX, '');
+            return _documentation;
         }
     } catch (err) {
-        connection.console.error(err);
+        if (!!err) {
+            connection.console.error(`${err}`);
+        } else {
+            connection.console.error(`An unexpected error occured when getting documentation value.`);
+        }
     }
     return 'Not documented.';
 }
@@ -153,20 +161,24 @@ function getType(fieldOptions: FieldContext[], connection: IConnection, baseType
     try {
         for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
             const option = element.commonField();
-            if (!option) {
+            if (!option || !option._optionName || !option._optionValue) {
                 continue;
             }
             const optionName = option._optionName.text;
             if (optionName === 'domains') {
-                domains = option._optionValues[0].text;
+                domains = option._optionValue.text;
             } else if (optionName === 'domainsLevel2') {
-                domainsLevel2 = ` − ${option._optionValues[0].text}`;
+                domainsLevel2 = ` − ${option._optionValue.text}`;
             } else {
                 // YML fields unrelated to domains.
             }
         }
     } catch (err) {
-        connection.console.error(err);
+        if (!!err) {
+            connection.console.error(`${err}`);
+        } else {
+            connection.console.error(`An unexpected error occured when getting domains.`);
+        }
     }
     return domains.concat(domainsLevel2);
 }
