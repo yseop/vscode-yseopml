@@ -88,7 +88,7 @@ synonym:
 
 classAttributeDeclaration: FIELD memberName=ymlId memberOption=field*;
 memberDeclaration: type=memberType memberName=ymlId memberOption=field*;
-memberType: ymlId (COND_OR ymlId)?;
+memberType: ymlId (COND_OR ymlId)*?;
 
 path: ymlId (DOT ymlId)+?;
 ymlIdOrPath: ymlId | path;
