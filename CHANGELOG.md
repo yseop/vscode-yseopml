@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.7.1 (YYYY-MM-DD)
+
+-   New option `kaoFiles` allowing to set a list of kao files that will used when initializing workspace's project parsing. This option is recommended for workspaces containing multiple sub-projects that are related such as a library and a test project.
+
 ## 1.7.0 (2020-01-06)
 
 -   Fix a parsing issue that occurs when editing the value of attributes named `domains`, `domainsLevel2` and `documentation`;

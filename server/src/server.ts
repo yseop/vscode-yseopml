@@ -41,6 +41,7 @@ interface IServerSettings {
     parseAllProjectFilesAtStartup: boolean;
     pathToPredefinedObjectsXml: string;
     ymlParsingIssueSeverityLevel: string;
+    kaoFiles: string[];
 }
 
 let engineModel: EngineModel;
@@ -48,6 +49,7 @@ let engineModel: EngineModel;
 let activateParsingProblemsReporting: boolean;
 let parseAllProjectFilesAtStartup: boolean;
 let pathToPredefinedObjectsXml: string;
+let kaoFilesToParse: string[] = [];
 
 /**
  * Map between the string available as option and real `DiagnosticSeverity` enum values.
@@ -105,30 +107,58 @@ connection.onInitialize(
 );
 
 connection.onInitialized((_params) => {
-    connection.workspace.getConfiguration('yseopml.parseAllProjectFilesAtStartup').then((_confValue) => {
-        parseAllProjectFilesAtStartup = _confValue;
-        if (!parseAllProjectFilesAtStartup) {
-            connection.console.log('Not parsing project files at startup.');
-            return;
-        }
-        connection.console.log('Parsing project files at startup.');
-        connection.workspace.getWorkspaceFolders().then((_value) => {
-            const workspacePath = url.fileURLToPath(_value[0].uri);
-            glob('**/project.kao', {
-                cwd: workspacePath,
-            })
-                .then((_matches) => {
-                    for (const filePath of _matches) {
-                        if (openProjectFile(workspacePath, path.join(workspacePath, filePath))) {
-                            // There should be only one `project.kao` file. If we found a good candidate, stop the loop.
-                            return;
+    connection.workspace
+        .getConfiguration('yseopml.kaoFiles')
+        .then((_kaoFiles) => {
+            // initialize array kaoFilesToParse
+            kaoFilesToParse = _kaoFiles;
+        })
+        .then(() => {
+            connection.workspace.getConfiguration('yseopml.parseAllProjectFilesAtStartup').then((_confValue) => {
+                parseAllProjectFilesAtStartup = _confValue;
+                if (!parseAllProjectFilesAtStartup) {
+                    connection.console.log('Not parsing project files at startup.');
+                    return;
+                }
+                connection.console.log('Parsing project files at startup.');
+                connection.workspace.getWorkspaceFolders().then((_value) => {
+                    const workspacePath = url.fileURLToPath(_value[0].uri);
+                    if (!kaoFilesToParse || kaoFilesToParse.length === 0) {
+                        glob('**/project.kao', {
+                            cwd: workspacePath,
+                        })
+                            .then((_matches) => {
+                                for (const filePath of _matches) {
+                                    if (openProjectFile(workspacePath, path.join(workspacePath, filePath))) {
+                                        // There should be only one `project.kao` file.
+                                        // If we found a good candidate, stop the loop.
+                                        return;
+                                    }
+                                }
+                            })
+                            .catch((_error) => console.error(_error));
+                    } else {
+                        for (const filePath of kaoFilesToParse) {
+                            if (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()) {
+                                const fileUri = path.join(workspacePath, filePath);
+                                /*
+                                 * What is handled as the workspacePath is the directory containing the kao file itself.
+                                 * For example for library/project.kao, its workspace is WORKSPACE/library/ while for
+                                 * test_project/project.kao, the workspace is WORKSPACE/test_project/.
+                                 */
+                                openProjectFile(path.dirname(fileUri), fileUri);
+                            } else {
+                                connection.console.warn(
+                                    // tslint:disable-next-line: ter-max-len
+                                    `Ignoring file ${filePath} because it is a directory or it doesn't exist in ${workspacePath}.`,
+                                );
+                            }
                         }
                     }
-                })
-                .catch((_error) => console.error(_error));
-            parseAutoExportedFiles(workspacePath);
+                    parseAutoExportedFiles(workspacePath);
+                });
+            });
         });
-    });
 });
 
 /**
@@ -270,6 +300,7 @@ connection.onDidChangeConfiguration((change) => {
     const settings = change.settings as ISettings;
     activateParsingProblemsReporting = settings.yseopml.activateParsingProblemsReporting;
     pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
+    kaoFilesToParse = settings.yseopml.kaoFiles;
     // One of the severity levels possible, or `Information`.
     parsingIssueSeverityLevel =
         diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||

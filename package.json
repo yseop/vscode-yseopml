@@ -88,6 +88,11 @@
                     ],
                     "default": "off",
                     "description": "Traces the communication between VSCode and the YML language server."
+                },
+                "yseopml.kaoFiles": {
+                    "scope": "window",
+                    "type": "array",
+                    "description": "List of the project.kao files that should parsed when initializing the workspace."
                 }
             }
         },
