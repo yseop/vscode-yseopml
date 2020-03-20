@@ -698,10 +698,7 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
     });
     describe('ruleset rule', () => {
         it('should parse an empty ruleset without error', (done) => {
-            checkInputValidityForRule(
-                (parser) => parser.ruleset(),
-                `ruleset {}`,
-            );
+            checkInputValidityForRule((parser) => parser.ruleset(), `ruleset {}`);
             done();
         });
         it('should parse a ruleset with some rules without error', (done) => {
@@ -742,6 +739,31 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
                     --> documentation "find a person that has only one child and which is over 18."
                     ;
                 }`,
+            );
+            done();
+        });
+        it('should parse local_variable_declarations with multiple potential types without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.local_variable_decl(),
+                `Type1 || Type2 || Collection myVariable`,
+            );
+            done();
+        });
+        it('should parse enums with attributes without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.yenum(),
+                `enum MyEnum
+                attributes {
+                    Number myAttr
+                    --> documentation """"myAttr's documentation"""
+                } {
+                    ENUM_VALUE_1
+                    --> myAttr 12,
+
+                    ENUM_VALUE_2
+                    --> myAttr 13
+                }
+                --> documentation """"This is MyEnum's documentation""";`,
             );
             done();
         });
