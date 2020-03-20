@@ -62,6 +62,7 @@ TO: 'to';
 FOR_CLASS: 'forClass';
 RULESET: 'ruleset';
 RULE_TYPE: 'Rule';
+ATTRIBUTES: 'attributes';
 
 //Symbols
 SEMICOLON: ';';

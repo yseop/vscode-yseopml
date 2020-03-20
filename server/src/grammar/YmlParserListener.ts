@@ -11,6 +11,7 @@ import { Instruction_renameContext } from "./YmlParser";
 import { YmlIdContext } from "./YmlParser";
 import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
+import { Enum_attributes_blockContext } from "./YmlParser";
 import { ClassDeclarationContext } from "./YmlParser";
 import { ClassImplementationContext } from "./YmlParser";
 import { AttributeImplementationContext } from "./YmlParser";
@@ -220,6 +221,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitEnumElement?: (ctx: EnumElementContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.enum_attributes_block`.
+	 * @param ctx the parse tree
+	 */
+	enterEnum_attributes_block?: (ctx: Enum_attributes_blockContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.enum_attributes_block`.
+	 * @param ctx the parse tree
+	 */
+	exitEnum_attributes_block?: (ctx: Enum_attributes_blockContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.classDeclaration`.

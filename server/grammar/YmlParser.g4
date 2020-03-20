@@ -48,12 +48,17 @@ ymlId:
     | YMLID
     | RULESET
     | RULE_TYPE
+    | ATTRIBUTES
 ;
 
 yenum:
-    ENUM yid=ymlId OPEN_BRACE (enumElement ( COMMA enumElement)*)+ CLOSE_BRACE fields=field* SEMICOLON
+    ENUM yid=ymlId enum_attributes_block? OPEN_BRACE
+    (
+        enumElement ( COMMA enumElement)*
+    )+ CLOSE_BRACE fields=field* SEMICOLON
 ;
 enumElement: yid=ymlId fields=field*;
+enum_attributes_block: ATTRIBUTES OPEN_BRACE variableBlockContent CLOSE_BRACE;
 
 classDeclaration:
     classDeclarationIntro field*
