@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.7.1 (YYYY-MM-DD)
+## X.X.X (YYYY-MM-DD)
 
 -   Improve parsing for:
     -   multi type argument or local variable declaration;

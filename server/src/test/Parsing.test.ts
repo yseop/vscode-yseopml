@@ -755,7 +755,7 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
                 `enum MyEnum
                 attributes {
                     Number myAttr
-                    --> documentation """"myAttr's documentation"""
+                    --> documentation """myAttr's documentation"""
                 } {
                     ENUM_VALUE_1
                     --> myAttr 12,
@@ -763,7 +763,7 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
                     ENUM_VALUE_2
                     --> myAttr 13
                 }
-                --> documentation """"This is MyEnum's documentation""";`,
+                --> documentation """This is MyEnum's documentation""";`,
             );
             done();
         });
