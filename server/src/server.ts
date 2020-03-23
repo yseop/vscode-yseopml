@@ -127,7 +127,7 @@ connection.onInitialized((_params) => {
 });
 
 /**
- * Parse the whole project YML files using kao files as starting point.
+ * Parse every YML file of the project using kao files as starting points.
  *
  * @note This function is used only at the extension's initialization,
  * but can also be used when updating some settings in the future.
