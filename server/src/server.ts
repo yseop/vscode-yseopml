@@ -110,6 +110,7 @@ connection.onInitialized((_params) => {
     connection.workspace.getConfiguration('yseopml.parseAllProjectFilesAtStartup').then((_confValue) => {
         parseAllProjectFilesAtStartup = _confValue;
         if (!parseAllProjectFilesAtStartup) {
+            connection.console.log('Not parsing every YML file of the project.');
             return;
         }
         // The value of yseopml.kaoFiles is useful here
@@ -133,10 +134,6 @@ connection.onInitialized((_params) => {
  * but can also be used when updating some settings in the future.
  */
 function parseWholeProject(): void {
-    if (!parseAllProjectFilesAtStartup) {
-        connection.console.log('Not parsing every YML file of the project.');
-        return;
-    }
     connection.console.log('Parsing all the YML files of the project.');
     connection.workspace.getWorkspaceFolders().then((_value) => {
         const workspacePath = url.fileURLToPath(_value[0].uri);
