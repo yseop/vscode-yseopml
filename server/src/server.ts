@@ -107,59 +107,92 @@ connection.onInitialize(
 );
 
 connection.onInitialized((_params) => {
-    connection.workspace
-        .getConfiguration('yseopml.kaoFiles')
-        .then((_kaoFiles) => {
-            // initialize array kaoFilesToParse
-            kaoFilesToParse = _kaoFiles;
-        })
-        .then(() => {
-            connection.workspace.getConfiguration('yseopml.parseAllProjectFilesAtStartup').then((_confValue) => {
-                parseAllProjectFilesAtStartup = _confValue;
-                if (!parseAllProjectFilesAtStartup) {
-                    connection.console.log('Not parsing project files at startup.');
+    connection.workspace.getConfiguration('yseopml.parseAllProjectFilesAtStartup').then((_confValue) => {
+        parseAllProjectFilesAtStartup = _confValue;
+        if (!parseAllProjectFilesAtStartup) {
+            return;
+        }
+        // The value of yseopml.kaoFiles is useful here
+        // only when we want to parse the whole project.
+        connection.workspace
+            .getConfiguration('yseopml.kaoFiles')
+            .then((_kaoFiles) => {
+                // initialize array kaoFilesToParse
+                kaoFilesToParse = _kaoFiles;
+            })
+            .then(() => {
+                parseWholeProject();
+            });
+    });
+});
+
+/**
+ * Parse the whole project YML files using kao files as starting point.
+ *
+ * @note This function is used only at the extension's initialization,
+ * but can also be used when updating some settings in the future.
+ */
+function parseWholeProject(): void {
+    if (!parseAllProjectFilesAtStartup) {
+        connection.console.log('Not parsing whole project files.');
+        return;
+    }
+    connection.console.log('Parsing whole project files.');
+    connection.workspace.getWorkspaceFolders().then((_value) => {
+        const workspacePath = url.fileURLToPath(_value[0].uri);
+        if (!kaoFilesToParse || kaoFilesToParse.length === 0) {
+            parseFromFirstFoundKaoFile(workspacePath);
+        } else {
+            parseFromKaoFilesList(workspacePath);
+        }
+        parseAutoExportedFiles(workspacePath);
+    });
+}
+
+/**
+ * Parse the YML files in the workspace starting from the first kao file found.
+ *
+ * @param workspacePath the root folder path used as workspace
+ */
+function parseFromFirstFoundKaoFile(workspacePath: string): void {
+    glob('**/project.kao', {
+        cwd: workspacePath,
+    })
+        .then((_matches) => {
+            for (const filePath of _matches) {
+                if (openProjectFile(workspacePath, path.join(workspacePath, filePath))) {
+                    // There should be only one `project.kao` file.
+                    // If we found a good candidate, stop the loop.
                     return;
                 }
-                connection.console.log('Parsing project files at startup.');
-                connection.workspace.getWorkspaceFolders().then((_value) => {
-                    const workspacePath = url.fileURLToPath(_value[0].uri);
-                    if (!kaoFilesToParse || kaoFilesToParse.length === 0) {
-                        glob('**/project.kao', {
-                            cwd: workspacePath,
-                        })
-                            .then((_matches) => {
-                                for (const filePath of _matches) {
-                                    if (openProjectFile(workspacePath, path.join(workspacePath, filePath))) {
-                                        // There should be only one `project.kao` file.
-                                        // If we found a good candidate, stop the loop.
-                                        return;
-                                    }
-                                }
-                            })
-                            .catch((_error) => console.error(_error));
-                    } else {
-                        for (const filePath of kaoFilesToParse) {
-                            if (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()) {
-                                const fileUri = path.join(workspacePath, filePath);
-                                /*
-                                 * What is handled as the workspacePath is the directory containing the kao file itself.
-                                 * For example for library/project.kao, its workspace is WORKSPACE/library/ while for
-                                 * test_project/project.kao, the workspace is WORKSPACE/test_project/.
-                                 */
-                                openProjectFile(path.dirname(fileUri), fileUri);
-                            } else {
-                                connection.console.warn(
-                                    // tslint:disable-next-line: ter-max-len
-                                    `Ignoring file ${filePath} because it is a directory or it doesn't exist in ${workspacePath}.`,
-                                );
-                            }
-                        }
-                    }
-                    parseAutoExportedFiles(workspacePath);
-                });
-            });
-        });
-});
+            }
+        })
+        .catch((_error) => console.error(_error));
+}
+
+/**
+ * Parse the YML files in the workspace starting from user-defined kao files.
+ *
+ * @param workspacePath the root folder path used as workspace
+ */
+function parseFromKaoFilesList(workspacePath: string): void {
+    for (const filePath of kaoFilesToParse) {
+        if (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()) {
+            const fileUri = path.join(workspacePath, filePath);
+            /*
+             * What is handled as the workspacePath is the directory containing the kao file itself.
+             * For example for library/project.kao, its workspace is WORKSPACE/library/ while for
+             * test_project/project.kao, the workspace is WORKSPACE/test_project/.
+             */
+            openProjectFile(path.dirname(fileUri), fileUri);
+        } else {
+            connection.console.warn(
+                // tslint:disable-next-line: ter-max-len
+                `Ignoring file ${filePath} because it is a directory or it doesn't exist in ${workspacePath}.`,
+            );
+        }
+    }
+}
 
 /**
  *  Parse all the files that are included automatically by Yseop CLI
