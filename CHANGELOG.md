@@ -1,5 +1,13 @@
 # Release Notes
 
+## 1.8.0 (2020-03-23)
+
+-   New option `kaoFiles` allowing to set a list of kao files that will be used when initializing workspace's project parsing. This option is recommended for workspaces containing multiple related sub-projects, such as a library and a test project for this library.
+-   Improve parsing for:
+    -   multi type argument or local variable declaration;
+    -   enums with attributes
+-   Enum members are now available in suggest lists, hover and go to declaration.
+
 ## 1.7.0 (2020-01-06)
 
 -   Fix a parsing issue that occurs when editing the value of attributes named `domains`, `domainsLevel2` and `documentation`;

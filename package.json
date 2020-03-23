@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.7.0",
+    "version": "1.8.0",
     "author": "Yseop",
     "license": "MIT",
     "repository": {
@@ -88,6 +88,11 @@
                     ],
                     "default": "off",
                     "description": "Traces the communication between VSCode and the YML language server."
+                },
+                "yseopml.kaoFiles": {
+                    "scope": "window",
+                    "type": "array",
+                    "description": "List of the project.kao files that should parsed when initializing the workspace. If not set, only the first project.kao file found in the workspace is parsed, or none at all if the parseAllProjectFilesAtStartup option is false."
                 }
             }
         },
