@@ -134,10 +134,10 @@ connection.onInitialized((_params) => {
  */
 function parseWholeProject(): void {
     if (!parseAllProjectFilesAtStartup) {
-        connection.console.log('Not parsing whole project files.');
+        connection.console.log('Not parsing every YML file of the project.');
         return;
     }
-    connection.console.log('Parsing whole project files.');
+    connection.console.log('Parsing all the YML files of the project.');
     connection.workspace.getWorkspaceFolders().then((_value) => {
         const workspacePath = url.fileURLToPath(_value[0].uri);
         if (!kaoFilesToParse || kaoFilesToParse.length === 0) {
