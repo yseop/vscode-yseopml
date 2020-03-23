@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.7.1 (YYYY-MM-DD)
+## X.X.X (YYYY-MM-DD)
 
 -   New option `kaoFiles` allowing to set a list of kao files that will used when initializing workspace's project parsing. This option is recommended for workspaces containing multiple sub-projects that are related such as a library and a test project.
 
