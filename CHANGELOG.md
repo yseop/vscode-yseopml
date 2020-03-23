@@ -2,7 +2,7 @@
 
 ## X.X.X (YYYY-MM-DD)
 
--   New option `kaoFiles` allowing to set a list of kao files that will used when initializing workspace's project parsing. This option is recommended for workspaces containing multiple sub-projects that are related such as a library and a test project.
+-   New option `kaoFiles` allowing to set a list of kao files that will be used when initializing workspace's project parsing. This option is recommended for workspaces containing multiple related sub-projects, such as a library and a test project for this library.
 -   Improve parsing for:
     -   multi type argument or local variable declaration;
     -   enums with attributes

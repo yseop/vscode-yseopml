@@ -92,7 +92,7 @@
                 "yseopml.kaoFiles": {
                     "scope": "window",
                     "type": "array",
-                    "description": "List of the project.kao files that should parsed when initializing the workspace."
+                    "description": "List of the project.kao files that should parsed when initializing the workspace. If not set, only the first project.kao file found in the workspace is parsed, or none at all if the parseAllProjectFilesAtStartup option is false."
                 }
             }
         },
