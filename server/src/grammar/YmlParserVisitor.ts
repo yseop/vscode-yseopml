@@ -11,6 +11,7 @@ import { Instruction_renameContext } from "./YmlParser";
 import { YmlIdContext } from "./YmlParser";
 import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
+import { Enum_attributes_blockContext } from "./YmlParser";
 import { ClassDeclarationContext } from "./YmlParser";
 import { ClassImplementationContext } from "./YmlParser";
 import { AttributeImplementationContext } from "./YmlParser";
@@ -191,6 +192,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitEnumElement?: (ctx: EnumElementContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.enum_attributes_block`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitEnum_attributes_block?: (ctx: Enum_attributes_blockContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.classDeclaration`.

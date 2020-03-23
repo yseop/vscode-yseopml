@@ -1,5 +1,12 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
+-   Improve parsing for:
+    -   multi type argument or local variable declaration;
+    -   enums with attributes
+-   Enum members are now available in suggest lists, hover and go to declaration.
+
 ## 1.7.0 (2020-01-06)
 
 -   Fix a parsing issue that occurs when editing the value of attributes named `domains`, `domainsLevel2` and `documentation`;
