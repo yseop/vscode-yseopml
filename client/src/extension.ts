@@ -8,22 +8,33 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {
     commands,
+    Disposable,
     ExtensionContext,
     OutputChannel,
     StatusBarAlignment,
     StatusBarItem,
+    tasks,
     window,
     workspace,
     WorkspaceConfiguration,
 } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
 
+import { YmlTaskProvider } from './tasks/YmlTaskProvider';
+
 let yseopCliOutputChannel: OutputChannel;
 let yseopCliStatusBarItem: StatusBarItem;
 let yseopCliPath: string;
+let ymlTaskProvider: Disposable;
 
 const yseopmlSectionName = 'yseopml';
 const pathToYseopCliKey = 'pathToYseopCli';
+
+export function deactivate(): void {
+    if (ymlTaskProvider) {
+        ymlTaskProvider.dispose();
+    }
+}
 
 export function activate(context: ExtensionContext) {
     yseopCliOutputChannel = window.createOutputChannel('Yseop CLI Output');
@@ -104,10 +115,15 @@ export function activate(context: ExtensionContext) {
     // Start the language client.
     const disposable = languageClient.start();
 
+    const workspaceRoot = workspace.workspaceFolders[0].uri.toString();
+    if (!workspaceRoot) {
+        return;
+    }
+    ymlTaskProvider = tasks.registerTaskProvider(YmlTaskProvider.YML_TYPE, new YmlTaskProvider(workspaceRoot));
+
     // Push the disposable to the context's subscriptions so that the
     // client can be deactivated on extension deactivation.
     // Also register the custom commands.
-
     context.subscriptions.push(disposable, batchCmd, compileCmd, testCmd, cleanCmd, cleanallCmd, packageCmd, infoCmd);
 }
 

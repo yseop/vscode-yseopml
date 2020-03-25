@@ -152,6 +152,32 @@
                 "configuration": "./language-configuration.json"
             }
         ],
+        "taskDefinitions": [
+            {
+                "type": "yml",
+                "required": [
+                    "task"
+                ],
+                "properties": {
+                    "enginePath": {
+                        "type": "string",
+                        "description": "Path to the directory containing every Engine versions"
+                    },
+                    "engineVersion": {
+                        "type": "string",
+                        "description": "Engine version to use"
+                    },
+                    "file": {
+                        "type": "string",
+                        "description": "The project file to launch."
+                    },
+                    "task": {
+                        "type": "string",
+                        "description": "The task name"
+                    }
+                }
+            }
+        ],
         "grammars": [
             {
                 "language": "yml",
