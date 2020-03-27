@@ -749,6 +749,17 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
             );
             done();
         });
+        it('should parse a switchExpr instruction using nodefault', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchExpr_withValue(),
+                `switchExpr(myVariable) {
+                    case "value1" : EnumClass::EnumVal1
+                    case "value2" : EnumClass::EnumVal2
+                    noDefault
+                }`,
+            );
+            done();
+        });
         it('should parse enums with attributes without error', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.yenum(),

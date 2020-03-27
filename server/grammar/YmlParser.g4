@@ -409,7 +409,11 @@ order0Condition: combinedComparison | existentialOperator;
 actionBlockOrInstruction: actionBlock | instruction;
 
 instruction_switchExpr_withValue:
-    SWITCH_EXPR OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase_withValue* instructionDefault_withValue? CLOSE_BRACE
+    SWITCH_EXPR OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase_withValue*
+    (
+        instructionDefault_withValue
+        | NO_DEFAULT
+    )? CLOSE_BRACE
 ;
 instruction_switchExpr_asIf:
     SWITCH_EXPR OPEN_BRACE instructionCase_withValue*
