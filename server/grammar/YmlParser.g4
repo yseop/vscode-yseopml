@@ -49,6 +49,7 @@ ymlId:
     | RULESET
     | RULE_TYPE
     | ATTRIBUTES
+    | EXTENDS
 ;
 
 yenum:
