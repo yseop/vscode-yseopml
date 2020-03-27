@@ -303,7 +303,7 @@ inlineOperation:
     leftExpression=value operator=ymlId rightExpression=value
 ;
 
-fieldValue: field | granule;
+fieldValue: field | granule | constList;
 
 //Functions
 
