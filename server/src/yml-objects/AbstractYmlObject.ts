@@ -32,9 +32,21 @@ export abstract class AbstractYmlObject implements CompletionItem {
     public data?: any;
     /* End of overriden properties. */
 
+    /**
+     * The object containing this object, if any.
+     * - For an attribute, this is the class name
+     * - For a local variable, the name of a function, etc.
+     */
     private sourceElementName: string;
+
     private documentationAsText: string;
-    public kindName: string = 'Object';
+
+    /**
+     * A string representation of the enum name that is in `this.kind`.
+     *
+     * @see CompletionItemKind
+     */
+    public kindName = 'Object';
 
     /**
      * The definition location information.
@@ -98,10 +110,8 @@ export abstract class AbstractYmlObject implements CompletionItem {
     }
 
     public setDetail(type: string): void {
-        this.detail =
-            this.sourceElementName === 'STATIC'
-                ? `(${this.kindName}) [${this.sourceElementName}] ${this.label} ⇒ ${type}`
-                : `(${this.kindName}) [${this.sourceElementName}].${this.label} ⇒ ${type}`;
+        const separator = this.sourceElementName === 'STATIC' ? ' ' : '.';
+        this.detail = `(${this.kindName}) [${this.sourceElementName}]${separator}${this.label} ⇒ ${type}`;
     }
 
     public getHoverContent(): MarkupContent {

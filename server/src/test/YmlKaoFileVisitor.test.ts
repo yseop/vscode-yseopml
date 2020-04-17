@@ -108,12 +108,12 @@ describe('Extension Server Tests', () => {
             expect(result).toBeDefined();
             expect(completionProvider.completions.length).toBe(3);
 
-            assertHasNelementsRemaining(
+            assertHasNElementsRemaining(
                 completionProvider.completions,
                 1,
                 (elem) => elem.kind === CompletionItemKind.Class,
             );
-            assertHasNelementsRemaining(
+            assertHasNElementsRemaining(
                 completionProvider.completions,
                 2,
                 (elem) => elem.kind === CompletionItemKind.Property,
@@ -158,17 +158,17 @@ describe('Extension Server Tests', () => {
             expect(result).toBeDefined();
             expect(completionProvider.completions.length).toBe(4);
 
-            assertHasNelementsRemaining(
+            assertHasNElementsRemaining(
                 completionProvider.completions,
                 1,
                 (elem) => elem.kind === CompletionItemKind.Class,
             );
-            assertHasNelementsRemaining(
+            assertHasNElementsRemaining(
                 completionProvider.completions,
                 1,
                 (elem) => elem.kind === CompletionItemKind.Property,
             );
-            assertHasNelementsRemaining(
+            assertHasNElementsRemaining(
                 completionProvider.completions,
                 2,
                 (elem) => elem.kind === CompletionItemKind.Method,
@@ -228,12 +228,12 @@ describe('Extension Server Tests', () => {
             expect(completionProvider.completions.length).toBe(11);
 
             // Three global instances, four local variables.
-            assertHasNelementsRemaining(
+            assertHasNElementsRemaining(
                 completionProvider.completions,
                 7,
                 (elem) => elem.kind === CompletionItemKind.Variable,
             );
-            assertHasNelementsRemaining(
+            assertHasNElementsRemaining(
                 completionProvider.completions,
                 4,
                 (elem) => elem.kind === CompletionItemKind.Function,
@@ -243,7 +243,7 @@ describe('Extension Server Tests', () => {
     });
 });
 
-function assertHasNelementsRemaining(
+function assertHasNElementsRemaining(
     completionItems: AbstractYmlObject[],
     value: number,
     filterFn: (obj: AbstractYmlObject) => boolean,

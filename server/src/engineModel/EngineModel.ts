@@ -51,18 +51,18 @@ export class EngineModel {
     }
     private buildYmlFunction(func: any, sourceType?: string): AbstractYmlFunction {
         let ymlAbstractFunction: AbstractYmlFunction;
+        const documentation: string = !!func.doc ? func.doc[0] : null;
         if (sourceType) {
             ymlAbstractFunction = new YmlMethod(func.$.ident, this.uri);
             this.functions.push(ymlAbstractFunction);
-            ymlAbstractFunction.detail = `[${sourceType}].${ymlAbstractFunction.label}`;
+            ymlAbstractFunction.setUserInformations(
+                `(function) [${sourceType}].${ymlAbstractFunction.label}`,
+                documentation,
+            );
         } else {
             ymlAbstractFunction = new YmlFunction(func.$.ident, this.uri);
-            ymlAbstractFunction.detail = `[STATIC] ${ymlAbstractFunction.label}`;
+            ymlAbstractFunction.setUserInformations(`(function) [STATIC] ${ymlAbstractFunction.label}`, documentation);
         }
-        ymlAbstractFunction.setUserInformations(
-            `(${sourceType ? 'method' : 'function'}) ${ymlAbstractFunction.detail}`,
-            !!func.doc ? func.doc[0] : null,
-        );
         ymlAbstractFunction.data = `id_${sourceType ? sourceType : 'static'}_${ymlAbstractFunction.label}`;
         return ymlAbstractFunction;
     }
@@ -93,7 +93,8 @@ export class EngineModel {
                 this.completionProvider.addCompletionItem(method);
             });
         }
-        ymlClass.setUserInformations(`(class) ${ymlClass.label}`, !!yclass.doc ? yclass.doc[0] : null);
+        const documentation: string = !!yclass.doc ? yclass.doc[0] : null;
+        ymlClass.setUserInformations(`(class) ${ymlClass.label}`, documentation);
         this.classes.push(ymlClass);
         this.enrichYmlClass(ymlClass);
         this.completionProvider.addCompletionItem(ymlClass);
@@ -101,11 +102,8 @@ export class EngineModel {
 
     private buildAttribute(attributeXmlElement: any, sourceType: string): YmlAttribute {
         const attribute = new YmlAttribute(attributeXmlElement.$.ident, this.uri);
-        attribute.detail = `[${sourceType}].${attribute.label}`;
-        attribute.setUserInformations(
-            `(property) ${attribute.detail}`,
-            !!attributeXmlElement.doc ? attributeXmlElement.doc[0] : null,
-        );
+        const documentation: string = !!attributeXmlElement.doc ? attributeXmlElement.doc[0] : null;
+        attribute.setUserInformations(`(property) [${sourceType}].${attribute.label}`, documentation);
         attributeXmlElement.return.forEach((returnType) => {
             if (returnType.domains) {
                 attribute.domains = returnType.domains;
@@ -255,7 +253,9 @@ export class EngineModel {
      */
     private enrichYmlClass(yclass: YmlClass): void {
         yclass.data = `id_${yclass.label}`;
-        yclass.detail =
-            yclass.extends.length > 0 ? `(class) ${yclass.label} extends ${yclass.extends}` : `(class) ${yclass.label}`;
+        yclass.detail = `(class) ${yclass.label}`;
+        if (yclass.extends.length > 0) {
+            yclass.detail = yclass.detail.concat(` extends ${yclass.extends}`);
+        }
     }
 }
