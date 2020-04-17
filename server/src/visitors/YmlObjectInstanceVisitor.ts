@@ -18,7 +18,7 @@ export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
         if (!node._declarationName) {
             return;
         }
-        const instance = new YmlObjectInstance(node._declarationName.text, this.uri);
+        const instance = new YmlObjectInstance(node._declarationName.text, this.uri, false);
         instance.enrichWith(node.field(), connection, null, node._declarationType.text);
         this.completionProvider.addCompletionItem(instance);
         instance.setDefinitionLocation(node.start, node.stop, this.uri);

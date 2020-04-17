@@ -32,6 +32,10 @@ export abstract class AbstractYmlObject implements CompletionItem {
     public data?: any;
     /* End of overriden properties. */
 
+    private sourceElementName: string;
+    private documentationAsText: string;
+    public kindName: string = 'Object';
+
     /**
      * The definition location information.
      */
@@ -82,26 +86,58 @@ export abstract class AbstractYmlObject implements CompletionItem {
         scopeStartOffset?: number,
         scopeEndOffset?: number,
     ): void {
-        sourceElementName = sourceElementName ? sourceElementName : 'static';
+        this.sourceElementName = sourceElementName ? sourceElementName : 'STATIC';
         this.data = `id_${sourceElementName}_${this.label}`;
-        this.setDocumentation(getDocumentation(fields, connection));
-        this.detail = getType(fields, connection, baseType);
+        const doc = getDocumentation(fields, connection);
+        this.setDetail(getType(fields, connection, baseType));
+        this.setUserInformations(this.detail, doc);
         if (scopeEndOffset && scopeStartOffset) {
             this.scopeEndOffset = scopeEndOffset;
             this.scopeStartOffset = scopeStartOffset;
         }
     }
 
+    public setDetail(type: string): void {
+        this.detail =
+            this.sourceElementName === 'STATIC'
+                ? `(${this.kindName}) [${this.sourceElementName}] ${this.label} ⇒ ${type}`
+                : `(${this.kindName}) [${this.sourceElementName}].${this.label} ⇒ ${type}`;
+    }
+
+    public getHoverContent(): MarkupContent {
+        if (!this.detail && !this.documentationAsText) {
+            return null;
+        }
+        if (!this.detail) {
+            return {
+                kind: MarkupKind.Markdown,
+                value: this.documentationAsText,
+            };
+        }
+        return {
+            kind: MarkupKind.Markdown,
+            value: !!this.documentationAsText ? `${this.detail}\n\n---\n\n${this.documentationAsText}` : this.detail,
+        };
+    }
+
+    public hasDocumentation(): boolean {
+        return !!this.documentation || !!this.detail;
+    }
+
     /**
-     * Set the documentation of this object as a `MarkupContent`.
-     * Set the documentation to `null` if empty.
+     * Set the documentation of this object as a `MarkupContent` as well as it detail attribute.
+     * The documentation always exists and consists at least as the value of detail.
+     *
+     * @param details Some details about this object, as a Markdown string.
      * @param doc The documentation of this object, as a Markdown string.
      *
      * @see MarkupContent
      */
-    public setDocumentation(doc: string): void {
+    public setUserInformations(details: string, doc: string): void {
+        this.detail = details;
+        this.documentationAsText = doc;
         if (!doc) {
-            this.documentation = null;
+            return null;
         }
         this.documentation = {
             kind: MarkupKind.Markdown,
@@ -152,7 +188,7 @@ function getDocumentation(fieldOptions: FieldContext[], connection: IConnection)
             connection.console.error(`An unexpected error occured when getting documentation value.`);
         }
     }
-    return 'Not documented.';
+    return null;
 }
 
 function getType(fieldOptions: FieldContext[], connection: IConnection, baseType?: string): string {

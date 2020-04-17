@@ -302,16 +302,16 @@ connection.onHover((_params) => {
         return null;
     }
     // Multiple elements can have the same shortName
-    let entity = completionProvider.getFirstItemByShortNameMatching(entityName, (elem) => !!elem.documentation);
+    let entity = completionProvider.getFirstItemByShortNameMatching(entityName, (elem) => elem.hasDocumentation());
     if (!entity) {
         // Maybe the value of `entityName` is a full label.
-        entity = completionProvider.getFirstItemByLabelMatching(entityName, (elem) => !!elem.documentation);
+        entity = completionProvider.getFirstItemByLabelMatching(entityName, (elem) => elem.hasDocumentation());
         if (!entity) {
             return null;
         }
     }
     return {
-        contents: entity.documentation,
+        contents: entity.getHoverContent(),
     };
 });
 

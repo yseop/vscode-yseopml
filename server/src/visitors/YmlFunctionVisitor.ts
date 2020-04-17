@@ -103,7 +103,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      * @param node A node representing a local variable or a function argument.
      */
     public visitMemberDeclarationContext(node: MemberDeclarationContext): void {
-        const variable = new YmlObjectInstance(node.ymlId().text, this.uri);
+        const variable = new YmlObjectInstance(node.ymlId().text, this.uri, true);
         variable.enrichWith(
             node.field(),
             connection,
