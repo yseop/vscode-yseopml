@@ -40,6 +40,7 @@ import { DocumentationContext } from "./YmlParser";
 import { ObjectReturnAttributeValueContext } from "./YmlParser";
 import { ObjectAttributeValueContext } from "./YmlParser";
 import { ValueOrConditionContext } from "./YmlParser";
+import { HashMapKeyValueListContext } from "./YmlParser";
 import { HashMapContext } from "./YmlParser";
 import { HashMapKeyValueContext } from "./YmlParser";
 import { HashMapKeyContext } from "./YmlParser";
@@ -102,6 +103,7 @@ import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { Instruction_ifContext } from "./YmlParser";
+import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
@@ -395,6 +397,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitValueOrCondition?: (ctx: ValueOrConditionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.hashMapKeyValueList`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitHashMapKeyValueList?: (ctx: HashMapKeyValueListContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.hashMap`.
@@ -829,6 +838,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction_if?: (ctx: Instruction_ifContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.instruction_timeCounter`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitInstruction_timeCounter?: (ctx: Instruction_timeCounterContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.inValue`.

@@ -47,7 +47,7 @@ RETURN: 'return';
 LOCAL: 'local';
 TRUE: 'true';
 FALSE: 'false';
-SWITCH: 'switch';
+SWITCH: 'switch' | 'switchExclusive';
 SWITCH_EXPR: 'switchExpr' | 'switchExprExclusive';
 CASE: 'case';
 DEFAULT: 'default';
@@ -63,6 +63,7 @@ FOR_CLASS: 'forClass';
 RULESET: 'ruleset';
 RULE_TYPE: 'Rule';
 ATTRIBUTES: 'attributes';
+TIME_COUNTER: 'timeCounter';
 
 //Symbols
 SEMICOLON: ';';

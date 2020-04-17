@@ -50,6 +50,7 @@ ymlId:
     | RULE_TYPE
     | ATTRIBUTES
     | EXTENDS
+    | TIME_COUNTER
 ;
 
 yenum:
@@ -166,6 +167,7 @@ objectAttributeValue:
     | ifExprBlock
     | combinedComparison
     | value
+    | hashMapKeyValueList
     | hashMapKeyValue
     | documentation
     | type=ymlId name=ymlId
@@ -180,7 +182,9 @@ valueOrCondition:
     | type=ymlId name=ymlId
 ;
 
-hashMap: OPEN_BRACE hashMapKeyValue (COMMA hashMapKeyValue)*? CLOSE_BRACE;
+hashMapKeyValueList: hashMapKeyValue (COMMA hashMapKeyValue)+;
+
+hashMap: OPEN_BRACE (hashMapKeyValue | hashMapKeyValueList) CLOSE_BRACE;
 hashMapKeyValue: hashMapKey COLON hashMapValue;
 hashMapKey: bool | STRING | DATE | chainedCall | NUMBER | array | constList;
 hashMapValue: value | combinedComparison;
@@ -432,7 +436,7 @@ instruction_switchCase_withValue:
     )? CLOSE_BRACE
 ;
 instruction_switchCase_asIf:
-    SWITCH OPEN_BRACE instructionCase* instructionDefault? CLOSE_BRACE
+    SWITCH OPEN_BRACE instructionCase* (instructionDefault | NO_DEFAULT)? CLOSE_BRACE
 ;
 
 instructionDefault_withValue:
@@ -448,7 +452,7 @@ instructionCase_withValue:
 ;
 
 instructionCase:
-    CASE (OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON actionBlockOrInstruction
+    CASE (simpleList | OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON actionBlockOrInstruction
 ;
 instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
@@ -457,6 +461,10 @@ instruction_ifElse: instruction_if (ELSE actionBlockOrInstruction)?;
 
 instruction_if:
     IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
+;
+
+instruction_timeCounter:
+    TIME_COUNTER OPEN_PAR ymlId COMMA actionBlock CLOSE_PAR
 ;
 
 inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
@@ -489,6 +497,7 @@ instruction:
     | instruction_switchCase_withValue
     | instruction_ifExprBlock
     | instruction_while
+    | instruction_timeCounter SEMICOLON?
 ;
 
 instruction_do: DO actionBlock;
