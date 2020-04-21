@@ -1,4 +1,6 @@
 #!/usr/bin/env groovy
+@Library('Utilities') _
+
 pipeline {
     agent {
         node {
@@ -18,18 +20,68 @@ pipeline {
     }
 
     stages {
-        stage ("Build, Compile, Test and Package") {
+        stage ("Install dependencies") {
             steps {
                 ansiColor('xterm') {
-                    sh "npm install --unsafe-perm"
+                    sh "npm ci --unsafe-perm"
+                }
+            }
+        }
+
+        stage ("Compile") {
+            steps {
+                ansiColor('xterm') {
                     sh "npm run compile"
-                    sh "npm run test"
+                }
+            }
+        }
+
+        stage ("Test") {
+            steps {
+                ansiColor('xterm') {
+                    sh "npm run test:ci"
+                    sh "npm run test:client"
+                }
+            }
+        }
+
+        stage ("Package") {
+            steps {
+                ansiColor('xterm') {
                     sh "npm run package"
                 }
             }
             post {
                 success {
                     archiveArtifacts artifacts: 'vscode-yseopml-*.vsix', fingerprint: true
+                }
+            }
+        }
+
+        stage('SonarQube') {
+            steps {
+                script {
+                    def scannerHome = tool 'sonarqube'
+                    def sonarArgs = utils.constructSonarArgs(['develop', 'master'], 'develop')
+
+                    withSonarQubeEnv('sonarcloud') {
+                        sh "${scannerHome}/bin/sonar-scanner ${sonarArgs}"
+                    }
+                }
+            }
+        }
+
+        stage('Sonar Quality Gate') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'master'
+                }
+            }
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to FAILED if Quality Gate fails
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
