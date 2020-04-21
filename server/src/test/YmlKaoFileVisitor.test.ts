@@ -1,5 +1,4 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import * as assert from 'assert';
 import { CompletionItemKind, MarkupContent } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
@@ -31,10 +30,10 @@ describe('Extension Server Tests', () => {
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const tokens = tokenStream.getTokens();
-            assert.equal(tokens.length, 1);
-            assert.equal(tokens[0].startIndex, 0);
-            assert.equal(tokens[0].stopIndex, 8);
-            assert.equal(tokens[0].type, YmlLexer.STRING);
+            expect(tokens.length).toBe(1);
+            expect(tokens[0].startIndex).toBe(0);
+            expect(tokens[0].stopIndex).toBe(8);
+            expect(tokens[0].type).toBe(YmlLexer.STRING);
             done();
         });
 
@@ -43,10 +42,10 @@ describe('Extension Server Tests', () => {
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const tokens = tokenStream.getTokens();
-            assert.equal(tokens.length, 1);
-            assert.equal(tokens[0].startIndex, 0);
-            assert.equal(tokens[0].stopIndex, 15);
-            assert.equal(tokens[0].type, YmlLexer.YMLID);
+            expect(tokens.length).toBe(1);
+            expect(tokens[0].startIndex).toBe(0);
+            expect(tokens[0].stopIndex).toBe(15);
+            expect(tokens[0].type).toBe(YmlLexer.YMLID);
             done();
         });
 
@@ -55,10 +54,10 @@ describe('Extension Server Tests', () => {
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const tokens = tokenStream.getTokens();
-            assert.equal(tokens.length, 1);
-            assert.equal(tokens[0].startIndex, 0);
-            assert.equal(tokens[0].stopIndex, 0);
-            assert.notEqual(tokens[0].type, YmlLexer.YMLID);
+            expect(tokens.length).toBe(1);
+            expect(tokens[0].startIndex).toBe(0);
+            expect(tokens[0].stopIndex).toBe(0);
+            expect(tokens[0].type).not.toBe(YmlLexer.YMLID);
             done();
         });
 
@@ -67,35 +66,35 @@ describe('Extension Server Tests', () => {
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const tokens = tokenStream.getTokens();
-            assert.equal(tokens.length, 1);
-            assert.equal(tokens[0].startIndex, 0);
-            assert.equal(tokens[0].stopIndex, 1);
-            assert.equal(tokens[0].type, YmlLexer.YMLID);
+            expect(tokens.length).toBe(1);
+            expect(tokens[0].startIndex).toBe(0);
+            expect(tokens[0].stopIndex).toBe(1);
+            expect(tokens[0].type).toBe(YmlLexer.YMLID);
             done();
         });
 
         it('should parse a well-written YML class and provide completion for fields', (done) => {
             const inputStream = CharStreams.fromString(`
-            interface City
-                field name
-                --> domains String
+                interface City
+                    field name
+                    --> domains String
 
-                field country
-                --> domains String
+                    field country
+                    --> domains String
 
-                classProperties
-                --> dsl -> Textualization
-                        --> root "City"
-                        --> language LANG_fr
-                        --> gender FEMININE
-                        --> number SINGULAR
-                        ;
-                --> hasAccessorFunction true
-                ;
+                    classProperties
+                    --> dsl -> Textualization
+                            --> root "City"
+                            --> language LANG_fr
+                            --> gender FEMININE
+                            --> number SINGULAR
+                            ;
+                    --> hasAccessorFunction true
+                    ;
 
-                implementation City
-                ;
-            `);
+                    implementation City
+                    ;
+                `);
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const parser = new YmlParser(tokenStream);
@@ -104,8 +103,8 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
-            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
-            assert.notStrictEqual(result, null);
+            expect(parser.numberOfSyntaxErrors).toBe(0);
+            expect(result).toBeDefined();
             const expectedCompletionItems = [
                 {
                     attributes: [],
@@ -121,11 +120,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 28,
+                                character: 32,
                                 line: 4,
                             },
                             start: {
-                                character: 16,
+                                character: 20,
                                 line: 2,
                             },
                         },
@@ -142,11 +141,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 28,
+                                character: 32,
                                 line: 7,
                             },
                             start: {
-                                character: 16,
+                                character: 20,
                                 line: 5,
                             },
                         },
@@ -159,35 +158,35 @@ describe('Extension Server Tests', () => {
                     uri: '',
                 },
             ];
-            assert.deepEqual(completionProvider.completions, expectedCompletionItems);
+            expect(completionProvider.completions).toEqual(expectedCompletionItems);
             done();
         });
         it('should parse a well-written YML class and provide completion for fields and methods', (done) => {
             const inputStream = CharStreams.fromString(`
-              interface City
-                  method getName()
-                  --> domains String
+                  interface City
+                      method getName()
+                      --> domains String
 
-                  textMethod writeCountry()
-                  --> domains String
+                      textMethod writeCountry()
+                      --> domains String
 
-                  field inhabitants
-                  --> domains Collection
-                  --> domainsLevel2 Person
+                      field inhabitants
+                      --> domains Collection
+                      --> domainsLevel2 Person
 
-                  classProperties
-                  --> dsl -> Textualization
-                          --> root "City"
-                          --> language LANG_fr
-                          --> gender FEMININE
-                          --> number SINGULAR
-                          ;
-                  --> hasAccessorFunction true
-                  ;
+                      classProperties
+                      --> dsl -> Textualization
+                              --> root "City"
+                              --> language LANG_fr
+                              --> gender FEMININE
+                              --> number SINGULAR
+                              ;
+                      --> hasAccessorFunction true
+                      ;
 
-                  implementation City
-                  ;
-              `);
+                      implementation City
+                      ;
+                  `);
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const parser = new YmlParser(tokenStream);
@@ -196,8 +195,8 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
-            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
-            assert.notStrictEqual(result, null);
+            expect(parser.numberOfSyntaxErrors).toBe(0);
+            expect(result).toBeDefined();
             const expectedCompletionItems = [
                 {
                     attributes: [],
@@ -213,11 +212,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 30,
+                                character: 34,
                                 line: 4,
                             },
                             start: {
-                                character: 18,
+                                character: 22,
                                 line: 2,
                             },
                         },
@@ -234,11 +233,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 30,
+                                character: 34,
                                 line: 7,
                             },
                             start: {
-                                character: 18,
+                                character: 22,
                                 line: 5,
                             },
                         },
@@ -255,11 +254,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 36,
+                                character: 40,
                                 line: 11,
                             },
                             start: {
-                                character: 18,
+                                character: 22,
                                 line: 8,
                             },
                         },
@@ -272,49 +271,49 @@ describe('Extension Server Tests', () => {
                     uri: '',
                 },
             ];
-            assert.deepEqual(completionProvider.completions, expectedCompletionItems);
+            expect(completionProvider.completions).toEqual(expectedCompletionItems);
             done();
         });
         // tslint:disable-next-line: max-line-length
         it('should parse a well-written YML file containing instances and functions and provide completion for them', (done) => {
             const inputStream = CharStreams.fromString(`
-        function functionWithoutArgs()
-          --> domains Text
-          --> action {
-            return "it works";
-          }
-        ;
+            function functionWithoutArgs()
+              --> domains Text
+              --> action {
+                return "it works";
+              }
+            ;
 
-        Text simpleInstance;
+            Text simpleInstance;
 
-        function functionWithoutArgs2
-          args {}
-          --> domains Text
-          --> action {
-            return "it works";
-          }
-        ;
+            function functionWithoutArgs2
+              args {}
+              --> domains Text
+              --> action {
+                return "it works";
+              }
+            ;
 
-        Collection collection;
+            Collection collection;
 
-        function functionWithoutArgsWithPar(Object arg1, Text arg2)
-        --> domains Text
-        --> return "it works"
-        ;
+            function functionWithoutArgsWithPar(Object arg1, Text arg2)
+            --> domains Text
+            --> return "it works"
+            ;
 
-        Collection collectionWithLevel2
-        --> domainsLevel2 Text
-        ;
+            Collection collectionWithLevel2
+            --> domainsLevel2 Text
+            ;
 
-        function functionWithArgsAsBlock
-        args {
-          Object arg1
-          Text arg2
-        }
-        --> domains Text
-        --> return "it works"
-        ;
-      `);
+            function functionWithArgsAsBlock
+            args {
+              Object arg1
+              Text arg2
+            }
+            --> domains Text
+            --> return "it works"
+            ;
+          `);
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
             const parser = new YmlParser(tokenStream);
@@ -323,19 +322,19 @@ describe('Extension Server Tests', () => {
             const completionProvider = new YmlCompletionItemsProvider();
             const visitor = new YmlKaoFileVisitor(completionProvider, '', new YmlDefinitionProvider());
             visitor.visit(result);
-            assert.strictEqual(parser.numberOfSyntaxErrors, 0);
-            assert.notStrictEqual(result, null);
+            expect(parser.numberOfSyntaxErrors).toBe(0);
+            expect(result).toBeDefined();
             const expectedCompletionItems = [
                 {
                     data: 'id_static_functionWithoutArgs',
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 8,
+                                character: 12,
                                 line: 7,
                             },
                             start: {
-                                character: 8,
+                                character: 12,
                                 line: 1,
                             },
                         },
@@ -352,11 +351,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 27,
+                                character: 31,
                                 line: 9,
                             },
                             start: {
-                                character: 8,
+                                character: 12,
                                 line: 8,
                             },
                         },
@@ -373,11 +372,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 8,
+                                character: 12,
                                 line: 17,
                             },
                             start: {
-                                character: 8,
+                                character: 12,
                                 line: 10,
                             },
                         },
@@ -394,11 +393,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 29,
+                                character: 33,
                                 line: 19,
                             },
                             start: {
-                                character: 8,
+                                character: 12,
                                 line: 18,
                             },
                         },
@@ -415,11 +414,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 8,
+                                character: 12,
                                 line: 24,
                             },
                             start: {
-                                character: 8,
+                                character: 12,
                                 line: 20,
                             },
                         },
@@ -437,8 +436,8 @@ describe('Extension Server Tests', () => {
                     documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'arg1',
-                    scopeEndOffset: 497,
-                    scopeStartOffset: 374,
+                    scopeEndOffset: 573,
+                    scopeStartOffset: 438,
                     uri: '',
                 },
                 {
@@ -447,8 +446,8 @@ describe('Extension Server Tests', () => {
                     documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'arg2',
-                    scopeEndOffset: 497,
-                    scopeStartOffset: 374,
+                    scopeEndOffset: 573,
+                    scopeStartOffset: 438,
                     uri: '',
                 },
                 {
@@ -456,11 +455,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 8,
+                                character: 12,
                                 line: 28,
                             },
                             start: {
-                                character: 8,
+                                character: 12,
                                 line: 25,
                             },
                         },
@@ -477,11 +476,11 @@ describe('Extension Server Tests', () => {
                     definitionLocation: {
                         range: {
                             end: {
-                                character: 8,
+                                character: 12,
                                 line: 37,
                             },
                             start: {
-                                character: 8,
+                                character: 12,
                                 line: 29,
                             },
                         },
@@ -499,8 +498,8 @@ describe('Extension Server Tests', () => {
                     documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'arg1',
-                    scopeEndOffset: 753,
-                    scopeStartOffset: 590,
+                    scopeEndOffset: 873,
+                    scopeStartOffset: 682,
                     uri: '',
                 },
                 {
@@ -509,12 +508,12 @@ describe('Extension Server Tests', () => {
                     documentation: NOT_DOCUMENTED,
                     kind: CompletionItemKind.Variable,
                     label: 'arg2',
-                    scopeEndOffset: 753,
-                    scopeStartOffset: 590,
+                    scopeEndOffset: 873,
+                    scopeStartOffset: 682,
                     uri: '',
                 },
             ];
-            assert.deepEqual(completionProvider.completions, expectedCompletionItems);
+            expect(completionProvider.completions).toEqual(expectedCompletionItems);
             done();
         });
     });

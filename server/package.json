@@ -25,10 +25,10 @@
     },
     "scripts": {
         "antlr4ts": "antlr4ts -visitor -o src grammar/YmlLexer.g4 && antlr4ts -visitor -lib src/grammar/ -o src grammar/YmlParser.g4",
-        "test": "tsc -b ./tsconfig.json && cd ./out && mocha --recursive",
-        "test:ci": "tsc -b ./tsconfig.json && cd ./out && mocha --reporter xunit --reporter-options output=../../target/test-reports/server-tests.xml --recursive"
+        "test": "jest"
     },
     "devDependencies": {
+        "@types/jest": "^24.9.1",
         "@types/fs-extra": "^8.0.1",
         "@types/glob": "^7.1.1",
         "@types/node": "^12.12.11",
