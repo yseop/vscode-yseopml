@@ -673,6 +673,7 @@ complete MyClass
                 'a:bc::d',
                 'a:bc:::d',
                 "myAttribute'",
+                'static',
             ];
             for (const keyword of keywords) {
                 checkInputValidityForRule((parser) => parser.ymlId(), keyword);

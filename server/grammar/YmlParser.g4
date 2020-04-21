@@ -51,6 +51,7 @@ ymlId:
     | ATTRIBUTES
     | EXTENDS
     | TIME_COUNTER
+    | STATIC
 ;
 
 yenum:
