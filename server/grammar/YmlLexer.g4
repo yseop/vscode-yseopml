@@ -47,7 +47,7 @@ RETURN: 'return';
 LOCAL: 'local';
 TRUE: 'true';
 FALSE: 'false';
-SWITCH: 'switch';
+SWITCH: 'switch' | 'switchExclusive';
 SWITCH_EXPR: 'switchExpr' | 'switchExprExclusive';
 CASE: 'case';
 DEFAULT: 'default';
@@ -63,6 +63,7 @@ FOR_CLASS: 'forClass';
 RULESET: 'ruleset';
 RULE_TYPE: 'Rule';
 ATTRIBUTES: 'attributes';
+TIME_COUNTER: 'timeCounter';
 
 //Symbols
 SEMICOLON: ';';
@@ -141,7 +142,7 @@ INTEGER: NON_ZERO_DIGIT DIGIT+ | DIGIT+;
  * − double colons are used to define a class' method;
  * − triple colons are used as a pointer towards a class' method or attribute.
  */
-YMLID: ID (COLON ID)* (COLON? COLON? COLON ID)?;
+YMLID: ID (COLON ID)* (COLON? COLON? COLON ID)? SINGLE_QUOTE?;
 ID: ALPHANUM* LETTER ALPHANUM*;
 
 fragment MULTILINE_COMMENT_START: '/*';

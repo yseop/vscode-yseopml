@@ -539,6 +539,39 @@ switch( val ) {
             );
             done();
         });
+        it('should parse without errors a switchExpr instruction with a "noDefault" case', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchExpr_withValue(),
+                `
+switchExpr(val) {
+    case "case1" : value2
+    case "case2" : value2
+    noDefault
+}
+;`,
+            );
+            done();
+        });
+
+        it('should parse without errors a switchExclusive instruction', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchCase_asIf(),
+                `
+switchExclusive {
+    case(condition1) : {
+        return value1;
+    }
+    case(condition2) : {
+        return value2;
+    }
+    case(condition3) : {
+        return value3;
+    }
+    noDefault
+}`,
+            );
+            done();
+        });
 
         it('should parse without errors a switch with parentheses around values', (done) => {
             checkInputValidityForRule(
@@ -573,6 +606,22 @@ switch( val ) {
             );
             done();
         });
+        it('should parse without errors a switch with a list as cases defined as only one case', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchCase_withValue(),
+                `
+switch( val ) {
+    case (VALUE_1) : {
+        // do stuff
+    }
+    case VALUE_2, VALUE_3, VALUE_4 : {
+        // do something else
+    }
+}
+;`,
+            );
+            done();
+        });
     });
 
     describe('classComplete rule', () => {
@@ -599,11 +648,36 @@ complete MyClass
 
     describe('ymlId rule', () => {
         it('should parse without errors different kinds of ymlId', (done) => {
-            checkInputValidityForRule((parser) => parser.ymlId(), `abc`);
-            checkInputValidityForRule((parser) => parser.ymlId(), `a:bc`);
-            checkInputValidityForRule((parser) => parser.ymlId(), `a:bc:d`);
-            checkInputValidityForRule((parser) => parser.ymlId(), `a:bc::d`);
-            checkInputValidityForRule((parser) => parser.ymlId(), `a:bc:::d`);
+            const keywords = [
+                'args',
+                'local',
+                'return',
+                'Function',
+                'TextFunction',
+                'implementation',
+                'operation',
+                'case',
+                'rename',
+                'to',
+                'forClass',
+                'mod',
+                'as',
+                'ruleset',
+                'Rule',
+                'attributes',
+                'extends',
+                'timeCounter',
+                'abc',
+                'a:bc',
+                'a:bc:d',
+                'a:bc::d',
+                'a:bc:::d',
+                "myAttribute'",
+                'static',
+            ];
+            for (const keyword of keywords) {
+                checkInputValidityForRule((parser) => parser.ymlId(), keyword);
+            }
             done();
         });
     });
@@ -749,6 +823,17 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
             );
             done();
         });
+        it('should parse a switchExpr instruction using nodefault', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_switchExpr_withValue(),
+                `switchExpr(myVariable) {
+                    case "value1" : EnumClass::EnumVal1
+                    case "value2" : EnumClass::EnumVal2
+                    noDefault
+                }`,
+            );
+            done();
+        });
         it('should parse enums with attributes without error', (done) => {
             checkInputValidityForRule(
                 (parser) => parser.yenum(),
@@ -764,6 +849,45 @@ Music/wedrujacy_wiatr/tam_gdzie_miesiac_oplakuje_swit/flac/02_-_tam_gdzie_miesia
                     --> myAttr 13
                 }
                 --> documentation """This is MyEnum's documentation""";`,
+            );
+            done();
+        });
+    });
+    describe('specific constructions', () => {
+        it('should parse a timeCounter expression without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.instruction_timeCounter(),
+                `
+timeCounter(COUNTER_ID, {
+    if(condition == true) {
+        logInfo("logging stuff");
+    }
+});`,
+            );
+            done();
+        });
+        it('should parse a HashMap with all entries defined in the "values" attribute without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.staticDeclaration(),
+                `
+HashMap computedValues
+--> values  KEY_1 : value1,
+            KEY_2 : value2,
+            KEY_3 : value3,
+            KEY_4 : value4
+;`,
+            );
+            done();
+        });
+        it("should parse a ConstList as attribute's value without error", (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.staticDeclaration(),
+                `
+MyClass MY_OBJECT
+--> value -> ConstList {
+            VALUE_1, VALUE_2, VALUE_3
+        };
+;`,
             );
             done();
         });
