@@ -12,7 +12,7 @@ export class YmlEnumMember extends AbstractYmlObject {
         this.kindName = 'enum member';
     }
 
-    public setDetail(type: string) {
+    protected buildDetailString(type: string): string {
         return `(${this.kindName}) ${this.getShortName} ⇒ ${type}`;
     }
 

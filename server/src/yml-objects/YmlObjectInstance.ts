@@ -13,9 +13,9 @@ export class YmlObjectInstance extends AbstractYmlObject {
         this.kindName = isLocal ? 'variable' : 'instance';
     }
 
-    public setDetail(type: string): void {
-        this.detail = this.isLocal
+    protected buildDetailString(type: string): string {
+        return this.isLocal
             ? `(${this.kindName}) ${this.label} ⇒ ${type}`
-            : `(${this.kindName}) [GLOBAL] ${this.label} ⇒ ${type}`;
+            : `(${this.kindName}) [STATIC] ${this.label} ⇒ ${type}`;
     }
 }

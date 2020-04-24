@@ -34,8 +34,6 @@ export abstract class AbstractYmlObject implements CompletionItem {
      */
     private sourceElementName: string;
 
-    private documentationAsText: string;
-
     /**
      * A string representation of the enum name that is in `this.kind`.
      *
@@ -61,6 +59,8 @@ export abstract class AbstractYmlObject implements CompletionItem {
      * that are out of the current scope.
      */
     public scopeEndOffset?: number;
+
+    private hoverContent?: MarkupContent;
 
     constructor(public readonly label: string, public readonly kind: CompletionItemKind, public readonly uri: string) {}
 
@@ -92,33 +92,20 @@ export abstract class AbstractYmlObject implements CompletionItem {
     ): void {
         this.sourceElementName = sourceElementName ? sourceElementName : 'STATIC';
         this.data = `id_${sourceElementName}_${this.label}`;
-        this.setDetail(type);
-        this.setUserInformations(this.detail, documentation);
+        this.setUserInformations(this.buildDetailString(type), documentation);
         if (scopeEndOffset && scopeStartOffset) {
             this.scopeEndOffset = scopeEndOffset;
             this.scopeStartOffset = scopeStartOffset;
         }
     }
 
-    public setDetail(type: string): void {
+    protected buildDetailString(type: string): string {
         const separator = this.sourceElementName === 'STATIC' ? ' ' : '.';
-        this.detail = `(${this.kindName}) [${this.sourceElementName}]${separator}${this.label} ⇒ ${type}`;
+        return `(${this.kindName}) [${this.sourceElementName}]${separator}${this.label} ⇒ ${type}`;
     }
 
     public getHoverContent(): MarkupContent {
-        if (!this.detail && !this.documentationAsText) {
-            return null;
-        }
-        if (!this.detail) {
-            return {
-                kind: MarkupKind.Markdown,
-                value: this.documentationAsText,
-            };
-        }
-        return {
-            kind: MarkupKind.Markdown,
-            value: !!this.documentationAsText ? `${this.detail}\n\n---\n\n${this.documentationAsText}` : this.detail,
-        };
+        return this.hoverContent;
     }
 
     public hasDocumentation(): boolean {
@@ -126,8 +113,9 @@ export abstract class AbstractYmlObject implements CompletionItem {
     }
 
     /**
-     * Set the documentation of this object as a `MarkupContent` as well as it detail attribute.
-     * The documentation always exists and consists at least as the value of detail.
+     * Set the documentation of this object as a `MarkupContent` its detail attribute
+     * as well as its representation when hovering it.
+     * The documentation should always exist and consists at least as the value of detail.
      *
      * @param details Some details about this object, as a Markdown string.
      * @param doc The documentation of this object, as a Markdown string.
@@ -135,15 +123,30 @@ export abstract class AbstractYmlObject implements CompletionItem {
      * @see MarkupContent
      */
     public setUserInformations(details: string, doc: string): void {
+        // Set documentation and detail attributes.
         this.detail = details;
-        this.documentationAsText = doc;
-        if (!doc) {
-            return null;
+        this.documentation = !!doc
+            ? {
+                  kind: MarkupKind.Markdown,
+                  value: doc,
+              }
+            : null;
+
+        if (!this.detail && !doc) {
+            return;
         }
-        this.documentation = {
-            kind: MarkupKind.Markdown,
-            value: doc,
-        };
+
+        if (!this.detail) {
+            this.hoverContent = {
+                kind: MarkupKind.Markdown,
+                value: doc,
+            };
+        } else {
+            this.hoverContent = {
+                kind: MarkupKind.Markdown,
+                value: !!doc ? `${this.detail}\n\n---\n\n${doc}` : this.detail,
+            };
+        }
     }
 
     public setDefinitionLocation(startToken: Token, endToken: Token, uri: string): void {
