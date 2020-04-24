@@ -1,7 +1,6 @@
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import { ClassAttributeDeclarationContext, ClassDeclarationIntroContext, MethodDeclarationContext } from '../grammar';
-import { connection } from '../server';
 import { YmlAttribute, YmlClass, YmlMethod } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 import { getDocumentation, getType } from './YmlVisitorHelper';

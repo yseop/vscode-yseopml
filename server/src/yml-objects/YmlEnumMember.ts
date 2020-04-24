@@ -13,7 +13,7 @@ export class YmlEnumMember extends AbstractYmlObject {
     }
 
     protected buildDetailString(type: string): string {
-        return `(${this.kindName}) ${this.getShortName} ⇒ ${type}`;
+        return `(${this.kindName}) ${this.getShortName()} ⇒ ${type}`;
     }
 
     public getShortName() {

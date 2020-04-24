@@ -27,6 +27,9 @@ export class YmlEnumVisitor extends YmlBaseVisitor {
         this.enumName = node.ymlId().text;
         this.yenum = new YmlEnum(this.enumName, this.uri);
         this.yenum.data = `id_${this.enumName}`;
+        const doc = getDocumentation(node.field());
+        this.yenum.enrichWith(doc, this.enumName);
+        this.completionProvider.addCompletionItem(this.yenum);
         this.yenum.setDefinitionLocation(node.start, node.stop, this.uri);
         this.definitions.addImplementation(this.yenum);
         /**

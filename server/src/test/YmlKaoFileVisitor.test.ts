@@ -214,6 +214,23 @@ describe('Extension Server Tests', () => {
             --> domains Text
             --> return "it works"
             ;
+
+            enum MyEnum
+                attributes {
+                    Number memberAttribute
+                    --> documentation "Member attribute's documentation."
+                }
+                {
+                    MEMBER_1
+                    --> documentation """Member_2 documentation."""
+                    --> memberAttribute 1
+
+                    MEMBER_2
+                    --> documentation """Member_2 documentation."""
+                    --> memberAttribute 2
+                }
+            --> documentation """Enum documentation"""
+            ;
           `);
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
@@ -225,7 +242,7 @@ describe('Extension Server Tests', () => {
             visitor.visit(result);
             expect(parser.numberOfSyntaxErrors).toBe(0);
             expect(result).toBeDefined();
-            expect(completionProvider.completions.length).toBe(11);
+            expect(completionProvider.completions.length).toBe(17);
 
             // Three global instances, four local variables.
             assertHasNElementsRemaining(
@@ -238,6 +255,26 @@ describe('Extension Server Tests', () => {
                 4,
                 (elem) => elem.kind === CompletionItemKind.Function,
             );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                2,
+                (elem) => elem.kind === CompletionItemKind.EnumMember,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                1,
+                (elem) => elem.kind === CompletionItemKind.Enum,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                3,
+                (elem) => elem.kind === CompletionItemKind.Text,
+            );
+            for (const completionItem of completionProvider.completions) {
+                expect(
+                    completionItem.kind === CompletionItemKind.Text || completionItem.hasDocumentation(),
+                ).toBeTruthy();
+            }
             done();
         });
     });
