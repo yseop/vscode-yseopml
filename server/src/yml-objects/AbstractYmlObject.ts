@@ -3,7 +3,6 @@ import {
     Command,
     CompletionItem,
     CompletionItemKind,
-    IConnection,
     InsertTextFormat,
     Location,
     MarkupContent,
@@ -11,11 +10,7 @@ import {
     TextEdit,
 } from 'vscode-languageserver';
 
-import { FieldContext } from '../grammar';
-
 export type YmlType = string | string[];
-const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
-const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 
 export abstract class AbstractYmlObject implements CompletionItem {
     /* Start overriden properties (doc in CompletionItem). */
@@ -76,11 +71,9 @@ export abstract class AbstractYmlObject implements CompletionItem {
     /**
      * Enrich this object by adding to it some information like its type, its use scope, documentation, etc.
      *
-     * @param fields The attributes the item has to find from it more informations.
-     * @param connection An object to log errors if any.
-     *  Cannot be imported directly from `../server` because of cross references problems.
+     * @param documentation The documentation associated to this object.
+     * @param type The type of this object. It is the return type in case of a function or method.
      * @param sourceElementName The wrapper item. For an argument it is the function, for an attribute it is its class.
-     * @param baseType The type of the item, if it is not an information that can be found in `fields`
      * @param scopeStartOffset The first position from which we can suggest this item.
      * Interstice before the first character of a function's body, for example.
      * Useful to avoid giving completion suggestions pertaining to symbols
@@ -91,18 +84,16 @@ export abstract class AbstractYmlObject implements CompletionItem {
      * that are out of the current scope.
      */
     public enrichWith(
-        fields: FieldContext[],
-        connection: IConnection,
+        documentation: string,
+        type: string,
         sourceElementName?: string,
-        baseType?: string,
         scopeStartOffset?: number,
         scopeEndOffset?: number,
     ): void {
         this.sourceElementName = sourceElementName ? sourceElementName : 'STATIC';
         this.data = `id_${sourceElementName}_${this.label}`;
-        const doc = getDocumentation(fields, connection);
-        this.setDetail(getType(fields, connection, baseType));
-        this.setUserInformations(this.detail, doc);
+        this.setDetail(type);
+        this.setUserInformations(this.detail, documentation);
         if (scopeEndOffset && scopeStartOffset) {
             this.scopeEndOffset = scopeEndOffset;
             this.scopeStartOffset = scopeStartOffset;
@@ -170,61 +161,4 @@ export abstract class AbstractYmlObject implements CompletionItem {
             uri,
         };
     }
-}
-
-function getDocumentation(fieldOptions: FieldContext[], connection: IConnection): string {
-    try {
-        for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
-            const option = element.commonField();
-            if (
-                !option ||
-                !option._optionName ||
-                option._optionName.text !== 'documentation' ||
-                !option._optionValue ||
-                !option._optionValue.text
-            ) {
-                // There is no option, or option name isn't “documentation” or there is no text value associated.
-                continue;
-            }
-            let _documentation = option._optionValue.text;
-            _documentation = _documentation.replace(BEGINNING_QUOTES_REGEX, '');
-            _documentation = _documentation.replace(ENDING_QUOTES_REGEX, '');
-            return _documentation;
-        }
-    } catch (err) {
-        if (!!err) {
-            connection.console.error(`${err}`);
-        } else {
-            connection.console.error(`An unexpected error occured when getting documentation value.`);
-        }
-    }
-    return null;
-}
-
-function getType(fieldOptions: FieldContext[], connection: IConnection, baseType?: string): string {
-    let domains = baseType ? baseType : 'Object';
-    let domainsLevel2 = '';
-    try {
-        for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
-            const option = element.commonField();
-            if (!option || !option._optionName || !option._optionValue) {
-                continue;
-            }
-            const optionName = option._optionName.text;
-            if (optionName === 'domains') {
-                domains = option._optionValue.text;
-            } else if (optionName === 'domainsLevel2') {
-                domainsLevel2 = ` − ${option._optionValue.text}`;
-            } else {
-                // YML fields unrelated to domains.
-            }
-        }
-    } catch (err) {
-        if (!!err) {
-            connection.console.error(`${err}`);
-        } else {
-            connection.console.error(`An unexpected error occured when getting domains.`);
-        }
-    }
-    return domains.concat(domainsLevel2);
 }

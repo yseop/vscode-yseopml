@@ -4,3 +4,4 @@ export * from './YmlFunctionVisitor';
 export * from './YmlKaoFileVisitor';
 export * from './YmlObjectInstanceVisitor';
 export * from './YmlParsingErrorListener';
+export * from './YmlVisitorHelper';

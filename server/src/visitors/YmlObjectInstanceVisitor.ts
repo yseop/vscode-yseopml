@@ -1,9 +1,9 @@
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import { StaticDeclarationContext } from '../grammar';
-import { connection } from '../server';
 import { YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
+import { getDocumentation, getType } from './YmlVisitorHelper';
 
 export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
     constructor(
@@ -19,7 +19,9 @@ export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
             return;
         }
         const instance = new YmlObjectInstance(node._declarationName.text, this.uri, false);
-        instance.enrichWith(node.field(), connection, null, node._declarationType.text);
+        const doc = getDocumentation(node.field());
+        const type = getType(node.field(), node._declarationType.text);
+        instance.enrichWith(doc, type, null);
         this.completionProvider.addCompletionItem(instance);
         instance.setDefinitionLocation(node.start, node.stop, this.uri);
         this.definitions.addDefinition(instance);
