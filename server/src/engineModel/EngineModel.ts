@@ -118,25 +118,29 @@ export class EngineModel {
     private parsePredefinedObjects(uri: string): void {
         connection.console.log(`Parsing definition file: ${uri}`);
         fs.readFile(uri, (err, data) => {
-            parser.parseString(data, (parseErr, predefinedObjects) => {
-                if (err != null) {
-                    connection.console.error(`Something went wrong during YE model import:\n ${parseErr}`);
-                } else if (predefinedObjects == null) {
-                    connection.console.error('Something went wrong during YE model import. Your file seems empty.');
-                } else {
-                    try {
-                        const dataAndFeatures = predefinedObjects['data-and-features'];
-                        this.importClasses(dataAndFeatures);
-                        this.importFunctions(dataAndFeatures);
-                        this.importTags(dataAndFeatures);
-                    } catch (importErr) {
-                        connection.console.error(`Something went wrong during YE model import:\n ${importErr}`);
-                    }
+            this.parsePredefinedObjectsFileContent(err, data);
+        });
+    }
+
+    public parsePredefinedObjectsFileContent(err, data: Buffer | string): void {
+        parser.parseString(data, (parseErr, predefinedObjects) => {
+            if (err != null) {
+                connection.console.error(`Something went wrong during YE model import:\n ${parseErr}`);
+            } else if (predefinedObjects == null) {
+                connection.console.error('Something went wrong during YE model import. Your file seems empty.');
+            } else {
+                try {
+                    const dataAndFeatures = predefinedObjects['data-and-features'];
+                    this.importClasses(dataAndFeatures);
+                    this.importFunctions(dataAndFeatures);
+                    this.importTags(dataAndFeatures);
+                } catch (importErr) {
+                    connection.console.error(`Something went wrong during YE model import:\n ${importErr}`);
                 }
-                connection.console.log(
-                    `Done with classes size=${this.classes.length}\nfunctions size=${this.functions.length}`,
-                );
-            });
+            }
+            connection.console.log(
+                `Done with classes size=${this.classes.length}\nfunctions size=${this.functions.length}`,
+            );
         });
     }
 

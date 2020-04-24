@@ -1,16 +1,11 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { CompletionItemKind, MarkupContent } from 'vscode-languageserver';
+import { CompletionItemKind } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import { YmlLexer, YmlParser } from '../grammar';
 import { YmlKaoFileVisitor } from '../visitors';
 import { AbstractYmlObject } from '../yml-objects';
-
-const NOT_DOCUMENTED: MarkupContent = {
-    kind: 'markdown',
-    value: 'Not documented.',
-};
 
 describe('Extension Server Tests', () => {
     describe('YmlKaoFileVisitor', () => {
