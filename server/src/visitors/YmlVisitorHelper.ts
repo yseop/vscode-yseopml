@@ -1,7 +1,9 @@
 import { FieldContext } from '../grammar';
 import { connection } from '../server';
 
+/** Used to trim YML documentation. */
 const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
+/** Used to trim YML documentation. */
 const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 
 export function getDocumentation(fieldOptions: FieldContext[]): string {
