@@ -90,7 +90,7 @@ export abstract class AbstractYmlObject implements CompletionItem {
         scopeStartOffset?: number,
         scopeEndOffset?: number,
     ): void {
-        this.sourceElementName = sourceElementName ? sourceElementName : 'STATIC';
+        this.sourceElementName = sourceElementName ?? 'static';
         this.data = `id_${sourceElementName}_${this.label}`;
         this.setUserInformations(this.buildDetailString(type), documentation);
         if (scopeEndOffset && scopeStartOffset) {
@@ -100,7 +100,7 @@ export abstract class AbstractYmlObject implements CompletionItem {
     }
 
     protected buildDetailString(type: string): string {
-        const separator = this.sourceElementName === 'STATIC' ? ' ' : '.';
+        const separator = this.sourceElementName === 'static' ? ' ' : '.';
         return `(${this.kindName}) [${this.sourceElementName}]${separator}${this.label} ⇒ ${type}`;
     }
 

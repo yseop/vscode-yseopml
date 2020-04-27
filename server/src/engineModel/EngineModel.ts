@@ -61,9 +61,9 @@ export class EngineModel {
             );
         } else {
             ymlAbstractFunction = new YmlFunction(func.$.ident, this.uri);
-            ymlAbstractFunction.setUserInformations(`(function) [STATIC] ${ymlAbstractFunction.label}`, documentation);
+            ymlAbstractFunction.setUserInformations(`(function) [static] ${ymlAbstractFunction.label}`, documentation);
         }
-        ymlAbstractFunction.data = `id_${sourceType ? sourceType : 'static'}_${ymlAbstractFunction.label}`;
+        ymlAbstractFunction.data = `id_${sourceType ?? 'static'}_${ymlAbstractFunction.label}`;
         return ymlAbstractFunction;
     }
 
