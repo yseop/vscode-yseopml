@@ -36,7 +36,7 @@ export function getDocumentation(fieldOptions: FieldContext[]): string {
 }
 
 export function getType(fieldOptions: FieldContext[], baseType?: string): string {
-    let domains = baseType ? baseType : 'Object';
+    let domains = baseType ?? 'Object';
     let domainsLevel2 = '';
     try {
         for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
