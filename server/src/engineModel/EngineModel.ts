@@ -51,7 +51,7 @@ export class EngineModel {
     }
     private buildYmlFunction(func: any, sourceType?: string): AbstractYmlFunction {
         let ymlAbstractFunction: AbstractYmlFunction;
-        const documentation: string = !!func.doc ? func.doc[0] : null;
+        const documentation: string = getDocValue(func);
         if (sourceType) {
             ymlAbstractFunction = new YmlMethod(func.$.ident, this.uri);
             this.functions.push(ymlAbstractFunction);
@@ -93,7 +93,7 @@ export class EngineModel {
                 this.completionProvider.addCompletionItem(method);
             });
         }
-        const documentation: string = !!yclass.doc ? yclass.doc[0] : null;
+        const documentation: string = getDocValue(yclass);
         ymlClass.setUserInformations(`(class) ${ymlClass.label}`, documentation);
         this.classes.push(ymlClass);
         this.enrichYmlClass(ymlClass);
@@ -102,7 +102,7 @@ export class EngineModel {
 
     private buildAttribute(attributeXmlElement: any, sourceType: string): YmlAttribute {
         const attribute = new YmlAttribute(attributeXmlElement.$.ident, this.uri);
-        const documentation: string = !!attributeXmlElement.doc ? attributeXmlElement.doc[0] : null;
+        const documentation: string = getDocValue(attributeXmlElement);
         attribute.setUserInformations(`(property) [${sourceType}].${attribute.label}`, documentation);
         attributeXmlElement.return.forEach((returnType) => {
             if (returnType.domains) {
@@ -262,4 +262,28 @@ export class EngineModel {
             yclass.detail = yclass.detail.concat(` extends ${yclass.extends}`);
         }
     }
+}
+
+/**
+ * Returns the value of first xmlElement's child named `doc` tag if any.
+ *
+ * E.g. for the following XML:
+ * ```xml
+ * <xmlElement>
+ *     <doc>documentation</doc>
+ * </xmlElement>
+ * ```
+ * its representation is:
+ * ```JSON
+ * {
+ *     doc: ["documentation"]
+ * }
+ * ```
+ *
+ * @param xmlElement a JSON representation of an XML tag.
+ *
+ * @return the xmlElement's documentation or `null`.
+ */
+function getDocValue(xmlElement: any): string {
+    return !!xmlElement.doc ? xmlElement.doc[0] : null;
 }
