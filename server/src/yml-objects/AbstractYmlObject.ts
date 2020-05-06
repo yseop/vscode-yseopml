@@ -135,7 +135,7 @@ export abstract class AbstractYmlObject implements CompletionItem {
             };
         }
 
-        // There is no value for `details`. This means that we have a documentation.
+        // There is no value for `details`. This means that we have a value for `doc`.
         // No need to set `this.detail`.
         // Hover content is this.documentation.
         if (!details) {
