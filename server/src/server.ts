@@ -14,8 +14,6 @@ import {
     createConnection,
     Diagnostic,
     DiagnosticSeverity,
-    DocumentSymbol,
-    DocumentSymbolParams,
     IConnection,
     InitializeResult,
     IPCMessageReader,
@@ -29,9 +27,9 @@ import {
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
+import { documentSymbolRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
-import { AbstractYmlObject, completionItemToDocumentSymbol } from './yml-objects';
 
 // The settings interface describe the server relevant settings part
 interface ISettings {
@@ -398,56 +396,8 @@ function parseFile(textDocUri: string, docContent: string) {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics: [] });
     }
 }
-connection.onDocumentSymbol((_params: DocumentSymbolParams) => {
-    return buildDocumentSymbolsList(_params.textDocument.uri);
-});
 
-/**
- * Build the list of all available YML symbols that are in a file.
- *
- * @param uri the file URI
- *
- * @returns the list of available YML symbols.
- */
-function buildDocumentSymbolsList(uri: string): DocumentSymbol[] {
-    // Get the YML objects definitions (for which we have a location) that are in this file.
-    const filter = (elem: AbstractYmlObject) => elem.uri === uri && !!elem.definitionLocation;
-    let currentDocSymbols = definitionsProvider.definitions.filter(filter);
-    // Also get the YML objects implementations (with a location too) that are in this file.
-    currentDocSymbols = currentDocSymbols.concat(definitionsProvider.implementations.filter(filter));
-
-    const parentToChildren = new Map<AbstractYmlObject, AbstractYmlObject[]>();
-    for (const elem of currentDocSymbols) {
-        if (!elem.sourceElement) {
-            // Current element has no parent.
-            if (!parentToChildren.has(elem)) {
-                // Current element has no parent and this is the first time we encounter it.
-                parentToChildren.set(elem, []);
-            } else {
-                // Current element is a an already known parent element. No need to add it again.
-            }
-        } else {
-            // Current element has a parent
-            // tslint:disable-next-line: no-collapsible-if
-            if (!parentToChildren.has(elem.sourceElement)) {
-                // We don't have an entry for it yet.
-                parentToChildren.set(elem.sourceElement, [elem]);
-            } else {
-                // Just push current element to sourceElement's children list.
-                parentToChildren.get(elem.sourceElement).push(elem);
-            }
-        }
-    }
-
-    const result: DocumentSymbol[] = [];
-    // Create the document symbols here.
-    parentToChildren.forEach((_value, _key, _map) => {
-        const docSymbol = completionItemToDocumentSymbol(_key);
-        docSymbol.children = _value.map(completionItemToDocumentSymbol);
-        result.push(docSymbol);
-    });
-    return result;
-}
+connection.onDocumentSymbol(documentSymbolRequestHandler(definitionsProvider));
 
 connection.onDefinition((pos: TextDocumentPositionParams) => {
     const doc: TextDocument = documents.get(pos.textDocument.uri);
