@@ -1,5 +1,9 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
+-   New outline feature. This allows to see at a glance elements such as enums, classes, methods or object instances and easily navigate to them.
+
 ## 1.8.0 (2020-03-23)
 
 -   New option `kaoFiles` allowing to set a list of kao files that will be used when initializing workspace's project parsing. This option is recommended for workspaces containing multiple related sub-projects, such as a library and a test project for this library.

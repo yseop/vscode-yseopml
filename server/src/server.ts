@@ -14,6 +14,8 @@ import {
     createConnection,
     Diagnostic,
     DiagnosticSeverity,
+    DocumentSymbol,
+    DocumentSymbolParams,
     IConnection,
     InitializeResult,
     IPCMessageReader,
@@ -29,6 +31,7 @@ import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import { YmlLexer, YmlParser } from './grammar';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
+import { AbstractYmlObject, completionItemToDocumentSymbol } from './yml-objects';
 
 // The settings interface describe the server relevant settings part
 interface ISettings {
@@ -98,6 +101,7 @@ connection.onInitialize(
                 },
                 hoverProvider: true,
                 definitionProvider: true,
+                documentSymbolProvider: true,
                 implementationProvider: true,
                 // Tell the client that the server works in FULL text document sync mode
                 textDocumentSync: documents.syncKind,
@@ -393,6 +397,55 @@ function parseFile(textDocUri: string, docContent: string) {
     } else {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics: [] });
     }
+}
+connection.onDocumentSymbol((_params: DocumentSymbolParams) => {
+    return getDocumentSymbols(_params.textDocument.uri);
+});
+
+/**
+ * Build the list of all available YML symbols that are in a file.
+ *
+ * @param uri the file URI
+ *
+ * @returns the list of available YML symbols.
+ */
+function getDocumentSymbols(uri: string) {
+    // Get the YML objects definitions that are in this file.
+    let currentDocSymbols = definitionsProvider.definitions.filter(
+        (elem) => elem.uri === uri && !!elem.definitionLocation,
+    );
+    // Also get the YML objects implementations that are in this file.
+    currentDocSymbols = currentDocSymbols.concat(
+        definitionsProvider.implementations.filter((elem) => elem.uri === uri && !!elem.definitionLocation),
+    );
+
+    const parentToChildren = new Map<AbstractYmlObject, AbstractYmlObject[]>();
+    for (const elem of currentDocSymbols) {
+        if (!!elem.sourceElement && !parentToChildren.has(elem.sourceElement)) {
+            // Current element has a parent, but we don't have an entry for it yet.
+            connection.console.info(`setting entry for key ${elem.sourceElement} because it has a child.`);
+            parentToChildren.set(elem.sourceElement, [elem]);
+        } else if (!!elem.sourceElement) {
+            // Current element has a parent and we already have an entry for it.
+            parentToChildren.get(elem.sourceElement).push(elem);
+        } else if (!parentToChildren.has(elem)) {
+            // Current element has no parent and this is the first time we encounter it.
+            connection.console.info(`resetting entry for key ${elem.label}.`);
+            parentToChildren.set(elem, []);
+        } else {
+            // Current element already exists in the map and has no parent.
+            // Basically, this means that this element is already set as the parent of another element.
+        }
+    }
+
+    const candidates: DocumentSymbol[] = [];
+    // Create the document symbols here.
+    parentToChildren.forEach((_value, _key, _map) => {
+        const docSymbol = completionItemToDocumentSymbol(_key);
+        docSymbol.children = _value.map(completionItemToDocumentSymbol);
+        candidates.push(docSymbol);
+    });
+    return candidates;
 }
 
 connection.onDefinition((pos: TextDocumentPositionParams) => {
