@@ -123,30 +123,33 @@ export abstract class AbstractYmlObject implements CompletionItem {
      * @see MarkupContent
      */
     public setUserInformations(details: string, doc: string): void {
-        // Set documentation and detail attributes.
-        this.detail = details;
-        this.documentation = !!doc
-            ? {
-                  kind: MarkupKind.Markdown,
-                  value: doc,
-              }
-            : null;
-
-        if (!this.detail && !doc) {
+        if (!details && !doc) {
             return;
         }
 
-        if (!this.detail) {
-            this.hoverContent = {
+        // If possible, set documentation's value.
+        if (!!doc) {
+            this.documentation = {
                 kind: MarkupKind.Markdown,
                 value: doc,
             };
-        } else {
-            this.hoverContent = {
-                kind: MarkupKind.Markdown,
-                value: !!doc ? `${this.detail}\n\n---\n\n${doc}` : this.detail,
-            };
         }
+
+        // There is no value for `details`. This means that we have a documentation.
+        // No need to set `this.detail`.
+        // Hover content is this.documentation.
+        if (!details) {
+            this.hoverContent = this.documentation;
+            return;
+        }
+
+        // At this point, we're not sur if we have a documentation,
+        // but we now that we have a value for `details`.
+        this.detail = details;
+        this.hoverContent = {
+            kind: MarkupKind.Markdown,
+            value: !!doc ? `${this.detail}\n\n---\n\n${doc}` : this.detail,
+        };
     }
 
     public setDefinitionLocation(startToken: Token, endToken: Token, uri: string): void {
