@@ -410,11 +410,11 @@ connection.onDocumentSymbol((_params: DocumentSymbolParams) => {
  * @returns the list of available YML symbols.
  */
 function getDocumentSymbols(uri: string) {
-    // Get the YML objects definitions that are in this file.
+    // Get the YML objects definitions (for which we have a location) that are in this file.
     let currentDocSymbols = definitionsProvider.definitions.filter(
         (elem) => elem.uri === uri && !!elem.definitionLocation,
     );
-    // Also get the YML objects implementations that are in this file.
+    // Also get the YML objects implementations (with a location too) that are in this file.
     currentDocSymbols = currentDocSymbols.concat(
         definitionsProvider.implementations.filter((elem) => elem.uri === uri && !!elem.definitionLocation),
     );
