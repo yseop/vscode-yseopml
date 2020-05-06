@@ -265,7 +265,7 @@ export class EngineModel {
 }
 
 /**
- * Returns the value of first xmlElement's child named `doc` tag if any.
+ * Returns the value of the first child `doc` element within a given XML element, if any.
  *
  * E.g. for the following XML:
  * ```xml
