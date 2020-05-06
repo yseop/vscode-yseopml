@@ -9,6 +9,9 @@ import { YmlKaoFileVisitor } from '../visitors';
 
 const DEFAULT_URI = '/path/to/declaration/file';
 const DEFINITION_PROVIDER = new YmlDefinitionProvider();
+const DEFAULT_REQUEST_PARAMS: DocumentSymbolParams = {
+    textDocument: TextDocumentIdentifier.create(DEFAULT_URI),
+};
 
 describe('DocumentSymbolRequestHandler', () => {
     beforeAll(() => {
@@ -50,13 +53,11 @@ enum MyEnum {
         const visitor = new YmlKaoFileVisitor(completionProvider, DEFAULT_URI, DEFINITION_PROVIDER);
         visitor.visit(result);
     });
-    test('should parse without errors an `intruction_rename` instruction', (done) => {
+    test('should get the correct number of symbol definitions', (done) => {
         const handler = documentSymbolRequestHandler(DEFINITION_PROVIDER);
-        const params: DocumentSymbolParams = {
-            textDocument: TextDocumentIdentifier.create(DEFAULT_URI),
-        };
-        const definitions: DocumentSymbol[] = handler(params);
+        const definitions: DocumentSymbol[] = handler(DEFAULT_REQUEST_PARAMS);
         expect(definitions).toBeTruthy();
+        // 1 enum, 1 class, 1 function, 1 method implementation, 1 object instance.
         expect(definitions).toHaveLength(5);
         // Enum and Class only.
         expect(definitions.filter((elem) => !!elem.children && elem.children.length > 0)).toHaveLength(2);
