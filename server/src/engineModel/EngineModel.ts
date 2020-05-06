@@ -267,18 +267,15 @@ export class EngineModel {
 /**
  * Returns the value of the first child `doc` element within a given XML element, if any.
  *
- * E.g. for the following XML:
- * ```xml
- * <xmlElement>
- *     <doc>documentation</doc>
- * </xmlElement>
- * ```
- * its representation is:
+ * We expect it to be given as the following JSON representation, obtained thanks to `xml2js`.
+ *
  * ```JSON
  * {
  *     doc: ["documentation"]
  * }
  * ```
+ *
+ * Using this function on the JSON representation above will return `"documentation"`.
  *
  * @param xmlElement a JSON representation of an XML tag.
  *
