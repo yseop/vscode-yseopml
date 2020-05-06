@@ -418,31 +418,35 @@ function buildDocumentSymbolsList(uri: string): DocumentSymbol[] {
 
     const parentToChildren = new Map<AbstractYmlObject, AbstractYmlObject[]>();
     for (const elem of currentDocSymbols) {
-        if (!!elem.sourceElement && !parentToChildren.has(elem.sourceElement)) {
-            // Current element has a parent, but we don't have an entry for it yet.
-            connection.console.info(`setting entry for key ${elem.sourceElement} because it has a child.`);
-            parentToChildren.set(elem.sourceElement, [elem]);
-        } else if (!!elem.sourceElement) {
-            // Current element has a parent and we already have an entry for it.
-            parentToChildren.get(elem.sourceElement).push(elem);
-        } else if (!parentToChildren.has(elem)) {
-            // Current element has no parent and this is the first time we encounter it.
-            connection.console.info(`resetting entry for key ${elem.label}.`);
-            parentToChildren.set(elem, []);
+        if (!elem.sourceElement) {
+            // Current element has no parent.
+            if (!parentToChildren.has(elem)) {
+                // Current element has no parent and this is the first time we encounter it.
+                parentToChildren.set(elem, []);
+            } else {
+                // Current element is a an already known parent element. No need to add it again.
+            }
         } else {
-            // Current element already exists in the map and has no parent.
-            // Basically, this means that this element is already set as the parent of another element.
+            // Current element has a parent
+            // tslint:disable-next-line: no-collapsible-if
+            if (!parentToChildren.has(elem.sourceElement)) {
+                // We don't have an entry for it yet.
+                parentToChildren.set(elem.sourceElement, [elem]);
+            } else {
+                // Just push current element to sourceElement's children list.
+                parentToChildren.get(elem.sourceElement).push(elem);
+            }
         }
     }
 
-    const candidates: DocumentSymbol[] = [];
+    const result: DocumentSymbol[] = [];
     // Create the document symbols here.
     parentToChildren.forEach((_value, _key, _map) => {
         const docSymbol = completionItemToDocumentSymbol(_key);
         docSymbol.children = _value.map(completionItemToDocumentSymbol);
-        candidates.push(docSymbol);
+        result.push(docSymbol);
     });
-    return candidates;
+    return result;
 }
 
 connection.onDefinition((pos: TextDocumentPositionParams) => {
