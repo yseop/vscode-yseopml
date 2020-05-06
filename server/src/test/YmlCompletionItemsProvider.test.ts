@@ -49,26 +49,27 @@ describe('YmlCompletionItemsProvider', () => {
         // just the method getName
         expect(allItemsByShortName.length).toBe(1);
 
-        const allDocumentedItemsByLabel = completionProvider.getAllItemsByLabelMatching(
-            methodNameGetName,
-            (elem) => !!elem.documentation,
+        const allDocumentedItemsByLabel = completionProvider.getAllItemsByLabelMatching(methodNameGetName, (elem) =>
+            elem.hasDocumentation(),
         );
         const allDocumentedItemsByShortName = completionProvider.getAllItemsByShortNameMatching(
             methodNameGetName,
-            (elem) => !!elem.documentation,
+            (elem) => elem.hasDocumentation(),
         );
 
-        // should method documentation
-        expect(allItemsByLabel.filter((elem) => !!elem.documentation).length).toBe(1);
+        // `getName` method should be found with documentation
+        expect(allItemsByLabel.filter((elem) => !!elem.hasDocumentation()).length).toBe(1);
         // same as previous instruction
         expect(allDocumentedItemsByLabel.length).toBe(1);
-        expect(allItemsByLabel.filter((elem) => !!elem.documentation)).toStrictEqual(allDocumentedItemsByLabel);
+        expect(allItemsByLabel.filter((elem) => !!elem.hasDocumentation())).toStrictEqual(allDocumentedItemsByLabel);
 
         // the method should be in the list; the method has the documentation.
-        expect(allItemsByShortName.filter((elem) => !!elem.documentation).length).toBe(1);
+        expect(allItemsByShortName.filter((elem) => !!elem.hasDocumentation()).length).toBe(1);
         // same as previous instruction
         expect(allDocumentedItemsByShortName.length).toBe(1);
-        expect(allItemsByShortName.filter((elem) => !!elem.documentation)).toStrictEqual(allDocumentedItemsByShortName);
+        expect(allItemsByShortName.filter((elem) => !!elem.hasDocumentation())).toStrictEqual(
+            allDocumentedItemsByShortName,
+        );
         done();
     });
 });

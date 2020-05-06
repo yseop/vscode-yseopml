@@ -1,15 +1,11 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { CompletionItemKind, MarkupContent } from 'vscode-languageserver';
+import { CompletionItemKind } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import { YmlLexer, YmlParser } from '../grammar';
 import { YmlKaoFileVisitor } from '../visitors';
-
-const NOT_DOCUMENTED: MarkupContent = {
-    kind: 'markdown',
-    value: 'Not documented.',
-};
+import { AbstractYmlObject } from '../yml-objects';
 
 describe('Extension Server Tests', () => {
     describe('YmlKaoFileVisitor', () => {
@@ -105,60 +101,18 @@ describe('Extension Server Tests', () => {
             visitor.visit(result);
             expect(parser.numberOfSyntaxErrors).toBe(0);
             expect(result).toBeDefined();
-            const expectedCompletionItems = [
-                {
-                    attributes: [],
-                    data: 'id_City',
-                    extends: [],
-                    kind: 7,
-                    label: 'City',
-                    methods: [],
-                    uri: '',
-                },
-                {
-                    data: 'id_City_name',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 32,
-                                line: 4,
-                            },
-                            start: {
-                                character: 20,
-                                line: 2,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'String',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Property,
-                    label: 'name',
-                    uri: '',
-                },
-                {
-                    data: 'id_City_country',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 32,
-                                line: 7,
-                            },
-                            start: {
-                                character: 20,
-                                line: 5,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'String',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Property,
-                    label: 'country',
-                    uri: '',
-                },
-            ];
-            expect(completionProvider.completions).toEqual(expectedCompletionItems);
+            expect(completionProvider.completions.length).toBe(3);
+
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                1,
+                (elem) => elem.kind === CompletionItemKind.Class,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                2,
+                (elem) => elem.kind === CompletionItemKind.Property,
+            );
             done();
         });
         it('should parse a well-written YML class and provide completion for fields and methods', (done) => {
@@ -197,81 +151,23 @@ describe('Extension Server Tests', () => {
             visitor.visit(result);
             expect(parser.numberOfSyntaxErrors).toBe(0);
             expect(result).toBeDefined();
-            const expectedCompletionItems = [
-                {
-                    attributes: [],
-                    data: 'id_City',
-                    extends: [],
-                    kind: 7,
-                    label: 'City',
-                    methods: [],
-                    uri: '',
-                },
-                {
-                    data: 'id_City_getName',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 34,
-                                line: 4,
-                            },
-                            start: {
-                                character: 22,
-                                line: 2,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'String',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Method,
-                    label: 'getName',
-                    uri: '',
-                },
-                {
-                    data: 'id_City_writeCountry',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 34,
-                                line: 7,
-                            },
-                            start: {
-                                character: 22,
-                                line: 5,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'String',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Method,
-                    label: 'writeCountry',
-                    uri: '',
-                },
-                {
-                    data: 'id_City_inhabitants',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 40,
-                                line: 11,
-                            },
-                            start: {
-                                character: 22,
-                                line: 8,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'Collection − Person',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Property,
-                    label: 'inhabitants',
-                    uri: '',
-                },
-            ];
-            expect(completionProvider.completions).toEqual(expectedCompletionItems);
+            expect(completionProvider.completions.length).toBe(4);
+
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                1,
+                (elem) => elem.kind === CompletionItemKind.Class,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                1,
+                (elem) => elem.kind === CompletionItemKind.Property,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                2,
+                (elem) => elem.kind === CompletionItemKind.Method,
+            );
             done();
         });
         // tslint:disable-next-line: max-line-length
@@ -313,6 +209,23 @@ describe('Extension Server Tests', () => {
             --> domains Text
             --> return "it works"
             ;
+
+            enum MyEnum
+                attributes {
+                    Number memberAttribute
+                    --> documentation "Member attribute's documentation."
+                }
+                {
+                    MEMBER_1
+                    --> documentation """Member_2 documentation."""
+                    --> memberAttribute 1
+
+                    MEMBER_2
+                    --> documentation """Member_2 documentation."""
+                    --> memberAttribute 2
+                }
+            --> documentation """Enum documentation"""
+            ;
           `);
             const lexer = new YmlLexer(inputStream);
             const tokenStream = new CommonTokenStream(lexer);
@@ -324,197 +237,48 @@ describe('Extension Server Tests', () => {
             visitor.visit(result);
             expect(parser.numberOfSyntaxErrors).toBe(0);
             expect(result).toBeDefined();
-            const expectedCompletionItems = [
-                {
-                    data: 'id_static_functionWithoutArgs',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 12,
-                                line: 7,
-                            },
-                            start: {
-                                character: 12,
-                                line: 1,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'Text',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Function,
-                    label: 'functionWithoutArgs',
-                    uri: '',
-                },
-                {
-                    data: 'id_static_simpleInstance',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 31,
-                                line: 9,
-                            },
-                            start: {
-                                character: 12,
-                                line: 8,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'Text',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Variable,
-                    label: 'simpleInstance',
-                    uri: '',
-                },
-                {
-                    data: 'id_static_functionWithoutArgs2',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 12,
-                                line: 17,
-                            },
-                            start: {
-                                character: 12,
-                                line: 10,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'Text',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Function,
-                    label: 'functionWithoutArgs2',
-                    uri: '',
-                },
-                {
-                    data: 'id_static_collection',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 33,
-                                line: 19,
-                            },
-                            start: {
-                                character: 12,
-                                line: 18,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'Collection',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Variable,
-                    label: 'collection',
-                    uri: '',
-                },
-                {
-                    data: 'id_static_functionWithoutArgsWithPar',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 12,
-                                line: 24,
-                            },
-                            start: {
-                                character: 12,
-                                line: 20,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'Text',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Function,
-                    label: 'functionWithoutArgsWithPar',
-                    uri: '',
-                },
-                {
-                    data: 'id_functionWithoutArgsWithPar_arg1',
-                    detail: 'Object',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Variable,
-                    label: 'arg1',
-                    scopeEndOffset: 573,
-                    scopeStartOffset: 438,
-                    uri: '',
-                },
-                {
-                    data: 'id_functionWithoutArgsWithPar_arg2',
-                    detail: 'Text',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Variable,
-                    label: 'arg2',
-                    scopeEndOffset: 573,
-                    scopeStartOffset: 438,
-                    uri: '',
-                },
-                {
-                    data: 'id_static_collectionWithLevel2',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 12,
-                                line: 28,
-                            },
-                            start: {
-                                character: 12,
-                                line: 25,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'Collection − Text',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Variable,
-                    label: 'collectionWithLevel2',
-                    uri: '',
-                },
-                {
-                    data: 'id_static_functionWithArgsAsBlock',
-                    definitionLocation: {
-                        range: {
-                            end: {
-                                character: 12,
-                                line: 37,
-                            },
-                            start: {
-                                character: 12,
-                                line: 29,
-                            },
-                        },
-                        uri: '',
-                    },
-                    detail: 'Text',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Function,
-                    label: 'functionWithArgsAsBlock',
-                    uri: '',
-                },
-                {
-                    data: 'id_functionWithArgsAsBlock_arg1',
-                    detail: 'Object',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Variable,
-                    label: 'arg1',
-                    scopeEndOffset: 873,
-                    scopeStartOffset: 682,
-                    uri: '',
-                },
-                {
-                    data: 'id_functionWithArgsAsBlock_arg2',
-                    detail: 'Text',
-                    documentation: NOT_DOCUMENTED,
-                    kind: CompletionItemKind.Variable,
-                    label: 'arg2',
-                    scopeEndOffset: 873,
-                    scopeStartOffset: 682,
-                    uri: '',
-                },
-            ];
-            expect(completionProvider.completions).toEqual(expectedCompletionItems);
+            expect(completionProvider.completions.length).toBe(17);
+
+            // Three global instances, four local variables.
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                7,
+                (elem) => elem.kind === CompletionItemKind.Variable,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                4,
+                (elem) => elem.kind === CompletionItemKind.Function,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                2,
+                (elem) => elem.kind === CompletionItemKind.EnumMember,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                1,
+                (elem) => elem.kind === CompletionItemKind.Enum,
+            );
+            assertHasNElementsRemaining(
+                completionProvider.completions,
+                3,
+                (elem) => elem.kind === CompletionItemKind.Text,
+            );
+            for (const completionItem of completionProvider.completions) {
+                expect(
+                    completionItem.kind === CompletionItemKind.Text || completionItem.hasDocumentation(),
+                ).toBeTruthy();
+            }
             done();
         });
     });
 });
+
+function assertHasNElementsRemaining(
+    completionItems: AbstractYmlObject[],
+    value: number,
+    filterFn: (obj: AbstractYmlObject) => boolean,
+): void {
+    expect(completionItems.filter(filterFn).length).toBe(value);
+}

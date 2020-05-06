@@ -3,7 +3,6 @@ import {
     Command,
     CompletionItem,
     CompletionItemKind,
-    IConnection,
     InsertTextFormat,
     Location,
     MarkupContent,
@@ -11,11 +10,7 @@ import {
     TextEdit,
 } from 'vscode-languageserver';
 
-import { FieldContext } from '../grammar';
-
 export type YmlType = string | string[];
-const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
-const ENDING_QUOTES_REGEX = /\s*("""|")$/;
 
 export abstract class AbstractYmlObject implements CompletionItem {
     /* Start overriden properties (doc in CompletionItem). */
@@ -31,6 +26,20 @@ export abstract class AbstractYmlObject implements CompletionItem {
     public command?: Command;
     public data?: any;
     /* End of overriden properties. */
+
+    /**
+     * The object containing this object, if any.
+     * - For an attribute, this is the class name
+     * - For a local variable, the name of a function, etc.
+     */
+    private sourceElementName: string;
+
+    /**
+     * A string representation of the enum name that is in `this.kind`.
+     *
+     * @see CompletionItemKind
+     */
+    public kindName = 'Object';
 
     /**
      * The definition location information.
@@ -51,6 +60,8 @@ export abstract class AbstractYmlObject implements CompletionItem {
      */
     public scopeEndOffset?: number;
 
+    private hoverContent?: MarkupContent;
+
     constructor(public readonly label: string, public readonly kind: CompletionItemKind, public readonly uri: string) {}
 
     public getShortName() {
@@ -60,11 +71,9 @@ export abstract class AbstractYmlObject implements CompletionItem {
     /**
      * Enrich this object by adding to it some information like its type, its use scope, documentation, etc.
      *
-     * @param fields The attributes the item has to find from it more informations.
-     * @param connection An object to log errors if any.
-     *  Cannot be imported directly from `../server` because of cross references problems.
+     * @param documentation The documentation associated to this object.
+     * @param type The type of this object. It is the return type in case of a function or method.
      * @param sourceElementName The wrapper item. For an argument it is the function, for an attribute it is its class.
-     * @param baseType The type of the item, if it is not an information that can be found in `fields`
      * @param scopeStartOffset The first position from which we can suggest this item.
      * Interstice before the first character of a function's body, for example.
      * Useful to avoid giving completion suggestions pertaining to symbols
@@ -75,37 +84,71 @@ export abstract class AbstractYmlObject implements CompletionItem {
      * that are out of the current scope.
      */
     public enrichWith(
-        fields: FieldContext[],
-        connection: IConnection,
+        documentation: string,
+        type: string,
         sourceElementName?: string,
-        baseType?: string,
         scopeStartOffset?: number,
         scopeEndOffset?: number,
     ): void {
-        sourceElementName = sourceElementName ? sourceElementName : 'static';
+        this.sourceElementName = sourceElementName ?? 'static';
         this.data = `id_${sourceElementName}_${this.label}`;
-        this.setDocumentation(getDocumentation(fields, connection));
-        this.detail = getType(fields, connection, baseType);
+        this.setUserInformations(this.buildDetailString(type), documentation);
         if (scopeEndOffset && scopeStartOffset) {
             this.scopeEndOffset = scopeEndOffset;
             this.scopeStartOffset = scopeStartOffset;
         }
     }
 
+    protected buildDetailString(type: string): string {
+        const separator = this.sourceElementName === 'static' ? ' ' : '.';
+        return `(${this.kindName}) [${this.sourceElementName}]${separator}${this.label} ⇒ ${type}`;
+    }
+
+    public getHoverContent(): MarkupContent {
+        return this.hoverContent;
+    }
+
+    public hasDocumentation(): boolean {
+        return !!this.documentation || !!this.detail;
+    }
+
     /**
-     * Set the documentation of this object as a `MarkupContent`.
-     * Set the documentation to `null` if empty.
+     * Set the documentation of this object as a `MarkupContent` its detail attribute
+     * as well as its representation when hovering it.
+     * The documentation should always exist and consists at least as the value of detail.
+     *
+     * @param details Some details about this object, as a Markdown string.
      * @param doc The documentation of this object, as a Markdown string.
      *
      * @see MarkupContent
      */
-    public setDocumentation(doc: string): void {
-        if (!doc) {
-            this.documentation = null;
+    public setUserInformations(details: string, doc: string): void {
+        if (!details && !doc) {
+            return;
         }
-        this.documentation = {
+
+        // If possible, set documentation's value.
+        if (!!doc) {
+            this.documentation = {
+                kind: MarkupKind.Markdown,
+                value: doc,
+            };
+        }
+
+        // There is no value for `details`. This means that we have a value for `doc`.
+        // No need to set `this.detail`.
+        // Hover content is this.documentation.
+        if (!details) {
+            this.hoverContent = this.documentation;
+            return;
+        }
+
+        // At this point, we're not sure if we have documentation,
+        // but we know that we have a value for `details`.
+        this.detail = details;
+        this.hoverContent = {
             kind: MarkupKind.Markdown,
-            value: doc,
+            value: !!doc ? `${this.detail}\n\n---\n\n${doc}` : this.detail,
         };
     }
 
@@ -124,61 +167,4 @@ export abstract class AbstractYmlObject implements CompletionItem {
             uri,
         };
     }
-}
-
-function getDocumentation(fieldOptions: FieldContext[], connection: IConnection): string {
-    try {
-        for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
-            const option = element.commonField();
-            if (
-                !option ||
-                !option._optionName ||
-                option._optionName.text !== 'documentation' ||
-                !option._optionValue ||
-                !option._optionValue.text
-            ) {
-                // There is no option, or option name isn't “documentation” or there is no text value associated.
-                continue;
-            }
-            let _documentation = option._optionValue.text;
-            _documentation = _documentation.replace(BEGINNING_QUOTES_REGEX, '');
-            _documentation = _documentation.replace(ENDING_QUOTES_REGEX, '');
-            return _documentation;
-        }
-    } catch (err) {
-        if (!!err) {
-            connection.console.error(`${err}`);
-        } else {
-            connection.console.error(`An unexpected error occured when getting documentation value.`);
-        }
-    }
-    return 'Not documented.';
-}
-
-function getType(fieldOptions: FieldContext[], connection: IConnection, baseType?: string): string {
-    let domains = baseType ? baseType : 'Object';
-    let domainsLevel2 = '';
-    try {
-        for (const element of fieldOptions.filter((elem) => !!elem.commonField)) {
-            const option = element.commonField();
-            if (!option || !option._optionName || !option._optionValue) {
-                continue;
-            }
-            const optionName = option._optionName.text;
-            if (optionName === 'domains') {
-                domains = option._optionValue.text;
-            } else if (optionName === 'domainsLevel2') {
-                domainsLevel2 = ` − ${option._optionValue.text}`;
-            } else {
-                // YML fields unrelated to domains.
-            }
-        }
-    } catch (err) {
-        if (!!err) {
-            connection.console.error(`${err}`);
-        } else {
-            connection.console.error(`An unexpected error occured when getting domains.`);
-        }
-    }
-    return domains.concat(domainsLevel2);
 }

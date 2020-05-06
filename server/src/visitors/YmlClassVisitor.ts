@@ -1,9 +1,9 @@
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import { ClassAttributeDeclarationContext, ClassDeclarationIntroContext, MethodDeclarationContext } from '../grammar';
-import { connection } from '../server';
 import { YmlAttribute, YmlClass, YmlMethod } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
+import { getDocumentation, getType } from './YmlVisitorHelper';
 
 export class YmlClassVisitor extends YmlBaseVisitor {
     private classId: string;
@@ -23,7 +23,9 @@ export class YmlClassVisitor extends YmlBaseVisitor {
          * Otherwise, there will be compilation errors.
          */
         const method = new YmlMethod(`${node.methodIntro().ymlId().text}`, this.uri);
-        method.enrichWith(node.field(), connection, this.classId);
+        const doc = getDocumentation(node.field());
+        const type = getType(node.field());
+        method.enrichWith(doc, type, this.classId);
         this.completionProvider.addCompletionItem(method);
         method.setDefinitionLocation(node.start, node.stop, this.uri);
         this.definitions.addDefinition(method);
@@ -31,7 +33,9 @@ export class YmlClassVisitor extends YmlBaseVisitor {
 
     public visitClassAttributeDeclaration(node: ClassAttributeDeclarationContext) {
         const attribute = new YmlAttribute(node.ymlId().text, this.uri);
-        attribute.enrichWith(node.field(), connection, this.classId);
+        const doc = getDocumentation(node.field());
+        const type = getType(node.field());
+        attribute.enrichWith(doc, type, this.classId);
         this.completionProvider.addCompletionItem(attribute);
         attribute.setDefinitionLocation(node.start, node.stop, this.uri);
         this.definitions.addDefinition(attribute);

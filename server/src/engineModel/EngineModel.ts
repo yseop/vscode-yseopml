@@ -51,18 +51,19 @@ export class EngineModel {
     }
     private buildYmlFunction(func: any, sourceType?: string): AbstractYmlFunction {
         let ymlAbstractFunction: AbstractYmlFunction;
+        const documentation: string = getDocValue(func);
         if (sourceType) {
-            ymlAbstractFunction = new YmlFunction(func.$.ident, this.uri);
-            this.functions.push(ymlAbstractFunction);
-            ymlAbstractFunction.detail = `[${sourceType}].${ymlAbstractFunction.label}`;
-        } else {
             ymlAbstractFunction = new YmlMethod(func.$.ident, this.uri);
-            ymlAbstractFunction.detail = `[STATIC] ${ymlAbstractFunction.label}`;
+            this.functions.push(ymlAbstractFunction);
+            ymlAbstractFunction.setUserInformations(
+                `(function) [${sourceType}].${ymlAbstractFunction.label}`,
+                documentation,
+            );
+        } else {
+            ymlAbstractFunction = new YmlFunction(func.$.ident, this.uri);
+            ymlAbstractFunction.setUserInformations(`(function) [static] ${ymlAbstractFunction.label}`, documentation);
         }
-        ymlAbstractFunction.data = `id_${sourceType ? sourceType : 'static'}_${ymlAbstractFunction.label}`;
-        if (!!func.doc) {
-            ymlAbstractFunction.setDocumentation(func.doc[0]);
-        }
+        ymlAbstractFunction.data = `id_${sourceType ?? 'static'}_${ymlAbstractFunction.label}`;
         return ymlAbstractFunction;
     }
 
@@ -92,9 +93,8 @@ export class EngineModel {
                 this.completionProvider.addCompletionItem(method);
             });
         }
-        if (!!yclass.doc) {
-            ymlClass.setDocumentation(yclass.doc[0]);
-        }
+        const documentation: string = getDocValue(yclass);
+        ymlClass.setUserInformations(`(class) ${ymlClass.label}`, documentation);
         this.classes.push(ymlClass);
         this.enrichYmlClass(ymlClass);
         this.completionProvider.addCompletionItem(ymlClass);
@@ -102,10 +102,8 @@ export class EngineModel {
 
     private buildAttribute(attributeXmlElement: any, sourceType: string): YmlAttribute {
         const attribute = new YmlAttribute(attributeXmlElement.$.ident, this.uri);
-        attribute.detail = `[${sourceType}].${attribute.label}`;
-        if (!!attributeXmlElement.doc) {
-            attribute.setDocumentation(attributeXmlElement.doc[0]);
-        }
+        const documentation: string = getDocValue(attributeXmlElement);
+        attribute.setUserInformations(`(property) [${sourceType}].${attribute.label}`, documentation);
         attributeXmlElement.return.forEach((returnType) => {
             if (returnType.domains) {
                 attribute.domains = returnType.domains;
@@ -120,25 +118,29 @@ export class EngineModel {
     private parsePredefinedObjects(uri: string): void {
         connection.console.log(`Parsing definition file: ${uri}`);
         fs.readFile(uri, (err, data) => {
-            parser.parseString(data, (parseErr, predefinedObjects) => {
-                if (err != null) {
-                    connection.console.error(`Something went wrong during YE model import:\n ${parseErr}`);
-                } else if (predefinedObjects == null) {
-                    connection.console.error('Something went wrong during YE model import. Your file seems empty.');
-                } else {
-                    try {
-                        const dataAndFeatures = predefinedObjects['data-and-features'];
-                        this.importClasses(dataAndFeatures);
-                        this.importFunctions(dataAndFeatures);
-                        this.importTags(dataAndFeatures);
-                    } catch (importErr) {
-                        connection.console.error(`Something went wrong during YE model import:\n ${importErr}`);
-                    }
+            this.parsePredefinedObjectsFileContent(err, data);
+        });
+    }
+
+    public parsePredefinedObjectsFileContent(err, data: Buffer | string): void {
+        parser.parseString(data, (parseErr, predefinedObjects) => {
+            if (err != null) {
+                connection.console.error(`Something went wrong during YE model import:\n ${parseErr}`);
+            } else if (predefinedObjects == null) {
+                connection.console.error('Something went wrong during YE model import. Your file seems empty.');
+            } else {
+                try {
+                    const dataAndFeatures = predefinedObjects['data-and-features'];
+                    this.importClasses(dataAndFeatures);
+                    this.importFunctions(dataAndFeatures);
+                    this.importTags(dataAndFeatures);
+                } catch (importErr) {
+                    connection.console.error(`Something went wrong during YE model import:\n ${importErr}`);
                 }
-                connection.console.log(
-                    `Done with classes size=${this.classes.length}\nfunctions size=${this.functions.length}`,
-                );
-            });
+            }
+            connection.console.log(
+                `Done with classes size=${this.classes.length}\nfunctions size=${this.functions.length}`,
+            );
         });
     }
 
@@ -255,7 +257,30 @@ export class EngineModel {
      */
     private enrichYmlClass(yclass: YmlClass): void {
         yclass.data = `id_${yclass.label}`;
-        yclass.detail =
-            yclass.extends.length > 0 ? `Class: ${yclass.label} extends ${yclass.extends}` : `Class: ${yclass.label}`;
+        yclass.detail = `(class) ${yclass.label}`;
+        if (yclass.extends.length > 0) {
+            yclass.detail = yclass.detail.concat(` extends ${yclass.extends}`);
+        }
     }
+}
+
+/**
+ * Returns the value of the first child `doc` element within a given XML element, if any.
+ *
+ * We expect it to be given as the following JSON representation, obtained thanks to `xml2js`.
+ *
+ * ```JSON
+ * {
+ *     doc: ["documentation"]
+ * }
+ * ```
+ *
+ * Using this function on the JSON representation above will return `"documentation"`.
+ *
+ * @param xmlElement a JSON representation of an XML tag.
+ *
+ * @return the xmlElement's documentation or `null`.
+ */
+function getDocValue(xmlElement: any): string {
+    return !!xmlElement.doc ? xmlElement.doc[0] : null;
 }

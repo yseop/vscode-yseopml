@@ -6,9 +6,9 @@ import {
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
-import { connection } from '../server';
 import { YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
+import { getDocumentation, getType } from './YmlVisitorHelper';
 
 export class YmlFunctionVisitor extends YmlBaseVisitor {
     /**
@@ -41,7 +41,9 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         // the most important part is where this Function is implemented
         // not where the function is declared.
         const func = new YmlFunction(this.functionName, this.uri);
-        func.enrichWith(node.field(), connection);
+        const doc = getDocumentation(node.field());
+        const type = getType(node.field());
+        func.enrichWith(doc, type, this.functionName);
         func.setDefinitionLocation(node.start, node.stop, this.uri);
         this.definitions.addImplementation(func);
 
@@ -77,14 +79,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      */
     public visitMandatoryArgDecl(node: MandatoryArgDeclContext): void {
         const arg = new YmlArgument(node._argName.text, this.uri);
-        arg.enrichWith(
-            [],
-            connection,
-            this.functionName,
-            node._argType.text,
-            this.scopeStartOffset,
-            this.scopeEndOffset,
-        );
+        arg.enrichWith(null, node._argType.text, this.functionName, this.scopeStartOffset, this.scopeEndOffset);
         this.completionProvider.addCompletionItem(arg);
     }
     /**
@@ -103,15 +98,10 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      * @param node A node representing a local variable or a function argument.
      */
     public visitMemberDeclarationContext(node: MemberDeclarationContext): void {
-        const variable = new YmlObjectInstance(node.ymlId().text, this.uri);
-        variable.enrichWith(
-            node.field(),
-            connection,
-            this.functionName,
-            node._type.text,
-            this.scopeStartOffset,
-            this.scopeEndOffset,
-        );
+        const variable = new YmlObjectInstance(node.ymlId().text, this.uri, true);
+        const doc = getDocumentation(node.field());
+        const type = getType(node.field(), node._type.text);
+        variable.enrichWith(doc, type, this.functionName, this.scopeStartOffset, this.scopeEndOffset);
         this.completionProvider.addCompletionItem(variable);
     }
 
