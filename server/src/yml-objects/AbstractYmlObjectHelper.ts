@@ -23,6 +23,18 @@ export function completionItemToDocumentSymbol(elem: AbstractYmlObject) {
     );
 }
 
+const COMPLETION_ITEM_KIND_TO_SYMBOL_KIND = new Map<CompletionItemKind, SymbolKind>([
+    [CompletionItemKind.Class, SymbolKind.Class],
+    [CompletionItemKind.Constant, SymbolKind.Constant],
+    [CompletionItemKind.Enum, SymbolKind.Enum],
+    [CompletionItemKind.EnumMember, SymbolKind.EnumMember],
+    [CompletionItemKind.Field, SymbolKind.Field],
+    [CompletionItemKind.Function, SymbolKind.Function],
+    [CompletionItemKind.Method, SymbolKind.Method],
+    [CompletionItemKind.Property, SymbolKind.Property],
+    [CompletionItemKind.Variable, SymbolKind.Variable],
+]);
+
 /**
  * Translate `CompletionItemKind` values into `SymbolKind`. Both don't use the same symbols
  * and whenthey do the value is often if not always different.
@@ -31,28 +43,9 @@ export function completionItemToDocumentSymbol(elem: AbstractYmlObject) {
  *
  * @returns an equivalent SymbolKind for the provided CompletionItemKind or `Property` if there is no match.
  */
-export function completionItemKindToSymbolKind(completionItemKind: CompletionItemKind) {
-    switch (completionItemKind) {
-        case CompletionItemKind.Class:
-            return SymbolKind.Class;
-        case CompletionItemKind.Constant:
-            return SymbolKind.Constant;
-        case CompletionItemKind.Enum:
-            return SymbolKind.Enum;
-        case CompletionItemKind.EnumMember:
-            return SymbolKind.EnumMember;
-        case CompletionItemKind.Field:
-            return SymbolKind.Field;
-        case CompletionItemKind.Function:
-            return SymbolKind.Function;
-        case CompletionItemKind.Method:
-            return SymbolKind.Method;
-        case CompletionItemKind.Property:
-            return SymbolKind.Property;
-        case CompletionItemKind.Variable:
-            return SymbolKind.Variable;
-        default:
-            // Used as default by VSCode, even when we return null.
-            return SymbolKind.Property;
+export function completionItemKindToSymbolKind(completionItemKind: CompletionItemKind): SymbolKind {
+    if (COMPLETION_ITEM_KIND_TO_SYMBOL_KIND.has(completionItemKind)) {
+        return COMPLETION_ITEM_KIND_TO_SYMBOL_KIND.get(completionItemKind);
     }
+    return SymbolKind.Property;
 }
