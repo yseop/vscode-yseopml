@@ -399,7 +399,7 @@ function parseFile(textDocUri: string, docContent: string) {
     }
 }
 connection.onDocumentSymbol((_params: DocumentSymbolParams) => {
-    return getDocumentSymbols(_params.textDocument.uri);
+    return buildDocumentSymbolsList(_params.textDocument.uri);
 });
 
 /**
@@ -409,15 +409,12 @@ connection.onDocumentSymbol((_params: DocumentSymbolParams) => {
  *
  * @returns the list of available YML symbols.
  */
-function getDocumentSymbols(uri: string) {
+function buildDocumentSymbolsList(uri: string): DocumentSymbol[] {
     // Get the YML objects definitions (for which we have a location) that are in this file.
-    let currentDocSymbols = definitionsProvider.definitions.filter(
-        (elem) => elem.uri === uri && !!elem.definitionLocation,
-    );
+    const filter = (elem: AbstractYmlObject) => elem.uri === uri && !!elem.definitionLocation;
+    let currentDocSymbols = definitionsProvider.definitions.filter(filter);
     // Also get the YML objects implementations (with a location too) that are in this file.
-    currentDocSymbols = currentDocSymbols.concat(
-        definitionsProvider.implementations.filter((elem) => elem.uri === uri && !!elem.definitionLocation),
-    );
+    currentDocSymbols = currentDocSymbols.concat(definitionsProvider.implementations.filter(filter));
 
     const parentToChildren = new Map<AbstractYmlObject, AbstractYmlObject[]>();
     for (const elem of currentDocSymbols) {
