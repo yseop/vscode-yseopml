@@ -143,8 +143,8 @@ export abstract class AbstractYmlObject implements CompletionItem {
             return;
         }
 
-        // At this point, we're not sur if we have a documentation,
-        // but we now that we have a value for `details`.
+        // At this point, we're not sure if we have documentation,
+        // but we know that we have a value for `details`.
         this.detail = details;
         this.hoverContent = {
             kind: MarkupKind.Markdown,
