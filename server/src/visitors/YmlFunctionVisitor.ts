@@ -116,7 +116,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      * @returns `true` iff the provided functionName is a class method instanciation.
      */
     private isMethodInstanciation(fullName: string): boolean {
-        // Check that “::” is after the first character.
+        // Check that there is a “::”, with at least one character before it.
         return fullName.includes('::', 1);
     }
 }
