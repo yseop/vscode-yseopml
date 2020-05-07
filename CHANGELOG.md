@@ -7,7 +7,7 @@
 -   Improve parsing for:
     -   `switch` expressions;
     -   attribute's value when the value is a list of HashMap entries;
-    -   attribute's value when the value is a `ConstList`;
+    -   attribute's value when the value is a `ConstList`.
 
 ## 1.8.0 (2020-03-23)
 
