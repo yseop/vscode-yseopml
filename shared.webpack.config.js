@@ -21,13 +21,13 @@ module.exports = function withDefaults( /**@type WebpackConfig*/ extConfig) {
             __dirname: false, // leave the __dirname-behaviour intact
         },
         resolve: {
-            mainFields: ["module", "main"],
             extensions: [".ts", ".js"], // support ts-files and js-files
+            mainFields: ["module", "main"],
         },
         module: {
             rules: [{
-                test: /\.ts$/,
                 exclude: /node_modules/,
+                test: /\.ts$/,
                 use: [{
                     // configure TypeScript loader:
                     // * enable sources maps for end-to-end source maps
@@ -36,6 +36,7 @@ module.exports = function withDefaults( /**@type WebpackConfig*/ extConfig) {
                         compilerOptions: {
                             "sourceMap": true,
                         },
+                        onlyCompileBundledFiles: true,
                     },
                 }],
             }],
@@ -47,8 +48,8 @@ module.exports = function withDefaults( /**@type WebpackConfig*/ extConfig) {
             // all output goes into `dist`.
             // packaging depends on that and this must always be like it
             filename: "[name].js",
-            path: path.join(extConfig.context, "out"),
             libraryTarget: "commonjs",
+            path: path.join(extConfig.context, "out"),
         },
         // yes, really source maps
         devtool: "source-map",

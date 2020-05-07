@@ -10,5 +10,10 @@ export class YmlEnum extends AbstractYmlObject {
 
     constructor(indentifier: string, uri: string) {
         super(indentifier, CompletionItemKind.Enum, uri);
+        this.kindName = 'enum';
+    }
+
+    protected buildDetailString(type: string): string {
+        return `(enum) ${type}`;
     }
 }

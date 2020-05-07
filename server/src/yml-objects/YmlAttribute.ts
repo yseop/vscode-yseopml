@@ -10,5 +10,6 @@ export class YmlAttribute extends AbstractYmlObject {
 
     constructor(indentifier: string, uri: string) {
         super(indentifier, CompletionItemKind.Property, uri);
+        this.kindName = 'property';
     }
 }

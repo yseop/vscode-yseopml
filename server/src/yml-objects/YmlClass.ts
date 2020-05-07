@@ -11,5 +11,6 @@ export class YmlClass extends AbstractYmlObject {
 
     constructor(indentifier: string, uri: string) {
         super(indentifier, CompletionItemKind.Class, uri);
+        this.kindName = 'class';
     }
 }

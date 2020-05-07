@@ -1,129 +1,124 @@
-import * as assert from 'assert';
-
 import { EntityPartPosition, getTokenAtPosInDoc, getYmlEntityNamePart } from '../definitions';
 
 describe('Extension Server Tests', () => {
     describe('DefinitionUtils', () => {
         describe('getYmlEntityNamePart − end of input', () => {
             it('should find no word from null input', (done) => {
-                assert.strictEqual(getYmlEntityNamePart(null, EntityPartPosition.END), null);
+                expect(getYmlEntityNamePart(null, EntityPartPosition.END)).toBeNull();
                 done();
             });
 
             it('should find a word from a simple word', (done) => {
                 const source = 'word';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), 'word');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBe('word');
                 done();
             });
 
             it('should ignore the dot', (done) => {
                 const source = '.otherWord';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), 'otherWord');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBe('otherWord');
                 done();
             });
 
             it('should ignore any punctuation sign except `_`', (done) => {
                 const source = '/*/-*/$*$§!:/;?,_myWord';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), '_myWord');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBe('_myWord');
                 done();
             });
 
             it('should give nothing if word not at the end of the string', (done) => {
                 const source = '/*/-*/$*$§!:/;?,_myWord:';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), null);
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBeNull();
                 done();
             });
 
             it('should accept identifiers with numbers too', (done) => {
                 const source = 'id3ntifierW1thNumb3r5';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), 'id3ntifierW1thNumb3r5');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBe('id3ntifierW1thNumb3r5');
                 done();
             });
 
             it('should start after the last colon character', (done) => {
                 const source = '::id3ntif13rW1thNumb3r5';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), 'id3ntif13rW1thNumb3r5');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBe('id3ntif13rW1thNumb3r5');
                 done();
             });
 
             it('should find only the last identifier', (done) => {
                 const source = 'namespace::myObject.functionName(arg1, otherFunct10n';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), 'otherFunct10n');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBe('otherFunct10n');
                 done();
             });
 
             it('should accept Japanese charaters', (done) => {
                 const source = '::VERB_JA_食べ物';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.END), 'VERB_JA_食べ物');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBe('VERB_JA_食べ物');
                 done();
             });
             it('should accept identifiers with namespaces', (done) => {
                 const source = '(Lang:Verb::VERB_JA_食べ物';
-                assert.strictEqual(
-                    getYmlEntityNamePart(source, EntityPartPosition.END),
-                    'Lang:Verb::VERB_JA_食べ物',
-                );
+                expect(getYmlEntityNamePart(source, EntityPartPosition.END)).toBe('Lang:Verb::VERB_JA_食べ物');
                 done();
             });
         });
 
         describe('getYmlEntityNamePart − start of input', () => {
             it('should find no word from null input', (done) => {
-                assert.strictEqual(getYmlEntityNamePart(null, EntityPartPosition.BEGINNING), null);
+                expect(getYmlEntityNamePart(null, EntityPartPosition.BEGINNING)).toBeNull();
                 done();
             });
 
             it('should find a word from a simple word', (done) => {
                 const source = 'word';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'word');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe('word');
                 done();
             });
 
             it('should ignore the dot', (done) => {
                 const source = 'otherWord.';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'otherWord');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe('otherWord');
                 done();
             });
 
             it('should ignore any punctuation sign except `_`', (done) => {
                 const source = '_myWord/*/-*/$*$§!:/;?,';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), '_myWord');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe('_myWord');
                 done();
             });
 
             it('should give nothing if word not at the begining of the string', (done) => {
                 const source = ':_myWord/*/-*/$*$§!:/;?,:';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), null);
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe(null);
                 done();
             });
 
             it('should accept identifiers with numbers too', (done) => {
                 const source = 'id3ntifierW1thNumb3r5';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'id3ntifierW1thNumb3r5');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe('id3ntifierW1thNumb3r5');
                 done();
             });
 
             it('should stop before the first colon character', (done) => {
                 const source = 'id3ntif13rW1thNumb3r5::';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'id3ntif13rW1thNumb3r5');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe('id3ntif13rW1thNumb3r5');
                 done();
             });
 
             it('should find only the first identifier', (done) => {
                 const source = 'namespace::myObject.functionName(arg1, otherFunct10n';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'namespace::myObject');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe('namespace::myObject');
                 done();
             });
 
             it('should accept Japanese charaters', (done) => {
                 const source = 'VERB_JA_食べ物::';
-                assert.strictEqual(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING), 'VERB_JA_食べ物');
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe('VERB_JA_食べ物');
                 done();
             });
             it('should accept identifiers with namespaces', (done) => {
                 const source = 'Lang:Verb::VERB_JA_食べ物(';
-                assert.strictEqual(
-                    getYmlEntityNamePart(source, EntityPartPosition.BEGINNING),
+                expect(
+                    getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe(
                     'Lang:Verb::VERB_JA_食べ物',
                 );
                 done();
@@ -135,15 +130,15 @@ describe('Extension Server Tests', () => {
                 const source: string = null;
                 const offset: number = null;
                 const token = getTokenAtPosInDoc(source, offset);
-                assert.strictEqual(token, null);
+                expect(token).toBeNull();
                 done();
             });
 
             it("should find no word if position doesn't exist", (done) => {
                 const source: string = 'length(myList);';
-                assert.strictEqual(getTokenAtPosInDoc(source, null), null);
-                assert.strictEqual(getTokenAtPosInDoc(source, -1), null);
-                assert.strictEqual(getTokenAtPosInDoc(source, 9000), null);
+                expect(getTokenAtPosInDoc(source, null)).toBeNull();
+                expect(getTokenAtPosInDoc(source, -1)).toBeNull();
+                expect(getTokenAtPosInDoc(source, 9000)).toBeNull();
                 done();
             });
 
@@ -153,9 +148,9 @@ describe('Extension Server Tests', () => {
                 const start = 0;
                 const end = 7;
                 for (let position = start; position < end; position++) {
-                    assert.strictEqual(getTokenAtPosInDoc(source, position), expectedToken);
+                    expect(getTokenAtPosInDoc(source, position)).toBe(expectedToken);
                 }
-                assert.notStrictEqual(getTokenAtPosInDoc(source, end), expectedToken);
+                expect(getTokenAtPosInDoc(source, end)).not.toBe(expectedToken);
                 done();
             });
 
@@ -165,9 +160,9 @@ describe('Extension Server Tests', () => {
                 const start = 7;
                 const end = 14;
                 for (let position = start; position < end; position++) {
-                    assert.strictEqual(getTokenAtPosInDoc(source, position), expectedToken);
+                    expect(getTokenAtPosInDoc(source, position)).toBe(expectedToken);
                 }
-                assert.notStrictEqual(getTokenAtPosInDoc(source, end), expectedToken);
+                expect(getTokenAtPosInDoc(source, end)).not.toBe(expectedToken);
                 done();
             });
 
@@ -177,7 +172,7 @@ describe('Extension Server Tests', () => {
                 const start = 14;
                 const end = source.length;
                 for (let position = start; position < end; position++) {
-                    assert.strictEqual(getTokenAtPosInDoc(source, position), expectedToken);
+                    expect(getTokenAtPosInDoc(source, position)).toBe(expectedToken);
                 }
                 done();
             });
