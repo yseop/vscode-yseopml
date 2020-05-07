@@ -31,7 +31,7 @@ export function buildDocumentSymbolsList(uri: string, definitionsProvider: YmlDe
                 // Current element has no parent and this is the first time we encounter it.
                 parentToChildren.set(elem, []);
             } else {
-                // Current element is a an already known parent element. No need to add it again.
+                // Current element is already known. No need to add it again.
             }
         } else {
             // Current element has a parent

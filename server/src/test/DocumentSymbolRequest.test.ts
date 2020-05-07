@@ -59,7 +59,7 @@ enum MyEnum {
         expect(definitions).toBeTruthy();
         // 1 enum, 1 class, 1 function, 1 method implementation, 1 object instance.
         expect(definitions).toHaveLength(5);
-        // Enum and Class only.
+        // We find only the elements that have children. Only enum and class can have child elements.
         expect(definitions.filter((elem) => !!elem.children && elem.children.length > 0)).toHaveLength(2);
         done();
     });
