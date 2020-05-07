@@ -90,7 +90,7 @@ export abstract class AbstractYmlObject implements CompletionItem {
         scopeStartOffset?: number,
         scopeEndOffset?: number,
     ): void {
-        this.sourceElement = sourceElement ?? null;
+        this.sourceElement = sourceElement;
         const sourceElementName = !!sourceElement ? sourceElement.label : 'static';
         this.data = `id_${sourceElementName}_${this.label}`;
         this.setUserInformations(this.buildDetailString(type), documentation);
