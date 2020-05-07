@@ -28,7 +28,8 @@ export function buildDocumentSymbolsList(uri: string, definitionsProvider: YmlDe
         if (!elem.sourceElement) {
             // Current element has no parent.
             if (!parentToChildren.has(elem)) {
-                // Current element has no parent and this is the first time we encounter it.
+                // This is the first time we encounter this element.
+                // We register it as a parent anyway, in case it is the parent of an unknown child that'll come later.
                 parentToChildren.set(elem, []);
             } else {
                 // Current element is already known. No need to add it again.
