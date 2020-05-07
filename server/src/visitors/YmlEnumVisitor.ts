@@ -42,7 +42,7 @@ export class YmlEnumVisitor extends YmlBaseVisitor {
         const enumMember = new YmlEnumMember(`${this.enumName}::${node.ymlId().text}`, this.uri);
         const doc = getDocumentation(node.field());
         const type = getType(node.field(), this.enumName);
-        enumMember.enrichWith(doc, type, this.enumName);
+        enumMember.enrichWith(doc, type, this.yenum);
         this.completionProvider.addCompletionItem(enumMember);
         enumMember.setDefinitionLocation(node.start, node.stop, this.uri);
         this.definitions.addDefinition(enumMember);

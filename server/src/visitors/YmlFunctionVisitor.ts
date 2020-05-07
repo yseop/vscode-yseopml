@@ -7,6 +7,7 @@ import {
     VariableBlockContentContext,
 } from '../grammar';
 import { YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
+import { AbstractYmlObject } from '../yml-objects/AbstractYmlObject';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 import { getDocumentation, getType } from './YmlVisitorHelper';
 
@@ -24,6 +25,8 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
     private functionName: string;
 
+    private func: AbstractYmlObject;
+
     constructor(
         completionProvider: YmlCompletionItemsProvider,
         uri: string,
@@ -40,12 +43,12 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         // When the Function is a method instanciation
         // the most important part is where this Function is implemented
         // not where the function is declared.
-        const func = new YmlFunction(this.functionName, this.uri);
+        this.func = new YmlFunction(this.functionName, this.uri);
         const doc = getDocumentation(node.field());
         const type = getType(node.field());
-        func.enrichWith(doc, type, this.functionName);
-        func.setDefinitionLocation(node.start, node.stop, this.uri);
-        this.definitions.addImplementation(func);
+        this.func.enrichWith(doc, type, null);
+        this.func.setDefinitionLocation(node.start, node.stop, this.uri);
+        this.definitions.addImplementation(this.func);
 
         if (!this.isMethodInstanciation(this.functionName)) {
             // For a simple Function, also keep track of its definition's location.
@@ -53,8 +56,8 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
             // definition location is the same as implementation location.
             // This is not true since definition can be done
             // with a the `extern` instruction.
-            this.definitions.addDefinition(func);
-            this.completionProvider.addCompletionItem(func);
+            this.definitions.addDefinition(this.func);
+            this.completionProvider.addCompletionItem(this.func);
         } else {
             /*
              * The function is a method instance.
@@ -79,7 +82,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      */
     public visitMandatoryArgDecl(node: MandatoryArgDeclContext): void {
         const arg = new YmlArgument(node._argName.text, this.uri);
-        arg.enrichWith(null, node._argType.text, this.functionName, this.scopeStartOffset, this.scopeEndOffset);
+        arg.enrichWith(null, node._argType.text, this.func, this.scopeStartOffset, this.scopeEndOffset);
         this.completionProvider.addCompletionItem(arg);
     }
     /**
@@ -101,7 +104,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         const variable = new YmlObjectInstance(node.ymlId().text, this.uri, true);
         const doc = getDocumentation(node.field());
         const type = getType(node.field(), node._type.text);
-        variable.enrichWith(doc, type, this.functionName, this.scopeStartOffset, this.scopeEndOffset);
+        variable.enrichWith(doc, type, this.func, this.scopeStartOffset, this.scopeEndOffset);
         this.completionProvider.addCompletionItem(variable);
     }
 
@@ -113,7 +116,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      * @returns `true` iff the provided functionName is a class method instanciation.
      */
     private isMethodInstanciation(fullName: string): boolean {
-        // At least one character and “::”.
-        return fullName.indexOf('::') > 0;
+        // Check that there is a “::”, with at least one character before it.
+        return fullName.includes('::', 1);
     }
 }

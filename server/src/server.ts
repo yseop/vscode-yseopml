@@ -27,6 +27,7 @@ import {
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
+import { documentSymbolRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
@@ -98,6 +99,7 @@ connection.onInitialize(
                 },
                 hoverProvider: true,
                 definitionProvider: true,
+                documentSymbolProvider: true,
                 implementationProvider: true,
                 // Tell the client that the server works in FULL text document sync mode
                 textDocumentSync: documents.syncKind,
@@ -394,6 +396,8 @@ function parseFile(textDocUri: string, docContent: string) {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics: [] });
     }
 }
+
+connection.onDocumentSymbol(documentSymbolRequestHandler(definitionsProvider));
 
 connection.onDefinition((pos: TextDocumentPositionParams) => {
     const doc: TextDocument = documents.get(pos.textDocument.uri);

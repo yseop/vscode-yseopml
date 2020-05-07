@@ -29,10 +29,10 @@ export abstract class AbstractYmlObject implements CompletionItem {
 
     /**
      * The object containing this object, if any.
-     * - For an attribute, this is the class name
-     * - For a local variable, the name of a function, etc.
+     * - For an attribute, this is the class
+     * - For a local variable, a function, etc.
      */
-    private sourceElementName: string;
+    public sourceElement: AbstractYmlObject;
 
     /**
      * A string representation of the enum name that is in `this.kind`.
@@ -86,11 +86,12 @@ export abstract class AbstractYmlObject implements CompletionItem {
     public enrichWith(
         documentation: string,
         type: string,
-        sourceElementName?: string,
+        sourceElement?: AbstractYmlObject,
         scopeStartOffset?: number,
         scopeEndOffset?: number,
     ): void {
-        this.sourceElementName = sourceElementName ?? 'static';
+        this.sourceElement = sourceElement;
+        const sourceElementName = !!sourceElement ? sourceElement.label : 'static';
         this.data = `id_${sourceElementName}_${this.label}`;
         this.setUserInformations(this.buildDetailString(type), documentation);
         if (scopeEndOffset && scopeStartOffset) {
@@ -100,8 +101,9 @@ export abstract class AbstractYmlObject implements CompletionItem {
     }
 
     protected buildDetailString(type: string): string {
-        const separator = this.sourceElementName === 'static' ? ' ' : '.';
-        return `(${this.kindName}) [${this.sourceElementName}]${separator}${this.label} ⇒ ${type}`;
+        const separator = !!this.sourceElement ? '.' : ' ';
+        const sourceElementName = !!this.sourceElement ? this.sourceElement.label : 'static';
+        return `(${this.kindName}) [${sourceElementName}]${separator}${this.label} ⇒ ${type}`;
     }
 
     public getHoverContent(): MarkupContent {
