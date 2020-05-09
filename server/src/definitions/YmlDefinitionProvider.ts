@@ -6,8 +6,8 @@ import { AbstractYmlObject } from '../yml-objects';
  * Contains and provide entities definitions.
  */
 export class YmlDefinitionProvider {
-    public definitions: AbstractYmlObject[] = [];
-    public implementations: AbstractYmlObject[] = [];
+    private definitions: AbstractYmlObject[] = [];
+    private implementations: AbstractYmlObject[] = [];
 
     /**
      * Find all the available implementation locations for the specified entityName.
@@ -62,18 +62,24 @@ export class YmlDefinitionProvider {
     }
 
     /**
-     * Add a definition to this provider.
+     * Add a definition to this provider. The element must have a definition location set.
      * @param def The new definition to add.
      */
     public addDefinition(def: AbstractYmlObject): void {
+        if (!def || !def.definitionLocation) {
+            return;
+        }
         this.definitions.push(def);
     }
 
     /**
-     * Add an implementation to this provider.
+     * Add an implementation to this provider. The element must have a definition location set.
      * @param def The new implementation to add.
      */
     public addImplementation(def: AbstractYmlObject): void {
+        if (!def || !def.definitionLocation) {
+            return;
+        }
         this.implementations.push(def);
     }
 
