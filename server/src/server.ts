@@ -18,10 +18,12 @@ import {
     InitializeResult,
     IPCMessageReader,
     IPCMessageWriter,
+    ServerCapabilities,
     TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
     TextDocuments,
+    TextDocumentSyncKind,
 } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
@@ -69,18 +71,28 @@ const FILE_TYPE_F = /^_FILE_TYPE_\s+F\b/;
 /** Regex that matches the `_FILE_TYPE_ M` instruction. */
 const FILE_TYPE_M = /^_FILE_TYPE_\s+M\b/;
 
-// Create a connection for the server. The connection uses Node's IPC as a transport
-export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
-
-connection.console.log('Yseop.vscode-yseopml − Creating connection with client/server.');
-
 const definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
 const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsProvider();
+const serverCapabilities: ServerCapabilities = {
+    // Tell the client that the server support code complete
+    completionProvider: {
+        triggerCharacters: ['.', ':'],
+    },
+    hoverProvider: true,
+    definitionProvider: true,
+    documentSymbolProvider: true,
+    implementationProvider: true,
+    // Tell the client that the server works in FULL text document sync mode
+    textDocumentSync: TextDocumentSyncKind.Full,
+};
+
+// Create a connection for the server. The connection uses Node's IPC as a transport
+export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
+connection.console.log('Yseop.vscode-yseopml − Created connection with client/server.');
 
 // Create a simple text document manager. The text document manager
 // supports full document sync only
 const documents: TextDocuments = new TextDocuments();
-
 // Make the text document manager listen on the connection
 // for open, change and close text document events
 documents.listen(connection);
@@ -92,18 +104,7 @@ connection.onInitialize(
     (_params): InitializeResult => {
         connection.console.log('Yseop.vscode-yseopml − Initializing server.');
         return {
-            capabilities: {
-                // Tell the client that the server support code complete
-                completionProvider: {
-                    triggerCharacters: ['.', ':'],
-                },
-                hoverProvider: true,
-                definitionProvider: true,
-                documentSymbolProvider: true,
-                implementationProvider: true,
-                // Tell the client that the server works in FULL text document sync mode
-                textDocumentSync: documents.syncKind,
-            },
+            capabilities: serverCapabilities,
         };
     },
 );
