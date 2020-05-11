@@ -64,7 +64,7 @@ export class YmlDefinitionProvider {
     }
 
     /**
-     * Add a definition to this provider. The element must have a definition location set.
+     * Add a definition to this provider. Elements without a set definition location will be ignored.
      * @param def The new definition to add.
      */
     public addDefinition(def: AbstractYmlObject): void {
@@ -75,7 +75,7 @@ export class YmlDefinitionProvider {
     }
 
     /**
-     * Add an implementation to this provider. The element must have a definition location set.
+     * Add an implementation to this provider. Elements without a set definition location will be ignored.
      * @param def The new implementation to add.
      */
     public addImplementation(def: AbstractYmlObject): void {
