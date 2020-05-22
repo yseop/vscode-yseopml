@@ -11,6 +11,8 @@ function getDiagnostics(text: string): Diagnostic[] {
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
     parser.removeErrorListeners();
+    // The `diagnostics` empty array is fill by the YmlParsingErrorListener
+    // during the parsing when syntax errors are found.
     parser.addErrorListener(new YmlParsingErrorListener(diagnostics));
 
     parser.kaoFile();
