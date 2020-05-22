@@ -169,4 +169,17 @@ export abstract class AbstractYmlObject implements CompletionItem {
             uri,
         };
     }
+
+    /**
+     * Build and returns a light version of this object.
+     * A AbstractYmlObject's light version just have its label, its data attribute and its kind.
+     *
+     * @returns a light version of this object.
+     */
+    public asLightCompletionItem(): CompletionItem {
+        const lightVersion = CompletionItem.create(this.label);
+        lightVersion.data = this.data;
+        lightVersion.kind = this.kind;
+        return lightVersion;
+    }
 }

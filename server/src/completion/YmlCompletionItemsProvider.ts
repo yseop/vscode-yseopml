@@ -48,17 +48,27 @@ export class YmlCompletionItemsProvider {
         this.completions = this.completions.filter((complLoc) => complLoc.uri !== uri);
     }
 
+    /**
+     * Returns the list of completion items available in `uri` at `offset`.
+     * The returned completion items are “light” completion items. They don't have documentation or detail.
+     * These informations needs to be retreived later by getting the full completion items.
+     *
+     * @param uri File used as a base to find items.
+     * @param offset The position of the cursor in this file.
+     *
+     * @returns a list of light completion items.
+     */
     public getAvailableCompletionItems(uri: string, offset: number) {
         return this.completions
             .map((elem) => {
                 const scopeDefined = elem.scopeEndOffset && elem.scopeStartOffset;
                 if (!scopeDefined) {
                     // No information about the scope. The element is available everywhere.
-                    return elem;
+                    return elem.asLightCompletionItem();
                 }
                 // We are in the correct file and current offset is in between the scope's start and end.
                 const inTheScope = elem.uri === uri && elem.scopeStartOffset <= offset && offset <= elem.scopeEndOffset;
-                return inTheScope ? elem : null;
+                return inTheScope ? elem.asLightCompletionItem() : null;
             })
             .filter((elem) => !!elem);
     }
