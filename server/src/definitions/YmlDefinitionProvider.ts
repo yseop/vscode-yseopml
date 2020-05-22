@@ -2,7 +2,14 @@ import { Definition, Location } from 'vscode-languageserver';
 
 import { AbstractYmlObject } from '../yml-objects';
 
-export const LOCATION_FILTER = (uri: string) => (defLoc: AbstractYmlObject) => defLoc.definitionLocation.uri !== uri;
+/**
+ * Creates a filtering function over an AbstractYmlObject that will check that its definition location's uri
+ * is the same as the provided uri.
+ * @param uri the uri used to filter
+ */
+function createLocationFilter(uri: string) {
+    return (defLoc: AbstractYmlObject) => defLoc.definitionLocation.uri !== uri;
+}
 
 /**
  * Contains and provide entities definitions.
@@ -112,7 +119,7 @@ export class YmlDefinitionProvider {
      * @param uri The file's URI.
      */
     public removeDocumentDefinitions(uri: string): void {
-        this.definitions = this.definitions.filter(LOCATION_FILTER(uri));
+        this.definitions = this.definitions.filter(createLocationFilter(uri));
     }
 
     /**
@@ -120,6 +127,6 @@ export class YmlDefinitionProvider {
      * @param uri The file's URI.
      */
     public removeDocumentImplementations(uri: string): void {
-        this.implementations = this.implementations.filter(LOCATION_FILTER(uri));
+        this.implementations = this.implementations.filter(createLocationFilter(uri));
     }
 }
