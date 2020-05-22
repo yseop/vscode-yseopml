@@ -21,6 +21,57 @@
             "port": 6010,
             "sourceMaps": true,
             "outFiles": ["${workspaceFolder}/server/out/**/*.js"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest single run all tests",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "env": {
+                "CI": "true"
+            },
+            "args": [
+                "-c",
+                "${workspaceFolder}/jest.config.js",
+                "--verbose",
+                "-i",
+                "--no-cache"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest watch all tests",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "args": [
+                "-c",
+                "${workspaceFolder}/jest.config.js",
+                "--verbose",
+                "-i",
+                "--no-cache",
+                "--watchAll"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest watch current file",
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+            "args": [
+                "${fileBasename}",
+                "-c",
+                "${workspaceFolder}/jest.config.js",
+                "--verbose",
+                "-i",
+                "--no-cache",
+                "--watchAll"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
     ],
     "compounds": [{
