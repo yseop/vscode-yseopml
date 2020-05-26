@@ -425,7 +425,7 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
     return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
 });
 
-// When the event onCompletion occurs, we send to the client light version of AbstractYmlObject.
+// When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.
 connection.onCompletionResolve(completionResolveRequestHandler(completionProvider));
 
