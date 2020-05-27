@@ -11,6 +11,7 @@ import * as path from 'path';
 import * as url from 'url';
 import {
     CompletionItem,
+    CompletionParams,
     createConnection,
     Diagnostic,
     DiagnosticSeverity,
@@ -27,7 +28,7 @@ import {
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
-import { documentSymbolRequestHandler } from './features';
+import { completionResolveRequestHandler, documentSymbolRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
@@ -95,6 +96,7 @@ connection.onInitialize(
             capabilities: {
                 // Tell the client that the server support code complete
                 completionProvider: {
+                    resolveProvider: true,
                     triggerCharacters: ['.', ':'],
                 },
                 hoverProvider: true,
@@ -418,10 +420,14 @@ connection.onImplementation((pos: TextDocumentPositionParams) => {
 });
 
 // This handler provides the initial list of the completion items.
-connection.onCompletion((pos: TextDocumentPositionParams): CompletionItem[] => {
+connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
     const doc: TextDocument = documents.get(pos.textDocument.uri);
     return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
 });
+
+// When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
+// When this event occurs, we retrieve the full element and send it back to the client.
+connection.onCompletionResolve(completionResolveRequestHandler(completionProvider));
 
 // Listen on the connection
 connection.listen();
