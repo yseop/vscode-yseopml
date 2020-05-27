@@ -64,13 +64,14 @@ export class YmlCompletionItemsProvider {
                 const scopeDefined = elem.scopeEndOffset && elem.scopeStartOffset;
                 if (!scopeDefined) {
                     // No information about the scope. The element is available everywhere.
-                    return elem.asLightCompletionItem();
+                    return elem;
                 }
                 // We are in the correct file and current offset is in between the scope's start and end.
                 const inTheScope = elem.uri === uri && elem.scopeStartOffset <= offset && offset <= elem.scopeEndOffset;
-                return inTheScope ? elem.asLightCompletionItem() : null;
+                return inTheScope ? elem : null;
             })
-            .filter((elem) => !!elem);
+            .filter((elem) => !!elem)
+            .map((elem) => elem.asLightCompletionItem());
     }
 
     /**
