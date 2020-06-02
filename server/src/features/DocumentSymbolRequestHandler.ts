@@ -19,9 +19,9 @@ export function documentSymbolRequestHandler(definitionsProvider: YmlDefinitionP
 export function buildDocumentSymbolsList(uri: string, definitionsProvider: YmlDefinitionProvider): DocumentSymbol[] {
     // Get the YML objects definitions (for which we have a location) that are in this file.
     const filter = (elem: AbstractYmlObject) => elem.uri === uri && !!elem.definitionLocation;
-    let currentDocSymbols = definitionsProvider.definitions.filter(filter);
+    let currentDocSymbols = definitionsProvider.filterDefinitions(filter);
     // Also get the YML objects implementations (with a location too) that are in this file.
-    currentDocSymbols = currentDocSymbols.concat(definitionsProvider.implementations.filter(filter));
+    currentDocSymbols = currentDocSymbols.concat(definitionsProvider.filterImplementations(filter));
 
     const parentToChildren = new Map<AbstractYmlObject, AbstractYmlObject[]>();
     for (const elem of currentDocSymbols) {

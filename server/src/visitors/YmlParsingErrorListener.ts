@@ -1,5 +1,5 @@
 import { ANTLRErrorListener, RecognitionException, Recognizer, Token } from 'antlr4ts';
-import { Diagnostic, DiagnosticSeverity, Range } from 'vscode-languageserver';
+import { Diagnostic, Range } from 'vscode-languageserver';
 
 import { parsingIssueSeverityLevel } from '../server';
 
