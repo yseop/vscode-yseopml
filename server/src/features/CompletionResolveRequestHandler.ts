@@ -18,7 +18,7 @@ export function completionResolveRequestHandler(completionProvider: YmlCompletio
         if (!candidate) {
             return item;
         }
-        // Set detail and documentation to `item` from the full AbstractYmlObject.
+        // Set the details and documentation of `item` according to those of the full AbstractYmlObject.
         // We don't directly return the full object to avoid sending to the client too much unneeded information
         // and to avoid performance issues.
         item.detail = candidate.detail;
