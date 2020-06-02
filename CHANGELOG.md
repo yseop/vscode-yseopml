@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.9.1 (2020-06-02)
+
+-   Fix a blocking issue with suggest lists causing the extension to freeze.
+
 ## 1.9.0 (2020-05-07)
 
 -   New outline feature. This allows to see at a glance elements such as enums, classes, methods or object instances and easily navigate to them.
