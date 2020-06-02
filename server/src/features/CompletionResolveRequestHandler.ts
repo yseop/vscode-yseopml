@@ -14,6 +14,15 @@ import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProv
  */
 export function completionResolveRequestHandler(completionProvider: YmlCompletionItemsProvider) {
     return (item: CompletionItem): CompletionItem => {
-        return completionProvider.completions.find((elem) => elem.data === item.data);
+        const candidate = completionProvider.completions.find((elem) => elem.data === item.data);
+        if (!candidate) {
+            return item;
+        }
+        // Set detail and documentation to `item` from the full AbstractYmlObject.
+        // We don't directly return the full object to avoid sending to the client too much unneeded information
+        // and to avoid performance issues.
+        item.detail = candidate.detail;
+        item.documentation = candidate.documentation;
+        return item;
     };
 }
