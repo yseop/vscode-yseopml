@@ -97,8 +97,9 @@ City MY_CITY
         const MY_CITY = completionProvider.getFirstItemByLabelMatching('MY_CITY');
         // We found a completion item for label MY_CITY.
         expect(MY_CITY).toBeTruthy();
+        // It has a documentation.
         expect(MY_CITY.documentation).toBeTruthy();
-        // The documentation value is the one that it in the YML code.
+        // The documentation value is the one that is in the YML code.
         expect(MY_CITY.documentation.value).toMatch('My city is wonderful');
 
         const PERSON_A = completionProvider.getFirstItemByLabelMatching('PERSON_A');
@@ -106,7 +107,7 @@ City MY_CITY
         expect(PERSON_A).toBeTruthy();
         // It has a documentation.
         expect(PERSON_A.documentation).toBeTruthy();
-        // The documentation value is the one that it in the YML code.
+        // The documentation value is the one that is in the YML code.
         expect(PERSON_A.documentation.value).toMatch('This is A');
 
         const PERSON_B = completionProvider.getFirstItemByLabelMatching('PERSON_B');
@@ -114,7 +115,7 @@ City MY_CITY
         expect(PERSON_B).toBeTruthy();
         // It has a documentation.
         expect(PERSON_B.documentation).toBeTruthy();
-        // The documentation value is the one that it in the YML code.
+        // The documentation value is the one that is in the YML code.
         expect(PERSON_B.documentation.value).toMatch('This is B');
         done();
     });

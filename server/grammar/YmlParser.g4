@@ -300,10 +300,13 @@ chainedCall:
     )*
 ;
 
-unnamedStaticDeclaration: className=ymlId (fieldValue)* SEMICOLON;
-
 inlineDeclaration:
-    INLINE_DECL_INTRO (staticDeclaration | unnamedStaticDeclaration)
+    INLINE_DECL_INTRO
+    (
+        staticDeclaration
+        // Unnamed object. No need to create a specific rule for it because it can't be used anywhere else.
+        | className=ymlId (fieldValue)* SEMICOLON
+    )
 ;
 
 inlineOperation:
