@@ -2,7 +2,7 @@
 
 ## X.X.X (YYYY-MM-DD)
 
--   Inline named object instances are now available when using completion lists, hover and other features like object instances are.
+-   Named inline object instances now appear (like “normal” instances already do) in lists provided for autocompletion, via hover, etc.
 
 ## 1.9.1 (2020-06-02)
 
