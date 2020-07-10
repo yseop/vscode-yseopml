@@ -3600,34 +3600,39 @@ export class YmlParser extends Parser {
 			{
 			this.state = 801;
 			this.match(YmlParser.INLINE_DECL_INTRO);
-			this.state = 802;
-			_localctx._className = this.ymlId();
-			this.state = 804;
+			this.state = 812;
 			this._errHandler.sync(this);
-			_la = this._input.LA(1);
-			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << YmlParser.OPERATION_APPLY_COLLECTION_ON) | (1 << YmlParser.IMPLEMENTATION) | (1 << YmlParser.EXTENDS) | (1 << YmlParser.FUNCTION_AS_TYPE) | (1 << YmlParser.TEXT_FUNCTION) | (1 << YmlParser.ARGS))) !== 0) || ((((_la - 36)) & ~0x1F) === 0 && ((1 << (_la - 36)) & ((1 << (YmlParser.AS - 36)) | (1 << (YmlParser.RETURN - 36)) | (1 << (YmlParser.LOCAL - 36)) | (1 << (YmlParser.CASE - 36)) | (1 << (YmlParser.STATIC - 36)) | (1 << (YmlParser.RENAME - 36)) | (1 << (YmlParser.TO - 36)) | (1 << (YmlParser.FOR_CLASS - 36)) | (1 << (YmlParser.RULESET - 36)) | (1 << (YmlParser.RULE_TYPE - 36)) | (1 << (YmlParser.ATTRIBUTES - 36)) | (1 << (YmlParser.TIME_COUNTER - 36)))) !== 0) || _la === YmlParser.MOD || _la === YmlParser.YMLID) {
+			switch ( this.interpreter.adaptivePredict(this._input, 66, this._ctx) ) {
+			case 1:
+				{
+				this.state = 802;
+				this.staticDeclaration();
+				}
+				break;
+
+			case 2:
 				{
 				this.state = 803;
-				_localctx._instanceName = this.ymlId();
-				}
-			}
-
-			this.state = 809;
-			this._errHandler.sync(this);
-			_la = this._input.LA(1);
-			while (((((_la - 63)) & ~0x1F) === 0 && ((1 << (_la - 63)) & ((1 << (YmlParser.FIELD_INTRO - 63)) | (1 << (YmlParser.REPLACE_FIELD_VALUE_INTRO - 63)) | (1 << (YmlParser.REMOVE_FIELD - 63)) | (1 << (YmlParser.ADD_FIELD - 63)) | (1 << (YmlParser.OPEN_BRACE - 63)) | (1 << (YmlParser.OPEN_GRANULE - 63)))) !== 0)) {
-				{
-				{
-				this.state = 806;
-				this.fieldValue();
-				}
-				}
-				this.state = 811;
+				_localctx._className = this.ymlId();
+				this.state = 807;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
+				while (((((_la - 63)) & ~0x1F) === 0 && ((1 << (_la - 63)) & ((1 << (YmlParser.FIELD_INTRO - 63)) | (1 << (YmlParser.REPLACE_FIELD_VALUE_INTRO - 63)) | (1 << (YmlParser.REMOVE_FIELD - 63)) | (1 << (YmlParser.ADD_FIELD - 63)) | (1 << (YmlParser.OPEN_BRACE - 63)) | (1 << (YmlParser.OPEN_GRANULE - 63)))) !== 0)) {
+					{
+					{
+					this.state = 804;
+					this.fieldValue();
+					}
+					}
+					this.state = 809;
+					this._errHandler.sync(this);
+					_la = this._input.LA(1);
+				}
+				this.state = 810;
+				this.match(YmlParser.SEMICOLON);
+				}
+				break;
 			}
-			this.state = 812;
-			this.match(YmlParser.SEMICOLON);
 			}
 		}
 		catch (re) {
@@ -7208,8 +7213,8 @@ export class YmlParser extends Parser {
 		"8\x038\x038\x038\x038\x038\x038\x038\x038\x038\x058\u02FF\n8\x039\x03" +
 		"9\x039\x039\x039\x079\u0306\n9\f9\x0E9\u0309\v9\x059\u030B\n9\x039\x03" +
 		"9\x03:\x03:\x03:\x03:\x03;\x03;\x05;\u0315\n;\x03;\x03;\x05;\u0319\n;" +
-		"\x03<\x03<\x03<\x03<\x07<\u031F\n<\f<\x0E<\u0322\v<\x03=\x03=\x03=\x05" +
-		"=\u0327\n=\x03=\x07=\u032A\n=\f=\x0E=\u032D\v=\x03=\x03=\x03>\x03>\x03" +
+		"\x03<\x03<\x03<\x03<\x07<\u031F\n<\f<\x0E<\u0322\v<\x03=\x03=\x03=\x03" +
+		"=\x07=\u0328\n=\f=\x0E=\u032B\v=\x03=\x03=\x05=\u032F\n=\x03>\x03>\x03" +
 		">\x03>\x03?\x03?\x03?\x05?\u0338\n?\x03@\x03@\x03@\x03@\x03@\x03@\x03" +
 		"@\x05@\u0341\n@\x03@\x05@\u0344\n@\x03@\x05@\u0347\n@\x03@\x05@\u034A" +
 		"\n@\x03@\x07@\u034D\n@\f@\x0E@\u0350\v@\x03@\x03@\x03A\x03A\x03A\x03A" +
@@ -7571,12 +7576,12 @@ export class YmlParser extends Parser {
 		"\x02\x02\u031A\u0320\x05l7\x02\u031B\u031C\x05\b\x05\x02\u031C\u031D\x05" +
 		"l7\x02\u031D\u031F\x03\x02\x02\x02\u031E\u031B\x03\x02\x02\x02\u031F\u0322" +
 		"\x03\x02\x02\x02\u0320\u031E\x03\x02\x02\x02\u0320\u0321\x03\x02\x02\x02" +
-		"\u0321w\x03\x02\x02\x02\u0322\u0320\x03\x02\x02\x02\u0323\u0324\x07E\x02" +
-		"\x02\u0324\u0326\x05\f\x07\x02\u0325\u0327\x05\f\x07\x02\u0326\u0325\x03" +
-		"\x02\x02\x02\u0326\u0327\x03\x02\x02\x02\u0327\u032B\x03\x02\x02\x02\u0328" +
-		"\u032A\x05|?\x02\u0329\u0328\x03\x02\x02\x02\u032A\u032D\x03\x02\x02\x02" +
-		"\u032B\u0329\x03\x02\x02\x02\u032B\u032C\x03\x02\x02\x02\u032C\u032E\x03" +
-		"\x02\x02\x02\u032D\u032B\x03\x02\x02\x02\u032E\u032F\x07<\x02\x02\u032F" +
+		"\u0321w\x03\x02\x02\x02\u0322\u0320\x03\x02\x02\x02\u0323\u032E\x07E\x02" +
+		"\x02\u0324\u032F\x05\xE8u\x02\u0325\u0329\x05\f\x07\x02\u0326\u0328\x05" +
+		"|?\x02\u0327\u0326\x03\x02\x02\x02\u0328\u032B\x03\x02\x02\x02\u0329\u0327" +
+		"\x03\x02\x02\x02\u0329\u032A\x03\x02\x02\x02\u032A\u032C\x03\x02\x02\x02" +
+		"\u032B\u0329\x03\x02\x02\x02\u032C\u032D\x07<\x02\x02\u032D\u032F\x03" +
+		"\x02\x02\x02\u032E\u0324\x03\x02\x02\x02\u032E\u0325\x03\x02\x02\x02\u032F" +
 		"y\x03\x02\x02\x02\u0330\u0331\x05V,\x02\u0331\u0332\x05\f\x07\x02\u0332" +
 		"\u0333\x05V,\x02\u0333{\x03\x02\x02\x02\u0334\u0338\x050\x19\x02\u0335" +
 		"\u0338\x05\xF2z\x02\u0336\u0338\x05\xF0y\x02\u0337\u0334\x03\x02\x02\x02" +
@@ -7852,7 +7857,7 @@ export class YmlParser extends Parser {
 		"\u0199\u019F\u01A7\u01B5\u01B8\u01BB\u01C2\u01CA\u01D2\u01DA\u01DE\u01E5" +
 		"\u01EF\u01F8\u0208\u020B\u0215\u0223\u0231\u023A\u0241\u0246\u0255\u0259" +
 		"\u026A\u0272\u0276\u0287\u0290\u0294\u02A3\u02AC\u02B0\u02B8\u02DB\u02E4" +
-		"\u02FE\u0307\u030A\u0314\u0318\u0320\u0326\u032B\u0337\u0340\u0343\u0346" +
+		"\u02FE\u0307\u030A\u0314\u0318\u0320\u0329\u032E\u0337\u0340\u0343\u0346" +
 		"\u0349\u034E\u0362\u036B\u0373\u037D\u0380\u0383\u038A\u0390\u0393\u039B" +
 		"\u039F\u03A1\u03A5\u03AC\u03B1\u03B4\u03BC\u03C3\u03C7\u03CC\u03D1\u03DB" +
 		"\u03E3\u03E5\u03FB\u03FF\u0403\u040D\u0412\u041B\u0420\u042C\u0431\u043A" +
@@ -10661,17 +10666,13 @@ export class ChainedCallContext extends ParserRuleContext {
 
 export class InlineDeclarationContext extends ParserRuleContext {
 	public _className: YmlIdContext;
-	public _instanceName: YmlIdContext;
 	public INLINE_DECL_INTRO(): TerminalNode { return this.getToken(YmlParser.INLINE_DECL_INTRO, 0); }
-	public SEMICOLON(): TerminalNode { return this.getToken(YmlParser.SEMICOLON, 0); }
-	public ymlId(): YmlIdContext[];
-	public ymlId(i: number): YmlIdContext;
-	public ymlId(i?: number): YmlIdContext | YmlIdContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(YmlIdContext);
-		} else {
-			return this.getRuleContext(i, YmlIdContext);
-		}
+	public staticDeclaration(): StaticDeclarationContext | undefined {
+		return this.tryGetRuleContext(0, StaticDeclarationContext);
+	}
+	public SEMICOLON(): TerminalNode | undefined { return this.tryGetToken(YmlParser.SEMICOLON, 0); }
+	public ymlId(): YmlIdContext | undefined {
+		return this.tryGetRuleContext(0, YmlIdContext);
 	}
 	public fieldValue(): FieldValueContext[];
 	public fieldValue(i: number): FieldValueContext;
