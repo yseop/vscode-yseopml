@@ -30,28 +30,10 @@ import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import { completionResolveRequestHandler, documentSymbolRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
+import { IYseopmlServerSettings, IYseopmlSettings } from './settings/Settings';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
-// The settings interface describe the server relevant settings part
-interface ISettings {
-    yseopml: IServerSettings;
-}
-
-// These are the example settings we defined in the client's package.json file
-interface IServerSettings {
-    activateParsingProblemsReporting: boolean;
-    parseAllProjectFilesAtStartup: boolean;
-    pathToPredefinedObjectsXml: string;
-    ymlParsingIssueSeverityLevel: string;
-    kaoFiles: string[];
-}
-
 let engineModel: EngineModel;
-
-let activateParsingProblemsReporting: boolean;
-let parseAllProjectFilesAtStartup: boolean;
-let pathToPredefinedObjectsXml: string;
-let kaoFilesToParse: string[] = [];
 
 /**
  * Map between the string available as option and real `DiagnosticSeverity` enum values.
@@ -82,6 +64,8 @@ const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsPro
 // supports full document sync only
 const documents: TextDocuments = new TextDocuments();
 
+let SETTINGS: IYseopmlServerSettings;
+
 // Make the text document manager listen on the connection
 // for open, change and close text document events
 documents.listen(connection);
@@ -111,23 +95,14 @@ connection.onInitialize(
 );
 
 connection.onInitialized((_params) => {
-    connection.workspace.getConfiguration('yseopml.parseAllProjectFilesAtStartup').then((_confValue) => {
-        parseAllProjectFilesAtStartup = _confValue;
-        if (!parseAllProjectFilesAtStartup) {
+    connection.workspace.getConfiguration('yseopml').then((_value) => {
+        // Get the yseopml configuration and save it globally.
+        SETTINGS = _value as IYseopmlServerSettings;
+        if (!SETTINGS.parseAllProjectFilesAtStartup) {
             connection.console.log('Not parsing every YML file of the project.');
             return;
         }
-        // The value of yseopml.kaoFiles is useful here
-        // only when we want to parse the whole project.
-        connection.workspace
-            .getConfiguration('yseopml.kaoFiles')
-            .then((_kaoFiles) => {
-                // initialize array kaoFilesToParse
-                kaoFilesToParse = _kaoFiles;
-            })
-            .then(() => {
-                parseWholeProject();
-            });
+        parseWholeProject();
     });
 });
 
@@ -141,7 +116,7 @@ function parseWholeProject(): void {
     connection.console.log('Parsing all the YML files of the project.');
     connection.workspace.getWorkspaceFolders().then((_value) => {
         const workspacePath = url.fileURLToPath(_value[0].uri);
-        if (!kaoFilesToParse || kaoFilesToParse.length === 0) {
+        if (!SETTINGS.kaoFiles || SETTINGS.kaoFiles.length === 0) {
             parseFromFirstFoundKaoFile(workspacePath);
         } else {
             parseFromKaoFilesList(workspacePath);
@@ -177,7 +152,7 @@ function parseFromFirstFoundKaoFile(workspacePath: string): void {
  * @param workspacePath the root folder path used as workspace
  */
 function parseFromKaoFilesList(workspacePath: string): void {
-    for (const filePath of kaoFilesToParse) {
+    for (const filePath of SETTINGS.kaoFiles) {
         if (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()) {
             const fileUri = path.join(workspacePath, filePath);
             /*
@@ -331,19 +306,17 @@ export let parsingIssueSeverityLevel: DiagnosticSeverity = DiagnosticSeverity.In
 
 // The settings have changed. Is send on server activation as well.
 connection.onDidChangeConfiguration((change) => {
-    const settings = change.settings as ISettings;
-    activateParsingProblemsReporting = settings.yseopml.activateParsingProblemsReporting;
-    pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
-    kaoFilesToParse = settings.yseopml.kaoFiles;
+    const settings = change.settings as IYseopmlSettings;
+    SETTINGS = settings.yseopml;
     // One of the severity levels possible, or `Information`.
     parsingIssueSeverityLevel =
         diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
         DiagnosticSeverity.Information;
     if (engineModel == null) {
-        engineModel = new EngineModel(pathToPredefinedObjectsXml, completionProvider);
+        engineModel = new EngineModel(SETTINGS.pathToPredefinedObjectsXml, completionProvider);
         engineModel.loadPredefinedObjects();
     } else {
-        engineModel.reload(pathToPredefinedObjectsXml, completionProvider);
+        engineModel.reload(SETTINGS.pathToPredefinedObjectsXml, completionProvider);
     }
     // Revalidate any open text documents
     documents.all().forEach(parseTextDocument);
@@ -392,7 +365,7 @@ function parseFile(textDocUri: string, docContent: string) {
     visitor.visit(result);
 
     // Send the computed diagnostics to VSCode.
-    if (activateParsingProblemsReporting) {
+    if (SETTINGS.activateParsingProblemsReporting) {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics });
     } else {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics: [] });
