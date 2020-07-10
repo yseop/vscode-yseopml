@@ -300,8 +300,10 @@ chainedCall:
     )*
 ;
 
+unnamedStaticDeclaration: className=ymlId (fieldValue)* SEMICOLON;
+
 inlineDeclaration:
-    INLINE_DECL_INTRO className=ymlId (instanceName=ymlId)? (fieldValue)* SEMICOLON
+    INLINE_DECL_INTRO (staticDeclaration | unnamedStaticDeclaration)
 ;
 
 inlineOperation:

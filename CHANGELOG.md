@@ -1,5 +1,9 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
+-   Inline named object instances are now available when using completion lists, hover and other features like object instances are.
+
 ## 1.9.1 (2020-06-02)
 
 -   Fix a blocking issue with suggest lists causing the extension to freeze.

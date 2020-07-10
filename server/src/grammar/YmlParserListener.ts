@@ -62,6 +62,7 @@ import { FunctionCallContext } from "./YmlParser";
 import { IndexContext } from "./YmlParser";
 import { FunctionArgumentContext } from "./YmlParser";
 import { ChainedCallContext } from "./YmlParser";
+import { UnnamedStaticDeclarationContext } from "./YmlParser";
 import { InlineDeclarationContext } from "./YmlParser";
 import { InlineOperationContext } from "./YmlParser";
 import { FieldValueContext } from "./YmlParser";
@@ -784,6 +785,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitChainedCall?: (ctx: ChainedCallContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.unnamedStaticDeclaration`.
+	 * @param ctx the parse tree
+	 */
+	enterUnnamedStaticDeclaration?: (ctx: UnnamedStaticDeclarationContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.unnamedStaticDeclaration`.
+	 * @param ctx the parse tree
+	 */
+	exitUnnamedStaticDeclaration?: (ctx: UnnamedStaticDeclarationContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.inlineDeclaration`.
