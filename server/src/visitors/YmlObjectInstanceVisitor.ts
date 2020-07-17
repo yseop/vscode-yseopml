@@ -25,5 +25,6 @@ export class YmlObjectInstanceVisitor extends YmlBaseVisitor {
         this.completionProvider.addCompletionItem(instance);
         instance.setDefinitionLocation(node.start, node.stop, this.uri);
         this.definitions.addDefinition(instance);
+        this.visitChildren(node);
     }
 }

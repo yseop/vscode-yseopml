@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.10.0 (2020-07-17)
+
+-   Named inline object instances now appear (like “normal” instances already do) in lists provided for autocompletion, via hover, etc.
+
 ## 1.9.1 (2020-06-02)
 
 -   Fix a blocking issue with suggest lists causing the extension to freeze.

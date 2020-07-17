@@ -301,7 +301,12 @@ chainedCall:
 ;
 
 inlineDeclaration:
-    INLINE_DECL_INTRO className=ymlId (instanceName=ymlId)? (fieldValue)* SEMICOLON
+    INLINE_DECL_INTRO
+    (
+        staticDeclaration
+        // Unnamed object. No need to create a specific rule for it because it can't be used anywhere else.
+        | className=ymlId (fieldValue)* SEMICOLON
+    )
 ;
 
 inlineOperation:
