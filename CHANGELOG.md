@@ -1,6 +1,6 @@
 # Release Notes
 
-## X.X.X (YYYY-MM-DD)
+## 1.10.0 (2020-07-17)
 
 -   Named inline object instances now appear (like “normal” instances already do) in lists provided for autocompletion, via hover, etc.
 
