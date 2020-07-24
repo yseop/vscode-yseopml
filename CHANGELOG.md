@@ -1,5 +1,9 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
+-   [BETA] New document formatting feature allowing small edits to your files. This feature can be deactivated using the Visual Studio Code settings.
+
 ## 1.10.0 (2020-07-17)
 
 -   Named inline object instances now appear (like “normal” instances already do) in lists provided for autocompletion, via hover, etc.

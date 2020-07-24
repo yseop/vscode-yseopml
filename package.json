@@ -89,6 +89,27 @@
                     "default": "off",
                     "description": "Traces the communication between VSCode and the YML language server."
                 },
+                "yseopml.documentFormat": {
+                    "scope": "window",
+                    "type": "object",
+                    "properties": {
+                        "enableDocumentFormat": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "Enables the document format feature for the YML language."
+                        },
+                        "semicolonWhenPossible": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "When “true” adds a semicolon after any instructions that can finish with a semicolon. When “false” don't change the code."
+                        },
+                        "spaceBetweenKeywordAndParenthesis": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "When “true” adds a space after keywords such as “if” and “foreach”. When “false”, remove the spaces."
+                        }
+                    }
+                },
                 "yseopml.kaoFiles": {
                     "scope": "window",
                     "type": "array",

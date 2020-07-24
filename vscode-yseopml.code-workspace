@@ -10,7 +10,6 @@
             "formulahendry.auto-rename-tag",
             "formulahendry.auto-close-tag",
             "orta.vscode-jest",
-            "shinnn.stylelint",
             "sonarsource.sonarlint-vscode"
         ],
         "unwantedRecommendations": []

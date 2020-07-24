@@ -23,6 +23,7 @@ import {
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
     TextDocuments,
+    TextEdit,
 } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
@@ -30,7 +31,12 @@ import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import { completionResolveRequestHandler, documentSymbolRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
-import { IYseopmlServerSettings, IYseopmlSettings } from './settings/Settings';
+import {
+    IDocumentFormatSettings,
+    IYseopmlServerSettings,
+    IYseopmlSettings,
+    setDocumentFormatDefaultValues,
+} from './settings/Settings';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
 let engineModel: EngineModel;
@@ -89,6 +95,7 @@ connection.onInitialize(
                 implementationProvider: true,
                 // Tell the client that the server works in FULL text document sync mode
                 textDocumentSync: documents.syncKind,
+                documentFormattingProvider: true,
             },
         };
     },
@@ -98,6 +105,7 @@ connection.onInitialized((_params) => {
     connection.workspace.getConfiguration('yseopml').then((_value) => {
         // Get the yseopml configuration and save it globally.
         SETTINGS = _value as IYseopmlServerSettings;
+        SETTINGS.documentFormat = setDocumentFormatDefaultValues(SETTINGS.documentFormat);
         if (!SETTINGS.parseAllProjectFilesAtStartup) {
             connection.console.log('Not parsing every YML file of the project.');
             return;
@@ -308,6 +316,7 @@ export let parsingIssueSeverityLevel: DiagnosticSeverity = DiagnosticSeverity.In
 connection.onDidChangeConfiguration((change) => {
     const settings = change.settings as IYseopmlSettings;
     SETTINGS = settings.yseopml;
+    SETTINGS.documentFormat = setDocumentFormatDefaultValues(SETTINGS.documentFormat);
     // One of the severity levels possible, or `Information`.
     parsingIssueSeverityLevel =
         diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
@@ -397,6 +406,40 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
     const doc: TextDocument = documents.get(pos.textDocument.uri);
     return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
 });
+
+connection.onDocumentFormatting((_params) => {
+    const doc = documents.get(_params.textDocument.uri);
+    return buildDocumentEditList(doc, SETTINGS.documentFormat);
+});
+
+export function buildDocumentEditList(document: TextDocument, documentFormatSettings?: IDocumentFormatSettings) {
+    const inputStream = CharStreams.fromString(document.getText(), document.uri);
+    const lexer = new YmlLexer(inputStream);
+    const tokenStream = new CommonTokenStream(lexer);
+    const parser = new YmlParser(tokenStream);
+    parser.removeErrorListeners();
+
+    // Parse the input.
+    const result = parser.kaoFile();
+    const edits: TextEdit[] = [];
+    const visitor = new YmlKaoFileVisitor(
+        new YmlCompletionItemsProvider(),
+        document.uri,
+        new YmlDefinitionProvider(),
+        documentFormatSettings,
+        edits,
+        document,
+    );
+
+    // Visit the result of the parsing.
+    // This fill the edits array.
+    visitor.visit(result);
+    if (parser.numberOfSyntaxErrors > 0) {
+        connection.console.info('No formatting to be done because the current file has syntax errors.');
+        return [];
+    }
+    return edits;
+}
 
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.

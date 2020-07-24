@@ -489,13 +489,13 @@ instruction_while:
 instruction_return: RETURN value;
 instruction_chainedCall: chainedCall;
 instruction:
-    instruction_chainedCall SEMICOLON?
-    | instruction_multivaluedAssignment SEMICOLON?
+    instruction_multivaluedAssignment SEMICOLON?
     | instruction_assignment SEMICOLON?
+    | instruction_return SEMICOLON?
+    | instruction_chainedCall SEMICOLON?
     | instruction_for
     | instruction_forEach
     | instruction_forall
-    | instruction_return SEMICOLON?
     | instruction_ifElse
     | instruction_try_catch SEMICOLON?
     | instruction_switchCase_asIf
