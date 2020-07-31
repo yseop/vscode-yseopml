@@ -163,8 +163,7 @@ objectReturnAttributeValue:
 ;
 
 objectAttributeValue:
-    actionBlock
-    | instruction_return
+    instruction_return
     | ifExprBlock
     | combinedComparison
     | value
