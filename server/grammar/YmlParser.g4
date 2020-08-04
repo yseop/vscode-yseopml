@@ -268,20 +268,20 @@ instanciationVariable: QUESTION_MARK ymlId;
 
 possiblyIndexedExpression: expression index*;
 expression:
-    ymlId
-    | functionCall
-    | instanciationVariable
+    instanciationVariable
     | granule
     | constList
     | as
     | applyCollection
     | applyCollectionOn
+    | functionCall
     | array
     | hashMap
     | parenthesisCondition
     | OPEN_PAR instruction_switchExpr_withValue CLOSE_PAR
     | OPEN_PAR instruction_switchExpr_asIf CLOSE_PAR
     | OPEN_PAR ifExprBlock CLOSE_PAR
+    | ymlId
 ;
 
 functionCall:

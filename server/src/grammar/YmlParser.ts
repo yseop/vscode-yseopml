@@ -3265,7 +3265,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 1);
 				{
 				this.state = 740;
-				this.ymlId();
+				this.instanciationVariable();
 				}
 				break;
 
@@ -3273,7 +3273,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 2);
 				{
 				this.state = 741;
-				this.functionCall();
+				this.granule();
 				}
 				break;
 
@@ -3281,7 +3281,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 3);
 				{
 				this.state = 742;
-				this.instanciationVariable();
+				this.constList();
 				}
 				break;
 
@@ -3289,7 +3289,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 4);
 				{
 				this.state = 743;
-				this.granule();
+				this.as();
 				}
 				break;
 
@@ -3297,7 +3297,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 5);
 				{
 				this.state = 744;
-				this.constList();
+				this.applyCollection();
 				}
 				break;
 
@@ -3305,7 +3305,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 6);
 				{
 				this.state = 745;
-				this.as();
+				this.applyCollectionOn();
 				}
 				break;
 
@@ -3313,7 +3313,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 7);
 				{
 				this.state = 746;
-				this.applyCollection();
+				this.functionCall();
 				}
 				break;
 
@@ -3321,7 +3321,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 8);
 				{
 				this.state = 747;
-				this.applyCollectionOn();
+				this.array();
 				}
 				break;
 
@@ -3329,7 +3329,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 9);
 				{
 				this.state = 748;
-				this.array();
+				this.hashMap();
 				}
 				break;
 
@@ -3337,7 +3337,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 10);
 				{
 				this.state = 749;
-				this.hashMap();
+				this.parenthesisCondition();
 				}
 				break;
 
@@ -3345,18 +3345,22 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 11);
 				{
 				this.state = 750;
-				this.parenthesisCondition();
+				this.match(YmlParser.OPEN_PAR);
+				this.state = 751;
+				this.instruction_switchExpr_withValue();
+				this.state = 752;
+				this.match(YmlParser.CLOSE_PAR);
 				}
 				break;
 
 			case 12:
 				this.enterOuterAlt(_localctx, 12);
 				{
-				this.state = 751;
+				this.state = 754;
 				this.match(YmlParser.OPEN_PAR);
-				this.state = 752;
-				this.instruction_switchExpr_withValue();
-				this.state = 753;
+				this.state = 755;
+				this.instruction_switchExpr_asIf();
+				this.state = 756;
 				this.match(YmlParser.CLOSE_PAR);
 				}
 				break;
@@ -3364,11 +3368,11 @@ export class YmlParser extends Parser {
 			case 13:
 				this.enterOuterAlt(_localctx, 13);
 				{
-				this.state = 755;
+				this.state = 758;
 				this.match(YmlParser.OPEN_PAR);
-				this.state = 756;
-				this.instruction_switchExpr_asIf();
-				this.state = 757;
+				this.state = 759;
+				this.ifExprBlock();
+				this.state = 760;
 				this.match(YmlParser.CLOSE_PAR);
 				}
 				break;
@@ -3376,12 +3380,8 @@ export class YmlParser extends Parser {
 			case 14:
 				this.enterOuterAlt(_localctx, 14);
 				{
-				this.state = 759;
-				this.match(YmlParser.OPEN_PAR);
-				this.state = 760;
-				this.ifExprBlock();
-				this.state = 761;
-				this.match(YmlParser.CLOSE_PAR);
+				this.state = 762;
+				this.ymlId();
 				}
 				break;
 			}
@@ -7540,20 +7540,20 @@ export class YmlParser extends Parser {
 		"\u02E3\x05n8\x02\u02E0\u02E2\x05r:\x02\u02E1\u02E0\x03\x02\x02\x02\u02E2" +
 		"\u02E5\x03\x02\x02\x02\u02E3\u02E1\x03\x02\x02\x02\u02E3\u02E4\x03\x02" +
 		"\x02\x02\u02E4m\x03\x02\x02\x02\u02E5\u02E3\x03\x02\x02\x02\u02E6\u02FE" +
-		"\x05\f\x07\x02\u02E7\u02FE\x05p9\x02\u02E8\u02FE\x05j6\x02\u02E9\u02FE" +
-		"\x05\xF2z\x02\u02EA\u02FE\x05\xF0y\x02\u02EB\u02FE\x05X-\x02\u02EC\u02FE" +
-		"\x05Z.\x02\u02ED\u02FE\x05\\/\x02\u02EE\u02FE\x05\xECw\x02\u02EF\u02FE" +
-		"\x05N(\x02\u02F0\u02FE\x05\xA0Q\x02\u02F1\u02F2\x07F\x02\x02\u02F2\u02F3" +
-		"\x05\xB4[\x02\u02F3\u02F4\x07G\x02\x02\u02F4\u02FE\x03\x02\x02\x02\u02F5" +
-		"\u02F6\x07F\x02\x02\u02F6\u02F7\x05\xB6\\\x02\u02F7\u02F8\x07G\x02\x02" +
-		"\u02F8\u02FE\x03\x02\x02\x02\u02F9\u02FA\x07F\x02\x02\u02FA\u02FB\x05" +
-		"d3\x02\u02FB\u02FC\x07G\x02\x02\u02FC\u02FE\x03\x02\x02\x02\u02FD\u02E6" +
+		"\x05j6\x02\u02E7\u02FE\x05\xF2z\x02\u02E8\u02FE\x05\xF0y\x02\u02E9\u02FE" +
+		"\x05X-\x02\u02EA\u02FE\x05Z.\x02\u02EB\u02FE\x05\\/\x02\u02EC\u02FE\x05" +
+		"p9\x02\u02ED\u02FE\x05\xECw\x02\u02EE\u02FE\x05N(\x02\u02EF\u02FE\x05" +
+		"\xA0Q\x02\u02F0\u02F1\x07F\x02\x02\u02F1\u02F2\x05\xB4[\x02\u02F2\u02F3" +
+		"\x07G\x02\x02\u02F3\u02FE\x03\x02\x02\x02\u02F4\u02F5\x07F\x02\x02\u02F5" +
+		"\u02F6\x05\xB6\\\x02\u02F6\u02F7\x07G\x02\x02\u02F7\u02FE\x03\x02\x02" +
+		"\x02\u02F8\u02F9\x07F\x02\x02\u02F9\u02FA\x05d3\x02\u02FA\u02FB\x07G\x02" +
+		"\x02\u02FB\u02FE\x03\x02\x02\x02\u02FC\u02FE\x05\f\x07\x02\u02FD\u02E6" +
 		"\x03\x02\x02\x02\u02FD\u02E7\x03\x02\x02\x02\u02FD\u02E8\x03\x02\x02\x02" +
 		"\u02FD\u02E9\x03\x02\x02\x02\u02FD\u02EA\x03\x02\x02\x02\u02FD\u02EB\x03" +
 		"\x02\x02\x02\u02FD\u02EC\x03\x02\x02\x02\u02FD\u02ED\x03\x02\x02\x02\u02FD" +
 		"\u02EE\x03\x02\x02\x02\u02FD\u02EF\x03\x02\x02\x02\u02FD\u02F0\x03\x02" +
-		"\x02\x02\u02FD\u02F1\x03\x02\x02\x02\u02FD\u02F5\x03\x02\x02\x02\u02FD" +
-		"\u02F9\x03\x02\x02\x02\u02FEo\x03\x02\x02\x02\u02FF\u0300\x05\f\x07\x02" +
+		"\x02\x02\u02FD\u02F4\x03\x02\x02\x02\u02FD\u02F8\x03\x02\x02\x02\u02FD" +
+		"\u02FC\x03\x02\x02\x02\u02FEo\x03\x02\x02\x02\u02FF\u0300\x05\f\x07\x02" +
 		"\u0300\u0309\x07F\x02\x02\u0301\u0306\x05t;\x02\u0302\u0303\x07=\x02\x02" +
 		"\u0303\u0305\x05t;\x02\u0304\u0302\x03\x02\x02\x02\u0305\u0308\x03\x02" +
 		"\x02\x02\u0306\u0304\x03\x02\x02\x02\u0306\u0307\x03\x02\x02\x02\u0307" +
@@ -10408,12 +10408,6 @@ export class PossiblyIndexedExpressionContext extends ParserRuleContext {
 
 
 export class ExpressionContext extends ParserRuleContext {
-	public ymlId(): YmlIdContext | undefined {
-		return this.tryGetRuleContext(0, YmlIdContext);
-	}
-	public functionCall(): FunctionCallContext | undefined {
-		return this.tryGetRuleContext(0, FunctionCallContext);
-	}
 	public instanciationVariable(): InstanciationVariableContext | undefined {
 		return this.tryGetRuleContext(0, InstanciationVariableContext);
 	}
@@ -10431,6 +10425,9 @@ export class ExpressionContext extends ParserRuleContext {
 	}
 	public applyCollectionOn(): ApplyCollectionOnContext | undefined {
 		return this.tryGetRuleContext(0, ApplyCollectionOnContext);
+	}
+	public functionCall(): FunctionCallContext | undefined {
+		return this.tryGetRuleContext(0, FunctionCallContext);
 	}
 	public array(): ArrayContext | undefined {
 		return this.tryGetRuleContext(0, ArrayContext);
@@ -10451,6 +10448,9 @@ export class ExpressionContext extends ParserRuleContext {
 	}
 	public ifExprBlock(): IfExprBlockContext | undefined {
 		return this.tryGetRuleContext(0, IfExprBlockContext);
+	}
+	public ymlId(): YmlIdContext | undefined {
+		return this.tryGetRuleContext(0, YmlIdContext);
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);

@@ -69,12 +69,14 @@ function myFunction(Object input)
     }
     /* Two space additions + semicolon addition → “hashMap[country] = x;” */
     hashMap[country]=x
+    /* Semicolon addition → “assert(a == b);” */
+    assert(a == b)
     /* Semicolon addition → “return country;” */
     return country
 };
 `,
         );
-        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(32);
+        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(33);
         done();
     });
     it('should not give edits when there the file has syntax erors', (done) => {
