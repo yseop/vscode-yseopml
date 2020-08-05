@@ -104,7 +104,7 @@ function myFunction(Object input)
 `,
         );
         const settings: IDocumentFormatSettings = {
-            enableDocumentFormat: false,
+            enableDocumentFormat: 'no',
             semicolonWhenPossible: true,
             spaceBetweenKeywordAndParenthesis: false,
         };

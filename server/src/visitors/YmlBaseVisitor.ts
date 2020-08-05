@@ -33,7 +33,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
     }
 
     public isDocumentFormatImpossible(): boolean {
-        return !this.docFormatSettings?.enableDocumentFormat || !this.filePossibleEdits || !this.document;
+        return this.docFormatSettings?.enableDocumentFormat === 'no' || !this.filePossibleEdits || !this.document;
     }
 
     public visitCombinedComparison(node: CombinedComparisonContext): void {
@@ -177,7 +177,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
     }
 
     public visitInstruction(node: InstructionContext) {
-        if (!this.filePossibleEdits || !this.document) {
+        if (this.isDocumentFormatImpossible()) {
             return;
         }
         // There is already a semicolon, or we are not in a block, or we don't want to add semicolons.

@@ -90,13 +90,20 @@
                     "description": "Traces the communication between VSCode and the YML language server."
                 },
                 "yseopml.documentFormat": {
-                    "scope": "window",
                     "type": "object",
+                    "default": {
+                        "enableDocumentFormat": "yes"
+                    },
+                    "description": "Settings related to document format",
                     "properties": {
                         "enableDocumentFormat": {
-                            "type": "boolean",
-                            "default": true,
-                            "description": "Enables the document format feature for the YML language."
+                            "type": "string",
+                            "default": "yes",
+                            "description": "Enables the document format feature for the YML language.",
+                            "enum": [
+                                "yes",
+                                "no"
+                            ]
                         },
                         "semicolonWhenPossible": {
                             "type": "boolean",
