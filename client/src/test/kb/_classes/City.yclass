@@ -1,0 +1,37 @@
+// ---------------------------------------------------------------------
+// ---------------------  City --------------------------------------
+// ---------------------------------------------------------------------
+
+interface	City
+	field	name
+	--> domains	String
+
+	field	country
+	--> domains	String
+
+    method getCityName()
+    --> domains String
+    --> documentation """Get the name of this City."""
+
+classProperties
+
+--> dsl -> Textualization
+		--> root "City"
+		--> language LANG_fr
+		--> gender FEMININE
+		--> number SINGULAR
+		;
+--> hasAccessorFunction true
+;
+
+implementation	City
+;
+
+
+function City::getCityName()
+--> action {
+	getCityName();
+	getCityName();
+}
+--> return this.name
+;

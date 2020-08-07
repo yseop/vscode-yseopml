@@ -4,7 +4,6 @@ const YML_EXTENSION_ID = 'Yseop.vscode-yseopml';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 // import * as myExtension from '../extension';
-
 // Defines a Jest test suite to group tests of similar kind together
 describe('Extension Tests', () => {
     it('YML extension exists.', () => {
@@ -22,26 +21,6 @@ describe('Extension Tests', () => {
             }),
         ).toBeFalsy();
     });
-
-    it('not activated YML extension is not active.', () => {
-        const ymlExtension = vscode.extensions.all.find((extension) => {
-            return extension.id === YML_EXTENSION_ID;
-        });
-        expect(ymlExtension).toBeDefined();
-        expect(ymlExtension.isActive).toBeFalsy();
-    });
-
-    it('YML extension activation activates it.', () => {
-        const ymlExtension = vscode.extensions.all.find((extension) => {
-            return extension.id === YML_EXTENSION_ID;
-        });
-        expect(ymlExtension).toBeDefined();
-        expect(ymlExtension.isActive).toBeFalsy();
-        return ymlExtension.activate().then(() => {
-            expect(ymlExtension.isActive).toBeTruthy();
-        });
-    });
-
     it('YML extension adds YML support.', () => {
         const ymlExtension = vscode.extensions.all.find((extension) => {
             return extension.id === YML_EXTENSION_ID;
@@ -53,4 +32,25 @@ describe('Extension Tests', () => {
             expect(languages.indexOf('yml')).not.toBe(-1);
         });
     });
+    it('should get text edits from document format feature', (done) => {
+        const fileUri = vscode.workspace.textDocuments[0].uri;
+        expect(fileUri.path.endsWith('documentFormat.dcl')).toBeTruthy();
+        formatDocument(fileUri)
+            .then((list) => {
+                expect(list).toBeTruthy();
+                expect(list.length).toBe(8);
+            })
+            .then(done, done);
+    });
 });
+
+/**
+ * Sends to the server a request to format the document at `docUri`.
+ *
+ * @param docUri uri to the document to format.
+ *
+ * @returns an array of text edits.
+ */
+function formatDocument(docUri: vscode.Uri): Thenable<vscode.TextEdit[]> {
+    return vscode.commands.executeCommand('vscode.executeFormatDocumentProvider', docUri, {});
+}

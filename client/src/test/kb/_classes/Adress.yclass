@@ -1,0 +1,23 @@
+// ---------------------------------------------------------------------
+// ---------------------  Address --------------------------------------
+// ---------------------------------------------------------------------
+
+interface	Address
+	field	zipCode
+	--> domains	String
+
+	field	city
+	--> domains	City
+classProperties
+
+--> dsl -> Textualization
+		--> root "Adresse"
+		--> language LANG_fr
+		--> gender FEMININE
+		--> number SINGULAR
+		;
+--> hasAccessorFunction true
+;
+
+implementation	Address
+;

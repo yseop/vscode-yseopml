@@ -15,7 +15,11 @@ async function main() {
         await runTests({
             extensionDevelopmentPath,
             extensionTestsPath,
-            launchArgs: ['--disable-extensions'],
+            launchArgs: [
+                `${extensionDevelopmentPath}/client/src/test/kb/`,
+                `${extensionDevelopmentPath}/client/src/test/kb/_technical/documentFormat.dcl`,
+                '--disable-extensions',
+            ],
         });
     } catch (err) {
         console.error('Failed to run tests');
