@@ -92,14 +92,16 @@
                 "yseopml.documentFormat": {
                     "type": "object",
                     "default": {
-                        "enableDocumentFormat": "yes"
+                        "enableDocumentFormat": "yes",
+                        "semicolonWhenPossible": true,
+                        "spaceBetweenKeywordAndParenthesis": false
                     },
                     "description": "Settings related to document format",
                     "properties": {
                         "enableDocumentFormat": {
                             "type": "string",
                             "default": "yes",
-                            "description": "Enables the document format feature for the YML language.",
+                            "description": "Enable the document format feature for the YML language.",
                             "enum": [
                                 "yes",
                                 "no"
@@ -108,12 +110,12 @@
                         "semicolonWhenPossible": {
                             "type": "boolean",
                             "default": true,
-                            "description": "When “true” adds a semicolon after any instructions that can finish with a semicolon. When “false” don't change the code."
+                            "description": "When “true“ add a semicolon after any instructions that can finish with a semicolon. When “false” don't change the code. \n\ne.g. on “true” “world.execute(me)” becomes “world.execute(me);”"
                         },
                         "spaceBetweenKeywordAndParenthesis": {
                             "type": "boolean",
                             "default": false,
-                            "description": "When “true” adds a space after keywords such as “if” and “foreach”. When “false”, remove the spaces."
+                            "description": "When “true” format the code such as keywords such as “if” and “foreach”.\ne.g. “if   (” and “if(” ⇒ “if (”.\n\nWhen “false” remove the spaces.\ne.g. “if   (” and “if (” ⇒ “if(”"
                         }
                     }
                 },

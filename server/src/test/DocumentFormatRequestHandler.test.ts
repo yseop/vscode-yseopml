@@ -6,6 +6,13 @@ import { DEFAULT_DOC_FORMAT_SETTINGS, IDocumentFormatSettings } from '../setting
 const FAKE_FILE_PATH = '/file1.kao';
 const YML_LANGUAGE_ID = 'yml';
 
+/**
+ * Create and return a TextDocument with `docContent` as content.
+ *
+ * @param docContent the document content
+ *
+ * @return a TextDocument
+ */
 function createFakeDocument(docContent: string): TextDocument {
     return TextDocument.create(FAKE_FILE_PATH, YML_LANGUAGE_ID, 1, docContent);
 }
@@ -79,7 +86,7 @@ function myFunction(Object input)
         expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(33);
         done();
     });
-    it('should not give edits when there the file has syntax erors', (done) => {
+    it('should not give edits when the file has syntax errors', (done) => {
         const file = createFakeDocument(
             `Person personA
             --> lastName "LastName"
@@ -137,7 +144,6 @@ function myFunction(World world, Person me)
 };
 `,
         );
-        // No edit required.
         expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(8);
         done();
     });
