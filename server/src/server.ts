@@ -409,14 +409,23 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
 
 connection.onDocumentFormatting((_params) => {
     const doc = documents.get(_params.textDocument.uri);
+    // We should directly send an empty list if this feature is disabled by the settings.
     return buildDocumentEditList(doc, SETTINGS.documentFormat);
 });
 
+/**
+ * Build and send the list of Text Edit to apply to `document`
+ * accordingly to the settings defined in `documentFormatSettings`.
+ *
+ * @param document the text document to format
+ * @param documentFormatSettings the document format settings to apply
+ */
 export function buildDocumentEditList(document: TextDocument, documentFormatSettings?: IDocumentFormatSettings) {
     const inputStream = CharStreams.fromString(document.getText(), document.uri);
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
+    // No need to syntax errors to the client.
     parser.removeErrorListeners();
 
     // Parse the input.

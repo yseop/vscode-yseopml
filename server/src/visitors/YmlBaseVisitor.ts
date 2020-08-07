@@ -32,10 +32,6 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         // no default
     }
 
-    public isDocumentFormatImpossible(): boolean {
-        return this.docFormatSettings?.enableDocumentFormat === 'no' || !this.filePossibleEdits || !this.document;
-    }
-
     public visitCombinedComparison(node: CombinedComparisonContext): void {
         if (this.isDocumentFormatImpossible()) {
             return;
@@ -86,94 +82,18 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         if (this.isDocumentFormatImpossible()) {
             return;
         }
-        const asSymbol = node.EQUAL_ASSIGNMENT().symbol;
+        const equalSymbol = node.EQUAL_ASSIGNMENT().symbol;
+        const equalSymbolStart = equalSymbol.startIndex;
+        const equalSymbolEnd = equalSymbol.stopIndex;
         this.formatSpacesAroundNode(
             node._leftHand,
-            asSymbol.startIndex,
-            asSymbol.stopIndex,
+            equalSymbolStart,
+            equalSymbolEnd,
             node._rightHand,
-            node._leftHand._stop.line === asSymbol.line,
-            node._rightHand._start.line === asSymbol.line,
+            node._leftHand._stop.line === equalSymbol.line,
+            node._rightHand._start.line === equalSymbol.line,
         );
         this.visitChildren(node);
-    }
-
-    public formatSpacesAroundNode(
-        left: ParserRuleContext,
-        centralNodeStart: number,
-        centralNodeEnd: number,
-        right: ParserRuleContext,
-        leftAndStartSameLine: boolean,
-        endAndRightSameLine: boolean,
-    ) {
-        const leftEnd = left.stop;
-        const rightStart = right.start;
-
-        this.setOneSpaceInterval(leftEnd.stopIndex, centralNodeStart, leftAndStartSameLine);
-        this.setOneSpaceInterval(centralNodeEnd, rightStart.startIndex, endAndRightSameLine);
-    }
-
-    public visitInstruction_if(node: Instruction_ifContext): void {
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
-        if (!node.actionBlockOrInstruction().actionBlock()) {
-            this.visitChildren(node);
-            return;
-        }
-
-        const ifSymbolEnd = node.IF().symbol.stopIndex;
-        const openParStart = node.OPEN_PAR().symbol.startIndex;
-        let sameLine = node.IF().symbol.line === node.OPEN_PAR().symbol.line;
-        if (this.docFormatSettings.spaceBetweenKeywordAndParenthesis) {
-            this.setOneSpaceInterval(ifSymbolEnd, openParStart, sameLine);
-        } else {
-            this.removeSpaceInterval(ifSymbolEnd, openParStart);
-        }
-
-        const closeParEnd = node.CLOSE_PAR().symbol.stopIndex;
-        const startIfBody = node.actionBlockOrInstruction()._start.startIndex;
-        sameLine = node.CLOSE_PAR().symbol.line === node.actionBlockOrInstruction()._start.line;
-        this.setOneSpaceInterval(closeParEnd, startIfBody, sameLine);
-        this.visitChildren(node);
-    }
-    public removeSpaceInterval(leftElementEnd: number, rightElementStart: number) {
-        if (rightElementStart - leftElementEnd === 1) {
-            // There is already no space between the two elements.
-            return;
-        }
-        // More than one space.
-        this.filePossibleEdits.push(
-            TextEdit.replace(
-                Range.create(this.document.positionAt(leftElementEnd + 1), this.document.positionAt(rightElementStart)),
-                '',
-            ),
-        );
-    }
-
-    public setOneSpaceInterval(leftElementEnd: number, rightElementStart: number, sameLine: boolean): void {
-        if (!sameLine) {
-            return;
-        }
-        if (rightElementStart - leftElementEnd === 2) {
-            // There is already one space.
-            return;
-        }
-        if (rightElementStart - leftElementEnd === 1) {
-            // Add missing spaces.
-            // Case where we have something like “a== b” or “a==b”,
-            // the distance between the end of “a“ (leftEnd.stopIndex) and the first “=” (start.startIndex)
-            // is 1 because there is no other space between them.
-            this.filePossibleEdits.push(TextEdit.insert(this.document.positionAt(leftElementEnd + 1), ' '));
-            return;
-        }
-        // More than one space.
-        this.filePossibleEdits.push(
-            TextEdit.replace(
-                Range.create(this.document.positionAt(leftElementEnd + 1), this.document.positionAt(rightElementStart)),
-                ' ',
-            ),
-        );
     }
 
     public visitInstruction(node: InstructionContext) {
@@ -219,7 +139,104 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         this.visitChildren(node);
     }
 
+    public visitInstruction_if(node: Instruction_ifContext): void {
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
+        if (!node.actionBlockOrInstruction().actionBlock()) {
+            this.visitChildren(node);
+            return;
+        }
+
+        const ifSymbolEnd = node.IF().symbol.stopIndex;
+        const openParStart = node.OPEN_PAR().symbol.startIndex;
+        let sameLine = node.IF().symbol.line === node.OPEN_PAR().symbol.line;
+        if (this.docFormatSettings.spaceBetweenKeywordAndParenthesis) {
+            this.setOneSpaceInterval(ifSymbolEnd, openParStart, sameLine);
+        } else {
+            this.removeSpaceInterval(ifSymbolEnd, openParStart);
+        }
+
+        const closeParEnd = node.CLOSE_PAR().symbol.stopIndex;
+        const startIfBody = node.actionBlockOrInstruction()._start.startIndex;
+        sameLine = node.CLOSE_PAR().symbol.line === node.actionBlockOrInstruction()._start.line;
+        this.setOneSpaceInterval(closeParEnd, startIfBody, sameLine);
+        this.visitChildren(node);
+    }
+
+    /**
+     * Set a one space distance around a central element.
+     * e.g. `a==b` will become `a == b`.
+     */
+    private formatSpacesAroundNode(
+        left: ParserRuleContext,
+        centralNodeStart: number,
+        centralNodeEnd: number,
+        right: ParserRuleContext,
+        leftAndStartSameLine: boolean,
+        endAndRightSameLine: boolean,
+    ) {
+        const leftEnd = left.stop;
+        const rightStart = right.start;
+
+        this.setOneSpaceInterval(leftEnd.stopIndex, centralNodeStart, leftAndStartSameLine);
+        this.setOneSpaceInterval(centralNodeEnd, rightStart.startIndex, endAndRightSameLine);
+    }
+
+    /**
+     * Add text edits in order to have no space between `leftElementEnd` and `rightElementStart`.
+     * Do nothing if there is already a zero space distance.
+     */
+    private removeSpaceInterval(leftElementEnd: number, rightElementStart: number) {
+        if (rightElementStart - leftElementEnd === 1) {
+            // There is already no space between the two elements.
+            return;
+        }
+        // One or more spaces.
+        this.filePossibleEdits.push(
+            TextEdit.del(
+                Range.create(this.document.positionAt(leftElementEnd + 1), this.document.positionAt(rightElementStart)),
+            ),
+        );
+    }
+
+    /**
+     * Add text edits in order to have only one space between `leftElementEnd` and `rightElementStart`.
+     * Do nothing if there is already a one space distance or if the two elements are not on the same line.
+     */
+    private setOneSpaceInterval(leftElementEnd: number, rightElementStart: number, sameLine: boolean): void {
+        // Don't force one space interval when the left element and the right element are not on the same line.
+        if (!sameLine) {
+            return;
+        }
+        if (rightElementStart - leftElementEnd === 2) {
+            // There is already one space.
+            return;
+        }
+        if (rightElementStart - leftElementEnd === 1) {
+            // Add missing space.
+            // Case where we have something like “a== b” or “a==b”,
+            // the distance between the end of “a“ (leftElementEnd) and the first “=” (rightElementStart)
+            // is 1 because there is no other space between them.
+            this.filePossibleEdits.push(TextEdit.insert(this.document.positionAt(leftElementEnd + 1), ' '));
+            return;
+        }
+        // More than one space, we replace all the spaces with only one.
+        this.filePossibleEdits.push(
+            TextEdit.replace(
+                Range.create(this.document.positionAt(leftElementEnd + 1), this.document.positionAt(rightElementStart)),
+                ' ',
+            ),
+        );
+    }
+
+    /** Add an edit that adds a semicolon right after the provided node. */
     private addSemiColon(node: ParserRuleContext): void {
         this.filePossibleEdits.push(TextEdit.insert(this.document.positionAt(node.stop.stopIndex + 1), ';'));
+    }
+
+    /** Indicate if the document format is impossible and shouldn't be done. */
+    private isDocumentFormatImpossible(): boolean {
+        return this.docFormatSettings?.enableDocumentFormat === 'no' || !this.filePossibleEdits || !this.document;
     }
 }
