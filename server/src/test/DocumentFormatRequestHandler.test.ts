@@ -111,4 +111,34 @@ function myFunction(Object input)
         expect(buildDocumentEditList(file, settings)).toHaveLength(0);
         done();
     });
+    it('should give edits when there try/catch, time counters, multivalued assignment and && operator', (done) => {
+        const file = createFakeDocument(
+            `
+function myFunction(World world, Person me)
+--> local Person you
+--> domains Void
+--> action {
+    you = new(Person, firstName, "Peter", lastName, "Pan");
+    me.friend := you
+    world.execute(me);
+    try (
+        do {
+            timeCounter(myCounter, {
+                world.search(you)
+                if(world.find(you) == true&&   you.greet(me) == true) {
+                    me.talk(you)
+                }
+            })
+        }
+        catch(_EXTERNAL_ALERT) {
+            lowWarning("Something wrong happened with you.")
+        }
+    )
+};
+`,
+        );
+        // No edit required.
+        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(8);
+        done();
+    });
 });

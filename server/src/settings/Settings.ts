@@ -14,6 +14,7 @@ export interface IYseopmlServerSettings {
 }
 
 export interface IDocumentFormatSettings {
+    // 'yes' and 'no' acts like a new type. Impossible to use const.
     enableDocumentFormat: 'yes' | 'no';
     semicolonWhenPossible: boolean;
     spaceBetweenKeywordAndParenthesis: boolean;
