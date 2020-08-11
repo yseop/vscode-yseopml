@@ -427,7 +427,7 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
-    // No need to syntax errors to the client.
+    // No need to send syntax errors to the client.
     parser.removeErrorListeners();
 
     // Parse the input.

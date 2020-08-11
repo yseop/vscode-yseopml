@@ -110,12 +110,12 @@
                         "semicolonWhenPossible": {
                             "type": "boolean",
                             "default": true,
-                            "description": "When “true“ add a semicolon after any instructions that can finish with a semicolon. When “false” don't change the code. \n\ne.g. on “true” “world.execute(me)” becomes “world.execute(me);”"
+                            "description": "When “true”, add a semicolon after any instruction that can end with a semicolon. When “false”, don't change the code in such contexts.\n\nE.g., with “true”, “world.execute(me)” becomes “world.execute(me);”."
                         },
                         "spaceBetweenKeywordAndParenthesis": {
                             "type": "boolean",
                             "default": false,
-                            "description": "When “true” format the code such as keywords such as “if” and “foreach”.\ne.g. “if   (” and “if(” ⇒ “if (”.\n\nWhen “false” remove the spaces.\ne.g. “if   (” and “if (” ⇒ “if(”"
+                            "description": "When “true”, format the code such that exactly one space stands between keywords such as “if” and “foreach” and the following parenthesis.\nE.g., “if   (” and “if(” ⇒ “if (”.\n\nWhen “false”, remove such spaces.\nE.g., “if   (” and “if (” ⇒ “if(”"
                         }
                     }
                 },
