@@ -409,7 +409,6 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
 
 connection.onDocumentFormatting((_params) => {
     const doc = documents.get(_params.textDocument.uri);
-    // We should directly send an empty list if this feature is disabled by the settings.
     return buildDocumentEditList(doc, SETTINGS.documentFormat);
 });
 
@@ -421,6 +420,9 @@ connection.onDocumentFormatting((_params) => {
  * @param documentFormatSettings the document format settings to apply
  */
 export function buildDocumentEditList(document: TextDocument, documentFormatSettings?: IDocumentFormatSettings) {
+    if (documentFormatSettings?.enableDocumentFormat === 'no') {
+        return [];
+    }
     const inputStream = CharStreams.fromString(document.getText(), document.uri);
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);

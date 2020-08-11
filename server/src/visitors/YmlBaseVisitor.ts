@@ -237,6 +237,6 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     /** Indicate if the document format is impossible and shouldn't be done. */
     private isDocumentFormatImpossible(): boolean {
-        return this.docFormatSettings?.enableDocumentFormat === 'no' || !this.filePossibleEdits || !this.document;
+        return !this.filePossibleEdits || !this.document;
     }
 }
