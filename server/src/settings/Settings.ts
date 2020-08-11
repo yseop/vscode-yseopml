@@ -51,12 +51,8 @@ export function setDocumentFormatDefaultValues(documentFormat: IDocumentFormatSe
     if (!documentFormat) {
         return DEFAULT_DOC_FORMAT_SETTINGS;
     }
-    documentFormat.enableDocumentFormat =
-        documentFormat.enableDocumentFormat ?? DEFAULT_DOC_FORMAT_SETTINGS.enableDocumentFormat;
-    documentFormat.semicolonWhenPossible =
-        documentFormat.semicolonWhenPossible ?? DEFAULT_DOC_FORMAT_SETTINGS.semicolonWhenPossible;
-    documentFormat.spaceBetweenKeywordAndParenthesis =
-        documentFormat.spaceBetweenKeywordAndParenthesis ??
-        DEFAULT_DOC_FORMAT_SETTINGS.spaceBetweenKeywordAndParenthesis;
+    for (const [key, value] of Object.entries(documentFormat)) {
+        documentFormat[key] = value ?? DEFAULT_DOC_FORMAT_SETTINGS[key];
+    }
     return documentFormat;
 }
