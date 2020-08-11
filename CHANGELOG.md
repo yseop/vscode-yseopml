@@ -2,7 +2,8 @@
 
 ## X.X.X (YYYY-MM-DD)
 
--   [BETA] New document formatting feature allowing small edits to your files. This feature can be deactivated using the Visual Studio Code settings.
+-   [BETA] New document-formatting feature able to perform basic cleanup on your YML files.
+    This feature can be deactivated using the Visual Studio Code settings.
 
 ## 1.10.0 (2020-07-17)
 
