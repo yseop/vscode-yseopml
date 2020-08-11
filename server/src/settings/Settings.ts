@@ -40,9 +40,9 @@ export const DEFAULT_DOC_FORMAT_SETTINGS: IDocumentFormatSettings = {
 };
 
 /**
- * Set in an instance of document format settings set the default values for every undefined options.
+ * In an instance of document format settings, set every undefined option to its default value.
  *
- * @param documentFormat a document format settings set
+ * @param documentFormat document format settings, possibly with unset properties.
  *
  * @return the provided instance with default values for every attribute that was undefined
  * or `DEFAULT_DOC_FORMAT_SETTINGS` if the instance was falsy.

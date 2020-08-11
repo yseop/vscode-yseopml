@@ -36,9 +36,9 @@ describe('Extension Tests', () => {
         const fileUri = vscode.workspace.textDocuments[0].uri;
         expect(fileUri.path.endsWith('documentFormat.dcl')).toBeTruthy();
         formatDocument(fileUri)
-            .then((list) => {
-                expect(list).toBeTruthy();
-                expect(list.length).toBe(8);
+            .then((editList) => {
+                expect(editList).toBeTruthy();
+                expect(editList.length).toBe(8);
             })
             .then(done, done);
     });

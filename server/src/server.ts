@@ -444,7 +444,7 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
     // This fill the edits array.
     visitor.visit(result);
     if (parser.numberOfSyntaxErrors > 0) {
-        connection.console.info('No formatting to be done because the current file has syntax errors.');
+        connection.console.info('No formatting will be done because the current file has syntax errors.');
         return [];
     }
     return edits;
