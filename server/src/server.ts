@@ -70,7 +70,7 @@ const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsPro
 // supports full document sync only
 const documents: TextDocuments = new TextDocuments();
 
-let SETTINGS: IYseopmlServerSettings;
+let yseopmlSettings: IYseopmlServerSettings;
 
 // Make the text document manager listen on the connection
 // for open, change and close text document events
@@ -104,9 +104,9 @@ connection.onInitialize(
 connection.onInitialized((_params) => {
     connection.workspace.getConfiguration('yseopml').then((_value) => {
         // Get the yseopml configuration and save it globally.
-        SETTINGS = _value as IYseopmlServerSettings;
-        SETTINGS.documentFormat = setDocumentFormatDefaultValues(SETTINGS.documentFormat);
-        if (!SETTINGS.parseAllProjectFilesAtStartup) {
+        yseopmlSettings = _value as IYseopmlServerSettings;
+        yseopmlSettings.documentFormat = setDocumentFormatDefaultValues(yseopmlSettings.documentFormat);
+        if (!yseopmlSettings.parseAllProjectFilesAtStartup) {
             connection.console.log('Not parsing every YML file of the project.');
             return;
         }
@@ -124,7 +124,7 @@ function parseWholeProject(): void {
     connection.console.log('Parsing all the YML files of the project.');
     connection.workspace.getWorkspaceFolders().then((_value) => {
         const workspacePath = url.fileURLToPath(_value[0].uri);
-        if (!SETTINGS.kaoFiles || SETTINGS.kaoFiles.length === 0) {
+        if (!yseopmlSettings.kaoFiles || yseopmlSettings.kaoFiles.length === 0) {
             parseFromFirstFoundKaoFile(workspacePath);
         } else {
             parseFromKaoFilesList(workspacePath);
@@ -160,7 +160,7 @@ function parseFromFirstFoundKaoFile(workspacePath: string): void {
  * @param workspacePath the root folder path used as workspace
  */
 function parseFromKaoFilesList(workspacePath: string): void {
-    for (const filePath of SETTINGS.kaoFiles) {
+    for (const filePath of yseopmlSettings.kaoFiles) {
         if (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()) {
             const fileUri = path.join(workspacePath, filePath);
             /*
@@ -315,17 +315,17 @@ export let parsingIssueSeverityLevel: DiagnosticSeverity = DiagnosticSeverity.In
 // The settings have changed. Is send on server activation as well.
 connection.onDidChangeConfiguration((change) => {
     const settings = change.settings as IYseopmlSettings;
-    SETTINGS = settings.yseopml;
-    SETTINGS.documentFormat = setDocumentFormatDefaultValues(SETTINGS.documentFormat);
+    yseopmlSettings = settings.yseopml;
+    yseopmlSettings.documentFormat = setDocumentFormatDefaultValues(yseopmlSettings.documentFormat);
     // One of the severity levels possible, or `Information`.
     parsingIssueSeverityLevel =
         diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
         DiagnosticSeverity.Information;
     if (engineModel == null) {
-        engineModel = new EngineModel(SETTINGS.pathToPredefinedObjectsXml, completionProvider);
+        engineModel = new EngineModel(yseopmlSettings.pathToPredefinedObjectsXml, completionProvider);
         engineModel.loadPredefinedObjects();
     } else {
-        engineModel.reload(SETTINGS.pathToPredefinedObjectsXml, completionProvider);
+        engineModel.reload(yseopmlSettings.pathToPredefinedObjectsXml, completionProvider);
     }
     // Revalidate any open text documents
     documents.all().forEach(parseTextDocument);
@@ -374,7 +374,7 @@ function parseFile(textDocUri: string, docContent: string) {
     visitor.visit(result);
 
     // Send the computed diagnostics to VSCode.
-    if (SETTINGS.activateParsingProblemsReporting) {
+    if (yseopmlSettings.activateParsingProblemsReporting) {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics });
     } else {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics: [] });
@@ -409,7 +409,7 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
 
 connection.onDocumentFormatting((_params) => {
     const doc = documents.get(_params.textDocument.uri);
-    return buildDocumentEditList(doc, SETTINGS.documentFormat);
+    return buildDocumentEditList(doc, yseopmlSettings.documentFormat);
 });
 
 /**
