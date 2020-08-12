@@ -105,7 +105,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         if (
             !!node.SEMICOLON() ||
             !(node.parent instanceof ActionBlockContext) ||
-            !this.docFormatSettings.semicolonWhenPossible
+            this.docFormatSettings.semicolonWhenPossible === 'no'
         ) {
             this.visitChildren(node);
             return;
@@ -151,7 +151,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         const ifSymbolEnd = node.IF().symbol.stopIndex;
         const openParStart = node.OPEN_PAR().symbol.startIndex;
         let sameLine = node.IF().symbol.line === node.OPEN_PAR().symbol.line;
-        if (this.docFormatSettings.spaceBetweenKeywordAndParenthesis) {
+        if (this.docFormatSettings.spaceBetweenKeywordAndParenthesis === 'yes') {
             this.setOneSpaceInterval(ifSymbolEnd, openParStart, sameLine);
         } else {
             this.removeSpaceInterval(ifSymbolEnd, openParStart);

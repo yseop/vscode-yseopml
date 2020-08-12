@@ -112,8 +112,8 @@ function myFunction(Object input)
         );
         const settings: IDocumentFormatSettings = {
             enableDocumentFormat: 'no',
-            semicolonWhenPossible: true,
-            spaceBetweenKeywordAndParenthesis: false,
+            semicolonWhenPossible: 'yes',
+            spaceBetweenKeywordAndParenthesis: 'no',
         };
         expect(buildDocumentEditList(file, settings)).toHaveLength(0);
         done();

@@ -20,13 +20,13 @@ export interface IDocumentFormatSettings {
     // 'yes' and 'no' acts like a new type. Impossible to use const.
     /** `yes` to enable the document format feature. `no` otherwise. */
     enableDocumentFormat: 'yes' | 'no';
-    /** `true` to add semicolon when possible. `false` otherwise. */
-    semicolonWhenPossible: boolean;
+    /** `yes` to add semicolon when possible. `no` otherwise. */
+    semicolonWhenPossible: 'yes' | 'no';
     /**
-     * `true` to set a one space distance between some keywords and parenthesis. \
-     * `false` to have this distance set to zero.
+     * `yes` to set a one space distance between some keywords and parenthesis. \
+     * `no` to have this distance set to zero.
      */
-    spaceBetweenKeywordAndParenthesis: boolean;
+    spaceBetweenKeywordAndParenthesis: 'yes' | 'no';
     // More options to come.
 }
 
@@ -35,8 +35,8 @@ export interface IDocumentFormatSettings {
  */
 export const DEFAULT_DOC_FORMAT_SETTINGS: IDocumentFormatSettings = {
     enableDocumentFormat: 'yes',
-    semicolonWhenPossible: true,
-    spaceBetweenKeywordAndParenthesis: false,
+    semicolonWhenPossible: 'yes',
+    spaceBetweenKeywordAndParenthesis: 'no',
 };
 
 /**
