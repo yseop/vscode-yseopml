@@ -1,4 +1,5 @@
 _FILE_TYPE_ M
 
 test.dcl
-documentFormat.dcl
+// Include only files from the `formatted/` directory.
+formatted/documentFormat.dcl

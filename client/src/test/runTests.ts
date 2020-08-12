@@ -13,7 +13,7 @@ async function main() {
 
         const resourcesDirPath = path.resolve(extensionDevelopmentPath, 'client/resources');
         const kbDirPath = path.resolve(resourcesDirPath, 'kb');
-        const documentFormatFilePath = path.resolve(kbDirPath, '_technical/documentFormat.dcl');
+        const documentFormatFilePath = path.resolve(kbDirPath, '_technical/toFormat/documentFormat.dcl');
 
         // Download VS Code, unzip it and run the integration test
         await runTests({
