@@ -126,7 +126,7 @@ function myFunction(World world, Person me)
 --> domains Void
 --> action {
     you = new(Person, firstName, "Peter", lastName, "Pan");
-    me.friend := you
+    me.friend:= you
     world.execute(me);
     try (
         do {
@@ -144,7 +144,7 @@ function myFunction(World world, Person me)
 };
 `,
         );
-        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(8);
+        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(9);
         done();
     });
 });

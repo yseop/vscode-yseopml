@@ -14,6 +14,7 @@ import {
     InstructionContext,
     YmlParserVisitor,
 } from '../grammar';
+import { Instruction_multivaluedAssignmentContext } from '../grammar/YmlParser';
 import { IDocumentFormatSettings } from '../settings/Settings';
 
 export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements YmlParserVisitor<void> {
@@ -83,6 +84,24 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
             return;
         }
         const equalSymbol = node.EQUAL_ASSIGNMENT().symbol;
+        const equalSymbolStart = equalSymbol.startIndex;
+        const equalSymbolEnd = equalSymbol.stopIndex;
+        this.formatSpacesAroundNode(
+            node._leftHand,
+            equalSymbolStart,
+            equalSymbolEnd,
+            node._rightHand,
+            node._leftHand._stop.line === equalSymbol.line,
+            node._rightHand._start.line === equalSymbol.line,
+        );
+        this.visitChildren(node);
+    }
+
+    public visitInstruction_multivaluedAssignment(node: Instruction_multivaluedAssignmentContext) {
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
+        const equalSymbol = node.MULTIVALUED_ASSIGNMENT().symbol;
         const equalSymbolStart = equalSymbol.startIndex;
         const equalSymbolEnd = equalSymbol.stopIndex;
         this.formatSpacesAroundNode(

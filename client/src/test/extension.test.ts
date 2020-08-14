@@ -33,44 +33,41 @@ describe('Extension Tests', () => {
             expect(languages.indexOf('yml')).not.toBe(-1);
         });
     });
-    test.each(['documentFormat.dcl'])(
-        'should apply document format feature as expected on provided file',
-        (fileName) => {
-            const baseFolder = vscode.workspace.workspaceFolders[0];
-            const baseForlderPath = baseFolder.uri.path;
-            const sourceUri = vscode.Uri.parse(path.resolve(baseForlderPath, '_technical/toFormat', fileName));
-            const targetUri = vscode.Uri.parse(path.resolve(baseForlderPath, '_technical/formatted', fileName));
-            let sourceFile: vscode.TextDocument;
-            return vscode.workspace
-                .openTextDocument(sourceUri)
-                .then((document) => {
-                    sourceFile = document;
-                    return document.uri;
-                })
-                .then((docUri) => {
-                    return formatDocument(docUri);
-                })
-                .then((editList) => {
-                    expect(editList).toBeTruthy();
-                    const workEdits = new vscode.WorkspaceEdit();
-                    workEdits.set(sourceUri, editList); // give the edits
-                    return workEdits;
-                })
-                .then((workEdits) => {
-                    // apply the edits
-                    return vscode.workspace.applyEdit(workEdits);
-                })
-                .then((editsApplied) => {
-                    expect(editsApplied).toBeTruthy();
-                })
-                .then(() => {
-                    return vscode.workspace.openTextDocument(targetUri);
-                })
-                .then((formattedFile) => {
-                    expect(sourceFile.getText()).toBe(formattedFile.getText());
-                });
-        },
-    );
+    test.each(['documentFormat.dcl', 'otherDocumentFormat.dcl'])('should format %s as expected', (fileName) => {
+        const baseFolder = vscode.workspace.workspaceFolders[0];
+        const baseForlderPath = baseFolder.uri.path;
+        const sourceUri = vscode.Uri.parse(path.resolve(baseForlderPath, '_technical/toFormat', fileName));
+        const targetUri = vscode.Uri.parse(path.resolve(baseForlderPath, '_technical/formatted', fileName));
+        let sourceFile: vscode.TextDocument;
+        return vscode.workspace
+            .openTextDocument(sourceUri)
+            .then((document) => {
+                sourceFile = document;
+                return document.uri;
+            })
+            .then((docUri) => {
+                return formatDocument(docUri);
+            })
+            .then((editList) => {
+                expect(editList).toBeTruthy();
+                const workEdits = new vscode.WorkspaceEdit();
+                workEdits.set(sourceUri, editList); // give the edits
+                return workEdits;
+            })
+            .then((workEdits) => {
+                // apply the edits
+                return vscode.workspace.applyEdit(workEdits);
+            })
+            .then((editsApplied) => {
+                expect(editsApplied).toBeTruthy();
+            })
+            .then(() => {
+                return vscode.workspace.openTextDocument(targetUri);
+            })
+            .then((formattedFile) => {
+                expect(sourceFile.getText()).toBe(formattedFile.getText());
+            });
+    });
 });
 
 /**
