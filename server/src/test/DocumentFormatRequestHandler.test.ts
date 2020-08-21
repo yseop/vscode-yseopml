@@ -6,6 +6,14 @@ import { DEFAULT_DOC_FORMAT_SETTINGS, IDocumentFormatSettings } from '../setting
 const FAKE_FILE_PATH = '/file1.kao';
 const YML_LANGUAGE_ID = 'yml';
 
+function createFakeFunctionContainer(functionContent: string = ''): string {
+    return `function myFunction(Object input)
+--> domains Integer
+--> action {
+    ${functionContent}
+};`;
+}
+
 /**
  * Create and return a TextDocument with `docContent` as content.
  *
@@ -99,16 +107,10 @@ function myFunction(Object input)
     });
     it('should not give edits when the settings disable document format feature', (done) => {
         const file = createFakeDocument(
-            `
-function myFunction(Object input)
---> domains Object
---> action {
-    if       ( input   !=null)     {
-        logInfo("Input isn't null")
-    }
-    return input;
-};
-`,
+            createFakeFunctionContainer(`if       ( input   !=null)     {
+    logInfo("Input isn't null")
+}
+return input;`),
         );
         const settings: IDocumentFormatSettings = {
             enableDocumentFormat: 'no',
@@ -119,8 +121,7 @@ function myFunction(Object input)
         done();
     });
     it('should give edits when there try/catch, time counters, multivalued assignment and && operator', (done) => {
-        const file = createFakeDocument(
-            `
+        const file = createFakeDocument(`
 function myFunction(World world, Person me)
 --> local Person you
 --> domains Void
@@ -142,9 +143,35 @@ function myFunction(World world, Person me)
         }
     )
 };
-`,
-        );
+`);
         expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(9);
         done();
+    });
+    test.each([
+        [
+            `
+// No change between open parenthesis and “input”.
+if       ( input   !=null)     {
+    // comment
+}`,
+            4,
+        ],
+        [
+            `
+// No change between open parenthesis and “input”.
+if       ( input   !=null)     {
+    input = 12
+}`,
+            5,
+        ],
+        [
+            `
+// No change between open parenthesis and “input”.
+if       ( input   !=null) myFunction()`,
+            3,
+        ],
+    ])('the selected text (%#) should give the expected number of edits', (content, expectedEdits) => {
+        const file = createFakeDocument(createFakeFunctionContainer(content));
+        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(expectedEdits);
     });
 });

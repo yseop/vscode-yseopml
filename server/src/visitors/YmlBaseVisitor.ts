@@ -162,10 +162,6 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         if (this.isDocumentFormatImpossible()) {
             return;
         }
-        if (!node.actionBlockOrInstruction().actionBlock()) {
-            this.visitChildren(node);
-            return;
-        }
 
         const ifSymbolEnd = node.IF().symbol.stopIndex;
         const openParStart = node.OPEN_PAR().symbol.startIndex;
@@ -174,6 +170,11 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
             this.setOneSpaceInterval(ifSymbolEnd, openParStart, sameLine);
         } else {
             this.removeSpaceInterval(ifSymbolEnd, openParStart);
+        }
+
+        if (node.actionBlockOrInstruction().actionBlock() === null) {
+            this.visitChildren(node);
+            return;
         }
 
         const closeParEnd = node.CLOSE_PAR().symbol.stopIndex;
