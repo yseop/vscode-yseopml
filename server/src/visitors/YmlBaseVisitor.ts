@@ -7,7 +7,7 @@ import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProv
 import { YmlDefinitionProvider } from '../definitions';
 import {
     ActionBlockContext,
-    CombinedComparisonContext,
+    CombinedConditionContext,
     ComparisonContext,
     Instruction_assignmentContext,
     Instruction_ifContext,
@@ -33,7 +33,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         // no default
     }
 
-    public visitCombinedComparison(node: CombinedComparisonContext): void {
+    public visitCombinedCondition(node: CombinedConditionContext): void {
         if (this.isDocumentFormatImpossible()) {
             return;
         }

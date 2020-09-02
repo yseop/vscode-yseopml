@@ -222,7 +222,7 @@ export class YmlParser extends Parser {
 	public static readonly RULE_instanciationCondition = 77;
 	public static readonly RULE_order1FullCondition = 78;
 	public static readonly RULE_parenthesisCondition = 79;
-	public static readonly RULE_combinedComparison = 80;
+	public static readonly RULE_combinedCondition = 80;
 	public static readonly RULE_comparison = 81;
 	public static readonly RULE_comparisonOperator = 82;
 	public static readonly RULE_instruction_multivaluedAssignment = 83;
@@ -287,7 +287,7 @@ export class YmlParser extends Parser {
 		"argsBlock", "localBlock", "staticBlock", "methodDeclaration", "methodCompleteDeclaration", 
 		"methodIntro", "argumentList", "mandatoryArgs", "mandatoryArgDecl", "optionalArgs", 
 		"optionalArgDecl", "argOptionList", "argOptionBlock", "order1Block", "instanciationCondition", 
-		"order1FullCondition", "parenthesisCondition", "combinedComparison", "comparison", 
+		"order1FullCondition", "parenthesisCondition", "combinedCondition", "comparison", 
 		"comparisonOperator", "instruction_multivaluedAssignment", "instruction_assignment", 
 		"assignment_leftHandSide", "conditionBlock", "order0Condition", "actionBlockOrInstruction", 
 		"instruction_switchExpr_withValue", "instruction_switchExpr_asIf", "instruction_switchCase_withValue", 
@@ -2056,7 +2056,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 2);
 				{
 				this.state = 537;
-				this.combinedComparison(0);
+				this.combinedCondition(0);
 				}
 				break;
 
@@ -2145,7 +2145,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 3);
 				{
 				this.state = 549;
-				this.combinedComparison(0);
+				this.combinedCondition(0);
 				}
 				break;
 
@@ -2226,7 +2226,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 1);
 				{
 				this.state = 560;
-				this.combinedComparison(0);
+				this.combinedCondition(0);
 				}
 				break;
 
@@ -2499,7 +2499,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 2);
 				{
 				this.state = 597;
-				this.combinedComparison(0);
+				this.combinedCondition(0);
 				}
 				break;
 			}
@@ -2697,7 +2697,7 @@ export class YmlParser extends Parser {
 					case 2:
 						{
 						this.state = 622;
-						this.combinedComparison(0);
+						this.combinedCondition(0);
 						}
 						break;
 					}
@@ -2711,7 +2711,7 @@ export class YmlParser extends Parser {
 			this.state = 630;
 			this.match(YmlParser.COMMA);
 			this.state = 631;
-			this.combinedComparison(0);
+			this.combinedCondition(0);
 			this.state = 632;
 			this.match(YmlParser.CLOSE_PAR);
 			}
@@ -2754,7 +2754,7 @@ export class YmlParser extends Parser {
 				this.state = 638;
 				this.match(YmlParser.WHERE_APPLY_COLLECTION);
 				this.state = 639;
-				this.combinedComparison(0);
+				this.combinedCondition(0);
 				}
 				break;
 			case YmlParser.OPERATION_APPLY_COLLECTION:
@@ -2792,7 +2792,7 @@ export class YmlParser extends Parser {
 					this.state = 647;
 					this.match(YmlParser.WHERE_APPLY_COLLECTION);
 					this.state = 648;
-					this.combinedComparison(0);
+					this.combinedCondition(0);
 					}
 					break;
 				case YmlParser.OPERATION_APPLY_COLLECTION:
@@ -2862,7 +2862,7 @@ export class YmlParser extends Parser {
 				this.state = 666;
 				this.match(YmlParser.WHERE_APPLY_COLLECTION_ON);
 				this.state = 667;
-				this.combinedComparison(0);
+				this.combinedCondition(0);
 				}
 				break;
 			case YmlParser.OPERATION_APPLY_COLLECTION_ON:
@@ -2900,7 +2900,7 @@ export class YmlParser extends Parser {
 					this.state = 675;
 					this.match(YmlParser.WHERE_APPLY_COLLECTION_ON);
 					this.state = 676;
-					this.combinedComparison(0);
+					this.combinedCondition(0);
 					}
 					break;
 				case YmlParser.OPERATION_APPLY_COLLECTION_ON:
@@ -3073,7 +3073,7 @@ export class YmlParser extends Parser {
 			this.state = 715;
 			this.match(YmlParser.OPEN_PAR);
 			this.state = 716;
-			_localctx._condition = this.combinedComparison(0);
+			_localctx._condition = this.combinedCondition(0);
 			this.state = 717;
 			this.match(YmlParser.CLOSE_PAR);
 			this.state = 718;
@@ -4579,7 +4579,7 @@ export class YmlParser extends Parser {
 			this.state = 977;
 			this.match(YmlParser.OPEN_PAR);
 			this.state = 978;
-			this.combinedComparison(0);
+			this.combinedCondition(0);
 			this.state = 979;
 			this.match(YmlParser.CLOSE_PAR);
 			}
@@ -4599,20 +4599,20 @@ export class YmlParser extends Parser {
 		return _localctx;
 	}
 
-	public combinedComparison(): CombinedComparisonContext;
-	public combinedComparison(_p: number): CombinedComparisonContext;
+	public combinedCondition(): CombinedConditionContext;
+	public combinedCondition(_p: number): CombinedConditionContext;
 	// @RuleVersion(0)
-	public combinedComparison(_p?: number): CombinedComparisonContext {
+	public combinedCondition(_p?: number): CombinedConditionContext {
 		if (_p === undefined) {
 			_p = 0;
 		}
 
 		let _parentctx: ParserRuleContext = this._ctx;
 		let _parentState: number = this.state;
-		let _localctx: CombinedComparisonContext = new CombinedComparisonContext(this._ctx, _parentState);
-		let _prevctx: CombinedComparisonContext = _localctx;
+		let _localctx: CombinedConditionContext = new CombinedConditionContext(this._ctx, _parentState);
+		let _prevctx: CombinedConditionContext = _localctx;
 		let _startState: number = 160;
-		this.enterRecursionRule(_localctx, 160, YmlParser.RULE_combinedComparison, _p);
+		this.enterRecursionRule(_localctx, 160, YmlParser.RULE_combinedCondition, _p);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
@@ -4650,9 +4650,9 @@ export class YmlParser extends Parser {
 					switch ( this.interpreter.adaptivePredict(this._input, 95, this._ctx) ) {
 					case 1:
 						{
-						_localctx = new CombinedComparisonContext(_parentctx, _parentState);
+						_localctx = new CombinedConditionContext(_parentctx, _parentState);
 						_localctx._leftCondition = _prevctx;
-						this.pushNewRecursionContext(_localctx, _startState, YmlParser.RULE_combinedComparison);
+						this.pushNewRecursionContext(_localctx, _startState, YmlParser.RULE_combinedCondition);
 						this.state = 986;
 						if (!(this.precpred(this._ctx, 3))) {
 							throw new FailedPredicateException(this, "this.precpred(this._ctx, 3)");
@@ -4660,15 +4660,15 @@ export class YmlParser extends Parser {
 						this.state = 987;
 						this.match(YmlParser.COND_AND);
 						this.state = 988;
-						_localctx._rightCondition = this.combinedComparison(4);
+						_localctx._rightCondition = this.combinedCondition(4);
 						}
 						break;
 
 					case 2:
 						{
-						_localctx = new CombinedComparisonContext(_parentctx, _parentState);
+						_localctx = new CombinedConditionContext(_parentctx, _parentState);
 						_localctx._leftCondition = _prevctx;
-						this.pushNewRecursionContext(_localctx, _startState, YmlParser.RULE_combinedComparison);
+						this.pushNewRecursionContext(_localctx, _startState, YmlParser.RULE_combinedCondition);
 						this.state = 989;
 						if (!(this.precpred(this._ctx, 2))) {
 							throw new FailedPredicateException(this, "this.precpred(this._ctx, 2)");
@@ -4676,7 +4676,7 @@ export class YmlParser extends Parser {
 						this.state = 990;
 						this.match(YmlParser.COND_OR);
 						this.state = 991;
-						_localctx._rightCondition = this.combinedComparison(3);
+						_localctx._rightCondition = this.combinedCondition(3);
 						}
 						break;
 					}
@@ -4906,7 +4906,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 1);
 				{
 				this.state = 1018;
-				this.combinedComparison(0);
+				this.combinedCondition(0);
 				}
 				break;
 
@@ -5757,7 +5757,7 @@ export class YmlParser extends Parser {
 				}
 
 				this.state = 1175;
-				this.combinedComparison(0);
+				this.combinedCondition(0);
 				}
 				}
 				this.state = 1180;
@@ -7032,7 +7032,7 @@ export class YmlParser extends Parser {
 				case 1:
 					{
 					this.state = 1401;
-					this.combinedComparison(0);
+					this.combinedCondition(0);
 					}
 					break;
 
@@ -7109,14 +7109,14 @@ export class YmlParser extends Parser {
 	public sempred(_localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
 		switch (ruleIndex) {
 		case 80:
-			return this.combinedComparison_sempred(_localctx as CombinedComparisonContext, predIndex);
+			return this.combinedCondition_sempred(_localctx as CombinedConditionContext, predIndex);
 
 		case 112:
 			return this.arithmeticExpression_sempred(_localctx as ArithmeticExpressionContext, predIndex);
 		}
 		return true;
 	}
-	private combinedComparison_sempred(_localctx: CombinedComparisonContext, predIndex: number): boolean {
+	private combinedCondition_sempred(_localctx: CombinedConditionContext, predIndex: number): boolean {
 		switch (predIndex) {
 		case 0:
 			return this.precpred(this._ctx, 3);
@@ -9385,8 +9385,8 @@ export class ObjectReturnAttributeValueContext extends ParserRuleContext {
 	public ifExprBlock(): IfExprBlockContext | undefined {
 		return this.tryGetRuleContext(0, IfExprBlockContext);
 	}
-	public combinedComparison(): CombinedComparisonContext | undefined {
-		return this.tryGetRuleContext(0, CombinedComparisonContext);
+	public combinedCondition(): CombinedConditionContext | undefined {
+		return this.tryGetRuleContext(0, CombinedConditionContext);
 	}
 	public value(): ValueContext | undefined {
 		return this.tryGetRuleContext(0, ValueContext);
@@ -9446,8 +9446,8 @@ export class ObjectAttributeValueContext extends ParserRuleContext {
 	public ifExprBlock(): IfExprBlockContext | undefined {
 		return this.tryGetRuleContext(0, IfExprBlockContext);
 	}
-	public combinedComparison(): CombinedComparisonContext | undefined {
-		return this.tryGetRuleContext(0, CombinedComparisonContext);
+	public combinedCondition(): CombinedConditionContext | undefined {
+		return this.tryGetRuleContext(0, CombinedConditionContext);
 	}
 	public value(): ValueContext | undefined {
 		return this.tryGetRuleContext(0, ValueContext);
@@ -9504,8 +9504,8 @@ export class ObjectAttributeValueContext extends ParserRuleContext {
 export class ValueOrConditionContext extends ParserRuleContext {
 	public _type: YmlIdContext;
 	public _name: YmlIdContext;
-	public combinedComparison(): CombinedComparisonContext | undefined {
-		return this.tryGetRuleContext(0, CombinedComparisonContext);
+	public combinedCondition(): CombinedConditionContext | undefined {
+		return this.tryGetRuleContext(0, CombinedConditionContext);
 	}
 	public value(): ValueContext | undefined {
 		return this.tryGetRuleContext(0, ValueContext);
@@ -9721,8 +9721,8 @@ export class HashMapValueContext extends ParserRuleContext {
 	public value(): ValueContext | undefined {
 		return this.tryGetRuleContext(0, ValueContext);
 	}
-	public combinedComparison(): CombinedComparisonContext | undefined {
-		return this.tryGetRuleContext(0, CombinedComparisonContext);
+	public combinedCondition(): CombinedConditionContext | undefined {
+		return this.tryGetRuleContext(0, CombinedConditionContext);
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
@@ -9841,13 +9841,13 @@ export class AsContext extends ParserRuleContext {
 			return this.getToken(YmlParser.COMMA, i);
 		}
 	}
-	public combinedComparison(): CombinedComparisonContext[];
-	public combinedComparison(i: number): CombinedComparisonContext;
-	public combinedComparison(i?: number): CombinedComparisonContext | CombinedComparisonContext[] {
+	public combinedCondition(): CombinedConditionContext[];
+	public combinedCondition(i: number): CombinedConditionContext;
+	public combinedCondition(i?: number): CombinedConditionContext | CombinedConditionContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(CombinedComparisonContext);
+			return this.getRuleContexts(CombinedConditionContext);
 		} else {
-			return this.getRuleContext(i, CombinedComparisonContext);
+			return this.getRuleContext(i, CombinedConditionContext);
 		}
 	}
 	public CLOSE_PAR(): TerminalNode { return this.getToken(YmlParser.CLOSE_PAR, 0); }
@@ -9919,13 +9919,13 @@ export class ApplyCollectionContext extends ParserRuleContext {
 			return this.getToken(YmlParser.WHERE_APPLY_COLLECTION, i);
 		}
 	}
-	public combinedComparison(): CombinedComparisonContext[];
-	public combinedComparison(i: number): CombinedComparisonContext;
-	public combinedComparison(i?: number): CombinedComparisonContext | CombinedComparisonContext[] {
+	public combinedCondition(): CombinedConditionContext[];
+	public combinedCondition(i: number): CombinedConditionContext;
+	public combinedCondition(i?: number): CombinedConditionContext | CombinedConditionContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(CombinedComparisonContext);
+			return this.getRuleContexts(CombinedConditionContext);
 		} else {
-			return this.getRuleContext(i, CombinedComparisonContext);
+			return this.getRuleContext(i, CombinedConditionContext);
 		}
 	}
 	public OPERATION_APPLY_COLLECTION(): TerminalNode[];
@@ -10014,13 +10014,13 @@ export class ApplyCollectionOnContext extends ParserRuleContext {
 			return this.getToken(YmlParser.WHERE_APPLY_COLLECTION_ON, i);
 		}
 	}
-	public combinedComparison(): CombinedComparisonContext[];
-	public combinedComparison(i: number): CombinedComparisonContext;
-	public combinedComparison(i?: number): CombinedComparisonContext | CombinedComparisonContext[] {
+	public combinedCondition(): CombinedConditionContext[];
+	public combinedCondition(i: number): CombinedConditionContext;
+	public combinedCondition(i?: number): CombinedConditionContext | CombinedConditionContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(CombinedComparisonContext);
+			return this.getRuleContexts(CombinedConditionContext);
 		} else {
-			return this.getRuleContext(i, CombinedComparisonContext);
+			return this.getRuleContext(i, CombinedConditionContext);
 		}
 	}
 	public OPERATION_APPLY_COLLECTION_ON(): TerminalNode[];
@@ -10220,7 +10220,7 @@ export class Instruction_ifExprBlockContext extends ParserRuleContext {
 
 
 export class IfExprBlockContext extends ParserRuleContext {
-	public _condition: CombinedComparisonContext;
+	public _condition: CombinedConditionContext;
 	public _thenValue: ValueContext;
 	public _elseValue: ValueContext;
 	public IF_EXPR(): TerminalNode { return this.getToken(YmlParser.IF_EXPR, 0); }
@@ -10228,8 +10228,8 @@ export class IfExprBlockContext extends ParserRuleContext {
 	public CLOSE_PAR(): TerminalNode { return this.getToken(YmlParser.CLOSE_PAR, 0); }
 	public THEN(): TerminalNode { return this.getToken(YmlParser.THEN, 0); }
 	public ELSE(): TerminalNode { return this.getToken(YmlParser.ELSE, 0); }
-	public combinedComparison(): CombinedComparisonContext {
-		return this.getRuleContext(0, CombinedComparisonContext);
+	public combinedCondition(): CombinedConditionContext {
+		return this.getRuleContext(0, CombinedConditionContext);
 	}
 	public value(): ValueContext[];
 	public value(i: number): ValueContext;
@@ -11509,8 +11509,8 @@ export class Order1FullConditionContext extends ParserRuleContext {
 
 export class ParenthesisConditionContext extends ParserRuleContext {
 	public OPEN_PAR(): TerminalNode { return this.getToken(YmlParser.OPEN_PAR, 0); }
-	public combinedComparison(): CombinedComparisonContext {
-		return this.getRuleContext(0, CombinedComparisonContext);
+	public combinedCondition(): CombinedConditionContext {
+		return this.getRuleContext(0, CombinedConditionContext);
 	}
 	public CLOSE_PAR(): TerminalNode { return this.getToken(YmlParser.CLOSE_PAR, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
@@ -11541,20 +11541,20 @@ export class ParenthesisConditionContext extends ParserRuleContext {
 }
 
 
-export class CombinedComparisonContext extends ParserRuleContext {
-	public _leftCondition: CombinedComparisonContext;
-	public _rightCondition: CombinedComparisonContext;
+export class CombinedConditionContext extends ParserRuleContext {
+	public _leftCondition: CombinedConditionContext;
+	public _rightCondition: CombinedConditionContext;
 	public parenthesisCondition(): ParenthesisConditionContext | undefined {
 		return this.tryGetRuleContext(0, ParenthesisConditionContext);
 	}
 	public COND_AND(): TerminalNode | undefined { return this.tryGetToken(YmlParser.COND_AND, 0); }
-	public combinedComparison(): CombinedComparisonContext[];
-	public combinedComparison(i: number): CombinedComparisonContext;
-	public combinedComparison(i?: number): CombinedComparisonContext | CombinedComparisonContext[] {
+	public combinedCondition(): CombinedConditionContext[];
+	public combinedCondition(i: number): CombinedConditionContext;
+	public combinedCondition(i?: number): CombinedConditionContext | CombinedConditionContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(CombinedComparisonContext);
+			return this.getRuleContexts(CombinedConditionContext);
 		} else {
-			return this.getRuleContext(i, CombinedComparisonContext);
+			return this.getRuleContext(i, CombinedConditionContext);
 		}
 	}
 	public COND_OR(): TerminalNode | undefined { return this.tryGetToken(YmlParser.COND_OR, 0); }
@@ -11565,23 +11565,23 @@ export class CombinedComparisonContext extends ParserRuleContext {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return YmlParser.RULE_combinedComparison; }
+	public get ruleIndex(): number { return YmlParser.RULE_combinedCondition; }
 	// @Override
 	public enterRule(listener: YmlParserListener): void {
-		if (listener.enterCombinedComparison) {
-			listener.enterCombinedComparison(this);
+		if (listener.enterCombinedCondition) {
+			listener.enterCombinedCondition(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: YmlParserListener): void {
-		if (listener.exitCombinedComparison) {
-			listener.exitCombinedComparison(this);
+		if (listener.exitCombinedCondition) {
+			listener.exitCombinedCondition(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
-		if (visitor.visitCombinedComparison) {
-			return visitor.visitCombinedComparison(this);
+		if (visitor.visitCombinedCondition) {
+			return visitor.visitCombinedCondition(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -11814,8 +11814,8 @@ export class ConditionBlockContext extends ParserRuleContext {
 
 
 export class Order0ConditionContext extends ParserRuleContext {
-	public combinedComparison(): CombinedComparisonContext | undefined {
-		return this.tryGetRuleContext(0, CombinedComparisonContext);
+	public combinedCondition(): CombinedConditionContext | undefined {
+		return this.tryGetRuleContext(0, CombinedConditionContext);
 	}
 	public existentialOperator(): ExistentialOperatorContext | undefined {
 		return this.tryGetRuleContext(0, ExistentialOperatorContext);
@@ -12426,13 +12426,13 @@ export class Instruction_forallContext extends ParserRuleContext {
 	public actionBlockOrInstruction(): ActionBlockOrInstructionContext {
 		return this.getRuleContext(0, ActionBlockOrInstructionContext);
 	}
-	public combinedComparison(): CombinedComparisonContext[];
-	public combinedComparison(i: number): CombinedComparisonContext;
-	public combinedComparison(i?: number): CombinedComparisonContext | CombinedComparisonContext[] {
+	public combinedCondition(): CombinedConditionContext[];
+	public combinedCondition(i: number): CombinedConditionContext;
+	public combinedCondition(i?: number): CombinedConditionContext | CombinedConditionContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(CombinedComparisonContext);
+			return this.getRuleContexts(CombinedConditionContext);
 		} else {
-			return this.getRuleContext(i, CombinedComparisonContext);
+			return this.getRuleContext(i, CombinedConditionContext);
 		}
 	}
 	public COMMA(): TerminalNode[];
@@ -13464,13 +13464,13 @@ export class YmlruleContext extends ParserRuleContext {
 	public CLOSE_PAR(): TerminalNode { return this.getToken(YmlParser.CLOSE_PAR, 0); }
 	public THEN(): TerminalNode { return this.getToken(YmlParser.THEN, 0); }
 	public SEMICOLON(): TerminalNode { return this.getToken(YmlParser.SEMICOLON, 0); }
-	public combinedComparison(): CombinedComparisonContext[];
-	public combinedComparison(i: number): CombinedComparisonContext;
-	public combinedComparison(i?: number): CombinedComparisonContext | CombinedComparisonContext[] {
+	public combinedCondition(): CombinedConditionContext[];
+	public combinedCondition(i: number): CombinedConditionContext;
+	public combinedCondition(i?: number): CombinedConditionContext | CombinedConditionContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(CombinedComparisonContext);
+			return this.getRuleContexts(CombinedConditionContext);
 		} else {
-			return this.getRuleContext(i, CombinedComparisonContext);
+			return this.getRuleContext(i, CombinedConditionContext);
 		}
 	}
 	public inValue(): InValueContext[];

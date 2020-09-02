@@ -313,7 +313,7 @@ order1Block
 instanciationCondition
 order1FullCondition
 parenthesisCondition
-combinedComparison
+combinedCondition
 comparison
 comparisonOperator
 instruction_multivaluedAssignment
