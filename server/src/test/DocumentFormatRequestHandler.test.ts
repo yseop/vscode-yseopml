@@ -96,10 +96,12 @@ function myFunction(Object input)
     });
     it('should not give edits when the file has syntax errors', (done) => {
         const file = createFakeDocument(
-            `Person personA
-            --> lastName "LastName"
-            --> firstName "FirstName"
-            `, // No semicolon here. Must lead to a syntax error.
+            createFakeFunctionContainer(
+                `// Wrong operator
+            if       ( input   =null)     {
+                // comment
+            }`,
+            ),
         );
         // No edit required because of the syntax error.
         expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(0);

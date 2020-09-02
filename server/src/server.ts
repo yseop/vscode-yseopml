@@ -442,13 +442,14 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
         document,
     );
 
-    // Visit the result of the parsing.
-    // This fill the edits array.
-    visitor.visit(result);
     if (parser.numberOfSyntaxErrors > 0) {
         connection.console.info('No formatting will be done because the current file has syntax errors.');
         return [];
     }
+
+    // Visit the result of the parsing.
+    // This fill the edits array.
+    visitor.visit(result);
     return edits;
 }
 
