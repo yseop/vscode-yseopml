@@ -11,11 +11,15 @@ async function main() {
         // Passed to --extensionTestsPath
         const extensionTestsPath = path.resolve(__dirname, '../../node_modules/vscode-jest-test-runner');
 
+        const resourcesDirPath = path.resolve(extensionDevelopmentPath, 'client/resources');
+        const kbDirPath = path.resolve(resourcesDirPath, 'kb');
+        const documentFormatFilePath = path.resolve(kbDirPath, '_technical/toFormat/documentFormat.dcl');
+
         // Download VS Code, unzip it and run the integration test
         await runTests({
             extensionDevelopmentPath,
             extensionTestsPath,
-            launchArgs: ['--disable-extensions'],
+            launchArgs: [`${kbDirPath}/`, documentFormatFilePath, '--disable-extensions'],
         });
     } catch (err) {
         console.error('Failed to run tests');

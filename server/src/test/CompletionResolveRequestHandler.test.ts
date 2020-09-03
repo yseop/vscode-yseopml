@@ -1,12 +1,11 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { CompletionItem, DocumentSymbol, DocumentSymbolParams, TextDocumentIdentifier } from 'vscode-languageserver';
+import { CompletionItem } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import { completionResolveRequestHandler } from '../features';
 import { YmlLexer, YmlParser } from '../grammar';
 import { YmlKaoFileVisitor } from '../visitors';
-import { AbstractYmlObject } from '../yml-objects/AbstractYmlObject';
 
 const DEFAULT_URI = '/path/to/file';
 const COMPLETION_PROVIDER = new YmlCompletionItemsProvider();

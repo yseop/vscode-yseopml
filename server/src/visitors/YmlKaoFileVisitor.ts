@@ -1,6 +1,9 @@
+import { TextDocument, TextEdit } from 'vscode-languageserver';
+
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import { ClassDeclarationContext, FunctionContext, StaticDeclarationContext, YenumContext } from '../grammar';
+import { IDocumentFormatSettings } from '../settings/Settings';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 import { YmlClassVisitor } from './YmlClassVisitor';
 import { YmlEnumVisitor } from './YmlEnumVisitor';
@@ -11,9 +14,12 @@ export class YmlKaoFileVisitor extends YmlBaseVisitor {
     constructor(
         completionProvider: YmlCompletionItemsProvider,
         uri: string,
-        public definitions: YmlDefinitionProvider,
+        definitions: YmlDefinitionProvider,
+        docFormatSettings?: IDocumentFormatSettings,
+        filePossibleEdits?: TextEdit[],
+        document?: TextDocument,
     ) {
-        super(completionProvider, uri);
+        super(completionProvider, uri, definitions, docFormatSettings, filePossibleEdits, document);
     }
 
     public visitStaticDeclaration(node: StaticDeclarationContext): void {
@@ -31,7 +37,14 @@ export class YmlKaoFileVisitor extends YmlBaseVisitor {
     }
 
     public visitFunction(node: FunctionContext): void {
-        const visitor = new YmlFunctionVisitor(this.completionProvider, this.uri, this.definitions);
+        const visitor = new YmlFunctionVisitor(
+            this.completionProvider,
+            this.uri,
+            this.definitions,
+            this.filePossibleEdits,
+            this.document,
+            this.docFormatSettings,
+        );
         visitor.visit(node);
     }
 

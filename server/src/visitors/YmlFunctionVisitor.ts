@@ -1,3 +1,5 @@
+import { TextDocument, TextEdit } from 'vscode-languageserver';
+
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import {
@@ -6,8 +8,8 @@ import {
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
-import { YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
-import { AbstractYmlObject } from '../yml-objects/AbstractYmlObject';
+import { IDocumentFormatSettings } from '../settings/Settings';
+import { AbstractYmlObject, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 import { getDocumentation, getType } from './YmlVisitorHelper';
 
@@ -31,6 +33,9 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         completionProvider: YmlCompletionItemsProvider,
         uri: string,
         public definitions: YmlDefinitionProvider,
+        public filePossibleEdits: TextEdit[] = [],
+        public document: TextDocument = null,
+        public docFormatSettings: IDocumentFormatSettings = null,
     ) {
         super(completionProvider, uri);
     }
