@@ -1,6 +1,6 @@
 # Release Notes
 
-## X.X.X (YYYY-MM-DD)
+## 1.11.0 (2020-09-03)
 
 -   [BETA] New document-formatting feature able to perform basic cleanup on your YML files.
     This feature can be deactivated using the Visual Studio Code settings.
