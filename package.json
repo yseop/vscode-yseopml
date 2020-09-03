@@ -89,6 +89,44 @@
                     "default": "off",
                     "description": "Traces the communication between VSCode and the YML language server."
                 },
+                "yseopml.documentFormat": {
+                    "type": "object",
+                    "default": {
+                        "enableDocumentFormat": "yes",
+                        "semicolonWhenPossible": "yes",
+                        "spaceBetweenKeywordAndParenthesis": "no"
+                    },
+                    "description": "Settings related to document format",
+                    "properties": {
+                        "enableDocumentFormat": {
+                            "type": "string",
+                            "default": "yes",
+                            "description": "Enable the document format feature for the YML language.",
+                            "enum": [
+                                "yes",
+                                "no"
+                            ]
+                        },
+                        "semicolonWhenPossible": {
+                            "type": "string",
+                            "default": "yes",
+                            "description": "When “yes”, add a semicolon after any instruction that can end with a semicolon. When “no”, don't change the code in such contexts.\n\nE.g., with “yes”, “world.execute(me)” becomes “world.execute(me);”.",
+                            "enum": [
+                                "yes",
+                                "no"
+                            ]
+                        },
+                        "spaceBetweenKeywordAndParenthesis": {
+                            "type": "string",
+                            "default": "no",
+                            "description": "When “yes”, format the code such that exactly one space stands between keywords such as “if” and “foreach” and the following parenthesis.\nE.g., “if   (” and “if(” ⇒ “if (”.\n\nWhen “no”, remove such spaces.\nE.g., “if   (” and “if (” ⇒ “if(”",
+                            "enum": [
+                                "yes",
+                                "no"
+                            ]
+                        }
+                    }
+                },
                 "yseopml.kaoFiles": {
                     "scope": "window",
                     "type": "array",

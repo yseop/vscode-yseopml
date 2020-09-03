@@ -23,6 +23,7 @@ import {
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
     TextDocuments,
+    TextEdit,
 } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
@@ -30,28 +31,15 @@ import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import { completionResolveRequestHandler, documentSymbolRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
+import {
+    IDocumentFormatSettings,
+    IYseopmlServerSettings,
+    IYseopmlSettings,
+    setDocumentFormatDefaultValues,
+} from './settings/Settings';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
-// The settings interface describe the server relevant settings part
-interface ISettings {
-    yseopml: IServerSettings;
-}
-
-// These are the example settings we defined in the client's package.json file
-interface IServerSettings {
-    activateParsingProblemsReporting: boolean;
-    parseAllProjectFilesAtStartup: boolean;
-    pathToPredefinedObjectsXml: string;
-    ymlParsingIssueSeverityLevel: string;
-    kaoFiles: string[];
-}
-
 let engineModel: EngineModel;
-
-let activateParsingProblemsReporting: boolean;
-let parseAllProjectFilesAtStartup: boolean;
-let pathToPredefinedObjectsXml: string;
-let kaoFilesToParse: string[] = [];
 
 /**
  * Map between the string available as option and real `DiagnosticSeverity` enum values.
@@ -82,6 +70,8 @@ const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsPro
 // supports full document sync only
 const documents: TextDocuments = new TextDocuments();
 
+let yseopmlSettings: IYseopmlServerSettings;
+
 // Make the text document manager listen on the connection
 // for open, change and close text document events
 documents.listen(connection);
@@ -105,29 +95,22 @@ connection.onInitialize(
                 implementationProvider: true,
                 // Tell the client that the server works in FULL text document sync mode
                 textDocumentSync: documents.syncKind,
+                documentFormattingProvider: true,
             },
         };
     },
 );
 
 connection.onInitialized((_params) => {
-    connection.workspace.getConfiguration('yseopml.parseAllProjectFilesAtStartup').then((_confValue) => {
-        parseAllProjectFilesAtStartup = _confValue;
-        if (!parseAllProjectFilesAtStartup) {
+    connection.workspace.getConfiguration('yseopml').then((_value) => {
+        // Get the yseopml configuration and save it globally.
+        yseopmlSettings = _value as IYseopmlServerSettings;
+        yseopmlSettings.documentFormat = setDocumentFormatDefaultValues(yseopmlSettings.documentFormat);
+        if (!yseopmlSettings.parseAllProjectFilesAtStartup) {
             connection.console.log('Not parsing every YML file of the project.');
             return;
         }
-        // The value of yseopml.kaoFiles is useful here
-        // only when we want to parse the whole project.
-        connection.workspace
-            .getConfiguration('yseopml.kaoFiles')
-            .then((_kaoFiles) => {
-                // initialize array kaoFilesToParse
-                kaoFilesToParse = _kaoFiles;
-            })
-            .then(() => {
-                parseWholeProject();
-            });
+        parseWholeProject();
     });
 });
 
@@ -141,7 +124,7 @@ function parseWholeProject(): void {
     connection.console.log('Parsing all the YML files of the project.');
     connection.workspace.getWorkspaceFolders().then((_value) => {
         const workspacePath = url.fileURLToPath(_value[0].uri);
-        if (!kaoFilesToParse || kaoFilesToParse.length === 0) {
+        if (!yseopmlSettings.kaoFiles || yseopmlSettings.kaoFiles.length === 0) {
             parseFromFirstFoundKaoFile(workspacePath);
         } else {
             parseFromKaoFilesList(workspacePath);
@@ -177,7 +160,7 @@ function parseFromFirstFoundKaoFile(workspacePath: string): void {
  * @param workspacePath the root folder path used as workspace
  */
 function parseFromKaoFilesList(workspacePath: string): void {
-    for (const filePath of kaoFilesToParse) {
+    for (const filePath of yseopmlSettings.kaoFiles) {
         if (fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()) {
             const fileUri = path.join(workspacePath, filePath);
             /*
@@ -331,19 +314,18 @@ export let parsingIssueSeverityLevel: DiagnosticSeverity = DiagnosticSeverity.In
 
 // The settings have changed. Is send on server activation as well.
 connection.onDidChangeConfiguration((change) => {
-    const settings = change.settings as ISettings;
-    activateParsingProblemsReporting = settings.yseopml.activateParsingProblemsReporting;
-    pathToPredefinedObjectsXml = settings.yseopml.pathToPredefinedObjectsXml;
-    kaoFilesToParse = settings.yseopml.kaoFiles;
+    const settings = change.settings as IYseopmlSettings;
+    yseopmlSettings = settings.yseopml;
+    yseopmlSettings.documentFormat = setDocumentFormatDefaultValues(yseopmlSettings.documentFormat);
     // One of the severity levels possible, or `Information`.
     parsingIssueSeverityLevel =
         diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
         DiagnosticSeverity.Information;
     if (engineModel == null) {
-        engineModel = new EngineModel(pathToPredefinedObjectsXml, completionProvider);
+        engineModel = new EngineModel(yseopmlSettings.pathToPredefinedObjectsXml, completionProvider);
         engineModel.loadPredefinedObjects();
     } else {
-        engineModel.reload(pathToPredefinedObjectsXml, completionProvider);
+        engineModel.reload(yseopmlSettings.pathToPredefinedObjectsXml, completionProvider);
     }
     // Revalidate any open text documents
     documents.all().forEach(parseTextDocument);
@@ -392,7 +374,7 @@ function parseFile(textDocUri: string, docContent: string) {
     visitor.visit(result);
 
     // Send the computed diagnostics to VSCode.
-    if (activateParsingProblemsReporting) {
+    if (yseopmlSettings.activateParsingProblemsReporting) {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics });
     } else {
         connection.sendDiagnostics({ uri: textDocUri, diagnostics: [] });
@@ -424,6 +406,52 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
     const doc: TextDocument = documents.get(pos.textDocument.uri);
     return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
 });
+
+connection.onDocumentFormatting((_params) => {
+    const doc = documents.get(_params.textDocument.uri);
+    return buildDocumentEditList(doc, yseopmlSettings.documentFormat);
+});
+
+/**
+ * Build and send the list of Text Edit to apply to `document`
+ * accordingly to the settings defined in `documentFormatSettings`.
+ *
+ * @param document the text document to format
+ * @param documentFormatSettings the document format settings to apply
+ */
+export function buildDocumentEditList(document: TextDocument, documentFormatSettings?: IDocumentFormatSettings) {
+    if (documentFormatSettings?.enableDocumentFormat === 'no') {
+        return [];
+    }
+    const inputStream = CharStreams.fromString(document.getText(), document.uri);
+    const lexer = new YmlLexer(inputStream);
+    const tokenStream = new CommonTokenStream(lexer);
+    const parser = new YmlParser(tokenStream);
+    // No need to send syntax errors to the client.
+    parser.removeErrorListeners();
+
+    // Parse the input.
+    const result = parser.kaoFile();
+    const edits: TextEdit[] = [];
+    const visitor = new YmlKaoFileVisitor(
+        new YmlCompletionItemsProvider(),
+        document.uri,
+        new YmlDefinitionProvider(),
+        documentFormatSettings,
+        edits,
+        document,
+    );
+
+    if (parser.numberOfSyntaxErrors > 0) {
+        connection.console.info('No formatting will be done because the current file has syntax errors.');
+        return [];
+    }
+
+    // Visit the result of the parsing.
+    // This fill the edits array.
+    visitor.visit(result);
+    return edits;
+}
 
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.
