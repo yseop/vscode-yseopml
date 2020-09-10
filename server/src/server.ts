@@ -19,6 +19,7 @@ import {
     InitializeResult,
     IPCMessageReader,
     IPCMessageWriter,
+    ServerCapabilities,
     TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
@@ -76,28 +77,31 @@ let yseopmlSettings: IYseopmlServerSettings;
 // for open, change and close text document events
 documents.listen(connection);
 
+const serverCapabilities: ServerCapabilities<any> = {
+    // Tell the client that the server support code complete
+    completionProvider: {
+        resolveProvider: true,
+        triggerCharacters: ['.', ':'],
+    },
+    hoverProvider: true,
+    definitionProvider: true,
+    documentSymbolProvider: true,
+    implementationProvider: true,
+    // Tell the client that the server works in FULL text document sync mode
+    textDocumentSync: documents.syncKind,
+    documentFormattingProvider: true,
+};
+
+const intializeResult: InitializeResult = {
+    capabilities: serverCapabilities,
+};
+
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
 connection.onInitialize(
-    // tslint:disable-next-line: variable-name
     (_params): InitializeResult => {
         connection.console.log('Yseop.vscode-yseopml − Initializing server.');
-        return {
-            capabilities: {
-                // Tell the client that the server support code complete
-                completionProvider: {
-                    resolveProvider: true,
-                    triggerCharacters: ['.', ':'],
-                },
-                hoverProvider: true,
-                definitionProvider: true,
-                documentSymbolProvider: true,
-                implementationProvider: true,
-                // Tell the client that the server works in FULL text document sync mode
-                textDocumentSync: documents.syncKind,
-                documentFormattingProvider: true,
-            },
-        };
+        return intializeResult;
     },
 );
 
