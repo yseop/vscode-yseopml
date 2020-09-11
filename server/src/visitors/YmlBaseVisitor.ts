@@ -93,6 +93,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         commas: TerminalNode[],
         baseNode: ParserRuleContext,
     ): void {
+        this.visitChildren(baseNode);
         if (this.isDocumentFormatImpossible()) {
             return;
         }
@@ -103,7 +104,6 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
             this.removeSpaceInterval(leftContext.stop.stopIndex, comma.symbol.startIndex);
             this.setOneSpaceIntervalBetweenTokenAndContext(comma.symbol, rightContext);
         }
-        this.visitChildren(baseNode);
     }
 
     public visitInstruction_assignment(node: Instruction_assignmentContext) {
