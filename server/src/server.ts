@@ -15,6 +15,7 @@ import {
     createConnection,
     Diagnostic,
     DiagnosticSeverity,
+    FoldingRange,
     IConnection,
     InitializeResult,
     IPCMessageReader,
@@ -90,6 +91,7 @@ const serverCapabilities: ServerCapabilities = {
     // Tell the client that the server works in FULL text document sync mode
     textDocumentSync: documents.syncKind,
     documentFormattingProvider: true,
+    foldingRangeProvider: true,
 };
 
 const intializeResult: InitializeResult = {
@@ -460,6 +462,18 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.
 connection.onCompletionResolve(completionResolveRequestHandler(completionProvider));
+connection.onFoldingRanges((_params) => {
+    const objs = definitionsProvider.filterDefinitions((elem) => elem.uri === _params.textDocument.uri);
+    objs.push(...definitionsProvider.filterImplementations((elem) => elem.uri === _params.textDocument.uri));
+    if (!objs) {
+        return null;
+    }
+    return objs.map((obj) => {
+        const start = obj.definitionLocation.range.start.line;
+        const end = obj.definitionLocation.range.end.line;
+        return FoldingRange.create(start, end - 1);
+    });
+});
 
 // Listen on the connection
 connection.listen();
