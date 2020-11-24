@@ -77,7 +77,7 @@ let yseopmlSettings: IYseopmlServerSettings;
 // for open, change and close text document events
 documents.listen(connection);
 
-const serverCapabilities: ServerCapabilities<any> = {
+const serverCapabilities: ServerCapabilities = {
     // Tell the client that the server support code complete
     completionProvider: {
         resolveProvider: true,
