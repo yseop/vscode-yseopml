@@ -15,7 +15,6 @@ import {
     createConnection,
     Diagnostic,
     DiagnosticSeverity,
-    FoldingRange,
     IConnection,
     InitializeResult,
     IPCMessageReader,
@@ -31,7 +30,7 @@ import {
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
-import { completionResolveRequestHandler, documentSymbolRequestHandler } from './features';
+import { completionResolveRequestHandler, documentSymbolRequestHandler, foldingRangeRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import {
     IDocumentFormatSettings,
@@ -462,18 +461,8 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.
 connection.onCompletionResolve(completionResolveRequestHandler(completionProvider));
-connection.onFoldingRanges((_params) => {
-    const objs = definitionsProvider.filterDefinitions((elem) => elem.uri === _params.textDocument.uri);
-    objs.push(...definitionsProvider.filterImplementations((elem) => elem.uri === _params.textDocument.uri));
-    if (!objs) {
-        return null;
-    }
-    return objs.map((obj) => {
-        const start = obj.definitionLocation.range.start.line;
-        const end = obj.definitionLocation.range.end.line;
-        return FoldingRange.create(start, end - 1);
-    });
-});
+
+connection.onFoldingRanges(foldingRangeRequestHandler(definitionsProvider));
 
 // Listen on the connection
 connection.listen();
