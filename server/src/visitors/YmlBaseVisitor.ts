@@ -185,6 +185,11 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         this.setOneSpaceIntervalBetweenTokenAndContext(node.ELSE().symbol, node.actionBlockOrInstruction());
     }
 
+    /**
+     * Set a one space interval between two elements: a token and a parser rule context.
+     * @param left the left element
+     * @param right the right element
+     */
     public setOneSpaceIntervalBetweenTokenAndContext(left: Token, right: ParserRuleContext): void {
         const leftEnd = left.stopIndex;
         const rightStart = right._start.startIndex;
@@ -192,6 +197,11 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         this.setOneSpaceInterval(leftEnd, rightStart, sameLine);
     }
 
+    /**
+     * Set a one space interval between two elements: a parser rule context and another parser rule context.
+     * @param left the left element
+     * @param right the right element
+     */
     public setOneSpaceIntervalBetweenTwoContexts(left: ParserRuleContext, right: ParserRuleContext): void {
         const leftEnd = left._stop.stopIndex;
         const rightStart = right._start.startIndex;
@@ -199,6 +209,11 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         this.setOneSpaceInterval(leftEnd, rightStart, sameLine);
     }
 
+    /**
+     * Set a one space interval between two elements: a parser rule context and a token.
+     * @param left the left element
+     * @param right the right element
+     */
     public setOneSpaceIntervalBetweenContextAndToken(left: ParserRuleContext, right: Token): void {
         const ifEnd = left._stop.stopIndex;
         const startElse = right.startIndex;
