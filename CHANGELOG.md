@@ -1,5 +1,9 @@
 # Release Notes
 
+## X.XX.X (YYYY-MM-DD)
+
+-   Functions and object instances are now foldable.
+
 ## 1.11.0 (2020-09-03)
 
 -   [BETA] New document-formatting feature able to perform basic cleanup on your YML files.
