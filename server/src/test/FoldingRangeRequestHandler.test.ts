@@ -23,7 +23,7 @@ field name // 2 → 3
 method getName() // 5 → 6
 --> domains String
 
-method buildStuff // 8 → 18 (but we get 15 − start of documentation)
+method buildStuff // 8 → 18
 args {
     Object arg1
     Object arg2
@@ -94,7 +94,7 @@ enum MyEnum { // 55 → 58
         expect(foldingRanges[1]).toStrictEqual(FoldingRange.create(5, 6));
         // This one should be 8 → 18. There is an issue with the multiline strings.
         // This is not related to this feature.
-        expect(foldingRanges[2]).toStrictEqual(FoldingRange.create(8, 15));
+        expect(foldingRanges[2]).toStrictEqual(FoldingRange.create(8, 18));
         expect(foldingRanges[3]).toStrictEqual(FoldingRange.create(25, 42));
         expect(foldingRanges[4]).toStrictEqual(FoldingRange.create(44, 46));
         expect(foldingRanges[5]).toStrictEqual(FoldingRange.create(48, 48));

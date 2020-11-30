@@ -150,7 +150,7 @@ returnField:
 
 classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 
-documentation: DOCUMENTATION;
+documentation: TRIPLE_QUOTE ANY* TRIPLE_QUOTE;
 
 objectReturnAttributeValue:
     ifExprBlock
