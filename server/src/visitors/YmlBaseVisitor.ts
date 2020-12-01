@@ -93,10 +93,11 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         commas: TerminalNode[],
         baseNode: ParserRuleContext,
     ): void {
-        this.visitChildren(baseNode);
         if (this.isDocumentFormatImpossible()) {
+            this.visitChildren(baseNode);
             return;
         }
+        this.visitChildren(baseNode);
         for (let index = 0; index < commas.length; index++) {
             const leftContext = values[index];
             const comma = commas[index];
@@ -128,6 +129,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     public visitInstruction(node: InstructionContext) {
         if (this.isDocumentFormatImpossible()) {
+            this.visitChildren(node);
             return;
         }
         // There is already a semicolon, or we are not in a block, or we don't want to add semicolons.
@@ -223,6 +225,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     public visitInstruction_if(node: Instruction_ifContext): void {
         if (this.isDocumentFormatImpossible()) {
+            this.visitChildren(node);
             return;
         }
 

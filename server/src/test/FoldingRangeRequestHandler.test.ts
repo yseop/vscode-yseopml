@@ -54,7 +54,7 @@ static {
         key2: null
     };
 }
---> action {
+--> action { // 39 → 42
     // Some code
     return arg1;
 };
@@ -74,6 +74,24 @@ enum MyEnum { // 55 → 58
     ENUM_MEMBER1, // 56 → 56
     ENUM_MEMBER2 // 57 → 57
 };
+
+function doThings(Integer a, Integer b) // 60 → 76
+--> domains Boolean
+--> action { // 62 → 75
+    if(a == b) { // 63 → 66
+        // do nothing
+        patate();
+    } else if(a > b) { // 66 → 71
+        /*
+         * A multiline comment
+         */
+        a = b;
+    } else { // 71 → 74
+        // A comment
+        b = a;
+    }
+}
+--> return true;
         `);
         const lexer = new YmlLexer(inputStream);
         const tokenStream = new CommonTokenStream(lexer);
@@ -88,7 +106,7 @@ enum MyEnum { // 55 → 58
         const handler = foldingRangeRequestHandler(DEFINITION_PROVIDER);
         const foldingRanges: FoldingRange[] = handler(DEFAULT_REQUEST_PARAMS);
         expect(foldingRanges).toBeTruthy();
-        expect(foldingRanges.length).toBe(10);
+        expect(foldingRanges.length).toBe(16);
         foldingRanges.sort((a, b) => a.startLine - b.startLine);
         expect(foldingRanges[0]).toStrictEqual(FoldingRange.create(2, 3));
         expect(foldingRanges[1]).toStrictEqual(FoldingRange.create(5, 6));
@@ -96,12 +114,18 @@ enum MyEnum { // 55 → 58
         // This is not related to this feature.
         expect(foldingRanges[2]).toStrictEqual(FoldingRange.create(8, 18));
         expect(foldingRanges[3]).toStrictEqual(FoldingRange.create(25, 42));
-        expect(foldingRanges[4]).toStrictEqual(FoldingRange.create(44, 46));
-        expect(foldingRanges[5]).toStrictEqual(FoldingRange.create(48, 48));
-        expect(foldingRanges[6]).toStrictEqual(FoldingRange.create(50, 53));
-        expect(foldingRanges[7]).toStrictEqual(FoldingRange.create(55, 58));
-        expect(foldingRanges[8]).toStrictEqual(FoldingRange.create(56, 56));
-        expect(foldingRanges[9]).toStrictEqual(FoldingRange.create(57, 57));
+        expect(foldingRanges[4]).toStrictEqual(FoldingRange.create(39, 42));
+        expect(foldingRanges[5]).toStrictEqual(FoldingRange.create(44, 46));
+        expect(foldingRanges[6]).toStrictEqual(FoldingRange.create(48, 48));
+        expect(foldingRanges[7]).toStrictEqual(FoldingRange.create(50, 53));
+        expect(foldingRanges[8]).toStrictEqual(FoldingRange.create(55, 58));
+        expect(foldingRanges[9]).toStrictEqual(FoldingRange.create(56, 56));
+        expect(foldingRanges[10]).toStrictEqual(FoldingRange.create(57, 57));
+        expect(foldingRanges[11]).toStrictEqual(FoldingRange.create(60, 76));
+        expect(foldingRanges[12]).toStrictEqual(FoldingRange.create(62, 75));
+        expect(foldingRanges[13]).toStrictEqual(FoldingRange.create(63, 66));
+        expect(foldingRanges[14]).toStrictEqual(FoldingRange.create(66, 71));
+        expect(foldingRanges[15]).toStrictEqual(FoldingRange.create(71, 74));
         done();
     });
 });

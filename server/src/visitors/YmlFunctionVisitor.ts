@@ -8,6 +8,7 @@ import {
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
+import { ActionBlockContext } from '../grammar/YmlParser';
 import { IDocumentFormatSettings } from '../settings/Settings';
 import { AbstractYmlObject, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
@@ -98,6 +99,14 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         for (const member of node.memberDeclaration()) {
             this.visitMemberDeclarationContext(member);
         }
+    }
+
+    public visitActionBlock(node: ActionBlockContext) {
+        this.func.foldingRanges.push({
+            startLine: node.OPEN_BRACE().symbol.line - 1,
+            endLine: node.CLOSE_BRACE().symbol.line - 1,
+        });
+        this.visitChildren(node);
     }
 
     /**
