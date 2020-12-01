@@ -93,11 +93,10 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         commas: TerminalNode[],
         baseNode: ParserRuleContext,
     ): void {
+        this.visitChildren(baseNode);
         if (this.isDocumentFormatImpossible()) {
-            this.visitChildren(baseNode);
             return;
         }
-        this.visitChildren(baseNode);
         for (let index = 0; index < commas.length; index++) {
             const leftContext = values[index];
             const comma = commas[index];

@@ -61,6 +61,9 @@ export abstract class AbstractYmlObject implements CompletionItem {
      */
     public scopeEndOffset?: number;
 
+    /**
+     * Places where we can add folding markers inside this object.
+     */
     public foldingRanges: FoldingRange[];
 
     private hoverContent?: MarkupContent;

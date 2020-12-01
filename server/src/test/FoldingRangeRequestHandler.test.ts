@@ -92,6 +92,15 @@ function doThings(Integer a, Integer b) // 60 → 76
     }
 }
 --> return true;
+
+Country myCountry // 78 → 85
+--> cities -> City paris // 79 → 81
+            --> name "Paris"
+            ;
+--> cities -> City // 82 → 84
+            --> name "Lyon"
+            ;
+;
         `);
         const lexer = new YmlLexer(inputStream);
         const tokenStream = new CommonTokenStream(lexer);
@@ -106,26 +115,34 @@ function doThings(Integer a, Integer b) // 60 → 76
         const handler = foldingRangeRequestHandler(DEFINITION_PROVIDER);
         const foldingRanges: FoldingRange[] = handler(DEFAULT_REQUEST_PARAMS);
         expect(foldingRanges).toBeTruthy();
-        expect(foldingRanges.length).toBe(16);
+        const expectedFoldingRanges = [
+            FoldingRange.create(2, 3),
+            FoldingRange.create(5, 6),
+            FoldingRange.create(8, 18),
+            FoldingRange.create(25, 42),
+            FoldingRange.create(39, 42),
+            FoldingRange.create(44, 46),
+            FoldingRange.create(48, 48),
+            FoldingRange.create(50, 53),
+            FoldingRange.create(55, 58),
+            FoldingRange.create(56, 56),
+            FoldingRange.create(57, 57),
+            FoldingRange.create(60, 76),
+            FoldingRange.create(62, 75),
+            FoldingRange.create(63, 66),
+            FoldingRange.create(66, 71),
+            FoldingRange.create(71, 74),
+            FoldingRange.create(78, 85),
+            FoldingRange.create(79, 81),
+            FoldingRange.create(82, 84),
+        ];
+        expect(foldingRanges.length).toBe(expectedFoldingRanges.length);
         foldingRanges.sort((a, b) => a.startLine - b.startLine);
-        expect(foldingRanges[0]).toStrictEqual(FoldingRange.create(2, 3));
-        expect(foldingRanges[1]).toStrictEqual(FoldingRange.create(5, 6));
-        // This one should be 8 → 18. There is an issue with the multiline strings.
-        // This is not related to this feature.
-        expect(foldingRanges[2]).toStrictEqual(FoldingRange.create(8, 18));
-        expect(foldingRanges[3]).toStrictEqual(FoldingRange.create(25, 42));
-        expect(foldingRanges[4]).toStrictEqual(FoldingRange.create(39, 42));
-        expect(foldingRanges[5]).toStrictEqual(FoldingRange.create(44, 46));
-        expect(foldingRanges[6]).toStrictEqual(FoldingRange.create(48, 48));
-        expect(foldingRanges[7]).toStrictEqual(FoldingRange.create(50, 53));
-        expect(foldingRanges[8]).toStrictEqual(FoldingRange.create(55, 58));
-        expect(foldingRanges[9]).toStrictEqual(FoldingRange.create(56, 56));
-        expect(foldingRanges[10]).toStrictEqual(FoldingRange.create(57, 57));
-        expect(foldingRanges[11]).toStrictEqual(FoldingRange.create(60, 76));
-        expect(foldingRanges[12]).toStrictEqual(FoldingRange.create(62, 75));
-        expect(foldingRanges[13]).toStrictEqual(FoldingRange.create(63, 66));
-        expect(foldingRanges[14]).toStrictEqual(FoldingRange.create(66, 71));
-        expect(foldingRanges[15]).toStrictEqual(FoldingRange.create(71, 74));
+        for (let index = 0; index < foldingRanges.length; index++) {
+            const result = foldingRanges[index];
+            const expected = expectedFoldingRanges[index];
+            expect(result).toStrictEqual(expected);
+        }
         done();
     });
 });
