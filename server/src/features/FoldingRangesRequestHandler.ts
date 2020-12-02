@@ -3,7 +3,18 @@ import { FoldingRange, FoldingRangeParams } from 'vscode-languageserver';
 import { YmlDefinitionProvider } from '../definitions';
 import { AbstractYmlObject } from '../yml-objects';
 
-export function foldingRangeRequestHandler(definitionsProvider: YmlDefinitionProvider) {
+/**
+ * Create a request handler for the event `foldingRanges`.
+ * The handler, when receiving a `FoldingRangeParams` instance will find
+ * in the provided YmlDefinitionProvider every YML Objects
+ * or YML functions of the text document the request is about
+ * and build a list of `FoldingRange` that will be used by client-side to fold/unfold the code.
+ *
+ * @param definitionsProvider an YmlDefinitionProvider instance to get known YML objects and functions from.
+ *
+ * @returns a request handler for the event `foldingRanges`.
+ */
+export function foldingRangesRequestHandler(definitionsProvider: YmlDefinitionProvider) {
     return (_params: FoldingRangeParams): FoldingRange[] => {
         const currentFileFunctionsAndInstances: AbstractYmlObject[] = [];
         const shouldBeSelected = (elem: AbstractYmlObject) => {

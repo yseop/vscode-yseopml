@@ -3,7 +3,7 @@ import { FoldingRange, FoldingRangeParams, TextDocumentIdentifier } from 'vscode
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
-import { foldingRangeRequestHandler } from '../features/FoldingRangeRequestHandler';
+import { foldingRangesRequestHandler } from '../features/FoldingRangesRequestHandler';
 import { YmlLexer, YmlParser } from '../grammar';
 import { YmlKaoFileVisitor } from '../visitors';
 
@@ -13,7 +13,7 @@ const DEFAULT_REQUEST_PARAMS: FoldingRangeParams = {
     textDocument: TextDocumentIdentifier.create(DEFAULT_URI),
 };
 
-describe('FoldingRangeRequestHandler', () => {
+describe('FoldingRangesRequestHandler', () => {
     beforeAll(() => {
         const inputStream = CharStreams.fromString(`
 interface City
@@ -112,7 +112,7 @@ Country myCountry // 78 → 85
         visitor.visit(result);
     });
     test('should get the correct number of symbol definitions', (done) => {
-        const handler = foldingRangeRequestHandler(DEFINITION_PROVIDER);
+        const handler = foldingRangesRequestHandler(DEFINITION_PROVIDER);
         const foldingRanges: FoldingRange[] = handler(DEFAULT_REQUEST_PARAMS);
         expect(foldingRanges).toBeTruthy();
         const expectedFoldingRanges = [

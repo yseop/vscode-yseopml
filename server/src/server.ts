@@ -30,7 +30,7 @@ import {
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
-import { completionResolveRequestHandler, documentSymbolRequestHandler, foldingRangeRequestHandler } from './features';
+import { completionResolveRequestHandler, documentSymbolRequestHandler, foldingRangesRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import {
     IDocumentFormatSettings,
@@ -462,7 +462,7 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
 // When this event occurs, we retrieve the full element and send it back to the client.
 connection.onCompletionResolve(completionResolveRequestHandler(completionProvider));
 
-connection.onFoldingRanges(foldingRangeRequestHandler(definitionsProvider));
+connection.onFoldingRanges(foldingRangesRequestHandler(definitionsProvider));
 
 // Listen on the connection
 connection.listen();
