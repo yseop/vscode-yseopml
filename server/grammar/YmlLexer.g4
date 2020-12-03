@@ -124,10 +124,9 @@ DATE:
     SINGLE_QUOTE D_LETTER COLON DIGIT DIGIT DIGIT DIGIT MINUS_SIGN DIGIT DIGIT MINUS_SIGN DIGIT DIGIT SINGLE_QUOTE
 ;
 
+TRIPLE_QUOTE: '"""' -> mode(MULTILINE_STRING);
 fragment ESCAPED_QUOTE: '\\"';
 STRING: '"' ( ESCAPED_QUOTE | ~('\n' | '\r'))*? '"';
-fragment TRIPLE_QUOTE: '"""';
-DOCUMENTATION: TRIPLE_QUOTE (.*?) TRIPLE_QUOTE;
 
 //We store the whitespace in hidden channel to take back the ones around comments
 WS: [ \r\t\n]+ -> channel(HIDDEN);
@@ -175,3 +174,10 @@ OPEN_TEXT_GRANULE:
 ;
 CLOSE_GRANULE: BACKSLASH CLOSE_PAR -> popMode;
 SKIP_OTHER: . -> skip;
+
+mode MULTILINE_STRING;
+
+MULTILINE_STRING_END:
+    TRIPLE_QUOTE -> type(TRIPLE_QUOTE), mode(DEFAULT_MODE)
+;
+ANY: .;

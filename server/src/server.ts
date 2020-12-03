@@ -30,7 +30,7 @@ import {
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
-import { completionResolveRequestHandler, documentSymbolRequestHandler } from './features';
+import { completionResolveRequestHandler, documentSymbolRequestHandler, foldingRangesRequestHandler } from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import {
     IDocumentFormatSettings,
@@ -90,6 +90,7 @@ const serverCapabilities: ServerCapabilities = {
     // Tell the client that the server works in FULL text document sync mode
     textDocumentSync: documents.syncKind,
     documentFormattingProvider: true,
+    foldingRangeProvider: true,
 };
 
 const intializeResult: InitializeResult = {
@@ -460,6 +461,8 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.
 connection.onCompletionResolve(completionResolveRequestHandler(completionProvider));
+
+connection.onFoldingRanges(foldingRangesRequestHandler(definitionsProvider));
 
 // Listen on the connection
 connection.listen();

@@ -128,6 +128,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     public visitInstruction(node: InstructionContext) {
         if (this.isDocumentFormatImpossible()) {
+            this.visitChildren(node);
             return;
         }
         // There is already a semicolon, or we are not in a block, or we don't want to add semicolons.
@@ -223,6 +224,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     public visitInstruction_if(node: Instruction_ifContext): void {
         if (this.isDocumentFormatImpossible()) {
+            this.visitChildren(node);
             return;
         }
 
