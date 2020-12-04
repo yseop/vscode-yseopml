@@ -73,3 +73,5 @@ out/
 target/
 /.sonarlint/
 /report.json
+!*.g4
+/server/grammar/
