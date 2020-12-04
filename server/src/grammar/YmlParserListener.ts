@@ -36,7 +36,7 @@ import { Local_variable_declContext } from "./YmlParser";
 import { LocalFieldContext } from "./YmlParser";
 import { ReturnFieldContext } from "./YmlParser";
 import { ClassPropertiesBlockContext } from "./YmlParser";
-import { DocumentationContext } from "./YmlParser";
+import { MultilineStringContext } from "./YmlParser";
 import { ObjectReturnAttributeValueContext } from "./YmlParser";
 import { ObjectAttributeValueContext } from "./YmlParser";
 import { ValueOrConditionContext } from "./YmlParser";
@@ -500,15 +500,15 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitClassPropertiesBlock?: (ctx: ClassPropertiesBlockContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.documentation`.
+	 * Enter a parse tree produced by `YmlParser.multilineString`.
 	 * @param ctx the parse tree
 	 */
-	enterDocumentation?: (ctx: DocumentationContext) => void;
+	enterMultilineString?: (ctx: MultilineStringContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.documentation`.
+	 * Exit a parse tree produced by `YmlParser.multilineString`.
 	 * @param ctx the parse tree
 	 */
-	exitDocumentation?: (ctx: DocumentationContext) => void;
+	exitMultilineString?: (ctx: MultilineStringContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.objectReturnAttributeValue`.

@@ -176,7 +176,7 @@ export class YmlParser extends Parser {
 	public static readonly RULE_localField = 30;
 	public static readonly RULE_returnField = 31;
 	public static readonly RULE_classPropertiesBlock = 32;
-	public static readonly RULE_documentation = 33;
+	public static readonly RULE_multilineString = 33;
 	public static readonly RULE_objectReturnAttributeValue = 34;
 	public static readonly RULE_objectAttributeValue = 35;
 	public static readonly RULE_valueOrCondition = 36;
@@ -278,7 +278,7 @@ export class YmlParser extends Parser {
 		"classAttributeDeclaration", "memberDeclaration", "memberType", "path", 
 		"ymlIdOrPath", "field", "actionField", "actionFieldValues", "implementationField", 
 		"instructionNoSemi", "commonField", "local_variable_decl", "localField", 
-		"returnField", "classPropertiesBlock", "documentation", "objectReturnAttributeValue", 
+		"returnField", "classPropertiesBlock", "multilineString", "objectReturnAttributeValue", 
 		"objectAttributeValue", "valueOrCondition", "hashMapKeyValueList", "hashMap", 
 		"hashMapKeyValue", "hashMapKey", "hashMapValue", "value", "as", "applyCollection", 
 		"applyCollectionOn", "instruction_forEach", "instruction_for", "instruction_ifExprBlock", 
@@ -2013,9 +2013,9 @@ export class YmlParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public documentation(): DocumentationContext {
-		let _localctx: DocumentationContext = new DocumentationContext(this._ctx, this.state);
-		this.enterRule(_localctx, 66, YmlParser.RULE_documentation);
+	public multilineString(): MultilineStringContext {
+		let _localctx: MultilineStringContext = new MultilineStringContext(this._ctx, this.state);
+		this.enterRule(_localctx, 66, YmlParser.RULE_multilineString);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
@@ -2029,7 +2029,7 @@ export class YmlParser extends Parser {
 				{
 				{
 				this.state = 535;
-				this.match(YmlParser.ANY);
+				_localctx._stringContent = this.match(YmlParser.ANY);
 				}
 				}
 				this.state = 540;
@@ -2098,7 +2098,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 5);
 				{
 				this.state = 547;
-				this.documentation();
+				this.multilineString();
 				}
 				break;
 
@@ -2195,7 +2195,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 7);
 				{
 				this.state = 560;
-				this.documentation();
+				this.multilineString();
 				}
 				break;
 
@@ -2268,7 +2268,7 @@ export class YmlParser extends Parser {
 				this.enterOuterAlt(_localctx, 4);
 				{
 				this.state = 570;
-				this.documentation();
+				this.multilineString();
 				}
 				break;
 
@@ -9371,7 +9371,8 @@ export class ClassPropertiesBlockContext extends ParserRuleContext {
 }
 
 
-export class DocumentationContext extends ParserRuleContext {
+export class MultilineStringContext extends ParserRuleContext {
+	public _stringContent: Token;
 	public TRIPLE_QUOTE(): TerminalNode[];
 	public TRIPLE_QUOTE(i: number): TerminalNode;
 	public TRIPLE_QUOTE(i?: number): TerminalNode | TerminalNode[] {
@@ -9394,23 +9395,23 @@ export class DocumentationContext extends ParserRuleContext {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return YmlParser.RULE_documentation; }
+	public get ruleIndex(): number { return YmlParser.RULE_multilineString; }
 	// @Override
 	public enterRule(listener: YmlParserListener): void {
-		if (listener.enterDocumentation) {
-			listener.enterDocumentation(this);
+		if (listener.enterMultilineString) {
+			listener.enterMultilineString(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: YmlParserListener): void {
-		if (listener.exitDocumentation) {
-			listener.exitDocumentation(this);
+		if (listener.exitMultilineString) {
+			listener.exitMultilineString(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: YmlParserVisitor<Result>): Result {
-		if (visitor.visitDocumentation) {
-			return visitor.visitDocumentation(this);
+		if (visitor.visitMultilineString) {
+			return visitor.visitMultilineString(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -9433,8 +9434,8 @@ export class ObjectReturnAttributeValueContext extends ParserRuleContext {
 	public hashMapKeyValue(): HashMapKeyValueContext | undefined {
 		return this.tryGetRuleContext(0, HashMapKeyValueContext);
 	}
-	public documentation(): DocumentationContext | undefined {
-		return this.tryGetRuleContext(0, DocumentationContext);
+	public multilineString(): MultilineStringContext | undefined {
+		return this.tryGetRuleContext(0, MultilineStringContext);
 	}
 	public ymlId(): YmlIdContext[];
 	public ymlId(i: number): YmlIdContext;
@@ -9497,8 +9498,8 @@ export class ObjectAttributeValueContext extends ParserRuleContext {
 	public hashMapKeyValue(): HashMapKeyValueContext | undefined {
 		return this.tryGetRuleContext(0, HashMapKeyValueContext);
 	}
-	public documentation(): DocumentationContext | undefined {
-		return this.tryGetRuleContext(0, DocumentationContext);
+	public multilineString(): MultilineStringContext | undefined {
+		return this.tryGetRuleContext(0, MultilineStringContext);
 	}
 	public ymlId(): YmlIdContext[];
 	public ymlId(i: number): YmlIdContext;
@@ -9552,8 +9553,8 @@ export class ValueOrConditionContext extends ParserRuleContext {
 	public hashMapKeyValue(): HashMapKeyValueContext | undefined {
 		return this.tryGetRuleContext(0, HashMapKeyValueContext);
 	}
-	public documentation(): DocumentationContext | undefined {
-		return this.tryGetRuleContext(0, DocumentationContext);
+	public multilineString(): MultilineStringContext | undefined {
+		return this.tryGetRuleContext(0, MultilineStringContext);
 	}
 	public ymlId(): YmlIdContext[];
 	public ymlId(i: number): YmlIdContext;

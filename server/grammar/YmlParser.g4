@@ -150,14 +150,14 @@ returnField:
 
 classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 
-documentation: TRIPLE_QUOTE ANY* TRIPLE_QUOTE;
+multilineString: TRIPLE_QUOTE stringContent=ANY* TRIPLE_QUOTE;
 
 objectReturnAttributeValue:
     ifExprBlock
     | combinedCondition
     | value
     | hashMapKeyValue
-    | documentation
+    | multilineString
     | type=ymlId name=ymlId
     | simpleList
 ;
@@ -169,7 +169,7 @@ objectAttributeValue:
     | value
     | hashMapKeyValueList
     | hashMapKeyValue
-    | documentation
+    | multilineString
     | type=ymlId name=ymlId
     | simpleList
 ;
@@ -178,7 +178,7 @@ valueOrCondition:
     combinedCondition
     | value
     | hashMapKeyValue
-    | documentation
+    | multilineString
     | type=ymlId name=ymlId
 ;
 

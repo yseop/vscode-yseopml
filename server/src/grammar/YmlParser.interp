@@ -268,7 +268,7 @@ local_variable_decl
 localField
 returnField
 classPropertiesBlock
-documentation
+multilineString
 objectReturnAttributeValue
 objectAttributeValue
 valueOrCondition
