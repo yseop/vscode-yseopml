@@ -1,0 +1,113 @@
+import { CodeLens, CodeLensParams, Position, Range, TextDocumentIdentifier } from 'vscode-languageserver';
+
+import { YmlDefinitionProvider } from '../definitions';
+import { codeLensRequestHandler } from '../features';
+import { createFakeFunctionContainer, FAKE_FILE_PATH, parseAndVisitYmlFunction } from './TestHelpers';
+
+const DEFAULT_REQUEST_PARAMS: CodeLensParams = {
+    textDocument: TextDocumentIdentifier.create(FAKE_FILE_PATH),
+};
+
+describe('CodeLensRequestHandler', () => {
+    test.each([
+        [
+            `
+coll = new(List);
+foreach(_elem, args1) { // +1
+    if(_elem.instanceOf(Collection) == true) { // +2 (nesting = 1)
+        foreach(_subElem, _elem) { // +3 (nesting = 2)
+            if(_subElem.isInstanceOf(Text) == true) { // +4 (nesting = 3)
+                coll.add(_subElem);
+                break; // +1
+            }
+        }
+    } else if(_elem.isInstanceOf(Text) == true) { // +2 (nesting = 1)
+        coll.add(_elem);
+    }
+} // Cognitive complexity = 13
+`,
+            13,
+        ],
+        [
+            `
+if(a == true // +1 because of if
+    && b == true && c == true // +1
+    || d == true || e == true // +1
+    && f == true) { // +1
+    for(var, 1, coll.size()) { // +2 (nesting = 1)
+        // do nothing
+    }
+}
+
+if(a == true // +1 because of if
+    || b == true || c == true // +1
+    && d == true && e == true // +1
+) {
+    // do nothing
+}
+`,
+            9,
+        ],
+        [
+            `
+forall(?country in Country, ?country.continent == EUROPE) {
+    if(?country.population > 10000000 || ?country.population < 1000) {
+        ?country.writeName();
+    }
+}
+            `,
+            3,
+        ],
+        [
+            `
+value = ifExpr(a > 0) // +1
+        then "great"
+        else ifExpr(a < 0) // +2 (nesting = 1)
+            then "bad"
+            else "same";
+            `,
+            3,
+        ],
+        [
+            `
+value = switchExpr(value) {// +1
+        case GREAT: "great"
+        case BAD: "bad"
+        default: "same"
+};
+            `,
+            1,
+        ],
+        [
+            `
+switch(value) {// +1
+    case GREAT: {
+        value = "great";
+    }
+    case BAD: {
+        value = "bad";
+    }
+    default: {
+        value = "same";
+    }
+}
+            `,
+            1,
+        ],
+    ])('the function %# should give the expected codeLens', (functionContent, expectedComplexity) => {
+        const definitionProvider = new YmlDefinitionProvider();
+        parseAndVisitYmlFunction(createFakeFunctionContainer(functionContent), null, definitionProvider);
+        const handler = codeLensRequestHandler(definitionProvider);
+        const codeLens: CodeLens[] = handler(DEFAULT_REQUEST_PARAMS);
+        const contentNumberOfLines = functionContent.split('\n').length;
+        expect(codeLens).toBeTruthy();
+        expect(codeLens.length).toBe(1);
+        expect(codeLens[0]).toStrictEqual({
+            range: Range.create(Position.create(0, 0), Position.create(contentNumberOfLines + 4, 1)),
+            command: {
+                title: `Cognitive complexity is ${expectedComplexity}.`,
+                command: null,
+            },
+        });
+    });
+});

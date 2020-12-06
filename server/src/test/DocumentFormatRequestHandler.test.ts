@@ -1,29 +1,6 @@
-import { TextDocument } from 'vscode-languageserver';
-
 import { buildDocumentEditList } from '../server';
 import { DEFAULT_DOC_FORMAT_SETTINGS, IDocumentFormatSettings } from '../settings/Settings';
-
-const FAKE_FILE_PATH = '/file1.kao';
-const YML_LANGUAGE_ID = 'yml';
-
-function createFakeFunctionContainer(functionContent: string = ''): string {
-    return `function myFunction(Object input)
---> domains Integer
---> action {
-    ${functionContent}
-};`;
-}
-
-/**
- * Create and return a TextDocument with `docContent` as content.
- *
- * @param docContent the document content
- *
- * @return a TextDocument
- */
-function createFakeDocument(docContent: string): TextDocument {
-    return TextDocument.create(FAKE_FILE_PATH, YML_LANGUAGE_ID, 1, docContent);
-}
+import { createFakeDocument, createFakeFunctionContainer } from './TestHelpers';
 
 describe('DocumentFormatRequestHandler', () => {
     it('should not give edits when there is nothing to do', (done) => {
