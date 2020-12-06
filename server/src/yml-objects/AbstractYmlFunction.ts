@@ -3,6 +3,11 @@ import { YmlArgs } from './YmlArgs';
 import { YmlSymbolList } from './YmlSymbolList';
 
 export abstract class AbstractYmlFunction extends AbstractYmlObject {
+    /** The cognitive complexity of this function. */
+    private cognitiveComplexity = 0;
+    /** The current nesting level. */
+    private nestingLevel = 0;
+
     /**
      * Domains / return types of the function.
      */
@@ -27,5 +32,38 @@ export abstract class AbstractYmlFunction extends AbstractYmlObject {
     public getShortName() {
         const functionNameSubParts = this.label.split('::');
         return functionNameSubParts[functionNameSubParts.length - 1];
+    }
+
+    /**
+     * Get the cognitive complexity computed for this function during parsing.
+     */
+    public getCognitiveComplexity() {
+        return this.cognitiveComplexity;
+    }
+
+    /**
+     * Increase the cognitive complexity by one then add the nesting level if required.
+     *
+     * @param applyNestingLevel `false` if the nesting level shouldn't be applied too. `true` by default.
+     */
+    public increaseCognitiveComplexity(applyNestingLevel = true) {
+        this.cognitiveComplexity += 1;
+        if (applyNestingLevel) {
+            this.cognitiveComplexity += this.nestingLevel;
+        }
+    }
+
+    /**
+     * Increase by one the current nesting level when computing the cognitive complexity.
+     */
+    public increaseNestingLevel() {
+        this.nestingLevel++;
+    }
+
+    /**
+     * Decrease by one the current nesting level when computing the cognitive complexity.
+     */
+    public decreaseNestingLevel() {
+        this.nestingLevel--;
     }
 }

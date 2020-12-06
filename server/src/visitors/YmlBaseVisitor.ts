@@ -8,22 +8,20 @@ import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProv
 import { YmlDefinitionProvider } from '../definitions';
 import {
     ActionBlockContext,
+    ArrayContext,
     CombinedConditionContext,
     ComparisonContext,
-    Instruction_assignmentContext,
-    Instruction_ifContext,
-    InstructionContext,
-    YmlParserVisitor,
-} from '../grammar';
-import {
-    ArrayContext,
     ConstListContext,
     FunctionCallContext,
+    Instruction_assignmentContext,
+    Instruction_ifContext,
     Instruction_ifElseContext,
     Instruction_multivaluedAssignmentContext,
+    InstructionContext,
     MandatoryArgsContext,
     SimpleListContext,
-} from '../grammar/YmlParser';
+    YmlParserVisitor,
+} from '../grammar';
 import { IDocumentFormatSettings } from '../settings/Settings';
 
 export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements YmlParserVisitor<void> {
@@ -43,9 +41,6 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
     }
 
     public visitCombinedCondition(node: CombinedConditionContext): void {
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
         if (!!node.COND_AND()) {
             const asSymbol = node.COND_AND().symbol;
             this.setOneSpaceIntervalBetweenContextAndToken(node._leftCondition, asSymbol);
@@ -60,9 +55,6 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
     }
 
     public visitComparison(node: ComparisonContext): void {
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
         const operator = node.comparisonOperator();
         this.setOneSpaceIntervalBetweenTwoContexts(node._leftValue, operator);
         this.setOneSpaceIntervalBetweenTwoContexts(operator, node._rightValue);
@@ -107,9 +99,6 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
     }
 
     public visitInstruction_assignment(node: Instruction_assignmentContext) {
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
         const equalSymbol = node.EQUAL_ASSIGNMENT().symbol;
         this.setOneSpaceIntervalBetweenContextAndToken(node._leftHand, equalSymbol);
         this.setOneSpaceIntervalBetweenTokenAndContext(equalSymbol, node._rightHand);
@@ -117,9 +106,6 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
     }
 
     public visitInstruction_multivaluedAssignment(node: Instruction_multivaluedAssignmentContext) {
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
         const equalSymbol = node.MULTIVALUED_ASSIGNMENT().symbol;
         this.setOneSpaceIntervalBetweenContextAndToken(node._leftHand, equalSymbol);
         this.setOneSpaceIntervalBetweenTokenAndContext(equalSymbol, node._rightHand);
@@ -136,6 +122,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         if (
             !!node.SEMICOLON() ||
             !(node.parent instanceof ActionBlockContext) ||
+            !this.docFormatSettings ||
             this.docFormatSettings.semicolonWhenPossible === 'no'
         ) {
             this.visitChildren(node);
@@ -250,6 +237,9 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
      * Do nothing if there is already a zero space distance.
      */
     private removeSpaceInterval(leftElementEnd: number, rightElementStart: number) {
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
         if (rightElementStart - leftElementEnd === 1) {
             // There is already no space between the two elements.
             return;
@@ -267,6 +257,9 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
      * Do nothing if there is already a one space distance or if the two elements are not on the same line.
      */
     private setOneSpaceInterval(leftElementEnd: number, rightElementStart: number, sameLine: boolean): void {
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
         // Don't force one space interval when the left element and the right element are not on the same line.
         if (!sameLine) {
             return;
@@ -294,6 +287,9 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     /** Add an edit that adds a semicolon right after the provided node. */
     private addSemiColon(node: ParserRuleContext): void {
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
         this.filePossibleEdits.push(TextEdit.insert(this.document.positionAt(node.stop.stopIndex + 1), ';'));
     }
 

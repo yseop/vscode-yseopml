@@ -1,16 +1,29 @@
+import { ParserRuleContext } from 'antlr4ts';
 import { TextDocument, TextEdit } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import {
+    ActionBlockContext,
+    CombinedConditionContext,
     FunctionContext,
+    IfExprBlockContext,
+    Instruction_breakContext,
+    Instruction_forallContext,
+    Instruction_forContext,
+    Instruction_forEachContext,
+    Instruction_ifContext,
+    Instruction_switchCase_asIfContext,
+    Instruction_switchCase_withValueContext,
+    Instruction_switchExpr_asIfContext,
+    Instruction_switchExpr_withValueContext,
+    Instruction_try_catchContext,
     MandatoryArgDeclContext,
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
-import { ActionBlockContext } from '../grammar/YmlParser';
 import { IDocumentFormatSettings } from '../settings/Settings';
-import { AbstractYmlObject, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
+import { AbstractYmlFunction, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 import { getDocumentation, getType } from './YmlVisitorHelper';
 
@@ -28,7 +41,9 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
     private functionName: string;
 
-    private func: AbstractYmlObject;
+    private func: AbstractYmlFunction;
+
+    private previousOperatorIsAnd: boolean = undefined;
 
     constructor(
         completionProvider: YmlCompletionItemsProvider,
@@ -132,5 +147,93 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
     private isMethodInstanciation(fullName: string): boolean {
         // Check that there is a “::”, with at least one character before it.
         return fullName.includes('::', 1);
+    }
+
+    public visitInstruction_try_catch(node: Instruction_try_catchContext) {
+        // `try_catch` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_if(node: Instruction_ifContext) {
+        // `if` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node, () => super.visitInstruction_if(node));
+    }
+
+    public visitInstruction_forEach(node: Instruction_forEachContext) {
+        // `foreach` loop: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_for(node: Instruction_forContext) {
+        // `for` loop: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_forall(node: Instruction_forallContext) {
+        // `forall` loop: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_switchCase_asIf(node: Instruction_switchCase_asIfContext) {
+        // `switch {}`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+    public visitInstruction_switchCase_withValue(node: Instruction_switchCase_withValueContext) {
+        // `switch(value) {}`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_switchExpr_asIf(node: Instruction_switchExpr_asIfContext) {
+        // `switchExpr {}`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+    public visitInstruction_switchExpr_withValue(node: Instruction_switchExpr_withValueContext) {
+        // `switchExpr(value) {}`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitIfExprBlock(node: IfExprBlockContext) {
+        // `ifExpr`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_break(_node: Instruction_breakContext) {
+        // `break` instruction: complexity ++
+        this.func.increaseCognitiveComplexity(false);
+    }
+
+    public visitCombinedCondition(node: CombinedConditionContext): void {
+        // sequence of binary logical operators: complexity ++
+        if (!!node.COND_AND() || !!node.COND_OR()) {
+            if (this.previousOperatorIsAnd === undefined || !(node._parent instanceof CombinedConditionContext)) {
+                this.previousOperatorIsAnd = !!node.COND_AND();
+            }
+            if (!!node.COND_AND() && !this.previousOperatorIsAnd) {
+                this.func.increaseCognitiveComplexity(false);
+            }
+            if (!!node.COND_OR() && !!this.previousOperatorIsAnd) {
+                this.func.increaseCognitiveComplexity(false);
+            }
+        }
+        super.visitCombinedCondition(node);
+    }
+
+    /**
+     * Increase the cognitive complexity of current AbstractYmlFunction
+     * then increase the nesting level and call the provided function or
+     * visit current node's children then decrease the nesting level.
+     *
+     * @param node currently visited node
+     * @param myFunction a function to apply after increasing the nesting level and before decreasing it
+     */
+    private goDeeperInComplexity(node: ParserRuleContext, myFunction?: () => void) {
+        this.func.increaseCognitiveComplexity();
+        this.func.increaseNestingLevel();
+        if (!myFunction) {
+            this.visitChildren(node);
+        } else {
+            myFunction();
+        }
+        this.func.decreaseNestingLevel();
     }
 }
