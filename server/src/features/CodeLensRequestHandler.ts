@@ -12,25 +12,19 @@ import { YmlFunction } from '../yml-objects';
  *
  * @param definitionsProvider an YmlDefinitionProvider instance to get known YML objects and functions from.
  *
- * @returns a request handler for the event `foldingRanges`.
+ * @returns a request handler for the event `codeLens`.
  */
 export function codeLensRequestHandler(definitionsProvider: YmlDefinitionProvider) {
     return (_params: CodeLensParams): CodeLens[] => {
-        const currentFileFunctions = definitionsProvider.filterImplementations(
-            (elem) => elem instanceof YmlFunction && elem.uri === _params.textDocument.uri,
-        );
-        const lenses = [];
-        for (const func of currentFileFunctions) {
-            if (!(func instanceof YmlFunction)) {
-                continue;
-            }
-            const lens = CodeLens.create(func.definitionLocation.range);
-            lens.command = {
-                title: `Cognitive complexity is ${func.getCognitiveComplexity()}.`,
-                command: null,
-            };
-            lenses.push(lens);
-        }
-        return lenses;
+        return definitionsProvider
+            .filterImplementations((elem) => elem instanceof YmlFunction && elem.uri === _params.textDocument.uri)
+            .map((func: YmlFunction) => {
+                const lens = CodeLens.create(func.definitionLocation.range);
+                lens.command = {
+                    title: `Cognitive complexity is ${func.getCognitiveComplexity()}.`,
+                    command: null,
+                };
+                return lens;
+            });
     };
 }

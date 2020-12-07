@@ -43,6 +43,11 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
     private func: AbstractYmlFunction;
 
+    /**
+     * State used when computing the cognitive complexity.
+     * The complexity should increase when the operator changes
+     * from `&&` to `||` or from `||` to `&&`.
+     */
     private previousOperatorIsAnd: boolean = undefined;
 
     constructor(
@@ -208,13 +213,22 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         // sequence of binary logical operators: complexity ++
         if (!!node.COND_AND() || !!node.COND_OR()) {
             if (this.previousOperatorIsAnd === undefined || !(node._parent instanceof CombinedConditionContext)) {
+                // This is the first conditional operator we encounter for the current condition.
+                // Set previousOperatorIsAnd to true or false depending on the operator found.
                 this.previousOperatorIsAnd = !!node.COND_AND();
             }
             if (!!node.COND_AND() && !this.previousOperatorIsAnd) {
+                // We changed operator from `||` to `&&` → we increment complexity
                 this.func.increaseCognitiveComplexity(false);
-            }
-            if (!!node.COND_OR() && !!this.previousOperatorIsAnd) {
+                // FIXME: we should inverse the value of previousOperatorIsAnd here.
+                // But this is not possible yet because of how the grammar is built.
+            } else if (!!node.COND_OR() && !!this.previousOperatorIsAnd) {
+                // We changed operator from `&&` to `||` → we increment complexity
                 this.func.increaseCognitiveComplexity(false);
+                // FIXME: we should inverse the value of previousOperatorIsAnd here.
+                // But this is not possible yet because of how the grammar is built.
+            } else {
+                // Nothing to do. Current operator is the same as the previous one.
             }
         }
         super.visitCombinedCondition(node);
@@ -226,15 +240,15 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
      * visit current node's children then decrease the nesting level.
      *
      * @param node currently visited node
-     * @param myFunction a function to apply after increasing the nesting level and before decreasing it
+     * @param someFunction a function to call after increasing the nesting level and before decreasing it
      */
-    private goDeeperInComplexity(node: ParserRuleContext, myFunction?: () => void) {
+    private goDeeperInComplexity(node: ParserRuleContext, someFunction?: () => void) {
         this.func.increaseCognitiveComplexity();
         this.func.increaseNestingLevel();
-        if (!myFunction) {
+        if (!someFunction) {
             this.visitChildren(node);
         } else {
-            myFunction();
+            someFunction();
         }
         this.func.decreaseNestingLevel();
     }
