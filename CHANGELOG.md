@@ -5,7 +5,7 @@
 -   Functions and object instances are now foldable.
 -   Functions now display their Cognitive Complexity.
     A high score means that the function is probably hard to understand and may be hard to maintain.
-    A developer should consider refactoring such function if possible.
+    A developer should consider refactoring such functions if possible.
 
 ## 1.11.0 (2020-09-03)
 

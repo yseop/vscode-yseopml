@@ -178,6 +178,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         // `switch {}`: complexity +1 + nesting level; increase nesting level for inner instructions
         this.goDeeperInComplexity(node);
     }
+
     public visitInstruction_switchCase_withValue(node: Instruction_switchCase_withValueContext) {
         // `switch(value) {}`: complexity +1 + nesting level; increase nesting level for inner instructions
         this.goDeeperInComplexity(node);
@@ -187,6 +188,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         // `switchExpr {}`: complexity +1 + nesting level; increase nesting level for inner instructions
         this.goDeeperInComplexity(node);
     }
+
     public visitInstruction_switchExpr_withValue(node: Instruction_switchExpr_withValueContext) {
         // `switchExpr(value) {}`: complexity +1 + nesting level; increase nesting level for inner instructions
         this.goDeeperInComplexity(node);
