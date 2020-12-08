@@ -68,7 +68,7 @@ function myFunction(Object input)
 };
 `,
         );
-        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(33);
+        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(34);
         done();
     });
     it('should not give edits when the file has syntax errors', (done) => {
@@ -148,6 +148,18 @@ if       ( input   !=null)     {
 // No change between open parenthesis and “input”.
 if       ( input   !=null) myFunction()`,
             3,
+        ],
+        [
+            `
+if  (input == true)     {
+
+}   else   if     (inputB == false)    {
+
+}else{
+    // do nothing
+}
+`,
+            8,
         ],
     ])('the selected text (%#) should give the expected number of edits', (content, expectedEdits) => {
         const file = createFakeDocument(createFakeFunctionContainer(content));

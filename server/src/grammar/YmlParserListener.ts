@@ -104,7 +104,9 @@ import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
-import { Instruction_ifContext } from "./YmlParser";
+import { ElseExpressionContext } from "./YmlParser";
+import { ElseIfExpressionContext } from "./YmlParser";
+import { IfExpressionContext } from "./YmlParser";
 import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
@@ -1250,15 +1252,37 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitInstruction_ifElse?: (ctx: Instruction_ifElseContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.instruction_if`.
+	 * Enter a parse tree produced by `YmlParser.elseExpression`.
 	 * @param ctx the parse tree
 	 */
-	enterInstruction_if?: (ctx: Instruction_ifContext) => void;
+	enterElseExpression?: (ctx: ElseExpressionContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.instruction_if`.
+	 * Exit a parse tree produced by `YmlParser.elseExpression`.
 	 * @param ctx the parse tree
 	 */
-	exitInstruction_if?: (ctx: Instruction_ifContext) => void;
+	exitElseExpression?: (ctx: ElseExpressionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.elseIfExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterElseIfExpression?: (ctx: ElseIfExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.elseIfExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitElseIfExpression?: (ctx: ElseIfExpressionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.ifExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterIfExpression?: (ctx: IfExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.ifExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitIfExpression?: (ctx: IfExpressionContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_timeCounter`.

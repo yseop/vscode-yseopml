@@ -104,7 +104,9 @@ import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
-import { Instruction_ifContext } from "./YmlParser";
+import { ElseExpressionContext } from "./YmlParser";
+import { ElseIfExpressionContext } from "./YmlParser";
+import { IfExpressionContext } from "./YmlParser";
 import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
@@ -849,11 +851,25 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstruction_ifElse?: (ctx: Instruction_ifElseContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.instruction_if`.
+	 * Visit a parse tree produced by `YmlParser.elseExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitInstruction_if?: (ctx: Instruction_ifContext) => Result;
+	visitElseExpression?: (ctx: ElseExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.elseIfExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitElseIfExpression?: (ctx: ElseIfExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.ifExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitIfExpression?: (ctx: IfExpressionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_timeCounter`.

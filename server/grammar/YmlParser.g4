@@ -469,11 +469,15 @@ instructionCase:
 instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
 
-instruction_ifElse: instruction_if (ELSE actionBlockOrInstruction)?;
-
-instruction_if:
-    IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
+instruction_ifElse:
+    main=ifExpression elseIfs=elseIfExpression* elseExpr=elseExpression?
 ;
+
+elseExpression: ELSE actionBlockOrInstruction;
+
+elseIfExpression: ELSE ifExpression;
+
+ifExpression: IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction;
 
 instruction_timeCounter:
     TIME_COUNTER OPEN_PAR ymlId COMMA actionBlock CLOSE_PAR

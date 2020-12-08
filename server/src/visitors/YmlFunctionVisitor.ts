@@ -14,7 +14,7 @@ import {
     Instruction_forallContext,
     Instruction_forContext,
     Instruction_forEachContext,
-    Instruction_ifContext,
+    Instruction_ifElseContext,
     Instruction_switchCase_asIfContext,
     Instruction_switchCase_withValueContext,
     Instruction_switchExpr_asIfContext,
@@ -24,6 +24,7 @@ import {
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
+import { ElseExpressionContext, ElseIfExpressionContext } from '../grammar/YmlParser';
 import { IDocumentFormatSettings } from '../settings/Settings';
 import { AbstractYmlFunction, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
@@ -161,9 +162,21 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         this.goDeeperInComplexity(node);
     }
 
-    public visitInstruction_if(node: Instruction_ifContext) {
+    public visitInstruction_ifElse(node: Instruction_ifElseContext) {
         // `if` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
-        this.goDeeperInComplexity(node, () => super.visitInstruction_if(node));
+        this.goDeeperInComplexity(node, () => super.visitInstruction_ifElse(node));
+    }
+
+    public visitElseIfExpression(node: ElseIfExpressionContext) {
+        // `if else` instruction: complexity +1
+        this.func.increaseCognitiveComplexity(false);
+        super.visitElseIfExpression(node);
+    }
+
+    public visitElseExpression(node: ElseExpressionContext) {
+        // `else` instruction: complexity +1
+        this.func.increaseCognitiveComplexity(false);
+        super.visitElseExpression(node);
     }
 
     public visitInstruction_forEach(node: Instruction_forEachContext) {

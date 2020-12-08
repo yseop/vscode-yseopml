@@ -21,8 +21,10 @@ foreach(_elem, args1) { // +1
                 break; // +1
             }
         }
-    } else if(_elem.isInstanceOf(Text) == true) { // +2 (nesting = 1)
+    } else if(_elem.isInstanceOf(Text) == true) { // +1
         coll.add(_elem);
+    } else { // +1
+        logWarning("Why am I here?")
     }
 } // Cognitive complexity = 13
 `,
