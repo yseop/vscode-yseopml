@@ -33,7 +33,9 @@ foreach(_elem, args1) { // +1
 if(a == true // +1 because of if
     && b == true && c == true // +1
     || d == true || e == true // +1
-    && f == true) { // +1
+    && f == true // +1
+    || g == true // +1
+    && h == true && i == true) { // +1
     for(var, 1, coll.size()) { // +2 (nesting = 1)
         // do nothing
     }
@@ -46,17 +48,18 @@ if(a == true // +1 because of if
     // do nothing
 }
 `,
-            9,
+            11,
         ],
         [
             `
-forall(?country in Country, ?country.continent == EUROPE) {
-    if(?country.population > 10000000 || ?country.population < 1000) {
+forall(?country in Country, ?country.continent == EUROPE) { // +1
+    if(?country.population > 10000000 // +2 (nesting = 1)
+        || ?country.population < 1000) { // +1
         ?country.writeName();
     }
 }
             `,
-            3,
+            4,
         ],
         [
             `

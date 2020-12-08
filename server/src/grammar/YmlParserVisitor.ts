@@ -82,8 +82,10 @@ import { ArgOptionBlockContext } from "./YmlParser";
 import { Order1BlockContext } from "./YmlParser";
 import { InstanciationConditionContext } from "./YmlParser";
 import { Order1FullConditionContext } from "./YmlParser";
-import { ParenthesisConditionContext } from "./YmlParser";
-import { CombinedConditionContext } from "./YmlParser";
+import { ParenthesisConditionalExpressionContext } from "./YmlParser";
+import { ConditionalExpressionContext } from "./YmlParser";
+import { ConditionalAndExpressionContext } from "./YmlParser";
+import { ConditionalOrExpressionContext } from "./YmlParser";
 import { ComparisonContext } from "./YmlParser";
 import { ComparisonOperatorContext } from "./YmlParser";
 import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
@@ -693,18 +695,32 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitOrder1FullCondition?: (ctx: Order1FullConditionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.parenthesisCondition`.
+	 * Visit a parse tree produced by `YmlParser.parenthesisConditionalExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitParenthesisCondition?: (ctx: ParenthesisConditionContext) => Result;
+	visitParenthesisConditionalExpression?: (ctx: ParenthesisConditionalExpressionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.combinedCondition`.
+	 * Visit a parse tree produced by `YmlParser.conditionalExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitCombinedCondition?: (ctx: CombinedConditionContext) => Result;
+	visitConditionalExpression?: (ctx: ConditionalExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.conditionalAndExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitConditionalAndExpression?: (ctx: ConditionalAndExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.conditionalOrExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitConditionalOrExpression?: (ctx: ConditionalOrExpressionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.comparison`.

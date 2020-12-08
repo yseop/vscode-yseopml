@@ -9,8 +9,9 @@ import { YmlDefinitionProvider } from '../definitions';
 import {
     ActionBlockContext,
     ArrayContext,
-    CombinedConditionContext,
     ComparisonContext,
+    ConditionalAndExpressionContext,
+    ConditionalOrExpressionContext,
     ConstListContext,
     FunctionCallContext,
     Instruction_assignmentContext,
@@ -40,12 +41,16 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         // no default
     }
 
-    public visitCombinedCondition(node: CombinedConditionContext): void {
+    public visitConditionalAndExpression(node: ConditionalAndExpressionContext): void {
         if (!!node.COND_AND()) {
             const asSymbol = node.COND_AND().symbol;
             this.setOneSpaceIntervalBetweenContextAndToken(node._leftCondition, asSymbol);
             this.setOneSpaceIntervalBetweenTokenAndContext(asSymbol, node._rightCondition);
         }
+        this.visitChildren(node);
+    }
+
+    public visitConditionalOrExpression(node: ConditionalOrExpressionContext): void {
         if (!!node.COND_OR()) {
             const asSymbol = node.COND_OR().symbol;
             this.setOneSpaceIntervalBetweenContextAndToken(node._leftCondition, asSymbol);

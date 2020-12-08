@@ -5,7 +5,9 @@ import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProv
 import { YmlDefinitionProvider } from '../definitions';
 import {
     ActionBlockContext,
-    CombinedConditionContext,
+    ConditionalAndExpressionContext,
+    ConditionalExpressionContext,
+    ConditionalOrExpressionContext,
     FunctionContext,
     IfExprBlockContext,
     Instruction_breakContext,
@@ -209,29 +211,36 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         this.func.increaseCognitiveComplexity(false);
     }
 
-    public visitCombinedCondition(node: CombinedConditionContext): void {
-        // sequence of binary logical operators: complexity ++
-        if (!!node.COND_AND() || !!node.COND_OR()) {
-            if (this.previousOperatorIsAnd === undefined || !(node._parent instanceof CombinedConditionContext)) {
-                // This is the first conditional operator we encounter for the current condition.
-                // Set previousOperatorIsAnd to true or false depending on the operator found.
-                this.previousOperatorIsAnd = !!node.COND_AND();
-            }
-            if (!!node.COND_AND() && !this.previousOperatorIsAnd) {
-                // We changed operator from `||` to `&&` → we increment complexity
+    public visitConditionalAndExpression(node: ConditionalAndExpressionContext): void {
+        if (!!node.COND_AND()) {
+            // We encountered symbol `&&`.
+            if (this.previousOperatorIsAnd !== true) {
+                // We changed operator from `||` to `&&` or this is the first time we encounter the `&&` operator
+                // → we increment complexity
                 this.func.increaseCognitiveComplexity(false);
-                // FIXME: we should inverse the value of previousOperatorIsAnd here.
-                // But this is not possible yet because of how the grammar is built.
-            } else if (!!node.COND_OR() && !!this.previousOperatorIsAnd) {
-                // We changed operator from `&&` to `||` → we increment complexity
-                this.func.increaseCognitiveComplexity(false);
-                // FIXME: we should inverse the value of previousOperatorIsAnd here.
-                // But this is not possible yet because of how the grammar is built.
-            } else {
-                // Nothing to do. Current operator is the same as the previous one.
             }
+            this.previousOperatorIsAnd = true;
         }
-        super.visitCombinedCondition(node);
+        super.visitConditionalAndExpression(node);
+    }
+
+    public visitConditionalOrExpression(node: ConditionalOrExpressionContext): void {
+        if (!!node.COND_OR()) {
+            // We encountered symbol `||`.
+            if (this.previousOperatorIsAnd !== false) {
+                // We changed operator from `&&` to `||` or this is the first time we encounter the `||` operator
+                // → we increment complexity
+                this.func.increaseCognitiveComplexity(false);
+            }
+            this.previousOperatorIsAnd = false;
+        }
+        super.visitConditionalOrExpression(node);
+    }
+
+    public visitConditionalExpression(node: ConditionalExpressionContext): void {
+        // We enter a conditional expression; reset value of previousOperatorIsAnd.
+        this.previousOperatorIsAnd = undefined;
+        this.visitChildren(node);
     }
 
     /**
