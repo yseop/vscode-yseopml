@@ -99,6 +99,27 @@ switch(value) {// +1
             `,
             1,
         ],
+        [
+            `
+// Ugly code that should never exist.
+a = 0;
+while(a > 0 // +1
+    && a < 10) { // +1
+    if(a > 5 // +2 (increment = 1)
+        && a < 8) { // +1
+        logInfo(a);
+    } else { // +1
+        logInfo(a - 1);
+        while(true == true) { // +3 (increment = 2)
+            if(condition == true) { // +4 (increment = 3)
+                break; // +1
+            }
+        }
+    }
+    incr(a)
+}`,
+            14,
+        ],
     ])('the function %# should give the expected codeLens', (functionContent, expectedComplexity) => {
         const definitionProvider = new YmlDefinitionProvider();
         parseAndVisitYmlFunction(createFakeFunctionContainer(functionContent), null, definitionProvider);

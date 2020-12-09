@@ -8,6 +8,8 @@ import {
     ConditionalAndExpressionContext,
     ConditionalExpressionContext,
     ConditionalOrExpressionContext,
+    ElseExpressionContext,
+    ElseIfExpressionContext,
     FunctionContext,
     IfExprBlockContext,
     Instruction_breakContext,
@@ -20,11 +22,11 @@ import {
     Instruction_switchExpr_asIfContext,
     Instruction_switchExpr_withValueContext,
     Instruction_try_catchContext,
+    Instruction_whileContext,
     MandatoryArgDeclContext,
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
-import { ElseExpressionContext, ElseIfExpressionContext } from '../grammar/YmlParser';
 import { IDocumentFormatSettings } from '../settings/Settings';
 import { AbstractYmlFunction, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
@@ -159,6 +161,11 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
     public visitInstruction_try_catch(node: Instruction_try_catchContext) {
         // `try_catch` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_while(node: Instruction_whileContext) {
+        // `while` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
         this.goDeeperInComplexity(node);
     }
 
