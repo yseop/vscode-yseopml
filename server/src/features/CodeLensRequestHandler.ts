@@ -6,7 +6,7 @@ import { YmlFunction } from '../yml-objects';
 /**
  * Create a request handler for the event `codeLens`.
  * The handler, when receiving a `CodeLensParams` instance will find
- * in the provided YmlDefinitionProvider every YML functions
+ * in the provided YmlDefinitionProvider every YML function
  * of the text document the request is about
  * and build a list of `CodeLens` that will be used by client-side
  * to display the cognitive complexity at the top of the function.
