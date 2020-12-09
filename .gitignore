@@ -75,5 +75,5 @@ target/
 /report.json
 
 # ANTLR grammar
+/server/grammar/*
 !/server/grammar/*.g4
-/server/grammar/

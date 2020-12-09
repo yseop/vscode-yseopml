@@ -3,7 +3,7 @@
 ## X.XX.X (YYYY-MM-DD)
 
 -   Functions and object instances are now foldable.
--   Functions now display their Cognitive Complexity.
+-   Functions now display their cognitive complexity.
     A high score means that the function is probably hard to understand and may be hard to maintain.
     A developer should consider refactoring such functions if possible.
 
