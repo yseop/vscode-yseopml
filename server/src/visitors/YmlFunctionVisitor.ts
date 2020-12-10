@@ -1,16 +1,34 @@
+import { ParserRuleContext } from 'antlr4ts';
 import { TextDocument, TextEdit } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import {
+    ActionBlockContext,
+    ConditionalAndExpressionContext,
+    ConditionalExpressionContext,
+    ConditionalOrExpressionContext,
+    ElseExpressionContext,
+    ElseIfExpressionContext,
     FunctionContext,
+    IfExprBlockContext,
+    Instruction_breakContext,
+    Instruction_forallContext,
+    Instruction_forContext,
+    Instruction_forEachContext,
+    Instruction_ifElseContext,
+    Instruction_switchCase_asIfContext,
+    Instruction_switchCase_withValueContext,
+    Instruction_switchExpr_asIfContext,
+    Instruction_switchExpr_withValueContext,
+    Instruction_try_catchContext,
+    Instruction_whileContext,
     MandatoryArgDeclContext,
     MemberDeclarationContext,
     VariableBlockContentContext,
 } from '../grammar';
-import { ActionBlockContext } from '../grammar/YmlParser';
 import { IDocumentFormatSettings } from '../settings/Settings';
-import { AbstractYmlObject, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
+import { AbstractYmlFunction, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 import { getDocumentation, getType } from './YmlVisitorHelper';
 
@@ -28,7 +46,14 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
     private functionName: string;
 
-    private func: AbstractYmlObject;
+    private func: AbstractYmlFunction;
+
+    /**
+     * State used when computing the cognitive complexity.
+     * The complexity should increase when the operator changes
+     * from `&&` to `||` or from `||` to `&&`.
+     */
+    private previousOperatorIsAnd: boolean = undefined;
 
     constructor(
         completionProvider: YmlCompletionItemsProvider,
@@ -132,5 +157,128 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
     private isMethodInstanciation(fullName: string): boolean {
         // Check that there is a “::”, with at least one character before it.
         return fullName.includes('::', 1);
+    }
+
+    public visitInstruction_try_catch(node: Instruction_try_catchContext) {
+        // `try_catch` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_while(node: Instruction_whileContext) {
+        // `while` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_ifElse(node: Instruction_ifElseContext) {
+        // `if` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node, () => super.visitInstruction_ifElse(node));
+    }
+
+    public visitElseIfExpression(node: ElseIfExpressionContext) {
+        // `if else` instruction: complexity +1
+        this.func.increaseCognitiveComplexity(false);
+        super.visitElseIfExpression(node);
+    }
+
+    public visitElseExpression(node: ElseExpressionContext) {
+        // `else` instruction: complexity +1
+        this.func.increaseCognitiveComplexity(false);
+        super.visitElseExpression(node);
+    }
+
+    public visitInstruction_forEach(node: Instruction_forEachContext) {
+        // `foreach` loop: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_for(node: Instruction_forContext) {
+        // `for` loop: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_forall(node: Instruction_forallContext) {
+        // `forall` loop: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_switchCase_asIf(node: Instruction_switchCase_asIfContext) {
+        // `switch {}`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_switchCase_withValue(node: Instruction_switchCase_withValueContext) {
+        // `switch(value) {}`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_switchExpr_asIf(node: Instruction_switchExpr_asIfContext) {
+        // `switchExpr {}`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_switchExpr_withValue(node: Instruction_switchExpr_withValueContext) {
+        // `switchExpr(value) {}`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitIfExprBlock(node: IfExprBlockContext) {
+        // `ifExpr`: complexity +1 + nesting level; increase nesting level for inner instructions
+        this.goDeeperInComplexity(node);
+    }
+
+    public visitInstruction_break(_node: Instruction_breakContext) {
+        // `break` instruction: complexity ++
+        this.func.increaseCognitiveComplexity(false);
+    }
+
+    public visitConditionalAndExpression(node: ConditionalAndExpressionContext): void {
+        if (!!node.COND_AND()) {
+            // We encountered symbol `&&`.
+            if (this.previousOperatorIsAnd !== true) {
+                // We changed operator from `||` to `&&` or this is the first time we encounter the `&&` operator
+                // → we increment complexity
+                this.func.increaseCognitiveComplexity(false);
+            }
+            this.previousOperatorIsAnd = true;
+        }
+        super.visitConditionalAndExpression(node);
+    }
+
+    public visitConditionalOrExpression(node: ConditionalOrExpressionContext): void {
+        if (!!node.COND_OR()) {
+            // We encountered symbol `||`.
+            if (this.previousOperatorIsAnd !== false) {
+                // We changed operator from `&&` to `||` or this is the first time we encounter the `||` operator
+                // → we increment complexity
+                this.func.increaseCognitiveComplexity(false);
+            }
+            this.previousOperatorIsAnd = false;
+        }
+        super.visitConditionalOrExpression(node);
+    }
+
+    public visitConditionalExpression(node: ConditionalExpressionContext): void {
+        // We enter a conditional expression; reset value of previousOperatorIsAnd.
+        this.previousOperatorIsAnd = undefined;
+        this.visitChildren(node);
+    }
+
+    /**
+     * Increase the cognitive complexity of current AbstractYmlFunction
+     * then increase the nesting level and call the provided function or
+     * visit current node's children then decrease the nesting level.
+     *
+     * @param node currently visited node
+     * @param someFunction a function to call after increasing the nesting level and before decreasing it
+     */
+    private goDeeperInComplexity(node: ParserRuleContext, someFunction?: () => void) {
+        this.func.increaseCognitiveComplexity();
+        this.func.increaseNestingLevel();
+        if (!someFunction) {
+            this.visitChildren(node);
+        } else {
+            someFunction();
+        }
+        this.func.decreaseNestingLevel();
     }
 }

@@ -150,14 +150,14 @@ returnField:
 
 classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 
-documentation: TRIPLE_QUOTE ANY* TRIPLE_QUOTE;
+multilineString: TRIPLE_QUOTE stringContent=ANY* TRIPLE_QUOTE;
 
 objectReturnAttributeValue:
     ifExprBlock
-    | combinedCondition
+    | conditionalExpression
     | value
     | hashMapKeyValue
-    | documentation
+    | multilineString
     | type=ymlId name=ymlId
     | simpleList
 ;
@@ -165,20 +165,20 @@ objectReturnAttributeValue:
 objectAttributeValue:
     instruction_return
     | ifExprBlock
-    | combinedCondition
+    | conditionalExpression
     | value
     | hashMapKeyValueList
     | hashMapKeyValue
-    | documentation
+    | multilineString
     | type=ymlId name=ymlId
     | simpleList
 ;
 
 valueOrCondition:
-    combinedCondition
+    conditionalExpression
     | value
     | hashMapKeyValue
-    | documentation
+    | multilineString
     | type=ymlId name=ymlId
 ;
 
@@ -187,7 +187,7 @@ hashMapKeyValueList: hashMapKeyValue (COMMA hashMapKeyValue)+;
 hashMap: OPEN_BRACE (hashMapKeyValue | hashMapKeyValueList) CLOSE_BRACE;
 hashMapKeyValue: hashMapKey COLON hashMapValue;
 hashMapKey: bool | STRING | DATE | chainedCall | NUMBER | array | constList;
-hashMapValue: value | combinedCondition;
+hashMapValue: value | conditionalExpression;
 
 value:
     granule
@@ -210,21 +210,21 @@ value:
 as:
     AS OPEN_PAR instanciationVariable
     (
-        COMMA (instruction_assignment | combinedCondition)
-    )*? COMMA combinedCondition CLOSE_PAR
+        COMMA (instruction_assignment | conditionalExpression)
+    )*? COMMA conditionalExpression CLOSE_PAR
 ;
 
 applyCollection:
     APPLY_COLLECTION OPEN_PAR value COMMA
     (
-        WHERE_APPLY_COLLECTION combinedCondition
+        WHERE_APPLY_COLLECTION conditionalExpression
         | OPERATION_APPLY_COLLECTION ymlId
         | ARGUMENTS_APPLY_COLLECTION value
     )
     (
         COMMA
         (
-            WHERE_APPLY_COLLECTION combinedCondition
+            WHERE_APPLY_COLLECTION conditionalExpression
             | OPERATION_APPLY_COLLECTION ymlId
             | ARGUMENTS_APPLY_COLLECTION value
         )
@@ -234,14 +234,14 @@ applyCollection:
 applyCollectionOn:
     APPLY_COLLECTION_ON OPEN_PAR value COMMA
     (
-        WHERE_APPLY_COLLECTION_ON combinedCondition
+        WHERE_APPLY_COLLECTION_ON conditionalExpression
         | OPERATION_APPLY_COLLECTION_ON ymlId
         | SELECT_APPLY_COLLECTION_ON value
     )
     (
         COMMA
         (
-            WHERE_APPLY_COLLECTION_ON combinedCondition
+            WHERE_APPLY_COLLECTION_ON conditionalExpression
             | OPERATION_APPLY_COLLECTION_ON ymlId
             | SELECT_APPLY_COLLECTION_ON value
         )
@@ -258,7 +258,7 @@ instruction_for:
 
 instruction_ifExprBlock: ifExprBlock;
 ifExprBlock:
-    IF_EXPR OPEN_PAR condition=combinedCondition CLOSE_PAR THEN thenValue=value ELSE elseValue=value
+    IF_EXPR OPEN_PAR condition=conditionalExpression CLOSE_PAR THEN thenValue=value ELSE elseValue=value
 ;
 
 bool: TRUE | FALSE;
@@ -277,7 +277,7 @@ expression:
     | functionCall
     | array
     | hashMap
-    | parenthesisCondition
+    | parenthesisConditionalExpression
     | OPEN_PAR instruction_switchExpr_withValue CLOSE_PAR
     | OPEN_PAR instruction_switchExpr_asIf CLOSE_PAR
     | OPEN_PAR ifExprBlock CLOSE_PAR
@@ -383,13 +383,20 @@ instanciationCondition: inlineOperation;
 
 order1FullCondition: conditionBlock? order1Block*;
 
-parenthesisCondition: OPEN_PAR combinedCondition CLOSE_PAR;
+parenthesisConditionalExpression: OPEN_PAR conditionalExpression CLOSE_PAR;
+
 //Comparisons
-combinedCondition:
-    parenthesisCondition
-    | leftCondition=combinedCondition COND_AND rightCondition=combinedCondition
-    | leftCondition=combinedCondition COND_OR rightCondition=combinedCondition
+conditionalExpression: conditionalOrExpression;
+
+conditionalAndExpression:
+    leftCondition=conditionalAndExpression COND_AND rightCondition=conditionalOrExpression
+    | parenthesisConditionalExpression
     | comparison
+;
+
+conditionalOrExpression:
+    leftCondition=conditionalOrExpression COND_OR rightCondition=conditionalAndExpression
+    | conditionalAndExpression
 ;
 
 comparison: leftValue=value comparisonOperator rightValue=value;
@@ -414,7 +421,7 @@ assignment_leftHandSide: chainedCall;
 
 conditionBlock: order0Condition+;
 
-order0Condition: combinedCondition | existentialOperator;
+order0Condition: conditionalExpression | existentialOperator;
 
 actionBlockOrInstruction: actionBlock | instruction;
 
@@ -462,11 +469,15 @@ instructionCase:
 instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
 
-instruction_ifElse: instruction_if (ELSE actionBlockOrInstruction)?;
-
-instruction_if:
-    IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
+instruction_ifElse:
+    main=ifExpression elseIfs=elseIfExpression* elseExpr=elseExpression?
 ;
+
+elseExpression: ELSE actionBlockOrInstruction;
+
+elseIfExpression: ELSE ifExpression;
+
+ifExpression: IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction;
 
 instruction_timeCounter:
     TIME_COUNTER OPEN_PAR ymlId COMMA actionBlock CLOSE_PAR
@@ -480,7 +491,7 @@ inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR inValue (COMMA? inValue)* (COMMA? combinedCondition)* CLOSE_PAR actionBlockOrInstruction
+    FORALL OPEN_PAR inValue (COMMA? inValue)* (COMMA? conditionalExpression)* CLOSE_PAR actionBlockOrInstruction
 ;
 instruction_while:
     WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
@@ -563,7 +574,7 @@ rules: ymlrule+;
 ymlrule:
     RULE_TYPE ymlId IF OPEN_PAR
     (
-        combinedCondition
+        conditionalExpression
         | inValue
         | instruction_assignment
     )+ CLOSE_PAR THEN instruction+ field* SEMICOLON

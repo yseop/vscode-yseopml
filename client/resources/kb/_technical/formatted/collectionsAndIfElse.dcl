@@ -4,6 +4,8 @@ function myFunction2(World world, Person me)
 --> action {
     if(world.contains(you) == false) {
         friends = [];
+    } else if(world.isEmpty() == true) {
+        assertFalse("I'm here, World shouldn't be empty");
     } else {
         friends = [you, me, [personA, personB, [personC, personD, personE]], personF];
     }

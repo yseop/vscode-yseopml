@@ -30,7 +30,12 @@ import {
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
-import { completionResolveRequestHandler, documentSymbolRequestHandler, foldingRangesRequestHandler } from './features';
+import {
+    codeLensRequestHandler,
+    completionResolveRequestHandler,
+    documentSymbolRequestHandler,
+    foldingRangesRequestHandler,
+} from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import {
     IDocumentFormatSettings,
@@ -82,6 +87,9 @@ const serverCapabilities: ServerCapabilities = {
     completionProvider: {
         resolveProvider: true,
         triggerCharacters: ['.', ':'],
+    },
+    codeLensProvider: {
+        resolveProvider: false,
     },
     hoverProvider: true,
     definitionProvider: true,
@@ -463,6 +471,8 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
 connection.onCompletionResolve(completionResolveRequestHandler(completionProvider));
 
 connection.onFoldingRanges(foldingRangesRequestHandler(definitionsProvider));
+
+connection.onCodeLens(codeLensRequestHandler(definitionsProvider));
 
 // Listen on the connection
 connection.listen();
