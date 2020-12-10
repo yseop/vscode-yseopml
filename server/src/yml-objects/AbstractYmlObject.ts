@@ -3,6 +3,7 @@ import {
     Command,
     CompletionItem,
     CompletionItemKind,
+    FoldingRange,
     InsertTextFormat,
     Location,
     MarkupContent,
@@ -60,9 +61,16 @@ export abstract class AbstractYmlObject implements CompletionItem {
      */
     public scopeEndOffset?: number;
 
+    /**
+     * Places where we can add folding markers inside this object.
+     */
+    public foldingRanges: FoldingRange[];
+
     private hoverContent?: MarkupContent;
 
-    constructor(public readonly label: string, public readonly kind: CompletionItemKind, public readonly uri: string) {}
+    constructor(public readonly label: string, public readonly kind: CompletionItemKind, public readonly uri: string) {
+        this.foldingRanges = [];
+    }
 
     public getShortName() {
         return this.label;

@@ -19,6 +19,7 @@ import {
     InitializeResult,
     IPCMessageReader,
     IPCMessageWriter,
+    ServerCapabilities,
     TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
@@ -29,7 +30,12 @@ import {
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
-import { completionResolveRequestHandler, documentSymbolRequestHandler } from './features';
+import {
+    codeLensRequestHandler,
+    completionResolveRequestHandler,
+    documentSymbolRequestHandler,
+    foldingRangesRequestHandler,
+} from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import {
     IDocumentFormatSettings,
@@ -76,28 +82,35 @@ let yseopmlSettings: IYseopmlServerSettings;
 // for open, change and close text document events
 documents.listen(connection);
 
+const serverCapabilities: ServerCapabilities = {
+    // Tell the client that the server support code complete
+    completionProvider: {
+        resolveProvider: true,
+        triggerCharacters: ['.', ':'],
+    },
+    codeLensProvider: {
+        resolveProvider: false,
+    },
+    hoverProvider: true,
+    definitionProvider: true,
+    documentSymbolProvider: true,
+    implementationProvider: true,
+    // Tell the client that the server works in FULL text document sync mode
+    textDocumentSync: documents.syncKind,
+    documentFormattingProvider: true,
+    foldingRangeProvider: true,
+};
+
+const intializeResult: InitializeResult = {
+    capabilities: serverCapabilities,
+};
+
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
 connection.onInitialize(
-    // tslint:disable-next-line: variable-name
     (_params): InitializeResult => {
         connection.console.log('Yseop.vscode-yseopml − Initializing server.');
-        return {
-            capabilities: {
-                // Tell the client that the server support code complete
-                completionProvider: {
-                    resolveProvider: true,
-                    triggerCharacters: ['.', ':'],
-                },
-                hoverProvider: true,
-                definitionProvider: true,
-                documentSymbolProvider: true,
-                implementationProvider: true,
-                // Tell the client that the server works in FULL text document sync mode
-                textDocumentSync: documents.syncKind,
-                documentFormattingProvider: true,
-            },
-        };
+        return intializeResult;
     },
 );
 
@@ -456,6 +469,10 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.
 connection.onCompletionResolve(completionResolveRequestHandler(completionProvider));
+
+connection.onFoldingRanges(foldingRangesRequestHandler(definitionsProvider));
+
+connection.onCodeLens(codeLensRequestHandler(definitionsProvider));
 
 // Listen on the connection
 connection.listen();

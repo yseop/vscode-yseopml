@@ -36,7 +36,7 @@ import { Local_variable_declContext } from "./YmlParser";
 import { LocalFieldContext } from "./YmlParser";
 import { ReturnFieldContext } from "./YmlParser";
 import { ClassPropertiesBlockContext } from "./YmlParser";
-import { DocumentationContext } from "./YmlParser";
+import { MultilineStringContext } from "./YmlParser";
 import { ObjectReturnAttributeValueContext } from "./YmlParser";
 import { ObjectAttributeValueContext } from "./YmlParser";
 import { ValueOrConditionContext } from "./YmlParser";
@@ -82,8 +82,10 @@ import { ArgOptionBlockContext } from "./YmlParser";
 import { Order1BlockContext } from "./YmlParser";
 import { InstanciationConditionContext } from "./YmlParser";
 import { Order1FullConditionContext } from "./YmlParser";
-import { ParenthesisConditionContext } from "./YmlParser";
-import { CombinedConditionContext } from "./YmlParser";
+import { ParenthesisConditionalExpressionContext } from "./YmlParser";
+import { ConditionalExpressionContext } from "./YmlParser";
+import { ConditionalAndExpressionContext } from "./YmlParser";
+import { ConditionalOrExpressionContext } from "./YmlParser";
 import { ComparisonContext } from "./YmlParser";
 import { ComparisonOperatorContext } from "./YmlParser";
 import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
@@ -102,7 +104,9 @@ import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
-import { Instruction_ifContext } from "./YmlParser";
+import { ElseExpressionContext } from "./YmlParser";
+import { ElseIfExpressionContext } from "./YmlParser";
+import { IfExpressionContext } from "./YmlParser";
 import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
@@ -371,11 +375,11 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitClassPropertiesBlock?: (ctx: ClassPropertiesBlockContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.documentation`.
+	 * Visit a parse tree produced by `YmlParser.multilineString`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitDocumentation?: (ctx: DocumentationContext) => Result;
+	visitMultilineString?: (ctx: MultilineStringContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.objectReturnAttributeValue`.
@@ -693,18 +697,32 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitOrder1FullCondition?: (ctx: Order1FullConditionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.parenthesisCondition`.
+	 * Visit a parse tree produced by `YmlParser.parenthesisConditionalExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitParenthesisCondition?: (ctx: ParenthesisConditionContext) => Result;
+	visitParenthesisConditionalExpression?: (ctx: ParenthesisConditionalExpressionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.combinedCondition`.
+	 * Visit a parse tree produced by `YmlParser.conditionalExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitCombinedCondition?: (ctx: CombinedConditionContext) => Result;
+	visitConditionalExpression?: (ctx: ConditionalExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.conditionalAndExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitConditionalAndExpression?: (ctx: ConditionalAndExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.conditionalOrExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitConditionalOrExpression?: (ctx: ConditionalOrExpressionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.comparison`.
@@ -833,11 +851,25 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstruction_ifElse?: (ctx: Instruction_ifElseContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `YmlParser.instruction_if`.
+	 * Visit a parse tree produced by `YmlParser.elseExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitInstruction_if?: (ctx: Instruction_ifContext) => Result;
+	visitElseExpression?: (ctx: ElseExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.elseIfExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitElseIfExpression?: (ctx: ElseIfExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.ifExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitIfExpression?: (ctx: IfExpressionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_timeCounter`.

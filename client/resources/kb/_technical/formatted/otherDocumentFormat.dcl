@@ -7,7 +7,7 @@ function myFunction2(World world, Person me, Person her)
     world.execute(me);
     if(world.find(you) == true || world.find(her) != false) {
         logInfo("Found somebody.");
-    }else{
+    } else {
         logWarning("Find nobody");
     }
     return you;

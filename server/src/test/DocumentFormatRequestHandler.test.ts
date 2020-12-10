@@ -1,29 +1,6 @@
-import { TextDocument } from 'vscode-languageserver';
-
 import { buildDocumentEditList } from '../server';
 import { DEFAULT_DOC_FORMAT_SETTINGS, IDocumentFormatSettings } from '../settings/Settings';
-
-const FAKE_FILE_PATH = '/file1.kao';
-const YML_LANGUAGE_ID = 'yml';
-
-function createFakeFunctionContainer(functionContent: string = ''): string {
-    return `function myFunction(Object input)
---> domains Integer
---> action {
-    ${functionContent}
-};`;
-}
-
-/**
- * Create and return a TextDocument with `docContent` as content.
- *
- * @param docContent the document content
- *
- * @return a TextDocument
- */
-function createFakeDocument(docContent: string): TextDocument {
-    return TextDocument.create(FAKE_FILE_PATH, YML_LANGUAGE_ID, 1, docContent);
-}
+import { createFakeDocument, createFakeFunctionContainer } from './TestHelpers';
 
 describe('DocumentFormatRequestHandler', () => {
     it('should not give edits when there is nothing to do', (done) => {
@@ -91,7 +68,7 @@ function myFunction(Object input)
 };
 `,
         );
-        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(33);
+        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(34);
         done();
     });
     it('should not give edits when the file has syntax errors', (done) => {
@@ -171,6 +148,18 @@ if       ( input   !=null)     {
 // No change between open parenthesis and “input”.
 if       ( input   !=null) myFunction()`,
             3,
+        ],
+        [
+            `
+if  (input == true)     {
+
+}   else   if     (inputB == false)    {
+
+}else{
+    // do nothing
+}
+`,
+            8,
         ],
     ])('the selected text (%#) should give the expected number of edits', (content, expectedEdits) => {
         const file = createFakeDocument(createFakeFunctionContainer(content));

@@ -65,7 +65,9 @@ pipeline {
                     def sonarArgs = utils.constructSonarArgs(['develop', 'master'], 'develop')
 
                     withSonarQubeEnv('sonarcloud') {
-                        sh "${scannerHome}/bin/sonar-scanner ${sonarArgs}"
+                        utils.withJava11 {
+                            sh "${scannerHome}/bin/sonar-scanner ${sonarArgs}"
+                        }
                     }
                 }
             }

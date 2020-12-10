@@ -36,7 +36,7 @@ import { Local_variable_declContext } from "./YmlParser";
 import { LocalFieldContext } from "./YmlParser";
 import { ReturnFieldContext } from "./YmlParser";
 import { ClassPropertiesBlockContext } from "./YmlParser";
-import { DocumentationContext } from "./YmlParser";
+import { MultilineStringContext } from "./YmlParser";
 import { ObjectReturnAttributeValueContext } from "./YmlParser";
 import { ObjectAttributeValueContext } from "./YmlParser";
 import { ValueOrConditionContext } from "./YmlParser";
@@ -82,8 +82,10 @@ import { ArgOptionBlockContext } from "./YmlParser";
 import { Order1BlockContext } from "./YmlParser";
 import { InstanciationConditionContext } from "./YmlParser";
 import { Order1FullConditionContext } from "./YmlParser";
-import { ParenthesisConditionContext } from "./YmlParser";
-import { CombinedConditionContext } from "./YmlParser";
+import { ParenthesisConditionalExpressionContext } from "./YmlParser";
+import { ConditionalExpressionContext } from "./YmlParser";
+import { ConditionalAndExpressionContext } from "./YmlParser";
+import { ConditionalOrExpressionContext } from "./YmlParser";
 import { ComparisonContext } from "./YmlParser";
 import { ComparisonOperatorContext } from "./YmlParser";
 import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
@@ -102,7 +104,9 @@ import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
-import { Instruction_ifContext } from "./YmlParser";
+import { ElseExpressionContext } from "./YmlParser";
+import { ElseIfExpressionContext } from "./YmlParser";
+import { IfExpressionContext } from "./YmlParser";
 import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
@@ -500,15 +504,15 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitClassPropertiesBlock?: (ctx: ClassPropertiesBlockContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.documentation`.
+	 * Enter a parse tree produced by `YmlParser.multilineString`.
 	 * @param ctx the parse tree
 	 */
-	enterDocumentation?: (ctx: DocumentationContext) => void;
+	enterMultilineString?: (ctx: MultilineStringContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.documentation`.
+	 * Exit a parse tree produced by `YmlParser.multilineString`.
 	 * @param ctx the parse tree
 	 */
-	exitDocumentation?: (ctx: DocumentationContext) => void;
+	exitMultilineString?: (ctx: MultilineStringContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.objectReturnAttributeValue`.
@@ -1006,26 +1010,48 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitOrder1FullCondition?: (ctx: Order1FullConditionContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.parenthesisCondition`.
+	 * Enter a parse tree produced by `YmlParser.parenthesisConditionalExpression`.
 	 * @param ctx the parse tree
 	 */
-	enterParenthesisCondition?: (ctx: ParenthesisConditionContext) => void;
+	enterParenthesisConditionalExpression?: (ctx: ParenthesisConditionalExpressionContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.parenthesisCondition`.
+	 * Exit a parse tree produced by `YmlParser.parenthesisConditionalExpression`.
 	 * @param ctx the parse tree
 	 */
-	exitParenthesisCondition?: (ctx: ParenthesisConditionContext) => void;
+	exitParenthesisConditionalExpression?: (ctx: ParenthesisConditionalExpressionContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.combinedCondition`.
+	 * Enter a parse tree produced by `YmlParser.conditionalExpression`.
 	 * @param ctx the parse tree
 	 */
-	enterCombinedCondition?: (ctx: CombinedConditionContext) => void;
+	enterConditionalExpression?: (ctx: ConditionalExpressionContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.combinedCondition`.
+	 * Exit a parse tree produced by `YmlParser.conditionalExpression`.
 	 * @param ctx the parse tree
 	 */
-	exitCombinedCondition?: (ctx: CombinedConditionContext) => void;
+	exitConditionalExpression?: (ctx: ConditionalExpressionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.conditionalAndExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterConditionalAndExpression?: (ctx: ConditionalAndExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.conditionalAndExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitConditionalAndExpression?: (ctx: ConditionalAndExpressionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.conditionalOrExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterConditionalOrExpression?: (ctx: ConditionalOrExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.conditionalOrExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitConditionalOrExpression?: (ctx: ConditionalOrExpressionContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.comparison`.
@@ -1226,15 +1252,37 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitInstruction_ifElse?: (ctx: Instruction_ifElseContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `YmlParser.instruction_if`.
+	 * Enter a parse tree produced by `YmlParser.elseExpression`.
 	 * @param ctx the parse tree
 	 */
-	enterInstruction_if?: (ctx: Instruction_ifContext) => void;
+	enterElseExpression?: (ctx: ElseExpressionContext) => void;
 	/**
-	 * Exit a parse tree produced by `YmlParser.instruction_if`.
+	 * Exit a parse tree produced by `YmlParser.elseExpression`.
 	 * @param ctx the parse tree
 	 */
-	exitInstruction_if?: (ctx: Instruction_ifContext) => void;
+	exitElseExpression?: (ctx: ElseExpressionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.elseIfExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterElseIfExpression?: (ctx: ElseIfExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.elseIfExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitElseIfExpression?: (ctx: ElseIfExpressionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.ifExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterIfExpression?: (ctx: IfExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.ifExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitIfExpression?: (ctx: IfExpressionContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_timeCounter`.

@@ -1,20 +1,29 @@
 // tslint:disable-next-line: no-submodule-imports
-import { ParserRuleContext } from 'antlr4ts';
+import { ParserRuleContext, Token } from 'antlr4ts';
 import { AbstractParseTreeVisitor } from 'antlr4ts/tree/AbstractParseTreeVisitor';
+import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
 import { Range, TextDocument, TextEdit } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
 import {
     ActionBlockContext,
-    CombinedConditionContext,
+    ArrayContext,
     ComparisonContext,
+    ConditionalAndExpressionContext,
+    ConditionalOrExpressionContext,
+    ConstListContext,
+    FunctionCallContext,
+    IfExpressionContext,
     Instruction_assignmentContext,
-    Instruction_ifContext,
+    Instruction_ifElseContext,
+    Instruction_multivaluedAssignmentContext,
     InstructionContext,
+    MandatoryArgsContext,
+    SimpleListContext,
     YmlParserVisitor,
 } from '../grammar';
-import { Instruction_multivaluedAssignmentContext } from '../grammar/YmlParser';
+import { ElseExpressionContext, ElseIfExpressionContext } from '../grammar/YmlParser';
 import { IDocumentFormatSettings } from '../settings/Settings';
 
 export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements YmlParserVisitor<void> {
@@ -33,90 +42,85 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         // no default
     }
 
-    public visitCombinedCondition(node: CombinedConditionContext): void {
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
+    public visitConditionalAndExpression(node: ConditionalAndExpressionContext): void {
         if (!!node.COND_AND()) {
             const asSymbol = node.COND_AND().symbol;
-            this.formatSpacesAroundNode(
-                node._leftCondition,
-                asSymbol.startIndex,
-                asSymbol.stopIndex,
-                node._rightCondition,
-                node._leftCondition._stop.line === asSymbol.line,
-                node._rightCondition._stop.line === asSymbol.line,
-            );
+            this.setOneSpaceIntervalBetweenContextAndToken(node._leftCondition, asSymbol);
+            this.setOneSpaceIntervalBetweenTokenAndContext(asSymbol, node._rightCondition);
         }
+        this.visitChildren(node);
+    }
+
+    public visitConditionalOrExpression(node: ConditionalOrExpressionContext): void {
         if (!!node.COND_OR()) {
             const asSymbol = node.COND_OR().symbol;
-            this.formatSpacesAroundNode(
-                node._leftCondition,
-                asSymbol.startIndex,
-                asSymbol.stopIndex,
-                node._rightCondition,
-                node._leftCondition._stop.line === asSymbol.line,
-                node._rightCondition._stop.line === asSymbol.line,
-            );
+            this.setOneSpaceIntervalBetweenContextAndToken(node._leftCondition, asSymbol);
+            this.setOneSpaceIntervalBetweenTokenAndContext(asSymbol, node._rightCondition);
         }
         this.visitChildren(node);
     }
 
     public visitComparison(node: ComparisonContext): void {
+        const operator = node.comparisonOperator();
+        this.setOneSpaceIntervalBetweenTwoContexts(node._leftValue, operator);
+        this.setOneSpaceIntervalBetweenTwoContexts(operator, node._rightValue);
+    }
+
+    public visitArray(node: ArrayContext): void {
+        this.fixSpacesInCommaSeparatedElements(node.value(), node.COMMA(), node);
+    }
+
+    public visitSimpleList(node: SimpleListContext): void {
+        this.fixSpacesInCommaSeparatedElements(node.value(), node.COMMA(), node);
+    }
+
+    public visitConstList(node: ConstListContext): void {
+        this.fixSpacesInCommaSeparatedElements(node.value(), node.COMMA(), node);
+    }
+
+    public visitFunctionCall(node: FunctionCallContext): void {
+        this.fixSpacesInCommaSeparatedElements(node.functionArgument(), node.COMMA(), node);
+    }
+
+    public visitMandatoryArgs(node: MandatoryArgsContext): void {
+        this.fixSpacesInCommaSeparatedElements(node.mandatoryArgDecl(), node.COMMA(), node);
+    }
+
+    public fixSpacesInCommaSeparatedElements(
+        values: ParserRuleContext[],
+        commas: TerminalNode[],
+        baseNode: ParserRuleContext,
+    ): void {
+        this.visitChildren(baseNode);
         if (this.isDocumentFormatImpossible()) {
             return;
         }
-        const operator = node.comparisonOperator();
-        const operatorStart = operator._start.startIndex;
-        const operatorEnd = operator._stop.stopIndex;
-        this.formatSpacesAroundNode(
-            node._leftValue,
-            operatorStart,
-            operatorEnd,
-            node._rightValue,
-            node._leftValue._stop.line === operator.start.line,
-            node._rightValue._stop.line === operator.stop.line,
-        );
+        for (let index = 0; index < commas.length; index++) {
+            const leftContext = values[index];
+            const comma = commas[index];
+            const rightContext = values[index + 1];
+            this.removeSpaceInterval(leftContext.stop.stopIndex, comma.symbol.startIndex);
+            this.setOneSpaceIntervalBetweenTokenAndContext(comma.symbol, rightContext);
+        }
     }
 
     public visitInstruction_assignment(node: Instruction_assignmentContext) {
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
         const equalSymbol = node.EQUAL_ASSIGNMENT().symbol;
-        const equalSymbolStart = equalSymbol.startIndex;
-        const equalSymbolEnd = equalSymbol.stopIndex;
-        this.formatSpacesAroundNode(
-            node._leftHand,
-            equalSymbolStart,
-            equalSymbolEnd,
-            node._rightHand,
-            node._leftHand._stop.line === equalSymbol.line,
-            node._rightHand._start.line === equalSymbol.line,
-        );
+        this.setOneSpaceIntervalBetweenContextAndToken(node._leftHand, equalSymbol);
+        this.setOneSpaceIntervalBetweenTokenAndContext(equalSymbol, node._rightHand);
         this.visitChildren(node);
     }
 
     public visitInstruction_multivaluedAssignment(node: Instruction_multivaluedAssignmentContext) {
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
         const equalSymbol = node.MULTIVALUED_ASSIGNMENT().symbol;
-        const equalSymbolStart = equalSymbol.startIndex;
-        const equalSymbolEnd = equalSymbol.stopIndex;
-        this.formatSpacesAroundNode(
-            node._leftHand,
-            equalSymbolStart,
-            equalSymbolEnd,
-            node._rightHand,
-            node._leftHand._stop.line === equalSymbol.line,
-            node._rightHand._start.line === equalSymbol.line,
-        );
+        this.setOneSpaceIntervalBetweenContextAndToken(node._leftHand, equalSymbol);
+        this.setOneSpaceIntervalBetweenTokenAndContext(equalSymbol, node._rightHand);
         this.visitChildren(node);
     }
 
     public visitInstruction(node: InstructionContext) {
         if (this.isDocumentFormatImpossible()) {
+            this.visitChildren(node);
             return;
         }
         // There is already a semicolon, or we are not in a block, or we don't want to add semicolons.
@@ -124,6 +128,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         if (
             !!node.SEMICOLON() ||
             !(node.parent instanceof ActionBlockContext) ||
+            !this.docFormatSettings ||
             this.docFormatSettings.semicolonWhenPossible === 'no'
         ) {
             this.visitChildren(node);
@@ -158,14 +163,80 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         this.visitChildren(node);
     }
 
-    public visitInstruction_if(node: Instruction_ifContext): void {
+    public visitInstruction_ifElse(node: Instruction_ifElseContext): void {
+        // One ifExpression + n×elseIfExpression + 0−1×elseExpression
+        this.visitChildren(node);
+        let previousNode: ParserRuleContext = node.ifExpression();
+        for (const elseIfExpression of node.elseIfExpression()) {
+            this.setOneSpaceIntervalBetweenTwoContexts(previousNode, elseIfExpression);
+            previousNode = elseIfExpression;
+        }
+        if (!!node.elseExpression()) {
+            this.setOneSpaceIntervalBetweenTwoContexts(previousNode, node.elseExpression());
+        }
+    }
+
+    public visitElseIfExpression(node: ElseIfExpressionContext): void {
+        this.visitChildren(node);
         if (this.isDocumentFormatImpossible()) {
+            return;
+        }
+        this.setOneSpaceIntervalBetweenTokenAndContext(node.ELSE().symbol, node.ifExpression());
+    }
+
+    public visitElseExpression(node: ElseExpressionContext): void {
+        this.visitChildren(node);
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
+        this.setOneSpaceIntervalBetweenTokenAndContext(node.ELSE().symbol, node.actionBlockOrInstruction());
+    }
+
+    /**
+     * Set a one space interval between two elements: a token and a parser rule context.
+     * @param left the left element
+     * @param right the right element
+     */
+    public setOneSpaceIntervalBetweenTokenAndContext(left: Token, right: ParserRuleContext): void {
+        const leftEnd = left.stopIndex;
+        const rightStart = right._start.startIndex;
+        const sameLine = left.line === right._start.line;
+        this.setOneSpaceInterval(leftEnd, rightStart, sameLine);
+    }
+
+    /**
+     * Set a one space interval between two elements: a parser rule context and another parser rule context.
+     * @param left the left element
+     * @param right the right element
+     */
+    public setOneSpaceIntervalBetweenTwoContexts(left: ParserRuleContext, right: ParserRuleContext): void {
+        const leftEnd = left._stop.stopIndex;
+        const rightStart = right._start.startIndex;
+        const sameLine = left._stop.line === right._start.line;
+        this.setOneSpaceInterval(leftEnd, rightStart, sameLine);
+    }
+
+    /**
+     * Set a one space interval between two elements: a parser rule context and a token.
+     * @param left the left element
+     * @param right the right element
+     */
+    public setOneSpaceIntervalBetweenContextAndToken(left: ParserRuleContext, right: Token): void {
+        const ifEnd = left._stop.stopIndex;
+        const startElse = right.startIndex;
+        const sameLine = left._stop.line === right.line;
+        this.setOneSpaceInterval(ifEnd, startElse, sameLine);
+    }
+
+    public visitIfExpression(node: IfExpressionContext): void {
+        if (this.isDocumentFormatImpossible()) {
+            this.visitChildren(node);
             return;
         }
 
         const ifSymbolEnd = node.IF().symbol.stopIndex;
         const openParStart = node.OPEN_PAR().symbol.startIndex;
-        let sameLine = node.IF().symbol.line === node.OPEN_PAR().symbol.line;
+        const sameLine = node.IF().symbol.line === node.OPEN_PAR().symbol.line;
         if (this.docFormatSettings.spaceBetweenKeywordAndParenthesis === 'yes') {
             this.setOneSpaceInterval(ifSymbolEnd, openParStart, sameLine);
         } else {
@@ -176,31 +247,8 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
             this.visitChildren(node);
             return;
         }
-
-        const closeParEnd = node.CLOSE_PAR().symbol.stopIndex;
-        const startIfBody = node.actionBlockOrInstruction()._start.startIndex;
-        sameLine = node.CLOSE_PAR().symbol.line === node.actionBlockOrInstruction()._start.line;
-        this.setOneSpaceInterval(closeParEnd, startIfBody, sameLine);
+        this.setOneSpaceIntervalBetweenTokenAndContext(node.CLOSE_PAR().symbol, node.actionBlockOrInstruction());
         this.visitChildren(node);
-    }
-
-    /**
-     * Set a one space distance around a central element.
-     * e.g. `a==b` will become `a == b`.
-     */
-    private formatSpacesAroundNode(
-        left: ParserRuleContext,
-        centralNodeStart: number,
-        centralNodeEnd: number,
-        right: ParserRuleContext,
-        leftAndStartSameLine: boolean,
-        endAndRightSameLine: boolean,
-    ) {
-        const leftEnd = left.stop;
-        const rightStart = right.start;
-
-        this.setOneSpaceInterval(leftEnd.stopIndex, centralNodeStart, leftAndStartSameLine);
-        this.setOneSpaceInterval(centralNodeEnd, rightStart.startIndex, endAndRightSameLine);
     }
 
     /**
@@ -208,6 +256,9 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
      * Do nothing if there is already a zero space distance.
      */
     private removeSpaceInterval(leftElementEnd: number, rightElementStart: number) {
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
         if (rightElementStart - leftElementEnd === 1) {
             // There is already no space between the two elements.
             return;
@@ -225,6 +276,9 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
      * Do nothing if there is already a one space distance or if the two elements are not on the same line.
      */
     private setOneSpaceInterval(leftElementEnd: number, rightElementStart: number, sameLine: boolean): void {
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
         // Don't force one space interval when the left element and the right element are not on the same line.
         if (!sameLine) {
             return;
@@ -252,6 +306,9 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     /** Add an edit that adds a semicolon right after the provided node. */
     private addSemiColon(node: ParserRuleContext): void {
+        if (this.isDocumentFormatImpossible()) {
+            return;
+        }
         this.filePossibleEdits.push(TextEdit.insert(this.document.positionAt(node.stop.stopIndex + 1), ';'));
     }
 
