@@ -1,6 +1,6 @@
 # Release Notes
 
-## X.XX.X (YYYY-MM-DD)
+## 1.12.0 (2020-12-10)
 
 -   Functions and object instances are now foldable.
 -   Functions now display their cognitive complexity.
