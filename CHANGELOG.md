@@ -1,5 +1,7 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
 ## 1.12.0 (2020-12-10)
 
 -   Functions and object instances are now foldable.
