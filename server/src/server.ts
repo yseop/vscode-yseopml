@@ -34,7 +34,7 @@ import {
     foldingRangesRequestHandler,
 } from './features';
 import { YmlLexer, YmlParser } from './grammar';
-import { getPredefinedObjectsXmlPath } from './serverUtils';
+import { FILE_TYPE_F, FILE_TYPE_M, findKaoFileDependencies, getPredefinedObjectsXmlPath } from './serverUtils';
 import { IYseopmlServerSettings, IYseopmlSettings, setDocumentFormatDefaultValues } from './settings/Settings';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
@@ -49,13 +49,6 @@ const diagSeverityMap = new Map<string, DiagnosticSeverity>([
     ['information', DiagnosticSeverity.Information],
     ['hint', DiagnosticSeverity.Hint],
 ]);
-
-/** Regex that matches paths containing the `.generated-yml` directory. */
-const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
-/** Regex that matches the `_FILE_TYPE_ F` instruction. */
-const FILE_TYPE_F = /^_FILE_TYPE_\s+F\b/;
-/** Regex that matches the `_FILE_TYPE_ M` instruction. */
-const FILE_TYPE_M = /^_FILE_TYPE_\s+M\b/;
 
 connection.console.log('Yseop.vscode-yseopml − Creating connection with client/server.');
 
@@ -237,7 +230,7 @@ function openProjectFile(workspacePath: string, fileUri: string): boolean {
                 wasKaoFile = false;
                 return;
             }
-            findKaoFileDependencies(fileContent, isTypeM, fileUri, workspacePath)
+            findKaoFileDependencies(fileContent, isTypeM, workspacePath, fileUri)
                 // Make sure the file exists and drop directories
                 .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
                 .forEach((uri) => openProjectFile(workspacePath, uri));
@@ -313,45 +306,6 @@ connection.onDidChangeConfiguration((change) => {
             documents.all().forEach(parseTextDocument);
         });
 });
-
-function findKaoFileDependencies(
-    fileContent: string,
-    isTypeM: boolean,
-    fileUri: string,
-    workspacePath: string,
-): string[] {
-    return (
-        fileContent
-            .split('\n')
-            // line can be indented in the file.
-            .map((line) => line.trim())
-            .filter((line) => {
-                return (
-                    // Ignore empty lines
-                    line.length > 0 &&
-                    // Ignore lines that are just preprocessing or Yseop Engine instruction
-                    !line.startsWith('@') &&
-                    // Ignore the lines with the _FILE_TYPE_ instruction
-                    !line.startsWith('_FILE_TYPE_') &&
-                    // Ignore single-line comments
-                    !line.startsWith('//') &&
-                    // Ignore multi-lines comments starting with “/*”
-                    !line.startsWith('/*') &&
-                    // Ignore multi-lines comments starting with just “*“ (includes “*/”)
-                    !line.startsWith('*') &&
-                    // Drop files from any .generated-yml/ directory
-                    line.search(GENERATED_YML_DIR_REGEX) === -1
-                );
-            })
-            .map((line) => {
-                // In a M type *.kao file, paths are relative to the current *.kao file.
-                // In a F type *.kao file, paths are relative to the project's root.
-                // Here we assume that the root is the workspace path.
-                const from = isTypeM ? path.dirname(fileUri) : workspacePath;
-                return path.join(from, line);
-            })
-    );
-}
 
 /**
  * Parse a Text Document, as defined by the Language Server Protocol.

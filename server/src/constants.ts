@@ -1,4 +1,4 @@
-import { createConnection, IConnection, IPCMessageReader, IPCMessageWriter } from 'vscode-languageserver';
+import { Connection, createConnection, IPCMessageReader, IPCMessageWriter } from 'vscode-languageserver/node';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
-export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
+export const connection: Connection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));

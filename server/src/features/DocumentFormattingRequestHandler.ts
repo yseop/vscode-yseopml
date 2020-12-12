@@ -1,5 +1,6 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { DocumentFormattingParams, TextDocument, TextDocuments, TextEdit } from 'vscode-languageserver';
+import { DocumentFormattingParams, TextDocuments } from 'vscode-languageserver';
+import { TextDocument, TextEdit } from 'vscode-languageserver-textdocument';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { connection } from '../constants';
@@ -19,7 +20,7 @@ import { YmlKaoFileVisitor } from '../visitors';
  * @param documentFormatSettings the document format settings to apply
  */
 export function documentFormattingRequestHandler(
-    documents: TextDocuments,
+    documents: TextDocuments<TextDocument>,
     documentFormatSettings?: IDocumentFormatSettings,
 ) {
     return (_params: DocumentFormattingParams): TextEdit[] => {
