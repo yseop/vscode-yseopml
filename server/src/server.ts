@@ -227,45 +227,17 @@ function openProjectFile(workspacePath: string, fileUri: string): boolean {
     // Try to open the file. If it is opened, the server will parse it.
     fsPromises
         .readFile(fileUri)
-        .then((_file) => {
-            const fileContent = _file.toString();
+        .then((file) => file.toString())
+        .then((fileContent) => {
+            parseFile(`file://${fileUri}`, fileContent);
             const isTypeF = fileContent.search(FILE_TYPE_F) !== -1;
             const isTypeM = !isTypeF && fileContent.search(FILE_TYPE_M) !== -1;
-            parseFile(`file://${fileUri}`, fileContent);
             if (!isTypeF && !isTypeM) {
                 // We are not in a `project.kao`-like file. Do not go further.
                 wasKaoFile = false;
                 return;
             }
-            fileContent
-                .split('\n')
-                // line can be indented in the file.
-                .map((line) => line.trim())
-                .filter((line) => {
-                    return (
-                        // Ignore empty lines
-                        line.length > 0 &&
-                        // Ignore lines that are just preprocessing or Yseop Engine instruction
-                        !line.startsWith('@') &&
-                        // Ignore the lines with the _FILE_TYPE_ instruction
-                        !line.startsWith('_FILE_TYPE_') &&
-                        // Ignore single-line comments
-                        !line.startsWith('//') &&
-                        // Ignore multi-lines comments starting with “/*”
-                        !line.startsWith('/*') &&
-                        // Ignore multi-lines comments starting with just “*“ (includes “*/”)
-                        !line.startsWith('*') &&
-                        // Drop files from any .generated-yml/ directory
-                        line.search(GENERATED_YML_DIR_REGEX) === -1
-                    );
-                })
-                .map((line) => {
-                    // In a M type *.kao file, paths are relative to the current *.kao file.
-                    // In a F type *.kao file, paths are relative to the project's root.
-                    // Here we assume that the root is the workspace path.
-                    const from = isTypeM ? path.dirname(fileUri) : workspacePath;
-                    return path.join(from, line);
-                })
+            findKaoFileDependencies(fileContent, isTypeM, fileUri, workspacePath)
                 // Make sure the file exists and drop directories
                 .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
                 .forEach((uri) => openProjectFile(workspacePath, uri));
@@ -341,6 +313,45 @@ connection.onDidChangeConfiguration((change) => {
             documents.all().forEach(parseTextDocument);
         });
 });
+
+function findKaoFileDependencies(
+    fileContent: string,
+    isTypeM: boolean,
+    fileUri: string,
+    workspacePath: string,
+): string[] {
+    return (
+        fileContent
+            .split('\n')
+            // line can be indented in the file.
+            .map((line) => line.trim())
+            .filter((line) => {
+                return (
+                    // Ignore empty lines
+                    line.length > 0 &&
+                    // Ignore lines that are just preprocessing or Yseop Engine instruction
+                    !line.startsWith('@') &&
+                    // Ignore the lines with the _FILE_TYPE_ instruction
+                    !line.startsWith('_FILE_TYPE_') &&
+                    // Ignore single-line comments
+                    !line.startsWith('//') &&
+                    // Ignore multi-lines comments starting with “/*”
+                    !line.startsWith('/*') &&
+                    // Ignore multi-lines comments starting with just “*“ (includes “*/”)
+                    !line.startsWith('*') &&
+                    // Drop files from any .generated-yml/ directory
+                    line.search(GENERATED_YML_DIR_REGEX) === -1
+                );
+            })
+            .map((line) => {
+                // In a M type *.kao file, paths are relative to the current *.kao file.
+                // In a F type *.kao file, paths are relative to the project's root.
+                // Here we assume that the root is the workspace path.
+                const from = isTypeM ? path.dirname(fileUri) : workspacePath;
+                return path.join(from, line);
+            })
+    );
+}
 
 /**
  * Parse a Text Document, as defined by the Language Server Protocol.
