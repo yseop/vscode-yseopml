@@ -1,4 +1,4 @@
-import { buildDocumentEditList } from '../server';
+import { buildDocumentEditList } from '../features';
 import { DEFAULT_DOC_FORMAT_SETTINGS, IDocumentFormatSettings } from '../settings/Settings';
 import { createFakeDocument, createFakeFunctionContainer } from './TestHelpers';
 

@@ -9,18 +9,13 @@ import { promises as fsPromises } from 'fs-extra';
 import * as glob from 'glob-promise';
 import * as path from 'path';
 import * as url from 'url';
-import { TextDocument, TextEdit } from 'vscode-languageserver-textdocument';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 import {
     CompletionItem,
     CompletionParams,
-    Connection,
-    createConnection,
     Diagnostic,
     DiagnosticSeverity,
     InitializeResult,
-    IPCMessageReader,
-    IPCMessageWriter,
-    ProposedFeatures,
     ServerCapabilities,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
@@ -28,22 +23,19 @@ import {
 } from 'vscode-languageserver/node';
 
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
+import { connection } from './constants';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import {
     codeLensRequestHandler,
     completionResolveRequestHandler,
+    documentFormattingRequestHandler,
     documentSymbolRequestHandler,
     foldingRangesRequestHandler,
 } from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import { getPredefinedObjectsXmlPath } from './serverUtils';
-import {
-    IDocumentFormatSettings,
-    IYseopmlServerSettings,
-    IYseopmlSettings,
-    setDocumentFormatDefaultValues,
-} from './settings/Settings';
+import { IYseopmlServerSettings, IYseopmlSettings, setDocumentFormatDefaultValues } from './settings/Settings';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
 let engineModel: EngineModel;
@@ -64,13 +56,6 @@ const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
 const FILE_TYPE_F = /^_FILE_TYPE_\s+F\b/;
 /** Regex that matches the `_FILE_TYPE_ M` instruction. */
 const FILE_TYPE_M = /^_FILE_TYPE_\s+M\b/;
-
-// Create a connection for the server. The connection uses Node's IPC as a transport
-export const connection: Connection = createConnection(
-    ProposedFeatures.all,
-    new IPCMessageReader(process),
-    new IPCMessageWriter(process),
-);
 
 connection.console.log('Yseop.vscode-yseopml − Creating connection with client/server.');
 
@@ -110,12 +95,10 @@ const intializeResult: InitializeResult = {
 
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
-connection.onInitialize(
-    (_params): InitializeResult => {
-        connection.console.log('Yseop.vscode-yseopml − Initializing server.');
-        return intializeResult;
-    },
-);
+connection.onInitialize((_params): InitializeResult => {
+    connection.console.log('Yseop.vscode-yseopml − Initializing server.');
+    return intializeResult;
+});
 
 connection.onInitialized((_params) => {
     connection.workspace.getConfiguration('yseopml').then((_value) => {
@@ -385,7 +368,7 @@ function parseFile(textDocUri: string, docContent: string) {
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
     parser.removeErrorListeners();
-    parser.addErrorListener(new YmlParsingErrorListener(diagnostics));
+    parser.addErrorListener(new YmlParsingErrorListener(diagnostics, parsingIssueSeverityLevel));
 
     // Parse the input.
     const result = parser.kaoFile();
@@ -435,51 +418,7 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
     return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
 });
 
-connection.onDocumentFormatting((_params) => {
-    const doc = documents.get(_params.textDocument.uri);
-    return buildDocumentEditList(doc, yseopmlSettings.documentFormat);
-});
-
-/**
- * Build and send the list of Text Edit to apply to `document`
- * accordingly to the settings defined in `documentFormatSettings`.
- *
- * @param document the text document to format
- * @param documentFormatSettings the document format settings to apply
- */
-export function buildDocumentEditList(document: TextDocument, documentFormatSettings?: IDocumentFormatSettings) {
-    if (documentFormatSettings?.enableDocumentFormat === 'no') {
-        return [];
-    }
-    const inputStream = CharStreams.fromString(document.getText(), document.uri);
-    const lexer = new YmlLexer(inputStream);
-    const tokenStream = new CommonTokenStream(lexer);
-    const parser = new YmlParser(tokenStream);
-    // No need to send syntax errors to the client.
-    parser.removeErrorListeners();
-
-    // Parse the input.
-    const result = parser.kaoFile();
-    const edits: TextEdit[] = [];
-    const visitor = new YmlKaoFileVisitor(
-        new YmlCompletionItemsProvider(),
-        document.uri,
-        new YmlDefinitionProvider(),
-        documentFormatSettings,
-        edits,
-        document,
-    );
-
-    if (parser.numberOfSyntaxErrors > 0) {
-        connection.console.info('No formatting will be done because the current file has syntax errors.');
-        return [];
-    }
-
-    // Visit the result of the parsing.
-    // This fill the edits array.
-    visitor.visit(result);
-    return edits;
-}
+connection.onDocumentFormatting(documentFormattingRequestHandler(documents, yseopmlSettings?.documentFormat));
 
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.

@@ -1,5 +1,5 @@
+import { connection } from '../constants';
 import { FieldContext } from '../grammar';
-import { connection } from '../server';
 
 /** Used to trim YML documentation. */
 const BEGINNING_QUOTES_REGEX = /^("""|")\s*/;
