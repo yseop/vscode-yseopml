@@ -152,7 +152,7 @@ repository:
             -
                 match: (\+|-|/|mod|\*)
                 name: keyword.operator.mathematics.yseop
-                comment: 'Some of the operators that can be find in YML.'
+                comment: 'Some of the operators that can be found in YML.'
     method-calls:
         begin: >
             (?x)
