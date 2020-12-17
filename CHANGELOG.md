@@ -2,6 +2,12 @@
 
 ## X.X.X (YYYY-MM-DD)
 
+-   Improved syntax highlighting for:
+    -   text granules
+    -   tags in text granules
+    -   function calls in function call arguments
+    -   flow control keywords vs. function calls
+
 ## 1.12.0 (2020-12-10)
 
 -   Functions and object instances are now foldable.
