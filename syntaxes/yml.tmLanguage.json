@@ -2,7 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
     "name": "Yseop Markup Language",
     "scopeName": "source.yseop",
-    "patterns": [{
+    "patterns": [
+        {
             "include": "#inlineInstance"
         },
         {
@@ -33,40 +34,50 @@
             "include": "#operators"
         },
         {
-            "include": "#functions"
+            "include": "#method-calls"
+        },
+        {
+            "include": "#function-calls"
         }
     ],
     "repository": {
         "tag": {
-            "patterns": [{
-                    "name": "entity.name.function.granule.yseop",
-                    "begin": "\\b",
-                    "match": "\\\\[\\p{L}_\\p{N}]+",
-                    "comment": "All YML keywords that should be highlighted.",
-                    "end": "\\b"
-                },
+            "patterns": [
                 {
                     "begin": "(?x) \\\\ (beginAnnotation|beginBookmark|beginChooseSynonym|beginContentTest|forall|foreach|beginFormat|beginIndent|ifBaseLanguage_(de|en|es|fr|ja|nl)|ifLanguage_(de|en(_US|_GB)?|es|fr(_BE|_CA|_FR)?|ja|nl)|beginIndivisible|beginKeepTextAspect|link|beginList|beginNote|beginQuote|beginStyle|beginTimeCounter|beginTitleLevel|if|beginSynonym|while|switch)",
                     "beginCaptures": {
                         "0": {
-                            "name": "keyword.control.yseop"
+                            "name": "keyword.control.tag.yseop"
                         }
                     },
                     "end": "(?x) \\\\ (endAnnotation|endBookmark|endChooseSynonym|endContentTest|endForall|endForeach|endFormat|endIndent|endIfBaseLanguage_(de|en|es|fr|ja|nl)|endIfLanguage_(de|en(_US|_GB)?|es|fr(_BE|_CA|_FR)?|ja|nl)|endIndivisible|endKeepTextAspect|endLink|endList|endNote|endQuote|endStyle|endTimeCounter|endTitleLevel|endIf|endSynonym|endWhile|endSwitch)",
                     "endCaptures": {
                         "0": {
-                            "name": "keyword.control.yseop"
+                            "name": "keyword.control.tag.yseop"
                         }
                     },
-                    "patterns": [{
-                        "match": "(?x) \\\\ (nextItem|default|case|else|choice)",
-                        "name": "keyword.control.yseop"
-                    }]
+                    "patterns": [
+                        {
+                            "match": "(?x) \\\\ (nextItem|default|case|else|choice)",
+                            "name": "keyword.control.tag.yseop"
+                        },
+                        {
+                            "include": "$self"
+                        },
+                        {
+                            "include": "#tag"
+                        }
+                    ]
+                },
+                {
+                    "match": "(?x) \\\\ [\\p{L}_\\p{N}]+ (:[\\p{L}_\\p{N}]+)* (::[\\p{L}_\\p{N}]+)?",
+                    "name": "entity.name.function.tag.yseop"
                 }
             ]
         },
         "keywords": {
-            "patterns": [{
+            "patterns": [
+                {
                     "name": "keyword.control.yseop",
                     "match": "\\b(args|belongsTo|break|case|class|classProperties|complete|default|else|extends|field|for|foreach|function|Function|if|ifExpr|implementation|interface|local|method|override|private|return|static|switch|switchExpr|switchExprExclusive|then|while)\\b",
                     "comment": "All YML keywords that should be highlighted."
@@ -86,48 +97,56 @@
             ]
         },
         "option": {
-            "patterns": [{
-                "match": "(?x) (-->|\\+\\+\\+|---|==>) \\s+ ([\\p{L}_\\p{N}]+) \\s+",
-                "captures": {
-                    "1": {
-                        "name": "keyword.operator.attribute.yseop"
+            "patterns": [
+                {
+                    "match": "(?x) (-->|\\+\\+\\+|---|==>) \\s+ ([\\p{L}_\\p{N}]+) \\s+",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator.attribute.yseop"
+                        },
+                        "2": {
+                            "name": "entity.other.attribute-name"
+                        }
                     },
-                    "2": {
-                        "name": "entity.other.attribute-name"
-                    }
-                },
-                "patterns": [{
-                        "include": "#inlineInstance"
-                    },
-                    {
-                        "include": "$self"
-                    }
-                ]
-            }]
+                    "patterns": [
+                        {
+                            "include": "#inlineInstance"
+                        },
+                        {
+                            "include": "$self"
+                        }
+                    ]
+                }
+            ]
         },
         "inlineInstance": {
-            "patterns": [{
-                "begin": "(?x) (->) \\s+ ([\\p{L}_\\p{N}]+) (\n    \\s+\n    ([\\p{L}_\\p{N}]+ (:[\\p{L}_\\p{N}]+)* (::[\\p{L}_\\p{N}]+)? )\n    \\b\n)?\n",
-                "end": "(?=;)\\n*",
-                "name": "entity.other.yseop",
-                "captures": {
-                    "1": {
-                        "name": "keyword.operator.instance.yseop"
+            "patterns": [
+                {
+                    "begin": "(?x) (->) \\s+ ([\\p{L}_\\p{N}]+) (    \\s+\n    ([\\p{L}_\\p{N}]+ (:[\\p{L}_\\p{N}]+)* (::[\\p{L}_\\p{N}]+)? )\n    \\b\n)?\n",
+                    "end": "(?=;)\\n*",
+                    "name": "entity.other.yseop",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator.instance.yseop"
+                        },
+                        "2": {
+                            "name": "entity.name.type.yseop"
+                        },
+                        "4": {
+                            "name": "variable.other.yseop"
+                        }
                     },
-                    "2": {
-                        "name": "entity.name.type.yseop"
-                    },
-                    "4": {
-                        "name": "variable.other.yseop"
-                    }
-                },
-                "patterns": [{
-                    "include": "$self"
-                }]
-            }]
+                    "patterns": [
+                        {
+                            "include": "$self"
+                        }
+                    ]
+                }
+            ]
         },
         "constants": {
-            "patterns": [{
+            "patterns": [
+                {
                     "name": "constant.other.date.yseop",
                     "match": "'d:\\d{4}-\\d{2}-\\d{2}'",
                     "comment": "Dates"
@@ -145,46 +164,10 @@
             ]
         },
         "preprocessing": {
-            "patterns": [{
-                    "begin": "@if",
-                    "end": "@endif",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "meta.preprocessor.yseop"
-                        }
-                    },
-                    "endCaptures": {
-                        "0": {
-                            "name": "meta.preprocessor.yseop"
-                        }
-                    },
-                    "patterns": [{
-                            "match": "@else",
-                            "name": "meta.preprocessor.yseop"
-                        },
-                        {
-                            "include": "#keywords"
-                        },
-                        {
-                            "include": "#strings"
-                        },
-                        {
-                            "include": "#constants"
-                        },
-                        {
-                            "include": "#comments"
-                        },
-                        {
-                            "include": "#operators"
-                        },
-                        {
-                            "include": "#functions"
-                        }
-                    ]
-                },
+            "patterns": [
                 {
-                    "match": "@pragma",
-                    "include": "#functions",
+                    "begin": "^\\s*@",
+                    "end": "\\n",
                     "name": "meta.preprocessor.yseop"
                 }
             ],
@@ -194,7 +177,8 @@
             "name": "string.quoted.triple.yseop",
             "begin": "\"\"\"",
             "end": "\"\"\"",
-            "patterns": [{
+            "patterns": [
+                {
                     "name": "keyword.operator.param.yseop",
                     "match": "@param|@return"
                 },
@@ -209,30 +193,20 @@
             ]
         },
         "strings": {
-            "patterns": [{
+            "patterns": [
+                {
                     "include": "#documentationString"
                 },
                 {
                     "name": "string.quoted.double.yseop",
-                    "match": "\"([^\"]|\\\\\")*\""
-                }
-            ]
-        },
-        "textgranule-functions": {
-            "begin": "\\\\[\\p{L}_\\p{N}]+(::?[\\p{L}_\\p{N}]+)*\\s*\\(",
-            "end": "\\)",
-            "name": "entity.name.function.granule.yseop",
-            "comment": "A tag with arguments.",
-            "patterns": [{
-                    "match": "\\b([\\p{L}_\\p{N}]+)\\b",
-                    "name": "variable.parameter.yseop",
-                    "comment": "A parameter is just a string or a number"
-                },
-                {
-                    "include": "#strings"
-                },
-                {
-                    "include": "#constants"
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "match": "\\\\\"",
+                            "name": "constant.character.escape.yseop"
+                        }
+                    ]
                 }
             ]
         },
@@ -240,14 +214,19 @@
             "name": "source.granule.yseop",
             "begin": "\\\\\\(",
             "end": "\\\\\\)",
-            "patterns": [{
+            "patterns": [
+                {
                     "include": "#keywords"
                 },
                 {
-                    "include": "#textgranule-functions"
+                    "include": "#function-calls"
                 },
                 {
                     "include": "#tag"
+                },
+                {
+                    "match": "\\\\\"",
+                    "name": "constant.character.escape.yseop"
                 },
                 {
                     "include": "#strings"
@@ -265,7 +244,8 @@
             "comment": "Text Granule blocks."
         },
         "comments": {
-            "patterns": [{
+            "patterns": [
+                {
                     "match": "(//).*",
                     "name": "comment.line.double-slash.yseop",
                     "comment": "Single line comment."
@@ -279,7 +259,8 @@
             ]
         },
         "operators": {
-            "patterns": [{
+            "patterns": [
+                {
                     "match": "(>|>=|<|<=|==|!=|&&|\\|\\||==)",
                     "name": "keyword.operator.logical.yseop",
                     "comment": "Some of the operators that can be find in YML."
@@ -291,28 +272,54 @@
                 }
             ]
         },
-        "functions": {
-            "begin": "\\b[\\p{L}_\\p{N}]+(::?[\\p{L}_\\p{N}]+)*\\s*\\(",
-            "end": "\\)",
-            "patterns": [{
-                    "begin": "\\b",
-                    "match": "([\\p{L}_\\p{N}]+|\\d+)",
-                    "end": "\\b",
-                    "name": "variable.parameter.yseop",
-                    "comment": "A parameter is just a string or a number"
+        "method-calls": {
+            "begin": "(?x) (\\.) ([\\p{L}_\\p{N}]+(::?[\\p{L}_\\p{N}]+)*) \\s* (\\()\n",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.separator.period.yseop"
                 },
-                {
-                    "include": "#strings"
+                "2": {
+                    "name": "entity.name.function.yseop"
                 },
-                {
-                    "include": "#constants"
-                },
-                {
-                    "include": "#comments"
+                "4": {
+                    "name": "punctuation.definition.parameters.begin.bracket.round.yseop"
                 }
-            ],
-            "name": "entity.name.function.yseop",
-            "comment": "A function call in YML."
+            },
+            "end": "\\)",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.parameters.end.bracket.round.yseop"
+                }
+            },
+            "name": "meta.method-call.yseop",
+            "patterns": [
+                {
+                    "include": "$self"
+                }
+            ]
+        },
+        "function-calls": {
+            "begin": "(?x) (?!\\\\?(case|for|foreach|if|ifExpr|switch|switchExpr|switchExprExclusive|while)) (\\\\?[\\p{L}_\\p{N}]+(::?[\\p{L}_\\p{N}]+)*) \\s* (\\()\n",
+            "beginCaptures": {
+                "2": {
+                    "name": "entity.name.function.yseop"
+                },
+                "4": {
+                    "name": "punctuation.definition.parameters.begin.bracket.round.yseop"
+                }
+            },
+            "end": "\\)",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.parameters.end.bracket.round.yseop"
+                }
+            },
+            "name": "meta.function-call.yseop",
+            "patterns": [
+                {
+                    "include": "$self"
+                }
+            ]
         }
     }
 }
