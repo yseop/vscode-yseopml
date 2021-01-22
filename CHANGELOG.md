@@ -1,5 +1,8 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
+
 ## 1.12.1 (2021-01-21)
 
 -   Improved syntax highlighting for:
