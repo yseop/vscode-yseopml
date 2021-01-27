@@ -166,9 +166,10 @@
                 "category": "Yseop"
             },
             {
-                "command": "yseopml.info",
-                "title": "Yseop Info",
-                "category": "Yseop"
+                "command": "yseopml.config",
+                "title": "Yseop Config",
+                "category": "Yseop",
+                "icon": "\\$(info)"
             }
         ],
         "languages": [

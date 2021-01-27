@@ -89,8 +89,8 @@ export function activate(context: ExtensionContext) {
         ExecYseopCliCommand(yseopCliPath, 'package');
     });
 
-    const infoCmd = commands.registerCommand(`${yseopmlSectionName}.info`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'info');
+    const infoCmd = commands.registerCommand(`${yseopmlSectionName}.config`, () => {
+        ExecYseopCliCommand(yseopCliPath, 'config');
     });
 
     // Create the language client.
