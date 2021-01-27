@@ -352,11 +352,16 @@
         "description": "Display style for numbers"
     },
     "Debug value": {
-        "prefix": "debug",
+        "prefix": "logAttr",
         "body": [
             "logInfo(\\(",
-            "\t\\debugValue(${1:VALUE_TO_DEBUG}, _ALL_ATTRIBUTES)",
-            "\\));$0"
+            "\t\\if(${1:value} == null)",
+            "\t\tnull",
+            "\t\\else",
+            "\t\t\\debugValue(${1:value}, ${2|_KB_ATTRIBUTES,_ALL_ATTRIBUTES|}, _ATTRIBUTES_LOG_STYLE)",
+            "\t\\endIf",
+            "\\));",
+            "$0"
         ],
         "description": "Print a value in the logs as well as its attributes if any"
     },
@@ -384,5 +389,5 @@
             "\\endIf"
         ],
         "description": "“If/else” condition"
-    }	    
+    }
 }
