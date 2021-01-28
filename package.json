@@ -30,7 +30,8 @@
         "onCommand:yseopml.clean",
         "onCommand:yseopml.cleanall",
         "onCommand:yseopml.package",
-        "onCommand:yseopml.info"
+        "onCommand:yseopml.info",
+        "onCommand:yseopml.libs"
     ],
     "galleryBanner": {
         "color": "#27aae1",
@@ -168,8 +169,12 @@
             {
                 "command": "yseopml.config",
                 "title": "Yseop Config",
-                "category": "Yseop",
-                "icon": "\\$(info)"
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.libs",
+                "title": "Yseop Libs Install",
+                "category": "Yseop"
             }
         ],
         "languages": [

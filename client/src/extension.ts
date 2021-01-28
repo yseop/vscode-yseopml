@@ -93,6 +93,10 @@ export function activate(context: ExtensionContext) {
         ExecYseopCliCommand(yseopCliPath, 'config');
     });
 
+    const libsInstallCmd = commands.registerCommand(`${yseopmlSectionName}.libs`, () => {
+        ExecYseopCliCommand(yseopCliPath, 'libs', 'install', '--os=auto', '-R');
+    });
+
     // Create the language client.
     const languageClient = new LanguageClient(
         'yseopml',
@@ -108,7 +112,17 @@ export function activate(context: ExtensionContext) {
     // client can be deactivated on extension deactivation.
     // Also register the custom commands.
 
-    context.subscriptions.push(disposable, batchCmd, compileCmd, testCmd, cleanCmd, cleanallCmd, packageCmd, infoCmd);
+    context.subscriptions.push(
+        disposable,
+        batchCmd,
+        compileCmd,
+        testCmd,
+        cleanCmd,
+        cleanallCmd,
+        packageCmd,
+        infoCmd,
+        libsInstallCmd,
+    );
 }
 
 /**
