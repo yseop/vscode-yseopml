@@ -3,7 +3,7 @@
 ## X.X.X (YYYY-MM-DD)
 
 -   Replaced command Yseop Info with Yseop Config.
--   New command Yseop Libs which installs the libs required by your project for your OS.
+-   New command Yseop Libs which installs the libs required by your project.
 -   Fix a minor syntax highlighting issue with the `mod` operator.
 -   Replaced the `debug` snippet with a new one, named `logAttr`, which is more explicit and whose output is easier to read.
 

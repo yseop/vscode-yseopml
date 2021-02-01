@@ -94,7 +94,7 @@ export function activate(context: ExtensionContext) {
     });
 
     const libsInstallCmd = commands.registerCommand(`${yseopmlSectionName}.libs`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'libs', 'install', '--os=auto', '-R');
+        ExecYseopCliCommand(yseopCliPath, 'libs', 'install', '-R');
     });
 
     // Create the language client.
