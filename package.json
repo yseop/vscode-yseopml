@@ -30,7 +30,7 @@
         "onCommand:yseopml.clean",
         "onCommand:yseopml.cleanall",
         "onCommand:yseopml.package",
-        "onCommand:yseopml.info",
+        "onCommand:yseopml.config",
         "onCommand:yseopml.libs"
     ],
     "galleryBanner": {
