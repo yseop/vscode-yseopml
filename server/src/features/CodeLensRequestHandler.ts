@@ -22,7 +22,7 @@ export function codeLensRequestHandler(definitionsProvider: YmlDefinitionProvide
             .map((func: YmlFunction) => {
                 const lens = CodeLens.create(func.definitionLocation.range);
                 lens.command = {
-                    // Add a heart symbol when the complexity is equal or below 20.
+                    // Add a heart symbol when the complexity is equal to or below 20.
                     title: `${
                         func.getCognitiveComplexity() <= 20 ? '$(heart) ' : ''
                     } Cognitive complexity is ${func.getCognitiveComplexity()}.`,

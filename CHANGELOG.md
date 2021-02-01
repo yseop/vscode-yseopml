@@ -5,7 +5,7 @@
 -   Replaced command Yseop Info with Yseop Config.
 -   New command Yseop Libs which installs the libs required by your project for your OS.
 -   Fix a minor syntax highlighting issue with the `mod` operator.
--   Replaced snippet `debug` with a new one named `logAttr` which is more explicit and which output is easier to read.
+-   Replaced the `debug` snippet with a new one, named `logAttr`, which is more explicit and whose output is easier to read.
 
 ## 1.12.1 (2021-01-21)
 
