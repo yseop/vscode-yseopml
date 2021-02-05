@@ -39,6 +39,15 @@
     },
     "main": "./client/out/extension",
     "contributes": {
+        "menus": {
+            "explorer/context": [
+                {
+                    "when": "resourceExtname == .yma",
+                    "command": "yseopml.managerDeploy",
+                    "group": "navigation"
+                }
+            ]
+        },
         "configuration": {
             "type": "object",
             "title": "Yseop Markup Language configuration",
@@ -136,6 +145,12 @@
             }
         },
         "commands": [
+            {
+                "command": "yseopml.managerDeploy",
+                "title": "Yseop Deploy",
+                "category": "Yseop",
+                "enablement": "resourceExtname == .yma && filesExplorerFocus == true"
+            },
             {
                 "command": "yseopml.batch",
                 "title": "Yseop Batch",

@@ -4,6 +4,7 @@
 
 -   Replaced command Yseop Info with Yseop Config.
 -   New command Yseop Libs which installs the libs required by your project.
+-   New contextual menu entry on \*.yma file allowing to launch `yseop manager deploy` using Yseop CLI.
 -   Fixed a minor syntax highlighting issue with the `mod` operator.
 -   Replaced the `debug` snippet with a new one, named `logAttr`, which is more explicit and whose output is easier to read.
 
