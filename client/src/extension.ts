@@ -12,6 +12,7 @@ import {
     OutputChannel,
     StatusBarAlignment,
     StatusBarItem,
+    Uri,
     window,
     workspace,
     WorkspaceConfiguration,
@@ -97,6 +98,20 @@ export function activate(context: ExtensionContext) {
         ExecYseopCliCommand(yseopCliPath, 'libs', 'install', '-R');
     });
 
+    const deployCmd = commands.registerCommand(`${yseopmlSectionName}.managerDeploy`, (ymaUri: Uri) => {
+        window
+            .showInputBox({ prompt: 'Leave this box empty to use the default env.', placeHolder: 'DEMO' })
+            .then((env) => {
+                if (!!env && env.length > 0) {
+                    window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} on env “${env}”.`);
+                    ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', '-e', `${env}`, ymaUri.fsPath);
+                } else {
+                    window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} with default env.`);
+                    ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', ymaUri.fsPath);
+                }
+            });
+    });
+
     // Create the language client.
     const languageClient = new LanguageClient(
         'yseopml',
@@ -122,6 +137,7 @@ export function activate(context: ExtensionContext) {
         packageCmd,
         infoCmd,
         libsInstallCmd,
+        deployCmd,
     );
 }
 
