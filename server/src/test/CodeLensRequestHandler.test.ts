@@ -115,7 +115,7 @@ while(a > 0 // +1
                 break; // +1
             } else {
                 if(otherCondition == true) { // +5 (increment = 4)
-                    break; +1
+                    break; // +1
                 }
             }
         }
