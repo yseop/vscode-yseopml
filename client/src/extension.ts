@@ -232,14 +232,16 @@ export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
             // greenish color
             yseopCliStatusBarItem.color = '#73c456';
             yseopCliStatusBarItem.text = 'Yseop CLI status $(check)';
+            window.showInformationMessage(message);
         } else {
             message = `Command “${commandLine}” exited with error status ${code}.`;
             // yellowish color
             yseopCliStatusBarItem.color = '#edd312';
             yseopCliStatusBarItem.text = 'Yseop CLI status $(alert)';
+            window.showErrorMessage(message);
+            yseopCliOutputChannel.show();
         }
         yseopCliStatusBarItem.tooltip = message;
         yseopCliStatusBarItem.show();
-        yseopCliOutputChannel.show();
     });
 }
