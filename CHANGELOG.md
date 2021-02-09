@@ -2,6 +2,11 @@
 
 ## X.X.X (YYYY-MM-DD)
 
+-   Replaced command Yseop Info with Yseop Config.
+-   New “Yseop Libs” command which installs the YML library required by your project.
+-   New contextual menu entry on `*.yma` files allowing to launch `yseop manager deploy` using Yseop&nbsp;CLI.
+-   Fixed a minor syntax highlighting issue with the `mod` operator.
+-   Replaced the `debug` snippet with a new one, named `logAttr`, which is more explicit and whose output is easier to read.
 
 ## 1.12.1 (2021-01-21)
 

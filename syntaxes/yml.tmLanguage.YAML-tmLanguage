@@ -150,7 +150,7 @@ repository:
                 name: keyword.operator.logical.yseop
                 comment: 'Some of the operators that can be find in YML.'
             -
-                match: (\+|-|/|mod|\*)
+                match: (\+|-|/|\bmod\b|\*)
                 name: keyword.operator.mathematics.yseop
                 comment: 'Some of the operators that can be found in YML.'
     method-calls:

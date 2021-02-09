@@ -113,12 +113,16 @@ while(a > 0 // +1
         while(true == true) { // +3 (increment = 2)
             if(condition == true) { // +4 (increment = 3)
                 break; // +1
+            } else {
+                if(otherCondition == true) { // +5 (increment = 4)
+                    break; // +1
+                }
             }
         }
     }
     incr(a)
 }`,
-            14,
+            21,
         ],
     ])('the function %# should give the expected codeLens', (functionContent, expectedComplexity) => {
         const definitionProvider = new YmlDefinitionProvider();
@@ -131,7 +135,7 @@ while(a > 0 // +1
         expect(codeLens[0]).toStrictEqual({
             range: Range.create(Position.create(0, 0), Position.create(contentNumberOfLines + 4, 1)),
             command: {
-                title: `Cognitive complexity is ${expectedComplexity}.`,
+                title: `${expectedComplexity <= 20 ? '$(heart) ' : ''} Cognitive complexity is ${expectedComplexity}.`,
                 command: null,
             },
         });

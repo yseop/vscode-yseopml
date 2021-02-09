@@ -12,6 +12,7 @@ import {
     OutputChannel,
     StatusBarAlignment,
     StatusBarItem,
+    Uri,
     window,
     workspace,
     WorkspaceConfiguration,
@@ -66,31 +67,46 @@ export function activate(context: ExtensionContext) {
     });
 
     const batchCmd = commands.registerCommand(`${yseopmlSectionName}.batch`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'batch');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'batch');
     });
 
     const compileCmd = commands.registerCommand(`${yseopmlSectionName}.compile`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'compile');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'compile');
     });
 
     const testCmd = commands.registerCommand(`${yseopmlSectionName}.test`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'test');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'test');
     });
 
     const cleanCmd = commands.registerCommand(`${yseopmlSectionName}.clean`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'clean');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'clean');
     });
 
     const cleanallCmd = commands.registerCommand(`${yseopmlSectionName}.cleanall`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'clean', '--all');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'clean', '--all');
     });
 
     const packageCmd = commands.registerCommand(`${yseopmlSectionName}.package`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'package');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'package');
     });
 
-    const infoCmd = commands.registerCommand(`${yseopmlSectionName}.info`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'info');
+    const infoCmd = commands.registerCommand(`${yseopmlSectionName}.config`, () => {
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'config');
+    });
+
+    const libsInstallCmd = commands.registerCommand(`${yseopmlSectionName}.libs`, () => {
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'libs', 'install', '-R');
+    });
+
+    const deployCmd = commands.registerCommand(`${yseopmlSectionName}.managerDeploy`, (ymaUri: Uri) => {
+        window.showInputBox({ prompt: 'Leave this box empty to use the default environment.' }).then((env) => {
+            if (!!env && env.length > 0) {
+                window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} with environment “${env}”.`);
+            } else {
+                window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} with default environment.`);
+            }
+            ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', '-v', '-e', env, ymaUri.fsPath);
+        });
     });
 
     // Create the language client.
@@ -108,7 +124,18 @@ export function activate(context: ExtensionContext) {
     // client can be deactivated on extension deactivation.
     // Also register the custom commands.
 
-    context.subscriptions.push(disposable, batchCmd, compileCmd, testCmd, cleanCmd, cleanallCmd, packageCmd, infoCmd);
+    context.subscriptions.push(
+        disposable,
+        batchCmd,
+        compileCmd,
+        testCmd,
+        cleanCmd,
+        cleanallCmd,
+        packageCmd,
+        infoCmd,
+        libsInstallCmd,
+        deployCmd,
+    );
 }
 
 /**
@@ -129,6 +156,26 @@ function updateSettings(response: string): void {
 
 /**
  * Execute a command of Yseop CLI using the folder from which VSCode has been opened as the KB directory.
+ * @param cliPath The absolute path to Yseop CLI executable.
+ * @param words Words to append to the command. The first one will typically be an Yseop CLI subcommand.
+ */
+async function ExecYseopCliCommandWithKbDirectoryPath(cliPath: string, ...words: string[]) {
+    if (
+        workspace === null ||
+        workspace === undefined ||
+        workspace.workspaceFolders === null ||
+        workspace.workspaceFolders === undefined
+    ) {
+        window.showErrorMessage('This command must be used from within a workspace folder.');
+        return;
+    }
+
+    const workspaceFolders = workspace.workspaceFolders;
+    ExecYseopCliCommand(cliPath, ...words, workspaceFolders[0].uri.fsPath);
+}
+
+/**
+ * Execute a command of Yseop CLI.
  * @param cliPath The absolute path to Yseop CLI executable.
  * @param words Words to append to the command. The first one will typically be an Yseop CLI subcommand.
  */
@@ -160,24 +207,10 @@ export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
         return;
     }
 
-    if (
-        workspace === null ||
-        workspace === undefined ||
-        workspace.workspaceFolders === null ||
-        workspace.workspaceFolders === undefined
-    ) {
-        window.showErrorMessage('This command must be used from within a workspace folder.');
-        return;
-    }
-
-    const workspaceFolders = workspace.workspaceFolders;
-    const kbDirectory = workspaceFolders[0].uri.fsPath;
-
     let commandLine = `"${yseopCliPath}"`;
     words.forEach((oneWord) => {
         commandLine += ` "${oneWord}"`;
     });
-    commandLine += ` "${kbDirectory}"`;
 
     const command = exec(commandLine);
 
@@ -199,11 +232,13 @@ export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
             // greenish color
             yseopCliStatusBarItem.color = '#73c456';
             yseopCliStatusBarItem.text = 'Yseop CLI status $(check)';
+            window.showInformationMessage(message);
         } else {
             message = `Command “${commandLine}” exited with error status ${code}.`;
             // yellowish color
             yseopCliStatusBarItem.color = '#edd312';
             yseopCliStatusBarItem.text = 'Yseop CLI status $(alert)';
+            window.showErrorMessage(message);
         }
         yseopCliStatusBarItem.tooltip = message;
         yseopCliStatusBarItem.show();
