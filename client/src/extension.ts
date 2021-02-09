@@ -239,9 +239,9 @@ export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
             yseopCliStatusBarItem.color = '#edd312';
             yseopCliStatusBarItem.text = 'Yseop CLI status $(alert)';
             window.showErrorMessage(message);
-            yseopCliOutputChannel.show();
         }
         yseopCliStatusBarItem.tooltip = message;
         yseopCliStatusBarItem.show();
+        yseopCliOutputChannel.show();
     });
 }
