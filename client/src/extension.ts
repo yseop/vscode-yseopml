@@ -105,7 +105,7 @@ export function activate(context: ExtensionContext) {
             } else {
                 window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} with default environment.`);
             }
-            ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', '-v', '-e', `${env}`, ymaUri.fsPath);
+            ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', '-v', '-e', env, ymaUri.fsPath);
         });
     });
 
