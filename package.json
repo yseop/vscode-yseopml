@@ -147,7 +147,7 @@
         "commands": [
             {
                 "command": "yseopml.managerDeploy",
-                "title": "Yseop Deploy",
+                "title": "Yseop Deploy…",
                 "category": "Yseop",
                 "enablement": "resourceExtname == .yma && filesExplorerFocus == true"
             },

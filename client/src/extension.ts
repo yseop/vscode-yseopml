@@ -99,17 +99,15 @@ export function activate(context: ExtensionContext) {
     });
 
     const deployCmd = commands.registerCommand(`${yseopmlSectionName}.managerDeploy`, (ymaUri: Uri) => {
-        window
-            .showInputBox({ prompt: 'Leave this box empty to use the default env.', placeHolder: 'DEMO' })
-            .then((env) => {
-                if (!!env && env.length > 0) {
-                    window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} on env “${env}”.`);
-                    ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', '-e', `${env}`, ymaUri.fsPath);
-                } else {
-                    window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} with default env.`);
-                    ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', ymaUri.fsPath);
-                }
-            });
+        window.showInputBox({ prompt: 'Leave this box empty to use the default environment.' }).then((env) => {
+            if (!!env && env.length > 0) {
+                window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} with environment “${env}”.`);
+                ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', '-e', `${env}`, ymaUri.fsPath, '-v');
+            } else {
+                window.showInformationMessage(`Deploying YMA ${ymaUri.fsPath} with default environment.`);
+                ExecYseopCliCommand(yseopCliPath, 'manager', 'deploy', ymaUri.fsPath, '-v');
+            }
+        });
     });
 
     // Create the language client.
