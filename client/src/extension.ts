@@ -67,35 +67,35 @@ export function activate(context: ExtensionContext) {
     });
 
     const batchCmd = commands.registerCommand(`${yseopmlSectionName}.batch`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'batch');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'batch');
     });
 
     const compileCmd = commands.registerCommand(`${yseopmlSectionName}.compile`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'compile');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'compile');
     });
 
     const testCmd = commands.registerCommand(`${yseopmlSectionName}.test`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'test');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'test');
     });
 
     const cleanCmd = commands.registerCommand(`${yseopmlSectionName}.clean`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'clean');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'clean');
     });
 
     const cleanallCmd = commands.registerCommand(`${yseopmlSectionName}.cleanall`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'clean', '--all');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'clean', '--all');
     });
 
     const packageCmd = commands.registerCommand(`${yseopmlSectionName}.package`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'package');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'package');
     });
 
     const infoCmd = commands.registerCommand(`${yseopmlSectionName}.config`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'config');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'config');
     });
 
     const libsInstallCmd = commands.registerCommand(`${yseopmlSectionName}.libs`, () => {
-        ExecYseopCliCommand(yseopCliPath, 'libs', 'install', '-R');
+        ExecYseopCliCommandWithKbDirectoryPath(yseopCliPath, 'libs', 'install', '-R');
     });
 
     const deployCmd = commands.registerCommand(`${yseopmlSectionName}.managerDeploy`, (ymaUri: Uri) => {
@@ -159,6 +159,26 @@ function updateSettings(response: string): void {
  * @param cliPath The absolute path to Yseop CLI executable.
  * @param words Words to append to the command. The first one will typically be an Yseop CLI subcommand.
  */
+async function ExecYseopCliCommandWithKbDirectoryPath(cliPath: string, ...words: string[]) {
+    if (
+        workspace === null ||
+        workspace === undefined ||
+        workspace.workspaceFolders === null ||
+        workspace.workspaceFolders === undefined
+    ) {
+        window.showErrorMessage('This command must be used from within a workspace folder.');
+        return;
+    }
+
+    const workspaceFolders = workspace.workspaceFolders;
+    ExecYseopCliCommand(cliPath, ...words, workspaceFolders[0].uri.fsPath);
+}
+
+/**
+ * Execute a command of Yseop CLI.
+ * @param cliPath The absolute path to Yseop CLI executable.
+ * @param words Words to append to the command. The first one will typically be an Yseop CLI subcommand.
+ */
 export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
     yseopCliOutputChannel.clear();
     yseopCliStatusBarItem.hide();
@@ -187,24 +207,10 @@ export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
         return;
     }
 
-    if (
-        workspace === null ||
-        workspace === undefined ||
-        workspace.workspaceFolders === null ||
-        workspace.workspaceFolders === undefined
-    ) {
-        window.showErrorMessage('This command must be used from within a workspace folder.');
-        return;
-    }
-
-    const workspaceFolders = workspace.workspaceFolders;
-    const kbDirectory = workspaceFolders[0].uri.fsPath;
-
     let commandLine = `"${yseopCliPath}"`;
     words.forEach((oneWord) => {
         commandLine += ` "${oneWord}"`;
     });
-    commandLine += ` "${kbDirectory}"`;
 
     const command = exec(commandLine);
 
