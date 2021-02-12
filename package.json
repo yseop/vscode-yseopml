@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.12.1",
+    "version": "1.13.0",
     "author": "Yseop",
     "license": "MIT",
     "repository": {
@@ -30,7 +30,8 @@
         "onCommand:yseopml.clean",
         "onCommand:yseopml.cleanall",
         "onCommand:yseopml.package",
-        "onCommand:yseopml.info"
+        "onCommand:yseopml.config",
+        "onCommand:yseopml.libs"
     ],
     "galleryBanner": {
         "color": "#27aae1",
@@ -38,6 +39,15 @@
     },
     "main": "./client/out/extension",
     "contributes": {
+        "menus": {
+            "explorer/context": [
+                {
+                    "when": "resourceExtname == .yma",
+                    "command": "yseopml.managerDeploy",
+                    "group": "navigation"
+                }
+            ]
+        },
         "configuration": {
             "type": "object",
             "title": "Yseop Markup Language configuration",
@@ -136,6 +146,12 @@
         },
         "commands": [
             {
+                "command": "yseopml.managerDeploy",
+                "title": "Yseop Deploy…",
+                "category": "Yseop",
+                "enablement": "resourceExtname == .yma && filesExplorerFocus == true"
+            },
+            {
                 "command": "yseopml.batch",
                 "title": "Yseop Batch",
                 "category": "Yseop"
@@ -166,8 +182,13 @@
                 "category": "Yseop"
             },
             {
-                "command": "yseopml.info",
-                "title": "Yseop Info",
+                "command": "yseopml.config",
+                "title": "Yseop Config",
+                "category": "Yseop"
+            },
+            {
+                "command": "yseopml.libs",
+                "title": "Yseop Libs Install",
                 "category": "Yseop"
             }
         ],
