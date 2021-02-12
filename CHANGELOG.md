@@ -2,6 +2,8 @@
 
 ## X.X.X (YYYY-MM-DD)
 
+## 1.13.0 (2021-02-12)
+
 -   Replaced command Yseop Info with Yseop Config.
 -   New “Yseop Libs” command which installs the YML library required by your project.
 -   New contextual menu entry on `*.yma` files allowing to launch `yseop manager deploy` using Yseop&nbsp;CLI.
