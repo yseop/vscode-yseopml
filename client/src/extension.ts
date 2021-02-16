@@ -5,6 +5,7 @@
 'use strict';
 import { exec } from 'child_process';
 import * as fs from 'fs';
+import glob from 'glob-promise';
 import * as path from 'path';
 import {
     commands,
@@ -169,9 +170,41 @@ async function ExecYseopCliCommandWithKbDirectoryPath(cliPath: string, ...words:
         window.showErrorMessage('This command must be used from within a workspace folder.');
         return;
     }
+    const workspaceFirstDir = workspace.workspaceFolders[0].uri.fsPath;
 
-    const workspaceFolders = workspace.workspaceFolders;
-    ExecYseopCliCommand(cliPath, ...words, workspaceFolders[0].uri.fsPath);
+    // Get the list of possible KBs in the workspace (like in library projects)
+    // using com.yseop.designer.prefs paths.
+    glob('**/.settings/com.yseop.designer.prefs', {
+        cwd: workspaceFirstDir,
+    })
+        .then((_matches) =>
+            // from “library/.settings/com.yseop.designer.prefs” generates “library”.
+            // from “.settings/com.yseop.designer.prefs” generates “.”
+            _matches.map((designerPrefsFile) => path.normalize(path.join(path.dirname(designerPrefsFile), '..'))),
+        )
+        .then((_matches) => {
+            // Only one element. Don't need to display a QuickPick.
+            if (_matches.length === 1) {
+                ExecYseopCliCommand(cliPath, ...words, path.join(workspaceFirstDir, _matches[0]));
+                return;
+            }
+            const qp = window.createQuickPick();
+            qp.items = _matches.map((dirPath) => {
+                return {
+                    label: dirPath,
+                };
+            });
+            qp.onDidAccept(() => {
+                // When user hit Enter, hide the quick picker
+                // and execute the CLI command using as kb path
+                // the result of a join of workspaceDir and the seleted item.
+                const selectedLabel = qp.selectedItems[0]?.label;
+                qp.dispose();
+                ExecYseopCliCommand(cliPath, ...words, path.join(workspaceFirstDir, selectedLabel));
+            });
+            qp.onDidHide(() => qp.dispose());
+            qp.show();
+        });
 }
 
 /**
