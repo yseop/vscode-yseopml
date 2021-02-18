@@ -200,7 +200,7 @@ async function ExecYseopCliCommandWithKbDirectoryPath(cliPath: string, ...words:
                 // When user hit Enter, hide the quick picker
                 // and execute the CLI command using as kb path
                 // the result of a join of workspaceDir and the seleted item.
-                const selectedLabel = qp.selectedItems[0]?.label;
+                const selectedLabel = qp.selectedItems[0].label;
                 qp.dispose();
                 ExecYseopCliCommand(cliPath, ...words, path.join(workspaceFirstDir, selectedLabel));
             });
