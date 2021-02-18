@@ -182,7 +182,7 @@ async function ExecYseopCliCommandWithKbDirectoryPath(cliPath: string, ...words:
         .then((_matches) =>
             // from “library/.settings/com.yseop.designer.prefs” generates “library”.
             // from “.settings/com.yseop.designer.prefs” generates “.”
-            _matches.map((designerPrefsFile) => path.normalize(path.join(path.dirname(designerPrefsFile), '..'))),
+            _matches.map((designerPrefsFile) => path.normalize(path.dirname(path.dirname(designerPrefsFile)))),
         )
         .then((_matches) => {
             // Only one element. Don't need to display a QuickPick.
