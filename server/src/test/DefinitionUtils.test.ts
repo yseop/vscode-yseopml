@@ -117,10 +117,7 @@ describe('Extension Server Tests', () => {
             });
             it('should accept identifiers with namespaces', (done) => {
                 const source = 'Lang:Verb::VERB_JA_食べ物(';
-                expect(
-                    getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe(
-                    'Lang:Verb::VERB_JA_食べ物',
-                );
+                expect(getYmlEntityNamePart(source, EntityPartPosition.BEGINNING)).toBe('Lang:Verb::VERB_JA_食べ物');
                 done();
             });
         });
@@ -173,6 +170,23 @@ describe('Extension Server Tests', () => {
                 const end = source.length;
                 for (let position = start; position < end; position++) {
                     expect(getTokenAtPosInDoc(source, position)).toBe(expectedToken);
+                }
+                done();
+            });
+
+            it('should find the class name when before double column, method name otherwise', (done) => {
+                const source: string = 'mySuperClass::myMethod';
+                const leftPart = 'mySuperClass';
+                const leftPartSize = leftPart.length;
+                // From start to the end leftPart
+                for (let position = 0; position < leftPartSize + 1; position++) {
+                    expect(getTokenAtPosInDoc(source, position)).toBe(leftPart);
+                }
+                // Between the two colons
+                expect(getTokenAtPosInDoc(source, leftPartSize + 1)).toBe(null);
+                // After the second colon until the end
+                for (let position = leftPartSize + 2; position < source.length; position++) {
+                    expect(getTokenAtPosInDoc(source, position)).toBe('myMethod');
                 }
                 done();
             });

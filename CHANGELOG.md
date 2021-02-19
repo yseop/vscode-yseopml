@@ -2,6 +2,8 @@
 
 ## X.X.X (YYYY-MM-DD)
 
+-   Go To Definition now works for class names too.
+
 ## 1.13.0 (2021-02-12)
 
 -   Replaced command Yseop Info with Yseop Config.
