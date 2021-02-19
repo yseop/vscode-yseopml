@@ -223,11 +223,6 @@ export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
     yseopCliOutputChannel.clear();
     yseopCliStatusBarItem.hide();
 
-    const editor = window.activeTextEditor;
-
-    if (editor === null || editor === undefined) {
-        return;
-    }
     if (cliPath === null || cliPath === undefined || cliPath.trim().length === 0) {
         const thenable = window.showInformationMessage(
             'Please fill the Yseop CLI path parameter before using this command.',
