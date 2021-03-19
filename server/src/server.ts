@@ -9,23 +9,23 @@ import { promises as fsPromises } from 'fs-extra';
 import * as glob from 'glob-promise';
 import * as path from 'path';
 import * as url from 'url';
+import { TextDocument, TextEdit } from 'vscode-languageserver-textdocument';
 import {
     CompletionItem,
     CompletionParams,
+    Connection,
     createConnection,
     Diagnostic,
     DiagnosticSeverity,
-    IConnection,
     InitializeResult,
     IPCMessageReader,
     IPCMessageWriter,
+    ProposedFeatures,
     ServerCapabilities,
-    TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
     TextDocuments,
-    TextEdit,
-} from 'vscode-languageserver';
+} from 'vscode-languageserver/node';
 
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
@@ -65,7 +65,11 @@ const FILE_TYPE_F = /^_FILE_TYPE_\s+F\b/;
 const FILE_TYPE_M = /^_FILE_TYPE_\s+M\b/;
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
-export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
+export const connection: Connection = createConnection(
+    ProposedFeatures.all,
+    new IPCMessageReader(process),
+    new IPCMessageWriter(process),
+);
 
 connection.console.log('Yseop.vscode-yseopml − Creating connection with client/server.');
 
@@ -74,7 +78,7 @@ const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsPro
 
 // Create a simple text document manager. The text document manager
 // supports full document sync only
-const documents: TextDocuments = new TextDocuments();
+const documents = new TextDocuments(TextDocument);
 
 let yseopmlSettings: IYseopmlServerSettings;
 
@@ -95,8 +99,6 @@ const serverCapabilities: ServerCapabilities = {
     definitionProvider: true,
     documentSymbolProvider: true,
     implementationProvider: true,
-    // Tell the client that the server works in FULL text document sync mode
-    textDocumentSync: documents.syncKind,
     documentFormattingProvider: true,
     foldingRangeProvider: true,
 };
@@ -315,9 +317,9 @@ connection.onHover((_params) => {
     };
 });
 
-const parseTextDocumentOnEvent = (event: TextDocumentChangeEvent) => parseTextDocument(event.document);
+const parseTextDocumentOnEvent = (event: TextDocumentChangeEvent<TextDocument>) => parseTextDocument(event.document);
 documents.onDidChangeContent(parseTextDocumentOnEvent);
-documents.onDidClose((event: TextDocumentChangeEvent) =>
+documents.onDidClose((event: TextDocumentChangeEvent<TextDocument>) =>
     // Clearing diagnostic for the closed file to avoid spamming the user.
     connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] }),
 );

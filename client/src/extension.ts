@@ -20,7 +20,7 @@ import {
     workspace,
     WorkspaceConfiguration,
 } from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
+import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
 let yseopCliOutputChannel: OutputChannel;
 let yseopCliStatusBarItem: StatusBarItem;
