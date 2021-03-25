@@ -33,7 +33,7 @@ export class YmlEnumVisitor extends YmlBaseVisitor {
         this.yenum.setDefinitionLocation(node.start, node.stop, this.uri);
         // Add enum to the definitions, because it looks a lot like a class.
         this.definitions.addDefinition(this.yenum);
-        // Keep this for compatibility.
+        // Keep this for _Go To Implementation_.
         this.definitions.addImplementation(this.yenum);
         /**
          * Look for the enum's members.

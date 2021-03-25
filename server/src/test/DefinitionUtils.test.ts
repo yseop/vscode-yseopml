@@ -174,7 +174,7 @@ describe('Extension Server Tests', () => {
                 done();
             });
 
-            it('should find the class name when before double column, method name otherwise', (done) => {
+            it('should find the class name when before double colon, nothing in between, then method name', (done) => {
                 const source: string = 'mySuperClass::myMethod';
                 const leftPart = 'mySuperClass';
                 const leftPartSize = leftPart.length;

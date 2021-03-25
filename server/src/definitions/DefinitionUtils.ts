@@ -93,5 +93,10 @@ export function getYmlEntityNamePartWithoutClassName(text: string, position: Ent
         return null;
     }
     const parts = result.split('::');
-    return parts[position === EntityPartPosition.END ? parts.length - 1 : 0];
+    if (position === EntityPartPosition.END) {
+        // We want to get the text from the end of the string.
+        return parts[parts.length - 1];
+    }
+    // We want to get the text from the start of the string.
+    return parts[0];
 }
