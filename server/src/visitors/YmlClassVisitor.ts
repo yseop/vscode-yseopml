@@ -48,5 +48,6 @@ export class YmlClassVisitor extends YmlBaseVisitor {
         this.ymlClass.data = `id_${this.ymlClass.label}`;
         this.completionProvider.addCompletionItem(this.ymlClass);
         this.ymlClass.setDefinitionLocation(node.start, node.stop, this.uri);
+        this.definitions.addDefinition(this.ymlClass);
     }
 }
