@@ -1,4 +1,5 @@
-import { TextDocument, TextEdit } from 'vscode-languageserver';
+import { TextEdit } from 'vscode-languageserver';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';

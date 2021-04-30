@@ -1,5 +1,5 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { TextDocument } from 'vscode-languageserver';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions/YmlDefinitionProvider';

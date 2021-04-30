@@ -2,7 +2,8 @@
 import { ParserRuleContext, Token } from 'antlr4ts';
 import { AbstractParseTreeVisitor } from 'antlr4ts/tree/AbstractParseTreeVisitor';
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
-import { Range, TextDocument, TextEdit } from 'vscode-languageserver';
+import { Range, TextEdit } from 'vscode-languageserver';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
