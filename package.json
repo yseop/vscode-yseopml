@@ -280,5 +280,8 @@
         "titleTemplate": "{classname}-{title}",
         "ancestorSeparator": " › ",
         "usePathForSuiteName": "true"
+    },
+    "dependencies": {
+        "xmldoc": "^1.1.2"
     }
 }

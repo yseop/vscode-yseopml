@@ -178,6 +178,10 @@ export abstract class AbstractYmlObject implements CompletionItem {
         };
     }
 
+    public setDefinitionLocationFromLocation(location: Location): void {
+        this.definitionLocation = location;
+    }
+
     /**
      * Build and returns a light version of this object.
      * A AbstractYmlObject's light version just have its label, its data attribute and its kind.
