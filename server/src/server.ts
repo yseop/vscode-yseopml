@@ -344,7 +344,7 @@ function parseFile(textDocUri: string, docContent: string) {
     // Reset all the document's completion items.
     completionProvider.removeDocumentCompletionItems(textDocUri);
 
-    const visitor = new YmlKaoFileVisitor(completionProvider, textDocUri, definitionsProvider);
+    const visitor = new YmlKaoFileVisitor(completionProvider, textDocUri, definitionsProvider, null, null, null, diagnostics);
     // Visit the result of the parsing.
     // This fill the completionProvider and the definitionsProvider.
     visitor.visit(result);

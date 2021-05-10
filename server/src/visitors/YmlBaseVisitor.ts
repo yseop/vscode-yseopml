@@ -2,7 +2,7 @@
 import { ParserRuleContext, Token } from 'antlr4ts';
 import { AbstractParseTreeVisitor } from 'antlr4ts/tree/AbstractParseTreeVisitor';
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
-import { Range, TextEdit } from 'vscode-languageserver';
+import { Diagnostic, Range, TextEdit } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
@@ -35,6 +35,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         public docFormatSettings?: IDocumentFormatSettings,
         public filePossibleEdits?: TextEdit[],
         public document?: TextDocument,
+        public diagnostics?: Diagnostic[],
     ) {
         super();
     }
@@ -65,6 +66,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         const operator = node.comparisonOperator();
         this.setOneSpaceIntervalBetweenTwoContexts(node._leftValue, operator);
         this.setOneSpaceIntervalBetweenTwoContexts(operator, node._rightValue);
+        this.visitChildren(node);
     }
 
     public visitArray(node: ArrayContext): void {

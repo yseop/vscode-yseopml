@@ -1,4 +1,4 @@
-import { TextEdit } from 'vscode-languageserver';
+import { Diagnostic, TextEdit } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
@@ -19,8 +19,9 @@ export class YmlKaoFileVisitor extends YmlBaseVisitor {
         docFormatSettings?: IDocumentFormatSettings,
         filePossibleEdits?: TextEdit[],
         document?: TextDocument,
+        diagnostics?: Diagnostic[],
     ) {
-        super(completionProvider, uri, definitions, docFormatSettings, filePossibleEdits, document);
+        super(completionProvider, uri, definitions, docFormatSettings, filePossibleEdits, document, diagnostics);
     }
 
     public visitStaticDeclaration(node: StaticDeclarationContext): void {
@@ -45,6 +46,7 @@ export class YmlKaoFileVisitor extends YmlBaseVisitor {
             this.filePossibleEdits,
             this.document,
             this.docFormatSettings,
+            this.diagnostics,
         );
         visitor.visit(node);
     }

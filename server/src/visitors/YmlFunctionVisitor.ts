@@ -1,5 +1,5 @@
 import { ParserRuleContext } from 'antlr4ts';
-import { TextEdit } from 'vscode-languageserver';
+import { Diagnostic, DiagnosticSeverity, TextEdit } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
@@ -27,9 +27,11 @@ import {
     MandatoryArgDeclContext,
     MemberDeclarationContext,
     VariableBlockContentContext,
+    YmlIdContext,
 } from '../grammar';
 import { IDocumentFormatSettings } from '../settings/Settings';
 import { AbstractYmlFunction, YmlArgument, YmlFunction, YmlObjectInstance } from '../yml-objects';
+import { AbstractYmlObject } from '../yml-objects/AbstractYmlObject';
 import { YmlBaseVisitor } from './YmlBaseVisitor';
 import { getDocumentation, getType } from './YmlVisitorHelper';
 
@@ -49,6 +51,8 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
     private func: AbstractYmlFunction;
 
+    public unusedVariables: AbstractYmlObject[];
+
     /**
      * State used when computing the cognitive complexity.
      * The complexity should increase when the operator changes
@@ -63,8 +67,10 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         public filePossibleEdits: TextEdit[] = [],
         public document: TextDocument = null,
         public docFormatSettings: IDocumentFormatSettings = null,
+        public diagnostics?: Diagnostic[],
     ) {
         super(completionProvider, uri);
+        this.unusedVariables = [];
     }
     public visitFunction(node: FunctionContext): void {
         this.scopeStartOffset = 0;
@@ -106,6 +112,13 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
          * Look for the function's arguments and local variables.
          */
         this.visitChildren(node);
+        for (const unusedVariable of this.unusedVariables) {
+            this.diagnostics?.push(Diagnostic.create(
+                unusedVariable.definitionLocation?.range,
+                `This variable ${unusedVariable.label} is unused. You should remove it.`,
+                DiagnosticSeverity.Warning,
+            ))
+        }
     }
 
     /**
@@ -116,6 +129,20 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         const arg = new YmlArgument(node._argName.text, this.uri);
         arg.enrichWith(null, node._argType.text, this.func, this.scopeStartOffset, this.scopeEndOffset);
         this.completionProvider.addCompletionItem(arg);
+        this.unusedVariables.push(arg);
+        arg.definitionLocation = {
+            range: {
+                end: {
+                    character: node.stop.charPositionInLine + node.stop.text.length,
+                    line: node.stop.line - 1,
+                },
+                start: {
+                    character: node.start.charPositionInLine,
+                    line: node.start.line - 1,
+                },
+            },
+            uri: this.uri,
+        };
     }
     /**
      * Visit the member declarations that are in `local` and `args` blocks of functions.
@@ -145,7 +172,21 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         const doc = getDocumentation(node.field());
         const type = getType(node.field(), node._type.text);
         variable.enrichWith(doc, type, this.func, this.scopeStartOffset, this.scopeEndOffset);
+        variable.definitionLocation = {
+            range: {
+                end: {
+                    character: node.stop.charPositionInLine + node.stop.text.length,
+                    line: node.stop.line - 1,
+                },
+                start: {
+                    character: node.start.charPositionInLine,
+                    line: node.start.line - 1,
+                },
+            },
+            uri: this.uri,
+        };
         this.completionProvider.addCompletionItem(variable);
+        this.unusedVariables.push(variable);
     }
 
     /**
@@ -158,6 +199,10 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
     private isMethodInstanciation(fullName: string): boolean {
         // Check that there is a “::”, with at least one character before it.
         return fullName.includes('::', 1);
+    }
+
+    public visitYmlId(node: YmlIdContext) {
+        this.unusedVariables = this.unusedVariables.filter((elem) => elem.label !== node.text)
     }
 
     public visitInstruction_try_catch(node: Instruction_try_catchContext) {
