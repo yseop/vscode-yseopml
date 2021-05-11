@@ -113,11 +113,13 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
          */
         this.visitChildren(node);
         for (const unusedVariable of this.unusedVariables) {
-            this.diagnostics?.push(Diagnostic.create(
-                unusedVariable.definitionLocation?.range,
-                `This variable ${unusedVariable.label} is unused. You should remove it.`,
-                DiagnosticSeverity.Warning,
-            ))
+            this.diagnostics?.push(
+                Diagnostic.create(
+                    unusedVariable.definitionLocation?.range,
+                    `The variable “${unusedVariable.label}” is probably unused.`,
+                    DiagnosticSeverity.Information,
+                ),
+            );
         }
     }
 
@@ -202,7 +204,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
     }
 
     public visitYmlId(node: YmlIdContext) {
-        this.unusedVariables = this.unusedVariables.filter((elem) => elem.label !== node.text)
+        this.unusedVariables = this.unusedVariables.filter((elem) => elem.label !== node.text);
     }
 
     public visitInstruction_try_catch(node: Instruction_try_catchContext) {
