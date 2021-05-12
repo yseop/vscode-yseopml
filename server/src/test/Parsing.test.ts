@@ -534,7 +534,7 @@ while(_myVar < 10) { incr(_myVar); }
         case VALUE_2 : {
             // do something else
         }
-    }
+    };
 }
 ;`,
             );

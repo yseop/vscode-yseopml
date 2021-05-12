@@ -133,6 +133,7 @@ import { ClassCompleteContext } from "./YmlParser";
 import { RulesetContext } from "./YmlParser";
 import { RulesContext } from "./YmlParser";
 import { YmlruleContext } from "./YmlParser";
+import { EmptyBlockContext } from "./YmlParser";
 
 
 /**
@@ -1569,5 +1570,16 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitYmlrule?: (ctx: YmlruleContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.emptyBlock`.
+	 * @param ctx the parse tree
+	 */
+	enterEmptyBlock?: (ctx: EmptyBlockContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.emptyBlock`.
+	 * @param ctx the parse tree
+	 */
+	exitEmptyBlock?: (ctx: EmptyBlockContext) => void;
 }
 

@@ -423,7 +423,7 @@ conditionBlock: order0Condition+;
 
 order0Condition: conditionalExpression | existentialOperator;
 
-actionBlockOrInstruction: actionBlock | instruction;
+actionBlockOrInstruction: emptyBlock | actionBlock | instruction;
 
 instruction_switchExpr_withValue:
     SWITCH_EXPR OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase_withValue*
@@ -499,21 +499,21 @@ instruction_while:
 instruction_return: RETURN value;
 instruction_chainedCall: chainedCall;
 instruction:
-    instruction_multivaluedAssignment SEMICOLON?
-    | instruction_assignment SEMICOLON?
-    | instruction_return SEMICOLON?
-    | instruction_chainedCall SEMICOLON?
+    instruction_multivaluedAssignment SEMICOLON
+    | instruction_assignment SEMICOLON
+    | instruction_return SEMICOLON
+    | instruction_chainedCall SEMICOLON
     | instruction_for
     | instruction_forEach
     | instruction_forall
     | instruction_ifElse
-    | instruction_try_catch SEMICOLON?
+    | instruction_try_catch SEMICOLON
     | instruction_switchCase_asIf
     | instruction_break
     | instruction_switchCase_withValue
     | instruction_ifExprBlock
     | instruction_while
-    | instruction_timeCounter SEMICOLON?
+    | instruction_timeCounter SEMICOLON
 ;
 
 instruction_do: DO actionBlock;
@@ -579,3 +579,5 @@ ymlrule:
         | instruction_assignment
     )+ CLOSE_PAR THEN instruction+ field* SEMICOLON
 ;
+
+emptyBlock: OPEN_BRACE CLOSE_BRACE;

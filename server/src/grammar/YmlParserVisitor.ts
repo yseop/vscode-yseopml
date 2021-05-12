@@ -133,6 +133,7 @@ import { ClassCompleteContext } from "./YmlParser";
 import { RulesetContext } from "./YmlParser";
 import { RulesContext } from "./YmlParser";
 import { YmlruleContext } from "./YmlParser";
+import { EmptyBlockContext } from "./YmlParser";
 
 
 /**
@@ -1052,5 +1053,12 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitYmlrule?: (ctx: YmlruleContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.emptyBlock`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitEmptyBlock?: (ctx: EmptyBlockContext) => Result;
 }
 
