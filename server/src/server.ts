@@ -37,6 +37,7 @@ import {
     foldingRangesRequestHandler,
 } from './features';
 import { YmlLexer, YmlParser } from './grammar';
+import { getPredefinedObjectsXmlPath } from './serverUtils';
 import {
     IDocumentFormatSettings,
     IYseopmlServerSettings,
@@ -336,14 +337,26 @@ connection.onDidChangeConfiguration((change) => {
     parsingIssueSeverityLevel =
         diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
         DiagnosticSeverity.Information;
-    if (engineModel == null) {
-        engineModel = new EngineModel(yseopmlSettings.pathToPredefinedObjectsXml, completionProvider);
-        engineModel.loadPredefinedObjects();
-    } else {
-        engineModel.reload(yseopmlSettings.pathToPredefinedObjectsXml, completionProvider);
-    }
-    // Revalidate any open text documents
-    documents.all().forEach(parseTextDocument);
+    connection.workspace
+        .getWorkspaceFolders()
+        .then((_value) => {
+            return url.fileURLToPath(_value[0].uri);
+        })
+        .then((workspacePath) => {
+            const predefinedObjectsXmlPath = getPredefinedObjectsXmlPath(
+                workspacePath,
+                yseopmlSettings.pathToPredefinedObjectsXml,
+            );
+
+            if (engineModel == null) {
+                engineModel = new EngineModel(predefinedObjectsXmlPath, completionProvider, definitionsProvider);
+                engineModel.loadPredefinedObjects();
+            } else {
+                engineModel.reload(predefinedObjectsXmlPath, completionProvider);
+            }
+            // Revalidate any open text documents
+            documents.all().forEach(parseTextDocument);
+        });
 });
 
 /**

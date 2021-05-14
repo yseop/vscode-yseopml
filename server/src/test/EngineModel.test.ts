@@ -1,4 +1,5 @@
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
+import { YmlDefinitionProvider } from '../definitions';
 import { EngineModel } from '../engineModel/EngineModel';
 
 describe('Extension Server Tests', () => {
@@ -17,6 +18,7 @@ describe('Extension Server Tests', () => {
 <data-and-features>
     <classes>
         <package ident="yseop.lang">
+            <class ident="ParentClass" instances=""/>
             <class ident="ExampleClass" instances="">
                 <extends>ParentClass</extends>
                 <attribute ident="attribute" internalAttribute="true">
@@ -25,11 +27,18 @@ describe('Extension Server Tests', () => {
                     </return>
                 </attribute>
                 <attribute ident="attribute2">
+                    <doc><![CDATA[Documentation for \`attribute2\`.]]></doc>
                     <return>
                         <domains>Collection</domains>
                         <domainsLevel2>Text</domainsLevel2>
                     </return>
                 </attribute>
+                <method ident="getIntegerValue">
+                    <args arity-min="0" arity-max="0"></args>
+                    <return>
+                        <domains>yseop.lang.Integer</domains>
+                    </return>
+                </method>
             </class>
         </package>
     </classes>
@@ -56,7 +65,11 @@ describe('Extension Server Tests', () => {
 
         it('should get completion objects from an EngineModel', (done) => {
             const completionProvider = new YmlCompletionItemsProvider();
-            const model: EngineModel = new EngineModel('/path/to/some/predefinedObject.xml', completionProvider);
+            const model: EngineModel = new EngineModel(
+                '/path/to/some/predefinedObject.xml',
+                completionProvider,
+                new YmlDefinitionProvider(),
+            );
             model.parsePredefinedObjectsFileContent(null, ENGINE_MODEL_FILE_CONTENT);
             expect(completionProvider.completions.length).not.toBe(0);
             done();
