@@ -9,6 +9,7 @@ import { YmlEntityContext } from "./YmlParser";
 import { ExpressionMarkerContext } from "./YmlParser";
 import { Instruction_renameContext } from "./YmlParser";
 import { YmlIdContext } from "./YmlParser";
+import { OtherTokensContext } from "./YmlParser";
 import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
 import { Enum_attributes_blockContext } from "./YmlParser";
@@ -107,7 +108,6 @@ import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { ElseExpressionContext } from "./YmlParser";
-import { ElseIfExpressionContext } from "./YmlParser";
 import { IfExpressionContext } from "./YmlParser";
 import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
@@ -189,6 +189,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitYmlId?: (ctx: YmlIdContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.otherTokens`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitOtherTokens?: (ctx: OtherTokensContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.yenum`.
@@ -875,13 +882,6 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitElseExpression?: (ctx: ElseExpressionContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlParser.elseIfExpression`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitElseIfExpression?: (ctx: ElseIfExpressionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.ifExpression`.

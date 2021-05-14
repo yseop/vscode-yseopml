@@ -31,7 +31,9 @@ ymlEntity:
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
 instruction_rename: RENAME ymlId TO ymlId FOR_CLASS ymlId;
-ymlId:
+ymlId: otherTokens | YMLID;
+
+otherTokens:
     ARGS
     | LOCAL
     | RETURN
@@ -45,7 +47,6 @@ ymlId:
     | FOR_CLASS
     | MOD
     | AS
-    | YMLID
     | RULESET
     | RULE_TYPE
     | ATTRIBUTES
@@ -107,10 +108,10 @@ ymlIdOrPath: ymlId | path;
 
 field:
     actionField
-    | commonField
     | returnField
     | localField
     | implementationField
+    | commonField
 ;
 
 actionField: FIELD_INTRO optionName=ACTION actionFieldValues;
@@ -155,8 +156,7 @@ classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 multilineString: TRIPLE_QUOTE stringContent=ANY* TRIPLE_QUOTE;
 
 objectReturnAttributeValue:
-    ifExprBlock
-    | conditionalExpression
+    conditionalExpression
     | value
     | hashMapKeyValue
     | multilineString
@@ -201,6 +201,7 @@ value:
     | inValue
     | instruction_switchExpr_withValue
     | instruction_switchExpr_asIf
+    | emptyBlock
 ;
 
 as:
@@ -489,13 +490,9 @@ instructionCase: CASE caseValue COLON actionBlockOrInstruction;
 instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
 
-instruction_ifElse:
-    main=ifExpression elseIfs=elseIfExpression* elseExpr=elseExpression?
-;
+instruction_ifElse: main=ifExpression elseExpr=elseExpression?;
 
 elseExpression: ELSE actionBlockOrInstruction;
-
-elseIfExpression: ELSE ifExpression;
 
 ifExpression: IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction;
 
