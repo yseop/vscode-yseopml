@@ -124,8 +124,6 @@ actionFieldValues:
 
 implementationField: FIELD_INTRO IMPLEMENTATION actionBlock;
 
-instructionNoSemi: ifExprBlock | chainedCall | instruction_return;
-
 commonField:
     fieldArrow=
     (
@@ -195,19 +193,12 @@ hashMapKey: bool | STRING | DATE | chainedCall | NUMBER | array | constList;
 hashMapValue: value | conditionalExpression;
 
 value:
-    granule
-    | inlineDeclaration
+    inlineDeclaration
     | arithmeticExpression
     | nonArithmeticValue
     | synonym
     | ifExprBlock
-    | array
-    | constList
     | inValue
-    | applyCollection
-    | applyCollectionOn
-    | as
-    | hashMap
     | instruction_switchExpr_withValue
     | instruction_switchExpr_asIf
 ;
@@ -310,9 +301,9 @@ chainedCall:
 inlineDeclaration:
     INLINE_DECL_INTRO
     (
-        staticDeclaration
         // Unnamed object. No need to create a specific rule for it because it can't be used anywhere else.
-        | className=ymlId (fieldValue)* SEMICOLON
+        className=ymlId (fieldValue)* SEMICOLON
+        | staticDeclaration
     )
 ;
 
@@ -442,7 +433,7 @@ conditionBlock: order0Condition+;
 
 order0Condition: conditionalExpression | existentialOperator;
 
-actionBlockOrInstruction: emptyBlock | actionBlock | instruction;
+actionBlockOrInstruction: actionBlock | instruction;
 
 instruction_switchExpr_withValue:
     SWITCH_EXPR OPEN_PAR value CLOSE_PAR OPEN_BRACE instructionCase_withValue*
@@ -474,17 +465,27 @@ instructionDefault_withValue:
     DEFAULT COLON (value | OPEN_BRACE value CLOSE_BRACE)
 ;
 
-instructionCase_withValue:
-    CASE (OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON
+caseValue:
+    conditionalExpression
+    | OPEN_PAR
     (
         value
-        | OPEN_BRACE value CLOSE_BRACE
-    )
+        | hashMapKeyValue
+        | multilineString
+        | type=ymlId name=ymlId
+    ) CLOSE_PAR
+    | simpleList
+    | value
+    | hashMapKeyValue
+    | multilineString
+    | type=ymlId name=ymlId
 ;
 
-instructionCase:
-    CASE (simpleList | OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON actionBlockOrInstruction
+instructionCase_withValue:
+    CASE caseValue COLON (value | OPEN_BRACE value CLOSE_BRACE)
 ;
+
+instructionCase: CASE caseValue COLON actionBlockOrInstruction;
 instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
 
@@ -544,7 +545,7 @@ instruction_try_catch:
     TRY OPEN_PAR instruction_do CATCH OPEN_PAR (ymlId (COMMA ymlId)*?) CLOSE_PAR actionBlock CLOSE_PAR
 ;
 
-actionBlock: OPEN_BRACE instruction+ CLOSE_BRACE;
+actionBlock: OPEN_BRACE instruction+ CLOSE_BRACE | OPEN_BRACE CLOSE_BRACE;
 
 arithmeticOperator: ADD | SUB | MUL | DIV | MOD;
 
@@ -575,7 +576,7 @@ array:
 simpleList: elements+=value (COMMA elements+=value)+;
 
 constList:
-    OPEN_BRACE elements+=value? (COMMA elements+=value)* CLOSE_BRACE
+    OPEN_BRACE elements+=value (COMMA elements+=value)* CLOSE_BRACE
 ;
 
 granule: OPEN_GRANULE (ANY_TEXT+ | granule)*? CLOSE_GRANULE;

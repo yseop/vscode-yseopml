@@ -30,7 +30,6 @@ import { FieldContext } from "./YmlParser";
 import { ActionFieldContext } from "./YmlParser";
 import { ActionFieldValuesContext } from "./YmlParser";
 import { ImplementationFieldContext } from "./YmlParser";
-import { InstructionNoSemiContext } from "./YmlParser";
 import { CommonFieldContext } from "./YmlParser";
 import { Local_variable_declContext } from "./YmlParser";
 import { LocalFieldContext } from "./YmlParser";
@@ -101,6 +100,7 @@ import { Instruction_switchExpr_asIfContext } from "./YmlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlParser";
 import { Instruction_switchCase_asIfContext } from "./YmlParser";
 import { InstructionDefault_withValueContext } from "./YmlParser";
+import { CaseValueContext } from "./YmlParser";
 import { InstructionCase_withValueContext } from "./YmlParser";
 import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
@@ -336,13 +336,6 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitImplementationField?: (ctx: ImplementationFieldContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlParser.instructionNoSemi`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitInstructionNoSemi?: (ctx: InstructionNoSemiContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.commonField`.
@@ -833,6 +826,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstructionDefault_withValue?: (ctx: InstructionDefault_withValueContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.caseValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitCaseValue?: (ctx: CaseValueContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instructionCase_withValue`.
