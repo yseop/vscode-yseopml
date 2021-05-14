@@ -87,6 +87,8 @@ import { ConditionalExpressionContext } from "./YmlParser";
 import { ConditionalAndExpressionContext } from "./YmlParser";
 import { ConditionalOrExpressionContext } from "./YmlParser";
 import { ComparisonContext } from "./YmlParser";
+import { ExistsExpressionContext } from "./YmlParser";
+import { WhateverExpressionContext } from "./YmlParser";
 import { ComparisonOperatorContext } from "./YmlParser";
 import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
 import { Instruction_assignmentContext } from "./YmlParser";
@@ -130,10 +132,12 @@ import { ConstListContext } from "./YmlParser";
 import { GranuleContext } from "./YmlParser";
 import { ObjectCompleteContext } from "./YmlParser";
 import { ClassCompleteContext } from "./YmlParser";
+import { ModificationContext } from "./YmlParser";
 import { RulesetContext } from "./YmlParser";
 import { RulesContext } from "./YmlParser";
 import { YmlruleContext } from "./YmlParser";
 import { EmptyBlockContext } from "./YmlParser";
+import { ConditionInstanceContext } from "./YmlParser";
 
 
 /**
@@ -1066,6 +1070,28 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitComparison?: (ctx: ComparisonContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `YmlParser.existsExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterExistsExpression?: (ctx: ExistsExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.existsExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitExistsExpression?: (ctx: ExistsExpressionContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.whateverExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterWhateverExpression?: (ctx: WhateverExpressionContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.whateverExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitWhateverExpression?: (ctx: WhateverExpressionContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `YmlParser.comparisonOperator`.
 	 * @param ctx the parse tree
 	 */
@@ -1539,6 +1565,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	exitClassComplete?: (ctx: ClassCompleteContext) => void;
 
 	/**
+	 * Enter a parse tree produced by `YmlParser.modification`.
+	 * @param ctx the parse tree
+	 */
+	enterModification?: (ctx: ModificationContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.modification`.
+	 * @param ctx the parse tree
+	 */
+	exitModification?: (ctx: ModificationContext) => void;
+
+	/**
 	 * Enter a parse tree produced by `YmlParser.ruleset`.
 	 * @param ctx the parse tree
 	 */
@@ -1581,5 +1618,16 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitEmptyBlock?: (ctx: EmptyBlockContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.conditionInstance`.
+	 * @param ctx the parse tree
+	 */
+	enterConditionInstance?: (ctx: ConditionInstanceContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.conditionInstance`.
+	 * @param ctx the parse tree
+	 */
+	exitConditionInstance?: (ctx: ConditionInstanceContext) => void;
 }
 

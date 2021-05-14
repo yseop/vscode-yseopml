@@ -52,6 +52,10 @@ ymlId:
     | EXTENDS
     | TIME_COUNTER
     | STATIC
+    | CONDITION
+    | EXISTS
+    | NO_EXISTS
+    | MODIFY
 ;
 
 yenum:
@@ -172,6 +176,7 @@ objectAttributeValue:
     | multilineString
     | type=ymlId name=ymlId
     | simpleList
+    | actionBlock
 ;
 
 valueOrCondition:
@@ -264,7 +269,10 @@ ifExprBlock:
 bool: TRUE | FALSE;
 nonArithmeticValue: bool | STRING | DATE;
 
-instanciationVariable: QUESTION_MARK ymlId;
+instanciationVariable:
+    QUESTION_MARK ymlId
+    | ymlId OPEN_PAR instanciationVariable CLOSE_PAR
+;
 
 possiblyIndexedExpression: expression index*;
 expression:
@@ -399,7 +407,18 @@ conditionalOrExpression:
     | conditionalAndExpression
 ;
 
-comparison: leftValue=value comparisonOperator rightValue=value;
+comparison:
+    leftValue=value comparisonOperator rightValue=value
+    | whateverExpression
+    | existsExpression
+;
+
+existsExpression: (EXISTS | NO_EXISTS) OPEN_PAR inValue COMMA conditionalExpression CLOSE_PAR
+;
+
+whateverExpression:
+    WHATEVER OPEN_PAR inValue CLOSE_PAR THEN conditionalExpression
+;
 
 comparisonOperator:
     EQUAL_COMP
@@ -483,7 +502,7 @@ instruction_timeCounter:
     TIME_COUNTER OPEN_PAR ymlId COMMA actionBlock CLOSE_PAR
 ;
 
-inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
+inValue: (instanciationVariable | ymlId) IN (value | FUNCTION);
 
 /*
  * Handles code like `forall(item in myCollection) {}` (loop over the elements of a collection)
@@ -491,7 +510,11 @@ inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR inValue (COMMA? inValue)* (COMMA? conditionalExpression)* CLOSE_PAR actionBlockOrInstruction
+    FORALL OPEN_PAR (conditionalExpression | inValue)
+    (
+        COMMA? inValue
+        | COMMA? conditionalExpression
+    )* CLOSE_PAR actionBlockOrInstruction
 ;
 instruction_while:
     WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
@@ -538,7 +561,8 @@ existentialOperator: operator=ymlId OPEN_PAR order1FullCondition CLOSE_PAR;
 variableBlockContent: memberDeclaration*;
 
 staticDeclaration:
-    declarationType=ymlId declarationName=ymlId (EXTENDS extended=ymlId)? value? declarationOptions=field* SEMICOLON
+    conditionInstance
+    | declarationType=ymlId declarationName=ymlId (EXTENDS extended=ymlId)? value? declarationOptions=field* SEMICOLON
 ;
 
 externDeclaration: EXTERN (methodDeclaration | memberDeclaration) SEMICOLON;
@@ -563,11 +587,14 @@ objectComplete:
 classComplete:
     COMPLETE (ymlId | FUNCTION)
     (
-        classAttributeDeclaration
+        modification
+        | classAttributeDeclaration
         | methodCompleteDeclaration
         | memberDeclaration
     )* SEMICOLON
 ;
+
+modification: MODIFY ymlId argsBlock FUNCTION OVERRIDE ymlId;
 
 ruleset: RULESET OPEN_BRACE rules? CLOSE_BRACE;
 rules: ymlrule+;
@@ -581,3 +608,5 @@ ymlrule:
 ;
 
 emptyBlock: OPEN_BRACE CLOSE_BRACE;
+
+conditionInstance: CONDITION ymlId conditionalExpression SEMICOLON;

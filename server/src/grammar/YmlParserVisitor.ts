@@ -87,6 +87,8 @@ import { ConditionalExpressionContext } from "./YmlParser";
 import { ConditionalAndExpressionContext } from "./YmlParser";
 import { ConditionalOrExpressionContext } from "./YmlParser";
 import { ComparisonContext } from "./YmlParser";
+import { ExistsExpressionContext } from "./YmlParser";
+import { WhateverExpressionContext } from "./YmlParser";
 import { ComparisonOperatorContext } from "./YmlParser";
 import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
 import { Instruction_assignmentContext } from "./YmlParser";
@@ -130,10 +132,12 @@ import { ConstListContext } from "./YmlParser";
 import { GranuleContext } from "./YmlParser";
 import { ObjectCompleteContext } from "./YmlParser";
 import { ClassCompleteContext } from "./YmlParser";
+import { ModificationContext } from "./YmlParser";
 import { RulesetContext } from "./YmlParser";
 import { RulesContext } from "./YmlParser";
 import { YmlruleContext } from "./YmlParser";
 import { EmptyBlockContext } from "./YmlParser";
+import { ConditionInstanceContext } from "./YmlParser";
 
 
 /**
@@ -733,6 +737,20 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitComparison?: (ctx: ComparisonContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.existsExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitExistsExpression?: (ctx: ExistsExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.whateverExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitWhateverExpression?: (ctx: WhateverExpressionContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.comparisonOperator`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -1034,6 +1052,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitClassComplete?: (ctx: ClassCompleteContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.modification`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitModification?: (ctx: ModificationContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.ruleset`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -1060,5 +1085,12 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitEmptyBlock?: (ctx: EmptyBlockContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.conditionInstance`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitConditionInstance?: (ctx: ConditionInstanceContext) => Result;
 }
 
