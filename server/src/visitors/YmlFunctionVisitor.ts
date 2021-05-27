@@ -12,6 +12,7 @@ import {
     ElseExpressionContext,
     ElseIfExpressionContext,
     FunctionContext,
+    GranuleContext,
     IfExprBlockContext,
     Instruction_breakContext,
     Instruction_forallContext,
@@ -205,6 +206,10 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
 
     public visitYmlId(node: YmlIdContext) {
         this.unusedVariables = this.unusedVariables.filter((elem) => elem.label !== node.text);
+    }
+
+    public visitGranule(node: GranuleContext): void {
+        this.unusedVariables = this.unusedVariables.filter((elem) => !node.text.includes(elem.label));
     }
 
     public visitInstruction_try_catch(node: Instruction_try_catchContext) {
