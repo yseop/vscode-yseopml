@@ -33,6 +33,13 @@ describe('Extension Server Tests', () => {
                         <domainsLevel2>Text</domainsLevel2>
                     </return>
                 </attribute>
+                <attribute ident="attribute3">
+                    <doc>Wrongly formed documentation for \`attribute3\`.></doc>
+                    <return>
+                        <domains>Collection</domains>
+                        <domainsLevel2>Text</domainsLevel2>
+                    </return>
+                </attribute>
                 <method ident="getIntegerValue">
                     <args arity-min="0" arity-max="0"></args>
                     <return>
@@ -72,6 +79,11 @@ describe('Extension Server Tests', () => {
             );
             model.parsePredefinedObjectsFileContent(null, ENGINE_MODEL_FILE_CONTENT);
             expect(completionProvider.completions.length).not.toBe(0);
+            expect(completionProvider.getFirstItemByLabelMatching('attribute3').documentation).toBeFalsy();
+            expect(completionProvider.getFirstItemByLabelMatching('attribute2').documentation).toStrictEqual({
+                kind: 'markdown',
+                value: 'Documentation for `attribute2`.',
+            });
             done();
         });
     });

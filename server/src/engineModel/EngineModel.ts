@@ -285,23 +285,26 @@ export class EngineModel {
 }
 
 /**
- * Returns the value of the first child `doc` element within a given XML element, if any.
+ * Returns the value of the cdata contained in the first child `doc` element within a given XML element, if any.
  *
- * We expect it to be given as the following JSON representation, obtained thanks to `xml2js`.
+ * We expect it to be given as the following representation.
  *
- * ```JSON
- * {
- *     doc: ["documentation"]
- * }
+ * ```XML
+ * <doc><![CDATA[documentation]]></doc>
  * ```
  *
- * Using this function on the JSON representation above will return `"documentation"`.
+ * Using this function on the XML representation above will return `"documentation"`.
+ * Any other representation of the node will result in a `null` value.
  *
- * @param xmlElement a JSON representation of an XML tag.
+ * @param xmlElement a representation of an XML tag.
  *
  * @return the xmlElement's documentation or `null`.
  */
 function getDocValue(xmlElement: XmlElement): string {
     const doc = xmlElement.childNamed('doc');
-    return !!doc ? doc.toString() : null;
+    const cdata = !!doc ? doc.firstChild : null;
+    if (!cdata || cdata.type !== 'cdata') {
+        return null;
+    }
+    return cdata.cdata;
 }
