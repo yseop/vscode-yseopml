@@ -207,8 +207,8 @@ value:
 as:
     AS OPEN_PAR instanciationVariable
     (
-        COMMA (instruction_assignment | conditionalExpression)
-    )*? COMMA conditionalExpression CLOSE_PAR
+        COMMA? (instruction_assignment | conditionalExpression | inValue)
+    )*? CLOSE_PAR
 ;
 
 applyCollection:
@@ -466,27 +466,28 @@ instructionDefault_withValue:
     DEFAULT COLON (value | OPEN_BRACE value CLOSE_BRACE)
 ;
 
+caseValueBetweenParenthesis: OPEN_PAR caseValue CLOSE_PAR | caseValue;
+
 caseValue:
     conditionalExpression
-    | OPEN_PAR
-    (
-        value
-        | hashMapKeyValue
-        | multilineString
-        | type=ymlId name=ymlId
-    ) CLOSE_PAR
     | simpleList
-    | value
     | hashMapKeyValue
     | multilineString
     | type=ymlId name=ymlId
+    | value
 ;
 
 instructionCase_withValue:
-    CASE caseValue COLON (value | OPEN_BRACE value CLOSE_BRACE)
+    CASE caseValueBetweenParenthesis COLON
+    (
+        value
+        | OPEN_BRACE value CLOSE_BRACE
+    )
 ;
 
-instructionCase: CASE caseValue COLON actionBlockOrInstruction;
+instructionCase:
+    CASE caseValueBetweenParenthesis COLON actionBlockOrInstruction
+;
 instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
 
@@ -510,8 +511,7 @@ inValue: (instanciationVariable | ymlId) IN (value | FUNCTION);
 instruction_forall:
     FORALL OPEN_PAR (conditionalExpression | inValue)
     (
-        COMMA? inValue
-        | COMMA? conditionalExpression
+        COMMA? (inValue | conditionalExpression | instruction_assignment)
     )* CLOSE_PAR actionBlockOrInstruction
 ;
 instruction_while:
@@ -592,7 +592,7 @@ classComplete:
     )* SEMICOLON
 ;
 
-modification: MODIFY ymlId argsBlock FUNCTION OVERRIDE ymlId;
+modification: MODIFY ymlId argsBlock FUNCTION OVERRIDE ymlId field*?;
 
 ruleset: RULESET OPEN_BRACE rules? CLOSE_BRACE;
 rules: ymlrule+;

@@ -101,6 +101,7 @@ import { Instruction_switchExpr_asIfContext } from "./YmlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlParser";
 import { Instruction_switchCase_asIfContext } from "./YmlParser";
 import { InstructionDefault_withValueContext } from "./YmlParser";
+import { CaseValueBetweenParenthesisContext } from "./YmlParser";
 import { CaseValueContext } from "./YmlParser";
 import { InstructionCase_withValueContext } from "./YmlParser";
 import { InstructionCaseContext } from "./YmlParser";
@@ -1222,6 +1223,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitInstructionDefault_withValue?: (ctx: InstructionDefault_withValueContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.caseValueBetweenParenthesis`.
+	 * @param ctx the parse tree
+	 */
+	enterCaseValueBetweenParenthesis?: (ctx: CaseValueBetweenParenthesisContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.caseValueBetweenParenthesis`.
+	 * @param ctx the parse tree
+	 */
+	exitCaseValueBetweenParenthesis?: (ctx: CaseValueBetweenParenthesisContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.caseValue`.
