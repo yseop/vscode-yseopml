@@ -116,7 +116,7 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
         for (const unusedVariable of this.unusedVariables) {
             this.diagnostics?.push(
                 Diagnostic.create(
-                    unusedVariable.definitionLocation?.range,
+                    unusedVariable.definitionLocation.range,
                     `The variable “${unusedVariable.label}” is probably unused.`,
                     DiagnosticSeverity.Information,
                 ),
