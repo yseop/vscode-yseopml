@@ -2,8 +2,8 @@ import * as fs from 'fs';
 import { XmlDocument, XmlElement } from 'xmldoc';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
+import { connection } from '../constants';
 import { YmlDefinitionProvider } from '../definitions/YmlDefinitionProvider';
-import { connection } from '../server';
 import { YmlAttribute, YmlClass, YmlFunction } from '../yml-objects';
 import { AbstractYmlFunction } from '../yml-objects/AbstractYmlFunction';
 import { YmlMethod } from '../yml-objects/YmlMethod';
