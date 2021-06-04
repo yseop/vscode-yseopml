@@ -1,5 +1,7 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
 ## 1.14.0 (2021-06-04)
 
 -   _Go To Definition_ now works for class names too.
