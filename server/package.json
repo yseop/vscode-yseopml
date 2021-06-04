@@ -2,7 +2,7 @@
     "name": "vscode-yseopml-server",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.13.0",
+    "version": "1.14.0",
     "private": true,
     "author": "Yseop",
     "publisher": "Yseop",
@@ -19,20 +19,21 @@
         "fs-extra": "^8.1.0",
         "glob": "^7.1.6",
         "glob-promise": "^3.4.0",
-        "vscode-languageserver": "5.3.0-next.7",
+        "vscode-languageserver": "7.0.0",
+        "vscode-languageserver-textdocument": "^1.0.1",
         "vscode-uri": "^1.0.6",
-        "xml2js": "^0.4.19"
+        "xmldoc": "^1.1.2"
     },
     "scripts": {
         "antlr4ts": "antlr4ts -visitor -o src grammar/YmlLexer.g4 && antlr4ts -visitor -lib src/grammar/ -o src grammar/YmlParser.g4",
         "test": "jest"
     },
     "devDependencies": {
-        "@types/jest": "^24.9.1",
         "@types/fs-extra": "^8.0.1",
         "@types/glob": "^7.1.1",
+        "@types/jest": "^24.9.1",
         "@types/node": "^12.12.11",
-        "@types/xml2js": "^0.4.5",
+        "@types/xmldoc": "^1.1.5",
         "antlr4ts-cli": "^0.5.0-alpha.3"
     }
 }

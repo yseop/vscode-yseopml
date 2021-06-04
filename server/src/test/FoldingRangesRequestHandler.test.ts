@@ -116,6 +116,7 @@ Country myCountry // 78 → 85
         const foldingRanges: FoldingRange[] = handler(DEFAULT_REQUEST_PARAMS);
         expect(foldingRanges).toBeTruthy();
         const expectedFoldingRanges = [
+            FoldingRange.create(1, 1), // Class name
             FoldingRange.create(2, 3),
             FoldingRange.create(5, 6),
             FoldingRange.create(8, 18),

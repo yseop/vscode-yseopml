@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.14.0 (2021-06-04)
+
+-   _Go To Definition_ now works for class names too.
+-   _Go To Definition_ is now able to go in the `predefinedObject.xml` file set by the user with the option `yseopml.pathToPredefinedObjectsXml`.
+-   Display a warning when a local variable or a function argument is unused.
+
 ## 1.13.0 (2021-02-12)
 
 -   Replaced command Yseop Info with Yseop Config.

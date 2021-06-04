@@ -554,7 +554,7 @@ constList:
     OPEN_BRACE elements+=value? (COMMA elements+=value)* CLOSE_BRACE
 ;
 
-granule: OPEN_GRANULE granule*? CLOSE_GRANULE;
+granule: OPEN_GRANULE (ANY_TEXT+ | granule)*? CLOSE_GRANULE;
 
 objectComplete:
     COMPLETE completedElemId=ymlId memberOption=field* SEMICOLON

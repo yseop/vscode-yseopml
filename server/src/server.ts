@@ -9,40 +9,33 @@ import { promises as fsPromises } from 'fs-extra';
 import * as glob from 'glob-promise';
 import * as path from 'path';
 import * as url from 'url';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 import {
     CompletionItem,
     CompletionParams,
-    createConnection,
     Diagnostic,
     DiagnosticSeverity,
-    IConnection,
     InitializeResult,
-    IPCMessageReader,
-    IPCMessageWriter,
     ServerCapabilities,
-    TextDocument,
     TextDocumentChangeEvent,
     TextDocumentPositionParams,
     TextDocuments,
-    TextEdit,
-} from 'vscode-languageserver';
+} from 'vscode-languageserver/node';
 
 import { YmlCompletionItemsProvider } from './completion/YmlCompletionItemsProvider';
+import { connection } from './constants';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import {
     codeLensRequestHandler,
     completionResolveRequestHandler,
+    documentFormattingRequestHandler,
     documentSymbolRequestHandler,
     foldingRangesRequestHandler,
 } from './features';
 import { YmlLexer, YmlParser } from './grammar';
-import {
-    IDocumentFormatSettings,
-    IYseopmlServerSettings,
-    IYseopmlSettings,
-    setDocumentFormatDefaultValues,
-} from './settings/Settings';
+import { FILE_TYPE_F, FILE_TYPE_M, findKaoFileDependencies, getPredefinedObjectsXmlPath } from './serverUtils';
+import { IYseopmlServerSettings, IYseopmlSettings, setDocumentFormatDefaultValues } from './settings/Settings';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
 let engineModel: EngineModel;
@@ -57,16 +50,6 @@ const diagSeverityMap = new Map<string, DiagnosticSeverity>([
     ['hint', DiagnosticSeverity.Hint],
 ]);
 
-/** Regex that matches paths containing the `.generated-yml` directory. */
-const GENERATED_YML_DIR_REGEX = /(^|\/)\.generated-yml\//;
-/** Regex that matches the `_FILE_TYPE_ F` instruction. */
-const FILE_TYPE_F = /^_FILE_TYPE_\s+F\b/;
-/** Regex that matches the `_FILE_TYPE_ M` instruction. */
-const FILE_TYPE_M = /^_FILE_TYPE_\s+M\b/;
-
-// Create a connection for the server. The connection uses Node's IPC as a transport
-export const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
-
 connection.console.log('Yseop.vscode-yseopml − Creating connection with client/server.');
 
 const definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
@@ -74,7 +57,7 @@ const completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsPro
 
 // Create a simple text document manager. The text document manager
 // supports full document sync only
-const documents: TextDocuments = new TextDocuments();
+const documents = new TextDocuments(TextDocument);
 
 let yseopmlSettings: IYseopmlServerSettings;
 
@@ -95,8 +78,6 @@ const serverCapabilities: ServerCapabilities = {
     definitionProvider: true,
     documentSymbolProvider: true,
     implementationProvider: true,
-    // Tell the client that the server works in FULL text document sync mode
-    textDocumentSync: documents.syncKind,
     documentFormattingProvider: true,
     foldingRangeProvider: true,
 };
@@ -107,12 +88,10 @@ const intializeResult: InitializeResult = {
 
 // After the server has started the client sends an initialize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilities.
-connection.onInitialize(
-    (_params): InitializeResult => {
-        connection.console.log('Yseop.vscode-yseopml − Initializing server.');
-        return intializeResult;
-    },
-);
+connection.onInitialize((_params): InitializeResult => {
+    connection.console.log('Yseop.vscode-yseopml − Initializing server.');
+    return intializeResult;
+});
 
 connection.onInitialized((_params) => {
     connection.workspace.getConfiguration('yseopml').then((_value) => {
@@ -241,45 +220,17 @@ function openProjectFile(workspacePath: string, fileUri: string): boolean {
     // Try to open the file. If it is opened, the server will parse it.
     fsPromises
         .readFile(fileUri)
-        .then((_file) => {
-            const fileContent = _file.toString();
+        .then((file) => file.toString())
+        .then((fileContent) => {
+            parseFile(`file://${fileUri}`, fileContent);
             const isTypeF = fileContent.search(FILE_TYPE_F) !== -1;
             const isTypeM = !isTypeF && fileContent.search(FILE_TYPE_M) !== -1;
-            parseFile(`file://${fileUri}`, fileContent);
             if (!isTypeF && !isTypeM) {
                 // We are not in a `project.kao`-like file. Do not go further.
                 wasKaoFile = false;
                 return;
             }
-            fileContent
-                .split('\n')
-                // line can be indented in the file.
-                .map((line) => line.trim())
-                .filter((line) => {
-                    return (
-                        // Ignore empty lines
-                        line.length > 0 &&
-                        // Ignore lines that are just preprocessing or Yseop Engine instruction
-                        !line.startsWith('@') &&
-                        // Ignore the lines with the _FILE_TYPE_ instruction
-                        !line.startsWith('_FILE_TYPE_') &&
-                        // Ignore single-line comments
-                        !line.startsWith('//') &&
-                        // Ignore multi-lines comments starting with “/*”
-                        !line.startsWith('/*') &&
-                        // Ignore multi-lines comments starting with just “*“ (includes “*/”)
-                        !line.startsWith('*') &&
-                        // Drop files from any .generated-yml/ directory
-                        line.search(GENERATED_YML_DIR_REGEX) === -1
-                    );
-                })
-                .map((line) => {
-                    // In a M type *.kao file, paths are relative to the current *.kao file.
-                    // In a F type *.kao file, paths are relative to the project's root.
-                    // Here we assume that the root is the workspace path.
-                    const from = isTypeM ? path.dirname(fileUri) : workspacePath;
-                    return path.join(from, line);
-                })
+            findKaoFileDependencies(fileContent, isTypeM, workspacePath, fileUri)
                 // Make sure the file exists and drop directories
                 .filter((filePath) => fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory())
                 .forEach((uri) => openProjectFile(workspacePath, uri));
@@ -315,9 +266,9 @@ connection.onHover((_params) => {
     };
 });
 
-const parseTextDocumentOnEvent = (event: TextDocumentChangeEvent) => parseTextDocument(event.document);
+const parseTextDocumentOnEvent = (event: TextDocumentChangeEvent<TextDocument>) => parseTextDocument(event.document);
 documents.onDidChangeContent(parseTextDocumentOnEvent);
-documents.onDidClose((event: TextDocumentChangeEvent) =>
+documents.onDidClose((event: TextDocumentChangeEvent<TextDocument>) =>
     // Clearing diagnostic for the closed file to avoid spamming the user.
     connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] }),
 );
@@ -334,14 +285,26 @@ connection.onDidChangeConfiguration((change) => {
     parsingIssueSeverityLevel =
         diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
         DiagnosticSeverity.Information;
-    if (engineModel == null) {
-        engineModel = new EngineModel(yseopmlSettings.pathToPredefinedObjectsXml, completionProvider);
-        engineModel.loadPredefinedObjects();
-    } else {
-        engineModel.reload(yseopmlSettings.pathToPredefinedObjectsXml, completionProvider);
-    }
-    // Revalidate any open text documents
-    documents.all().forEach(parseTextDocument);
+    connection.workspace
+        .getWorkspaceFolders()
+        .then((_value) => {
+            return url.fileURLToPath(_value[0].uri);
+        })
+        .then((workspacePath) => {
+            const predefinedObjectsXmlPath = getPredefinedObjectsXmlPath(
+                workspacePath,
+                yseopmlSettings.pathToPredefinedObjectsXml,
+            );
+
+            if (engineModel == null) {
+                engineModel = new EngineModel(predefinedObjectsXmlPath, completionProvider, definitionsProvider);
+                engineModel.loadPredefinedObjects();
+            } else {
+                engineModel.reload(predefinedObjectsXmlPath, completionProvider);
+            }
+            // Revalidate any open text documents
+            documents.all().forEach(parseTextDocument);
+        });
 });
 
 /**
@@ -370,7 +333,7 @@ function parseFile(textDocUri: string, docContent: string) {
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new YmlParser(tokenStream);
     parser.removeErrorListeners();
-    parser.addErrorListener(new YmlParsingErrorListener(diagnostics));
+    parser.addErrorListener(new YmlParsingErrorListener(diagnostics, parsingIssueSeverityLevel));
 
     // Parse the input.
     const result = parser.kaoFile();
@@ -381,7 +344,7 @@ function parseFile(textDocUri: string, docContent: string) {
     // Reset all the document's completion items.
     completionProvider.removeDocumentCompletionItems(textDocUri);
 
-    const visitor = new YmlKaoFileVisitor(completionProvider, textDocUri, definitionsProvider);
+    const visitor = new YmlKaoFileVisitor(completionProvider, textDocUri, definitionsProvider, null, null, null, diagnostics);
     // Visit the result of the parsing.
     // This fill the completionProvider and the definitionsProvider.
     visitor.visit(result);
@@ -420,51 +383,7 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
     return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
 });
 
-connection.onDocumentFormatting((_params) => {
-    const doc = documents.get(_params.textDocument.uri);
-    return buildDocumentEditList(doc, yseopmlSettings.documentFormat);
-});
-
-/**
- * Build and send the list of Text Edit to apply to `document`
- * accordingly to the settings defined in `documentFormatSettings`.
- *
- * @param document the text document to format
- * @param documentFormatSettings the document format settings to apply
- */
-export function buildDocumentEditList(document: TextDocument, documentFormatSettings?: IDocumentFormatSettings) {
-    if (documentFormatSettings?.enableDocumentFormat === 'no') {
-        return [];
-    }
-    const inputStream = CharStreams.fromString(document.getText(), document.uri);
-    const lexer = new YmlLexer(inputStream);
-    const tokenStream = new CommonTokenStream(lexer);
-    const parser = new YmlParser(tokenStream);
-    // No need to send syntax errors to the client.
-    parser.removeErrorListeners();
-
-    // Parse the input.
-    const result = parser.kaoFile();
-    const edits: TextEdit[] = [];
-    const visitor = new YmlKaoFileVisitor(
-        new YmlCompletionItemsProvider(),
-        document.uri,
-        new YmlDefinitionProvider(),
-        documentFormatSettings,
-        edits,
-        document,
-    );
-
-    if (parser.numberOfSyntaxErrors > 0) {
-        connection.console.info('No formatting will be done because the current file has syntax errors.');
-        return [];
-    }
-
-    // Visit the result of the parsing.
-    // This fill the edits array.
-    visitor.visit(result);
-    return edits;
-}
+connection.onDocumentFormatting(documentFormattingRequestHandler(documents, yseopmlSettings?.documentFormat));
 
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.

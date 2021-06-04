@@ -1,5 +1,5 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { CompletionItemKind } from 'vscode-languageserver';
+import { CompletionItemKind, Diagnostic } from 'vscode-languageserver';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { YmlDefinitionProvider } from '../definitions';
@@ -270,6 +270,40 @@ describe('Extension Server Tests', () => {
                     completionItem.kind === CompletionItemKind.Text || completionItem.hasDocumentation(),
                 ).toBeTruthy();
             }
+            done();
+        });
+    });
+    describe('YmlFunctionVisitor', () => {
+        it('should find unused variables if any', (done) => {
+            const inputStream = CharStreams.fromString(`function getNumber
+            args {
+                Number other
+                Variable var
+            }
+            --> action {
+                \\( \\value(var) \\).write();
+            }
+            --> return 42
+            ;`);
+            const lexer = new YmlLexer(inputStream);
+            const tokenStream = new CommonTokenStream(lexer);
+            const parser = new YmlParser(tokenStream);
+
+            const result = parser.kaoFile();
+            const diagnostics: Diagnostic[] = [];
+            const visitor = new YmlKaoFileVisitor(
+                new YmlCompletionItemsProvider(),
+                '',
+                new YmlDefinitionProvider(),
+                null,
+                [],
+                null,
+                diagnostics,
+            );
+            visitor.visit(result);
+            expect(diagnostics).toHaveLength(1);
+            const diagnostic: Diagnostic = diagnostics[0];
+            expect(diagnostic.message).toBe('The variable “other” is probably unused.');
             done();
         });
     });

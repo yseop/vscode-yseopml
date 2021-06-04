@@ -5,11 +5,14 @@
 'use strict';
 import { exec } from 'child_process';
 import * as fs from 'fs';
+import glob from 'glob-promise';
 import * as path from 'path';
+import { promisify } from 'util';
 import {
     commands,
     ExtensionContext,
     OutputChannel,
+    ProgressLocation,
     StatusBarAlignment,
     StatusBarItem,
     Uri,
@@ -17,7 +20,7 @@ import {
     workspace,
     WorkspaceConfiguration,
 } from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
+import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node';
 
 let yseopCliOutputChannel: OutputChannel;
 let yseopCliStatusBarItem: StatusBarItem;
@@ -170,8 +173,45 @@ async function ExecYseopCliCommandWithKbDirectoryPath(cliPath: string, ...words:
         return;
     }
 
-    const workspaceFolders = workspace.workspaceFolders;
-    ExecYseopCliCommand(cliPath, ...words, workspaceFolders[0].uri.fsPath);
+    const workspaceFirstDir = workspace.workspaceFolders[0].uri.fsPath;
+    getAvailableKbDirNames(workspaceFirstDir).then((_matches) => {
+        // Only one element. Don't need to display a QuickPick.
+        if (_matches.length === 1) {
+            ExecYseopCliCommand(cliPath, ...words, path.join(workspaceFirstDir, _matches[0]));
+            return;
+        }
+        const qp = window.createQuickPick();
+        qp.items = _matches.map((dirPath) => {
+            return {
+                label: dirPath,
+            };
+        });
+        qp.onDidAccept(() => {
+            // When user hit Enter, hide the quick picker
+            // and execute the CLI command using as kb path
+            // the result of a join of workspaceDir and the seleted item.
+            const selectedLabel = qp.selectedItems[0].label;
+            qp.dispose();
+            ExecYseopCliCommand(cliPath, ...words, path.join(workspaceFirstDir, selectedLabel));
+        });
+        qp.onDidHide(() => qp.dispose());
+        qp.show();
+    });
+}
+
+/**
+ * Get the list of KB names present in the provided directory.
+ *
+ * @param workspaceDirPath Path used as root to look for Kbs.
+ */
+function getAvailableKbDirNames(workspaceDirPath: string): Promise<string[]> {
+    return glob('**/.settings/com.yseop.designer.prefs', {
+        cwd: workspaceDirPath,
+    }).then((_matches) =>
+        // from “library/.settings/com.yseop.designer.prefs” generates “library”.
+        // from “.settings/com.yseop.designer.prefs” generates “.”
+        _matches.map((designerPrefsFile) => path.dirname(path.dirname(designerPrefsFile))),
+    );
 }
 
 /**
@@ -183,11 +223,6 @@ export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
     yseopCliOutputChannel.clear();
     yseopCliStatusBarItem.hide();
 
-    const editor = window.activeTextEditor;
-
-    if (editor === null || editor === undefined) {
-        return;
-    }
     if (cliPath === null || cliPath === undefined || cliPath.trim().length === 0) {
         const thenable = window.showInformationMessage(
             'Please fill the Yseop CLI path parameter before using this command.',
@@ -212,36 +247,45 @@ export async function ExecYseopCliCommand(cliPath: string, ...words: string[]) {
         commandLine += ` "${oneWord}"`;
     });
 
-    const command = exec(commandLine);
+    const promisifiedExec = promisify(exec);
+    const command = promisifiedExec(commandLine);
 
-    command.stdout.on('data', (data) => {
-        const message = data.toString();
-        yseopCliOutputChannel.append(message);
+    // Add event listeners on stderr and stdout so that
+    // yseopCliOutputChannel gets text appended in the correct order.
+    const child = command.child;
+    child.stderr.on('data', (text) => {
+        yseopCliOutputChannel.append(text);
+    });
+    child.stdout.on('data', (text) => {
+        yseopCliOutputChannel.append(text);
     });
 
-    command.stderr.on('data', (data) => {
-        const message = data.toString();
-        window.showErrorMessage(message);
-        yseopCliOutputChannel.append(message);
-    });
+    command
+        .then(
+            (_fulfilled) => {
+                const message = `Command “${commandLine}” executed successfully.`;
+                // greenish color
+                yseopCliStatusBarItem.color = '#73c456';
+                yseopCliStatusBarItem.text = 'Yseop CLI status $(check)';
+                yseopCliStatusBarItem.tooltip = message;
+                window.showInformationMessage(message);
+            },
+            (_rejected) => {
+                const message = `Command “${commandLine}” exited with error status ${_rejected.code}.`;
+                // yellowish color
+                yseopCliStatusBarItem.color = '#edd312';
+                yseopCliStatusBarItem.text = 'Yseop CLI status $(alert)';
+                yseopCliStatusBarItem.tooltip = '';
+                window.showErrorMessage(message);
+            },
+        )
+        .finally(() => {
+            yseopCliStatusBarItem.show();
+            yseopCliOutputChannel.show();
+        });
 
-    command.on('exit', (code) => {
-        let message;
-        if (code === 0) {
-            message = `Command “${commandLine}” executed successfully.`;
-            // greenish color
-            yseopCliStatusBarItem.color = '#73c456';
-            yseopCliStatusBarItem.text = 'Yseop CLI status $(check)';
-            window.showInformationMessage(message);
-        } else {
-            message = `Command “${commandLine}” exited with error status ${code}.`;
-            // yellowish color
-            yseopCliStatusBarItem.color = '#edd312';
-            yseopCliStatusBarItem.text = 'Yseop CLI status $(alert)';
-            window.showErrorMessage(message);
-        }
-        yseopCliStatusBarItem.tooltip = message;
-        yseopCliStatusBarItem.show();
-        yseopCliOutputChannel.show();
+    window.withProgress({ location: ProgressLocation.Notification, title: 'Yseop CLI' }, (_progress, _token) => {
+        _progress.report({ message: 'Please wait…' });
+        return command;
     });
 }

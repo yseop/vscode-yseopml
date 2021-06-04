@@ -1,5 +1,5 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { Diagnostic } from 'vscode-languageserver';
+import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
 
 import { YmlLexer, YmlParser } from '../grammar';
 import { YmlParsingErrorListener } from '../visitors';
@@ -13,7 +13,7 @@ function getDiagnostics(text: string): Diagnostic[] {
     parser.removeErrorListeners();
     // The `diagnostics` empty array is fill by the YmlParsingErrorListener
     // during the parsing when syntax errors are found.
-    parser.addErrorListener(new YmlParsingErrorListener(diagnostics));
+    parser.addErrorListener(new YmlParsingErrorListener(diagnostics, DiagnosticSeverity.Information));
 
     parser.kaoFile();
     return diagnostics;
