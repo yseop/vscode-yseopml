@@ -911,4 +911,30 @@ MyClass MY_OBJECT
             done();
         });
     });
+    describe('rule for granules', () => {
+        test('granules containing other granules should be parsed without error', (done) => {
+            checkInputValidityForRule(
+                (parser) => parser.granule(),
+                `\\(
+    \\foreach(
+        var,
+        collection,
+        -> TextListAssembly
+        --> mode _COMPOSE_WORDS
+        --> stringAssembly
+            -> TextListStringAssembly
+            --> separator  {
+                \\(, \\),_LAST, \\(et \\)
+                }
+            ;
+        ;
+    )
+    // do stuff
+    \\endForeach
+\\)
+`,
+            );
+            done();
+        });
+    });
 });
