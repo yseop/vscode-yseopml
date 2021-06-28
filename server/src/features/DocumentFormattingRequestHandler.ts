@@ -1,33 +1,12 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { DocumentFormattingParams, TextDocuments } from 'vscode-languageserver';
 import { TextDocument, TextEdit } from 'vscode-languageserver-textdocument';
 
 import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
 import { connection } from '../constants';
 import { YmlDefinitionProvider } from '../definitions';
 import { YmlLexer, YmlParser } from '../grammar';
-import { IDocumentFormatSettings } from '../settings/Settings';
+import { DEFAULT_DOC_FORMAT_SETTINGS, IDocumentFormatSettings } from '../settings/Settings';
 import { YmlKaoFileVisitor } from '../visitors';
-
-/**
- * Create a request handler for the event `documentFormatting`.
- * The handler, when receiving a `DocumentFormattingParams` instance will find
- * will parse the current file and build and send the list of Text Edit
- * to apply client-side accordingly to the settings defined in `documentFormatSettings`.
- *
- *
- * @param documents a manager for simple text documents
- * @param documentFormatSettings the document format settings to apply
- */
-export function documentFormattingRequestHandler(
-    documents: TextDocuments<TextDocument>,
-    documentFormatSettings?: IDocumentFormatSettings,
-) {
-    return (_params: DocumentFormattingParams): TextEdit[] => {
-        const document = documents.get(_params.textDocument.uri);
-        return buildDocumentEditList(document, documentFormatSettings);
-    };
-}
 
 export function buildDocumentEditList(document: TextDocument, documentFormatSettings: IDocumentFormatSettings) {
     if (documentFormatSettings?.enableDocumentFormat === 'no') {
@@ -47,7 +26,7 @@ export function buildDocumentEditList(document: TextDocument, documentFormatSett
         new YmlCompletionItemsProvider(),
         document.uri,
         new YmlDefinitionProvider(),
-        documentFormatSettings,
+        documentFormatSettings ?? DEFAULT_DOC_FORMAT_SETTINGS,
         edits,
         document,
     );
