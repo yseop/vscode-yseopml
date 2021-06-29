@@ -350,7 +350,15 @@ function parseFile(textDocUri: string, docContent: string) {
     // Reset all the document's completion items.
     completionProvider.removeDocumentCompletionItems(textDocUri);
 
-    const visitor = new YmlKaoFileVisitor(completionProvider, textDocUri, definitionsProvider, null, null, null, diagnostics);
+    const visitor = new YmlKaoFileVisitor(
+        completionProvider,
+        textDocUri,
+        definitionsProvider,
+        null,
+        null,
+        null,
+        diagnostics,
+    );
     // Visit the result of the parsing.
     // This fill the completionProvider and the definitionsProvider.
     visitor.visit(result);
@@ -404,9 +412,8 @@ connection.listen();
 
 /**
  * Create a request handler for the event `documentFormatting`.
- * The handler, when receiving a `DocumentFormattingParams` instance will find
- * will parse the current file and build and send the list of Text Edit
- * to apply client-side accordingly to the settings defined in `documentFormatSettings`.
+ * The handler will parse the current file and build and send the list of Text Edit
+ * to apply client-side accordingly to the user settings.
  *
  *
  * @param documents a manager for simple text documents
