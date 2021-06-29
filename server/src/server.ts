@@ -413,7 +413,7 @@ connection.listen();
 /**
  * Create a request handler for the event `documentFormatting`.
  * The handler will parse the current file and build and send the list of Text Edit
- * to apply client-side accordingly to the user settings.
+ * to apply client-side according to the user settings.
  *
  *
  * @param documents a manager for simple text documents
