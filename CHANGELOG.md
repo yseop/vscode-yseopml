@@ -1,5 +1,7 @@
 # Release Notes
 
+## X.XX.X (YYYY-MM-DD)
+
 ## 1.14.1 (2021-06-30)
 
 -   [FIXED] _Format Document_ now works correctly.
