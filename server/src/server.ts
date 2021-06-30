@@ -9,6 +9,7 @@ import { promises as fsPromises } from 'fs-extra';
 import * as glob from 'glob-promise';
 import * as path from 'path';
 import * as url from 'url';
+import { DocumentFormattingParams, TextEdit } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import {
     CompletionItem,
@@ -27,15 +28,20 @@ import { connection } from './constants';
 import { getTokenAtPosInDoc, YmlDefinitionProvider } from './definitions';
 import { EngineModel } from './engineModel/EngineModel';
 import {
+    buildDocumentEditList,
     codeLensRequestHandler,
     completionResolveRequestHandler,
-    documentFormattingRequestHandler,
     documentSymbolRequestHandler,
     foldingRangesRequestHandler,
 } from './features';
 import { YmlLexer, YmlParser } from './grammar';
 import { FILE_TYPE_F, FILE_TYPE_M, findKaoFileDependencies, getPredefinedObjectsXmlPath } from './serverUtils';
-import { IYseopmlServerSettings, IYseopmlSettings, setDocumentFormatDefaultValues } from './settings/Settings';
+import {
+    DEFAULT_DOC_FORMAT_SETTINGS,
+    IYseopmlServerSettings,
+    IYseopmlSettings,
+    setDocumentFormatDefaultValues,
+} from './settings/Settings';
 import { YmlKaoFileVisitor, YmlParsingErrorListener } from './visitors';
 
 let engineModel: EngineModel;
@@ -344,7 +350,15 @@ function parseFile(textDocUri: string, docContent: string) {
     // Reset all the document's completion items.
     completionProvider.removeDocumentCompletionItems(textDocUri);
 
-    const visitor = new YmlKaoFileVisitor(completionProvider, textDocUri, definitionsProvider, null, null, null, diagnostics);
+    const visitor = new YmlKaoFileVisitor(
+        completionProvider,
+        textDocUri,
+        definitionsProvider,
+        null,
+        null,
+        null,
+        diagnostics,
+    );
     // Visit the result of the parsing.
     // This fill the completionProvider and the definitionsProvider.
     visitor.visit(result);
@@ -383,7 +397,7 @@ connection.onCompletion((pos: CompletionParams): CompletionItem[] => {
     return completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
 });
 
-connection.onDocumentFormatting(documentFormattingRequestHandler(documents, yseopmlSettings?.documentFormat));
+connection.onDocumentFormatting(documentFormattingRequestHandler(documents));
 
 // When the event onCompletion occurs, we send to the client a light version of the relevant AbstractYmlObject.
 // When this event occurs, we retrieve the full element and send it back to the client.
@@ -395,3 +409,19 @@ connection.onCodeLens(codeLensRequestHandler(definitionsProvider));
 
 // Listen on the connection
 connection.listen();
+
+/**
+ * Create a request handler for the event `documentFormatting`.
+ * The handler will parse the current file and build and send the list of Text Edit
+ * to apply client-side according to the user settings.
+ *
+ *
+ * @param documents a manager for simple text documents
+ * @param documentFormatSettings the document format settings to apply
+ */
+function documentFormattingRequestHandler(docs: TextDocuments<TextDocument>) {
+    return (_params: DocumentFormattingParams): TextEdit[] => {
+        const document = docs.get(_params.textDocument.uri);
+        return buildDocumentEditList(document, yseopmlSettings?.documentFormat ?? DEFAULT_DOC_FORMAT_SETTINGS);
+    };
+}

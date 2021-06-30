@@ -124,6 +124,7 @@ function myFunction(World world, Person me)
 };
 `);
         expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(9);
+        expect(buildDocumentEditList(file, null)).toHaveLength(9);
         done();
     });
     test.each([
@@ -164,5 +165,6 @@ if  (input == true)     {
     ])('the selected text (%#) should give the expected number of edits', (content, expectedEdits) => {
         const file = createFakeDocument(createFakeFunctionContainer(content));
         expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(expectedEdits);
+        expect(buildDocumentEditList(file, null)).toHaveLength(expectedEdits);
     });
 });

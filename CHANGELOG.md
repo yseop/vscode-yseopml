@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.14.1 (2021-06-30)
+
+-   [FIXED] _Format Document_ now works correctly.
+
 ## 1.14.0 (2021-06-04)
 
 -   _Go To Definition_ now works for class names too.
