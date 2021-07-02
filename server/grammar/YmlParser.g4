@@ -501,7 +501,9 @@ instruction_timeCounter:
     TIME_COUNTER OPEN_PAR ymlId COMMA actionBlock CLOSE_PAR
 ;
 
-inValue: (instanciationVariable | ymlId) IN (value | FUNCTION);
+inValue:
+    variableType=ymlId? (instanciationVariable | ymlId) IN (value | FUNCTION)
+;
 
 /*
  * Handles code like `forall(item in myCollection) {}` (loop over the elements of a collection)
@@ -592,7 +594,7 @@ classComplete:
     )* SEMICOLON
 ;
 
-modification: MODIFY ymlId argsBlock FUNCTION OVERRIDE ymlId field*?;
+modification: MODIFY ymlId argsBlock? FUNCTION OVERRIDE ymlId field*?;
 
 ruleset: RULESET OPEN_BRACE rules? CLOSE_BRACE;
 rules: ymlrule+;

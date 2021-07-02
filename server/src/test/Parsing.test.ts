@@ -33,6 +33,7 @@ function checkInputValidityForRule(
     expect(result).toBeDefined();
 }
 
+// tslint:disable-next-line: no-big-function
 describe('YML parser tests', () => {
     describe('intruction_rename', () => {
         const func = (parser) => parser.instruction_rename();
@@ -146,6 +147,8 @@ describe('YML parser tests', () => {
             `applyCollectionOn(_elt in list4, select _NO_EVAL, where _elt != P2);`,
             // `applyCollectionOn` instruction with where keyword
             `applyCollectionOn(_elt in list4, where _elt != P2);`,
+            // `applyCollectionOn` with the type of the iteration variable indicated
+            `applyCollectionOn(MyClass _elt in list4, where _elt != P2);`,
         ])('the instruction applyCollectionOn (%#) should be parsed without error', (content) => {
             checkInputValidityForRule(func, content);
         });
@@ -405,6 +408,23 @@ describe('YML parser tests', () => {
 
                 method getValue(Object obj) function
                 --> domains Object
+            ;`,
+            // complete of a class with the modification of one of its methods
+            `complete MyClass
+                @pragma noWarning REDEFINED_PREDEFINED_CLASS_MEMBER
+                modify write
+                function override my_write_function
+            ;`,
+            // complete of a class with the modification of the full signature of a function
+            `complete MyClass
+
+                @pragma noWarning REDEFINED_PREDEFINED_CLASS_MEMBER
+                modify myMethod
+                args {
+                    NamedArgumentsTable args
+                    --> additionalVarArgs true
+                    --> nullable true
+                } function override myMethod_modified
             ;`,
         ])('the class completion (%#) should be parsed without error', (content) => {
             checkInputValidityForRule(func, content);

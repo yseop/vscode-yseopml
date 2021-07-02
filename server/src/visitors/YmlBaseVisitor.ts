@@ -228,7 +228,7 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
         const ifSymbolEnd = node.IF().symbol.stopIndex;
         const openParStart = node.OPEN_PAR().symbol.startIndex;
         const sameLine = node.IF().symbol.line === node.OPEN_PAR().symbol.line;
-        if (this.docFormatSettings?.spaceBetweenKeywordAndParenthesis === 'yes') {
+        if (this.docFormatSettings.spaceBetweenKeywordAndParenthesis === 'yes') {
             this.setOneSpaceInterval(ifSymbolEnd, openParStart, sameLine);
         } else {
             this.removeSpaceInterval(ifSymbolEnd, openParStart);
