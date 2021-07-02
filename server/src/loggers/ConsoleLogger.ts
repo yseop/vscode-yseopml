@@ -1,7 +1,7 @@
 import { ILogger } from './ILogger';
 
 export class ConsoleLogger implements ILogger {
-    constructor(private isLogEnabled: boolean = false) {}
+    constructor(private readonly isLogEnabled: boolean = false) {}
 
     private toStrings(...arg: any[][]): string[] {
         return arg.map((a) => JSON.stringify(a, null, 2));

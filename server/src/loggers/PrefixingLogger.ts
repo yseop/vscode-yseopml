@@ -8,7 +8,7 @@ import { ILogger } from './ILogger';
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  */
 export class PrefixingLogger implements ILogger {
-    constructor(private logger: ILogger, private prefix: string) {}
+    constructor(private readonly logger: ILogger, private readonly prefix: string) {}
 
     public error(...arg: any[]): void {
         this.logger.error(this.prefix, ...arg);
