@@ -5,7 +5,13 @@ import { YmlLanguageServer } from './LanguageServer';
 import { ILogger } from './loggers/ILogger';
 
 export class DocumentsManager {
-    constructor(private connection: Connection, private server: YmlLanguageServer, private logger: ILogger) {
+    private readonly documents: TextDocuments<TextDocument>;
+
+    constructor(
+        private readonly connection: Connection,
+        private readonly server: YmlLanguageServer,
+        private readonly logger: ILogger,
+    ) {
         this.documents = new TextDocuments(TextDocument);
         this.documents.listen(connection);
         const parseTextDocumentOnEvent = (event: TextDocumentChangeEvent<TextDocument>) =>
@@ -16,7 +22,6 @@ export class DocumentsManager {
             this.connection.sendDiagnostics({ uri: event.document.uri, diagnostics: [] }),
         );
     }
-    private documents: TextDocuments<TextDocument>;
 
     public get(uri: string): TextDocument {
         return this.documents.get(uri);

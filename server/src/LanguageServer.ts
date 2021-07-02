@@ -33,7 +33,7 @@ import { DocumentsManager } from './DocumentsManager';
 import { EngineModel } from './engineModel/EngineModel';
 import { buildDocumentEditList, buildDocumentSymbolsList } from './features';
 import { YmlLexer, YmlParser } from './grammar';
-import { LspClientLogger } from './loggers/LspClientLogger';
+import { ILogger } from './loggers/ILogger';
 import { ILspClient } from './lspClient';
 import { FILE_TYPE_F, FILE_TYPE_M, findKaoFileDependencies, getPredefinedObjectsXmlPath } from './serverUtils';
 import { IYseopmlServerSettings, IYseopmlSettings, setDocumentFormatDefaultValues } from './settings/Settings';
@@ -52,14 +52,18 @@ const diagSeverityMap = new Map<string, DiagnosticSeverity>([
 
 export class YmlLanguageServer {
     private yseopmlSettings: IYseopmlServerSettings;
-    private definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
-    private completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsProvider();
+    private readonly definitionsProvider: YmlDefinitionProvider = new YmlDefinitionProvider();
+    private readonly completionProvider: YmlCompletionItemsProvider = new YmlCompletionItemsProvider();
     // By default, the severity is Information.
     private parsingIssueSeverityLevel: DiagnosticSeverity = DiagnosticSeverity.Information;
     private engineModel: EngineModel;
     private documents: DocumentsManager;
 
-    constructor(private logger: LspClientLogger, private lspClient: ILspClient, private connection: Connection) {}
+    constructor(
+        private readonly logger: ILogger,
+        private readonly lspClient: ILspClient,
+        private readonly connection: Connection,
+    ) {}
 
     public initialize(_params: InitializeParams): InitializeResult {
         this.logger.log('Yseop.vscode-yseopml − Initializing server.');
