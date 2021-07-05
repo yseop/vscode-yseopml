@@ -2,6 +2,16 @@
 
 ## X.XX.X (YYYY-MM-DD)
 
+-   Greatly improved the performances of current parser, as well as the kind of expressions it can parse such as
+    -   `modify`
+    -   `whatever`
+    -   `exists`
+    -   `noExists`
+    -   static instances of `Condition`
+    -   `as`
+    -   etc…
+-   [BREAKING CHANGE] Semicolon is now mandatory where it was just optional before.
+
 ## 1.14.1 (2021-06-30)
 
 -   [FIXED] _Format Document_ now works correctly.

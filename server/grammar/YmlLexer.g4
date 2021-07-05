@@ -64,6 +64,11 @@ RULESET: 'ruleset';
 RULE_TYPE: 'Rule';
 ATTRIBUTES: 'attributes';
 TIME_COUNTER: 'timeCounter';
+WHATEVER: 'whatever';
+CONDITION: 'Condition';
+NO_EXISTS: 'noExists';
+EXISTS: 'exists';
+MODIFY: 'modify';
 
 //Symbols
 SEMICOLON: ';';
@@ -140,9 +145,14 @@ INTEGER: NON_ZERO_DIGIT DIGIT+ | DIGIT+;
  * Simple colon has no specific meaning, however:
  * − double colons are used to define a class' method;
  * − triple colons are used as a pointer towards a class' method or attribute.
+
+ This ID is valid: “Namespace:400:2019”
  */
-YMLID: ID (COLON ID)* (COLON? COLON? COLON ID)? SINGLE_QUOTE?;
+YMLID:
+    ID (COLON ID_OR_NUMBER)* (COLON? COLON? COLON ID_OR_NUMBER)? SINGLE_QUOTE?
+;
 ID: ALPHANUM* LETTER ALPHANUM*;
+ID_OR_NUMBER: ALPHANUM+;
 
 fragment MULTILINE_COMMENT_START: '/*';
 fragment MULTILINE_COMMENT_END: '*/';

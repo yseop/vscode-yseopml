@@ -9,6 +9,7 @@ import { YmlEntityContext } from "./YmlParser";
 import { ExpressionMarkerContext } from "./YmlParser";
 import { Instruction_renameContext } from "./YmlParser";
 import { YmlIdContext } from "./YmlParser";
+import { OtherTokensContext } from "./YmlParser";
 import { YenumContext } from "./YmlParser";
 import { EnumElementContext } from "./YmlParser";
 import { Enum_attributes_blockContext } from "./YmlParser";
@@ -30,7 +31,6 @@ import { FieldContext } from "./YmlParser";
 import { ActionFieldContext } from "./YmlParser";
 import { ActionFieldValuesContext } from "./YmlParser";
 import { ImplementationFieldContext } from "./YmlParser";
-import { InstructionNoSemiContext } from "./YmlParser";
 import { CommonFieldContext } from "./YmlParser";
 import { Local_variable_declContext } from "./YmlParser";
 import { LocalFieldContext } from "./YmlParser";
@@ -87,6 +87,8 @@ import { ConditionalExpressionContext } from "./YmlParser";
 import { ConditionalAndExpressionContext } from "./YmlParser";
 import { ConditionalOrExpressionContext } from "./YmlParser";
 import { ComparisonContext } from "./YmlParser";
+import { ExistsExpressionContext } from "./YmlParser";
+import { WhateverExpressionContext } from "./YmlParser";
 import { ComparisonOperatorContext } from "./YmlParser";
 import { Instruction_multivaluedAssignmentContext } from "./YmlParser";
 import { Instruction_assignmentContext } from "./YmlParser";
@@ -99,13 +101,14 @@ import { Instruction_switchExpr_asIfContext } from "./YmlParser";
 import { Instruction_switchCase_withValueContext } from "./YmlParser";
 import { Instruction_switchCase_asIfContext } from "./YmlParser";
 import { InstructionDefault_withValueContext } from "./YmlParser";
+import { CaseValueBetweenParenthesisContext } from "./YmlParser";
+import { CaseValueContext } from "./YmlParser";
 import { InstructionCase_withValueContext } from "./YmlParser";
 import { InstructionCaseContext } from "./YmlParser";
 import { InstructionDefaultContext } from "./YmlParser";
 import { Instruction_breakContext } from "./YmlParser";
 import { Instruction_ifElseContext } from "./YmlParser";
 import { ElseExpressionContext } from "./YmlParser";
-import { ElseIfExpressionContext } from "./YmlParser";
 import { IfExpressionContext } from "./YmlParser";
 import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
@@ -130,9 +133,12 @@ import { ConstListContext } from "./YmlParser";
 import { GranuleContext } from "./YmlParser";
 import { ObjectCompleteContext } from "./YmlParser";
 import { ClassCompleteContext } from "./YmlParser";
+import { ModificationContext } from "./YmlParser";
 import { RulesetContext } from "./YmlParser";
 import { RulesContext } from "./YmlParser";
 import { YmlruleContext } from "./YmlParser";
+import { EmptyBlockContext } from "./YmlParser";
+import { ConditionInstanceContext } from "./YmlParser";
 
 
 /**
@@ -184,6 +190,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitYmlId?: (ctx: YmlIdContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.otherTokens`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitOtherTokens?: (ctx: OtherTokensContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.yenum`.
@@ -331,13 +344,6 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitImplementationField?: (ctx: ImplementationFieldContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlParser.instructionNoSemi`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitInstructionNoSemi?: (ctx: InstructionNoSemiContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.commonField`.
@@ -732,6 +738,20 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitComparison?: (ctx: ComparisonContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.existsExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitExistsExpression?: (ctx: ExistsExpressionContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.whateverExpression`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitWhateverExpression?: (ctx: WhateverExpressionContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.comparisonOperator`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -816,6 +836,20 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitInstructionDefault_withValue?: (ctx: InstructionDefault_withValueContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.caseValueBetweenParenthesis`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitCaseValueBetweenParenthesis?: (ctx: CaseValueBetweenParenthesisContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.caseValue`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitCaseValue?: (ctx: CaseValueContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.instructionCase_withValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -856,13 +890,6 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitElseExpression?: (ctx: ElseExpressionContext) => Result;
-
-	/**
-	 * Visit a parse tree produced by `YmlParser.elseIfExpression`.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	visitElseIfExpression?: (ctx: ElseIfExpressionContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.ifExpression`.
@@ -1033,6 +1060,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitClassComplete?: (ctx: ClassCompleteContext) => Result;
 
 	/**
+	 * Visit a parse tree produced by `YmlParser.modification`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitModification?: (ctx: ModificationContext) => Result;
+
+	/**
 	 * Visit a parse tree produced by `YmlParser.ruleset`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -1052,5 +1086,19 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitYmlrule?: (ctx: YmlruleContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.emptyBlock`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitEmptyBlock?: (ctx: EmptyBlockContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.conditionInstance`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitConditionInstance?: (ctx: ConditionInstanceContext) => Result;
 }
 

@@ -21,10 +21,8 @@ function myFunction(Object input)
 --> domains Object
 --> local Country country, Number a, Number b, Number x
 --> action {
-    /* Semicolon addition → “a = random();” */
-    a = random()
-    /* Semicolon addition → “b = random();” */
-    b = random()
+    a = random();
+    b = random();
     /* Three space additions → “if(input.isInstanceOf(Country) != true) {” */
     if(input.isInstanceOf(Country)!=true){
         country = input;
@@ -32,22 +30,18 @@ function myFunction(Object input)
 
     /* One space removal + two space additions → “if(input.isInstanceOf(Number) == true) {” */
     if (input.isInstanceOf(Number) ==true){
-        /* Semicolon addition → “country = dummyCountry.getCountry(input);” */
-        country = dummyCountry.getCountry(input)
+        country = dummyCountry.getCountry(input);
     }
     /* One space removal + wo space additions → “if(input.isInstanceOf(Text) == false) {” */
     if (input.isInstanceOf(Text)== false){
-        /* Semicolon addition → “country = dummyCountry.findCountryByCode(input);” */
-        country = dummyCountry.findCountryByCode(input)
+        country = dummyCountry.findCountryByCode(input);
         /* Five space replacements → “}else if(a == b || a > b) {” */
     }else if(a  ==        b    ||a     >   b) {
         /* One space replacement + three space additions → “x = ifExpr(a > b)” */
         x    =ifExpr(a>b)
         then a
-        /* Semicolon addition → “else b;” */
-        else b
-        /* Semicolon addition → “logInfo(x);” */
-        logInfo(x)
+        else b;
+        logInfo(x);
     /* One space replacement then two spaces replacements. */
     /* “if(a <   b
     ||  b    > x)”
@@ -59,16 +53,14 @@ function myFunction(Object input)
     ||  b    > x) {
         hashMap[country] = a;
     }
-    /* Two space additions + semicolon addition → “hashMap[country] = x;” */
-    hashMap[country]=x
-    /* Semicolon addition → “assert(a == b);” */
-    assert(a == b)
-    /* Semicolon addition → “return country;” */
-    return country
+    /* Two space additions → “hashMap[country] = x;” */
+    hashMap[country]=x;
+    assert(a == b);
+    return country;
 };
 `,
         );
-        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(34);
+        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(25);
         done();
     });
     it('should not give edits when the file has syntax errors', (done) => {
@@ -106,25 +98,25 @@ function myFunction(World world, Person me)
 --> domains Void
 --> action {
     you = new(Person, firstName, "Peter", lastName, "Pan");
-    me.friend:= you
+    me.friend:= you;
     world.execute(me);
     try (
         do {
             timeCounter(myCounter, {
-                world.search(you)
+                world.search(you);
                 if(world.find(you) == true&&   you.greet(me) == true) {
-                    me.talk(you)
+                    me.talk(you);
                 }
-            })
+            });
         }
         catch(_EXTERNAL_ALERT) {
-            lowWarning("Something wrong happened with you.")
+            lowWarning("Something wrong happened with you.");
         }
-    )
+    );
 };
 `);
-        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(9);
-        expect(buildDocumentEditList(file, null)).toHaveLength(9);
+        expect(buildDocumentEditList(file, DEFAULT_DOC_FORMAT_SETTINGS)).toHaveLength(3);
+        expect(buildDocumentEditList(file, null)).toHaveLength(3);
         done();
     });
     test.each([
@@ -140,14 +132,14 @@ if       ( input   !=null)     {
             `
 // No change between open parenthesis and “input”.
 if       ( input   !=null)     {
-    input = 12
+    input = 12;
 }`,
-            5,
+            4,
         ],
         [
             `
 // No change between open parenthesis and “input”.
-if       ( input   !=null) myFunction()`,
+if       ( input   !=null) myFunction();`,
             3,
         ],
         [

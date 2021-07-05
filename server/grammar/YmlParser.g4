@@ -31,7 +31,9 @@ ymlEntity:
  */
 expressionMarker: DOT DOT | DOT | MULTIVALUED_EXPRESSION;
 instruction_rename: RENAME ymlId TO ymlId FOR_CLASS ymlId;
-ymlId:
+ymlId: otherTokens | YMLID;
+
+otherTokens:
     ARGS
     | LOCAL
     | RETURN
@@ -45,13 +47,16 @@ ymlId:
     | FOR_CLASS
     | MOD
     | AS
-    | YMLID
     | RULESET
     | RULE_TYPE
     | ATTRIBUTES
     | EXTENDS
     | TIME_COUNTER
     | STATIC
+    | CONDITION
+    | EXISTS
+    | NO_EXISTS
+    | MODIFY
 ;
 
 yenum:
@@ -103,10 +108,10 @@ ymlIdOrPath: ymlId | path;
 
 field:
     actionField
-    | commonField
     | returnField
     | localField
     | implementationField
+    | commonField
 ;
 
 actionField: FIELD_INTRO optionName=ACTION actionFieldValues;
@@ -119,8 +124,6 @@ actionFieldValues:
 ;
 
 implementationField: FIELD_INTRO IMPLEMENTATION actionBlock;
-
-instructionNoSemi: ifExprBlock | chainedCall | instruction_return;
 
 commonField:
     fieldArrow=
@@ -153,8 +156,7 @@ classPropertiesBlock: CLASSPROPERTIES classOption=field*;
 multilineString: TRIPLE_QUOTE stringContent=ANY* TRIPLE_QUOTE;
 
 objectReturnAttributeValue:
-    ifExprBlock
-    | conditionalExpression
+    conditionalExpression
     | value
     | hashMapKeyValue
     | multilineString
@@ -172,6 +174,7 @@ objectAttributeValue:
     | multilineString
     | type=ymlId name=ymlId
     | simpleList
+    | actionBlock
 ;
 
 valueOrCondition:
@@ -190,28 +193,22 @@ hashMapKey: bool | STRING | DATE | chainedCall | NUMBER | array | constList;
 hashMapValue: value | conditionalExpression;
 
 value:
-    granule
-    | inlineDeclaration
+    inlineDeclaration
     | arithmeticExpression
     | nonArithmeticValue
     | synonym
     | ifExprBlock
-    | array
-    | constList
     | inValue
-    | applyCollection
-    | applyCollectionOn
-    | as
-    | hashMap
     | instruction_switchExpr_withValue
     | instruction_switchExpr_asIf
+    | emptyBlock
 ;
 
 as:
     AS OPEN_PAR instanciationVariable
     (
-        COMMA (instruction_assignment | conditionalExpression)
-    )*? COMMA conditionalExpression CLOSE_PAR
+        COMMA? (instruction_assignment | conditionalExpression | inValue)
+    )*? CLOSE_PAR
 ;
 
 applyCollection:
@@ -264,7 +261,10 @@ ifExprBlock:
 bool: TRUE | FALSE;
 nonArithmeticValue: bool | STRING | DATE;
 
-instanciationVariable: QUESTION_MARK ymlId;
+instanciationVariable:
+    QUESTION_MARK ymlId
+    | ymlId OPEN_PAR instanciationVariable CLOSE_PAR
+;
 
 possiblyIndexedExpression: expression index*;
 expression:
@@ -302,9 +302,9 @@ chainedCall:
 inlineDeclaration:
     INLINE_DECL_INTRO
     (
-        staticDeclaration
         // Unnamed object. No need to create a specific rule for it because it can't be used anywhere else.
-        | className=ymlId (fieldValue)* SEMICOLON
+        className=ymlId (fieldValue)* SEMICOLON
+        | staticDeclaration
     )
 ;
 
@@ -399,7 +399,18 @@ conditionalOrExpression:
     | conditionalAndExpression
 ;
 
-comparison: leftValue=value comparisonOperator rightValue=value;
+comparison:
+    leftValue=value comparisonOperator rightValue=value
+    | whateverExpression
+    | existsExpression
+;
+
+existsExpression: (EXISTS | NO_EXISTS) OPEN_PAR inValue COMMA conditionalExpression CLOSE_PAR
+;
+
+whateverExpression:
+    WHATEVER OPEN_PAR inValue CLOSE_PAR THEN conditionalExpression
+;
 
 comparisonOperator:
     EQUAL_COMP
@@ -455,8 +466,19 @@ instructionDefault_withValue:
     DEFAULT COLON (value | OPEN_BRACE value CLOSE_BRACE)
 ;
 
+caseValueBetweenParenthesis: OPEN_PAR caseValue CLOSE_PAR | caseValue;
+
+caseValue:
+    conditionalExpression
+    | simpleList
+    | hashMapKeyValue
+    | multilineString
+    | type=ymlId name=ymlId
+    | value
+;
+
 instructionCase_withValue:
-    CASE (OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON
+    CASE caseValueBetweenParenthesis COLON
     (
         value
         | OPEN_BRACE value CLOSE_BRACE
@@ -464,18 +486,14 @@ instructionCase_withValue:
 ;
 
 instructionCase:
-    CASE (simpleList | OPEN_PAR valueOrCondition CLOSE_PAR | valueOrCondition) COLON actionBlockOrInstruction
+    CASE caseValueBetweenParenthesis COLON actionBlockOrInstruction
 ;
 instructionDefault: DEFAULT COLON actionBlockOrInstruction;
 instruction_break: BREAK SEMICOLON?;
 
-instruction_ifElse:
-    main=ifExpression elseIfs=elseIfExpression* elseExpr=elseExpression?
-;
+instruction_ifElse: main=ifExpression elseExpr=elseExpression?;
 
 elseExpression: ELSE actionBlockOrInstruction;
-
-elseIfExpression: ELSE ifExpression;
 
 ifExpression: IF OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction;
 
@@ -483,7 +501,9 @@ instruction_timeCounter:
     TIME_COUNTER OPEN_PAR ymlId COMMA actionBlock CLOSE_PAR
 ;
 
-inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
+inValue:
+    variableType=ymlId? (instanciationVariable | ymlId) IN (value | FUNCTION)
+;
 
 /*
  * Handles code like `forall(item in myCollection) {}` (loop over the elements of a collection)
@@ -491,7 +511,10 @@ inValue: (ymlId | instanciationVariable) IN (value | FUNCTION);
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR inValue (COMMA? inValue)* (COMMA? conditionalExpression)* CLOSE_PAR actionBlockOrInstruction
+    FORALL OPEN_PAR (conditionalExpression | inValue)
+    (
+        COMMA? (inValue | conditionalExpression | instruction_assignment)
+    )* CLOSE_PAR actionBlockOrInstruction
 ;
 instruction_while:
     WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
@@ -499,21 +522,21 @@ instruction_while:
 instruction_return: RETURN value;
 instruction_chainedCall: chainedCall;
 instruction:
-    instruction_multivaluedAssignment SEMICOLON?
-    | instruction_assignment SEMICOLON?
-    | instruction_return SEMICOLON?
-    | instruction_chainedCall SEMICOLON?
+    instruction_multivaluedAssignment SEMICOLON
+    | instruction_assignment SEMICOLON
+    | instruction_return SEMICOLON
+    | instruction_chainedCall SEMICOLON
     | instruction_for
     | instruction_forEach
     | instruction_forall
     | instruction_ifElse
-    | instruction_try_catch SEMICOLON?
+    | instruction_try_catch SEMICOLON
     | instruction_switchCase_asIf
     | instruction_break
     | instruction_switchCase_withValue
     | instruction_ifExprBlock
     | instruction_while
-    | instruction_timeCounter SEMICOLON?
+    | instruction_timeCounter SEMICOLON
 ;
 
 instruction_do: DO actionBlock;
@@ -521,7 +544,7 @@ instruction_try_catch:
     TRY OPEN_PAR instruction_do CATCH OPEN_PAR (ymlId (COMMA ymlId)*?) CLOSE_PAR actionBlock CLOSE_PAR
 ;
 
-actionBlock: OPEN_BRACE instruction+ CLOSE_BRACE;
+actionBlock: OPEN_BRACE instruction+ CLOSE_BRACE | OPEN_BRACE CLOSE_BRACE;
 
 arithmeticOperator: ADD | SUB | MUL | DIV | MOD;
 
@@ -538,7 +561,8 @@ existentialOperator: operator=ymlId OPEN_PAR order1FullCondition CLOSE_PAR;
 variableBlockContent: memberDeclaration*;
 
 staticDeclaration:
-    declarationType=ymlId declarationName=ymlId (EXTENDS extended=ymlId)? value? declarationOptions=field* SEMICOLON
+    conditionInstance
+    | declarationType=ymlId declarationName=ymlId (EXTENDS extended=ymlId)? value? declarationOptions=field* SEMICOLON
 ;
 
 externDeclaration: EXTERN (methodDeclaration | memberDeclaration) SEMICOLON;
@@ -551,7 +575,7 @@ array:
 simpleList: elements+=value (COMMA elements+=value)+;
 
 constList:
-    OPEN_BRACE elements+=value? (COMMA elements+=value)* CLOSE_BRACE
+    OPEN_BRACE elements+=value (COMMA elements+=value)* CLOSE_BRACE
 ;
 
 granule: OPEN_GRANULE (ANY_TEXT+ | granule)*? CLOSE_GRANULE;
@@ -563,11 +587,14 @@ objectComplete:
 classComplete:
     COMPLETE (ymlId | FUNCTION)
     (
-        classAttributeDeclaration
+        modification
+        | classAttributeDeclaration
         | methodCompleteDeclaration
         | memberDeclaration
     )* SEMICOLON
 ;
+
+modification: MODIFY ymlId argsBlock? FUNCTION OVERRIDE ymlId field*?;
 
 ruleset: RULESET OPEN_BRACE rules? CLOSE_BRACE;
 rules: ymlrule+;
@@ -579,3 +606,7 @@ ymlrule:
         | instruction_assignment
     )+ CLOSE_PAR THEN instruction+ field* SEMICOLON
 ;
+
+emptyBlock: OPEN_BRACE CLOSE_BRACE;
+
+conditionInstance: CONDITION ymlId conditionalExpression SEMICOLON;
