@@ -336,11 +336,11 @@ export class YmlLanguageServer {
 
     public async didChangeConfiguration(change) {
         const settings = change.settings as IYseopmlSettings;
-        this.yseopmlSettings = settings.yseopml;
-        this.yseopmlSettings.documentFormat = setDocumentFormatDefaultValues(this.yseopmlSettings.documentFormat);
+        this.yseopmlSettings = settings.yseopml ?? ({} as IYseopmlServerSettings);
+        this.yseopmlSettings.documentFormat = setDocumentFormatDefaultValues(this.yseopmlSettings?.documentFormat);
         // One of the severity levels possible, or `Information`.
         this.parsingIssueSeverityLevel =
-            diagSeverityMap.get(settings.yseopml.ymlParsingIssueSeverityLevel.toLowerCase()) ||
+            diagSeverityMap.get(settings.yseopml?.ymlParsingIssueSeverityLevel.toLowerCase()) ||
             DiagnosticSeverity.Information;
         this.lspClient
             .getWorkspaceFolders()
@@ -370,6 +370,9 @@ export class YmlLanguageServer {
 
     public async completion(pos: CompletionParams): Promise<CompletionItem[]> {
         const doc: TextDocument = this.documents.get(pos.textDocument.uri);
+        if (!doc) {
+            return [];
+        }
         return this.completionProvider.getAvailableCompletionItems(pos.textDocument.uri, doc.offsetAt(pos.position));
     }
 
