@@ -1,5 +1,13 @@
 import { Duplex } from 'stream';
-import { Connection, createConnection, InitializeParams, InitializeRequest } from 'vscode-languageserver/node';
+import { createProtocolConnection } from 'vscode-languageserver-protocol/lib/common/connection';
+import {
+    Connection,
+    createConnection,
+    DidChangeConfigurationNotification,
+    DocumentSymbolRequest,
+    InitializeParams,
+    InitializeRequest,
+} from 'vscode-languageserver/node';
 import URI from 'vscode-uri';
 
 import { ILogger } from '../loggers/ILogger';
@@ -33,19 +41,93 @@ describe('lsp connection', () => {
         logger = new LspClientLogger(lspClient);
         serverConnection = createLspConnection(serverConnection, lspClient, logger);
         serverConnection.listen();
-        clientConnection = createConnection(down, up);
+        clientConnection = createProtocolConnection(down, up);
         clientConnection.listen();
     });
     test('sending IntializeRequest to the server should give the expected result', (done) => {
         const init: InitializeParams = {
             rootUri: URI.file(process.cwd()).toString(),
             processId: 1,
-            capabilities: {},
+            capabilities: {
+                textDocument: {
+                    synchronization: {
+                        didSave: true,
+                        dynamicRegistration: true,
+                        willSave: true,
+                        willSaveWaitUntil: true,
+                    },
+                    moniker: {},
+                    codeLens: {
+                        dynamicRegistration: true,
+                    },
+                    completion: {},
+                    declaration: {},
+                    definition: {},
+                    foldingRange: {},
+                    hover: {},
+                    publishDiagnostics: {},
+                    implementation: {},
+                    formatting: {},
+                },
+                workspace: {
+                    codeLens: {},
+                    didChangeConfiguration: {
+                        dynamicRegistration: true,
+                    },
+                    workspaceFolders: true,
+                    configuration: true,
+                },
+                window: {
+                    showDocument: {
+                        support: true,
+                    },
+                    showMessage: {},
+                    workDoneProgress: true,
+                },
+            },
             workspaceFolders: null,
         };
         clientConnection.sendRequest(InitializeRequest.type, init).then((result) => {
             expect(result).toBeTruthy();
             done();
         });
+    });
+    test('sending DidChangeConfigurationNotification to the server should not fail', (done) => {
+        clientConnection.onRequest('workspace/workspaceFolders', (_param) => {
+            return [
+                {
+                    uri: URI.file(process.cwd()).toString(),
+                    name: 'name',
+                },
+            ];
+        });
+        clientConnection.sendNotification(DidChangeConfigurationNotification.type, {
+            settings: {},
+        });
+        clientConnection.sendNotification(DidChangeConfigurationNotification.type, {
+            settings: {
+                yseopml: {
+                    activateParsingProblemsReporting: true,
+                    parseAllProjectFilesAtStartup: true,
+                    pathToPredefinedObjectsXml: null,
+                    ymlParsingIssueSeverityLevel: 'information',
+                    kaoFiles: [],
+                    documentFormat: {},
+                },
+            },
+        });
+        done();
+    });
+    test('sending DocumentSymbolRequest to the server should not fail', (done) => {
+        clientConnection
+            .sendRequest(DocumentSymbolRequest.type, {
+                textDocument: {
+                    uri: URI.file(process.cwd()).toString(),
+                },
+            })
+            .then((result) => {
+                expect(result).toStrictEqual([]);
+                done();
+            });
     });
 });
