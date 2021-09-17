@@ -656,4 +656,21 @@ describe('YML parser tests', () => {
             checkInputValidityForRule(func, content);
         });
     });
+
+    describe('comparison', () => {
+        const func = (parser) => parser.comparison();
+        test.each([
+            `a == b`,
+            `a != b`,
+            `a <= b`,
+            `a >= b`,
+            `a < b`,
+            `a > b`,
+            `exists(?a in myCollection, ?a != null)`,
+            `noExists(?a in myCollection, ?a != null)`,
+            `whatever(?a in myCollection) then ?a != null`,
+        ])('the comparison (%#) should be parsed without error', (content) => {
+            checkInputValidityForRule(func, content);
+        });
+    });
 });
