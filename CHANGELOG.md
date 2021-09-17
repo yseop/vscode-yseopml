@@ -9,8 +9,8 @@
     -   `noExists`
     -   static instances of `Condition`
     -   `as`
-    -   etc…
--   [BREAKING CHANGE] Semicolon is now mandatory where it was just optional before.
+    -   etc.
+-   [BREAKING CHANGE] Semicolons are now mandatory where they were just optional before.
 
 ## 1.14.1 (2021-06-30)
 
