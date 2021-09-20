@@ -1,7 +1,11 @@
 import { CharStreams, CommonTokenStream, DiagnosticErrorListener, ParserRuleContext } from 'antlr4ts';
 import { PredictionMode } from 'antlr4ts/atn/PredictionMode';
 
+import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProvider';
+import { YmlDefinitionProvider } from '../definitions';
 import { YmlLexer, YmlParser } from '../grammar';
+import { FunctionContext } from '../grammar/YmlParser';
+import { YmlFunctionVisitor } from '../visitors/YmlFunctionVisitor';
 
 /**
  * Check that the provided YML code extract can be correctly parsed by the provided parser rule.
@@ -18,7 +22,7 @@ function checkInputValidityForRule(
     ruleToTest: (parser: YmlParser) => ParserRuleContext,
     ymlCode: string,
     failOnAmbiguity = false,
-): void {
+): ParserRuleContext {
     const inputStream = CharStreams.fromString(ymlCode);
     const lexer = new YmlLexer(inputStream);
     const tokenStream = new CommonTokenStream(lexer);
@@ -31,6 +35,7 @@ function checkInputValidityForRule(
     const result = ruleToTest(parser);
     expect(parser.numberOfSyntaxErrors).toBe(0);
     expect(result).toBeDefined();
+    return result;
 }
 
 // tslint:disable-next-line: no-big-function
@@ -654,6 +659,61 @@ describe('YML parser tests', () => {
                 --> documentation """This is MyEnum's documentation""";`,
         ])('the enum (%#) should be parsed without error', (content) => {
             checkInputValidityForRule(func, content);
+        });
+    });
+
+    describe('comparison', () => {
+        const func = (parser) => parser.comparison();
+        test.each([
+            `a == b`,
+            `a != b`,
+            `a <= b`,
+            `a >= b`,
+            `a < b`,
+            `a > b`,
+            `exists(?a in myCollection, ?a != null)`,
+            `noExists(?a in myCollection, ?a != null)`,
+            `whatever(?a in myCollection) then ?a != null`,
+        ])('the comparison (%#) should be parsed without error', (content) => {
+            checkInputValidityForRule(func, content);
+        });
+    });
+
+    describe('instruction_ifElse in a function', () => {
+        const func = (parser) => parser.function();
+        test.each([
+            `if(a == b) { logInfo("done"); }`,
+            `if(a == b) logInfo("done");`,
+            `if(a == b) logInfo("done"); else logInfo("not done");`,
+            `if(a == b) logInfo("done"); else { logInfo("not done"); }`,
+            `if(a == b) {} else {}`,
+            `if(a == b) { logInfo("done"); } else logInfo("not done");`,
+            `if(a == b) { logInfo("done"); } else { logInfo("not done"); }`,
+            `if(a == b) { logInfo("done"); } else if(a == c) { logInfo("not done"); }`,
+            `if(a == b) {
+                logInfo("done");
+            } else if(a == c) {
+                logInfo("not done");
+                if(b == d) logInfo("done"); else { logInfo("not done"); }
+            } else {
+                logInfo("not done at all");
+                if(c == w) logInfo("done"); else { logInfo("not done"); }
+            }`,
+            `if(a == b) { logInfo("done"); } else { logInfo("not done"); }`,
+            `if(whatever(?a in myCollection) then ?a != null) { logInfo("done"); } else { logInfo("not done"); }`,
+        ])('the if/else instruction (%#) should be parsed without error', (content) => {
+            const ymlFunction = `function func()
+            --> action {
+                ${content}
+            };`;
+
+            const result: ParserRuleContext = checkInputValidityForRule(func, ymlFunction);
+            if (!(result instanceof FunctionContext)) {
+                return;
+            }
+            const functionContext: FunctionContext = result;
+            const visitor = new YmlFunctionVisitor(new YmlCompletionItemsProvider(), '', new YmlDefinitionProvider());
+            visitor.visit(functionContext);
         });
     });
 });

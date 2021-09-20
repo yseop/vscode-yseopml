@@ -64,8 +64,10 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     public visitComparison(node: ComparisonContext): void {
         const operator = node.comparisonOperator();
-        this.setOneSpaceIntervalBetweenTwoContexts(node._leftValue, operator);
-        this.setOneSpaceIntervalBetweenTwoContexts(operator, node._rightValue);
+        if (!!operator) {
+            this.setOneSpaceIntervalBetweenTwoContexts(node._leftValue, operator);
+            this.setOneSpaceIntervalBetweenTwoContexts(operator, node._rightValue);
+        }
         this.visitChildren(node);
     }
 
