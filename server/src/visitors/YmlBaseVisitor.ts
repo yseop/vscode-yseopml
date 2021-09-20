@@ -24,7 +24,7 @@ import {
     SimpleListContext,
     YmlParserVisitor,
 } from '../grammar';
-import { ElseExpressionContext, ElseIfExpressionContext } from '../grammar/YmlParser';
+import { ElseExpressionContext } from '../grammar/YmlParser';
 import { IDocumentFormatSettings } from '../settings/Settings';
 
 export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements YmlParserVisitor<void> {
@@ -64,8 +64,10 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
 
     public visitComparison(node: ComparisonContext): void {
         const operator = node.comparisonOperator();
-        this.setOneSpaceIntervalBetweenTwoContexts(node._leftValue, operator);
-        this.setOneSpaceIntervalBetweenTwoContexts(operator, node._rightValue);
+        if (!!operator) {
+            this.setOneSpaceIntervalBetweenTwoContexts(node._leftValue, operator);
+            this.setOneSpaceIntervalBetweenTwoContexts(operator, node._rightValue);
+        }
         this.visitChildren(node);
     }
 
@@ -169,22 +171,10 @@ export class YmlBaseVisitor extends AbstractParseTreeVisitor<void> implements Ym
     public visitInstruction_ifElse(node: Instruction_ifElseContext): void {
         // One ifExpression + n×elseIfExpression + 0−1×elseExpression
         this.visitChildren(node);
-        let previousNode: ParserRuleContext = node.ifExpression();
-        for (const elseIfExpression of node.elseIfExpression()) {
-            this.setOneSpaceIntervalBetweenTwoContexts(previousNode, elseIfExpression);
-            previousNode = elseIfExpression;
-        }
+        const previousNode: ParserRuleContext = node.ifExpression();
         if (!!node.elseExpression()) {
             this.setOneSpaceIntervalBetweenTwoContexts(previousNode, node.elseExpression());
         }
-    }
-
-    public visitElseIfExpression(node: ElseIfExpressionContext): void {
-        this.visitChildren(node);
-        if (this.isDocumentFormatImpossible()) {
-            return;
-        }
-        this.setOneSpaceIntervalBetweenTokenAndContext(node.ELSE().symbol, node.ifExpression());
     }
 
     public visitElseExpression(node: ElseExpressionContext): void {

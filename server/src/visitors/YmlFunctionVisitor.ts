@@ -6,11 +6,11 @@ import { YmlCompletionItemsProvider } from '../completion/YmlCompletionItemsProv
 import { YmlDefinitionProvider } from '../definitions';
 import {
     ActionBlockContext,
+    ActionBlockOrInstructionContext,
     ConditionalAndExpressionContext,
     ConditionalExpressionContext,
     ConditionalOrExpressionContext,
     ElseExpressionContext,
-    ElseIfExpressionContext,
     FunctionContext,
     GranuleContext,
     IfExprBlockContext,
@@ -25,6 +25,7 @@ import {
     Instruction_switchExpr_withValueContext,
     Instruction_try_catchContext,
     Instruction_whileContext,
+    InstructionContext,
     MandatoryArgDeclContext,
     MemberDeclarationContext,
     VariableBlockContentContext,
@@ -223,14 +224,24 @@ export class YmlFunctionVisitor extends YmlBaseVisitor {
     }
 
     public visitInstruction_ifElse(node: Instruction_ifElseContext) {
-        // `if` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
-        this.goDeeperInComplexity(node, () => super.visitInstruction_ifElse(node));
-    }
-
-    public visitElseIfExpression(node: ElseIfExpressionContext) {
-        // `if else` instruction: complexity +1
-        this.func.increaseCognitiveComplexity(false);
-        super.visitElseIfExpression(node);
+        if (
+            !!node.parent &&
+            node.parent instanceof InstructionContext &&
+            !!node.parent.parent &&
+            node.parent.parent instanceof ActionBlockOrInstructionContext &&
+            !!node.parent.parent.parent &&
+            node.parent.parent.parent instanceof ElseExpressionContext
+        ) {
+            /*
+             * If this if/else instruction is a direct child of a else instruction (without braces),
+             * like in “else if(condition)” and not like “else { if(condition)… }”, there is no need
+             * to go deeper in complexity
+             */
+            super.visitInstruction_ifElse(node);
+        } else {
+            // `if` instruction: complexity +1 + nesting level; increase nesting level for inner instructions
+            this.goDeeperInComplexity(node, () => super.visitInstruction_ifElse(node));
+        }
     }
 
     public visitElseExpression(node: ElseExpressionContext) {

@@ -24,7 +24,7 @@ foreach(_elem, args1) { // +1
     } else if(_elem.isInstanceOf(Text) == true) { // +1
         coll.add(_elem);
     } else { // +1
-        logWarning("Why am I here?")
+        logWarning("Why am I here?");
     }
 } // Cognitive complexity = 13
 `,
@@ -120,7 +120,7 @@ while(a > 0 // +1
             }
         }
     }
-    incr(a)
+    incr(a);
 }`,
             21,
         ],
