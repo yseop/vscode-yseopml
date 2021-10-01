@@ -2,7 +2,10 @@
 
 ## X.X.X (YYYY-MM-DD)
 
-
+-   Parser improvements. The following expressions are now correctly parsed:
+    -   attributes at the end of `Condition` instances;
+    -   attributes of `Rule` instances;
+    -   order one conditions of `whatever` expressions.
 
 ## 1.15.0 (2021-09-17)
 

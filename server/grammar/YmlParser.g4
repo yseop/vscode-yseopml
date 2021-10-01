@@ -409,7 +409,7 @@ existsExpression: (EXISTS | NO_EXISTS) OPEN_PAR inValue COMMA conditionalExpress
 ;
 
 whateverExpression:
-    WHATEVER OPEN_PAR inValue CLOSE_PAR THEN conditionalExpression
+    WHATEVER OPEN_PAR inValue more_conditionals? CLOSE_PAR THEN conditionalExpression
 ;
 
 comparisonOperator:
@@ -511,11 +511,13 @@ inValue:
  * Because the token `Function` is also a type, we need to use it here.
  */
 instruction_forall:
-    FORALL OPEN_PAR (conditionalExpression | inValue)
-    (
-        COMMA? (inValue | conditionalExpression | instruction_assignment)
-    )* CLOSE_PAR actionBlockOrInstruction
+    FORALL OPEN_PAR (conditionalExpression | inValue) more_conditionals? CLOSE_PAR actionBlockOrInstruction
 ;
+
+more_conditionals:
+    (COMMA? (inValue | conditionalExpression | instruction_assignment))+
+;
+
 instruction_while:
     WHILE OPEN_PAR order0Condition CLOSE_PAR actionBlockOrInstruction
 ;
@@ -599,14 +601,14 @@ modification: MODIFY ymlId argsBlock? FUNCTION OVERRIDE ymlId field*?;
 ruleset: RULESET OPEN_BRACE rules? CLOSE_BRACE;
 rules: ymlrule+;
 ymlrule:
-    RULE_TYPE ymlId IF OPEN_PAR
+    RULE_TYPE ymlId field*? IF OPEN_PAR
     (
         conditionalExpression
         | inValue
         | instruction_assignment
-    )+ CLOSE_PAR THEN instruction+ field* SEMICOLON
+    )+ CLOSE_PAR THEN instruction+ field*? SEMICOLON
 ;
 
 emptyBlock: OPEN_BRACE CLOSE_BRACE;
 
-conditionInstance: CONDITION ymlId conditionalExpression SEMICOLON;
+conditionInstance: CONDITION ymlId conditionalExpression field*? SEMICOLON;

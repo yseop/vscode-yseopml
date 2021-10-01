@@ -113,6 +113,7 @@ import { IfExpressionContext } from "./YmlParser";
 import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
+import { More_conditionalsContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
 import { Instruction_returnContext } from "./YmlParser";
 import { Instruction_chainedCallContext } from "./YmlParser";
@@ -918,6 +919,13 @@ export interface YmlParserVisitor<Result> extends ParseTreeVisitor<Result> {
 	 * @return the visitor result
 	 */
 	visitInstruction_forall?: (ctx: Instruction_forallContext) => Result;
+
+	/**
+	 * Visit a parse tree produced by `YmlParser.more_conditionals`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitMore_conditionals?: (ctx: More_conditionalsContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `YmlParser.instruction_while`.

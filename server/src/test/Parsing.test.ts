@@ -588,6 +588,7 @@ describe('YML parser tests', () => {
             }`,
             // ruleset with some rules and some attributes
             `ruleset {
+                // Rule with an attribute at the end.
                 Rule personAliveHasOnlyOneOver18Child
                 if(?person in Person
                     ?person.isAlive() == true
@@ -599,6 +600,20 @@ describe('YML parser tests', () => {
                     logInfo("Person named ", ?person.name,
                         " has only one child. This child is over 18: ", ?child.name);
                 --> documentation "find a person that has only one child and which is over 18."
+                ;
+
+                // Rule with an attribute at the beginning.
+                Rule personAliveHasOnlyOneOver18Child_2
+                --> documentation "find a person that has only one child and which is over 18."
+                if(?person in Person
+                    ?person.isAlive() == true
+                    ?person.hasChildren() == true
+                    ?person.isMultiple() == false
+                    ?child = ?person.children.get(_FIRST)
+                    ?child.age >= 18)
+                then
+                    logInfo("Person named ", ?person.name,
+                        " has only one child. This child is over 18: ", ?child.name);
                 ;
             }`,
         ])('the ruleset (%#) should be parsed without error', (content) => {
@@ -671,9 +686,10 @@ describe('YML parser tests', () => {
             `a >= b`,
             `a < b`,
             `a > b`,
+            `whatever(?a in myCollection) then ?a != null`,
             `exists(?a in myCollection, ?a != null)`,
             `noExists(?a in myCollection, ?a != null)`,
-            `whatever(?a in myCollection) then ?a != null`,
+            `whatever(?a in myCollection, ?a != null) then ?a != null`,
         ])('the comparison (%#) should be parsed without error', (content) => {
             checkInputValidityForRule(func, content);
         });
@@ -714,6 +730,68 @@ describe('YML parser tests', () => {
             const functionContext: FunctionContext = result;
             const visitor = new YmlFunctionVisitor(new YmlCompletionItemsProvider(), '', new YmlDefinitionProvider());
             visitor.visit(functionContext);
+        });
+    });
+
+    describe('conditionInstance', () => {
+        const func = (parser) => parser.conditionInstance();
+        test.each([
+            `Condition CONDITION
+            a == b
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+            `Condition CONDITION
+            a != b
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+            `Condition CONDITION
+            a <= b
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+            `Condition CONDITION
+            a >= b
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+            `Condition CONDITION
+            a < b
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+            `Condition CONDITION
+            a > b
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+            `Condition CONDITION
+            exists(?a in myCollection, ?a != null)
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+            `Condition CONDITION
+            noExists(?a in myCollection, ?a != null)
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+            `Condition CONDITION
+            whatever(?a in myCollection) then ?a != null
+            --> documentation """
+            This is CONDITION documentation.
+            """
+            ;`,
+        ])('the conditionInstance (%#) with an attribute should be parsed without error', (content) => {
+            checkInputValidityForRule(func, content);
         });
     });
 });
