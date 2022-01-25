@@ -207,7 +207,6 @@
                     ".ycomplete",
                     ".dcl"
                 ],
-                "firstLine": "^//\\s*yseop\\s*$",
                 "icon": {
                     "light": "./icons/black-icon.png",
                     "dark": "./icons/yellow-icon.png"
