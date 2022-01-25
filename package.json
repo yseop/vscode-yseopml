@@ -208,6 +208,10 @@
                     ".dcl",
                     ".yml"
                 ],
+                "icon": {
+                    "light": "./icons/black-icon.png",
+                    "dark": "./icons/yellow-icon.png"
+                },
                 "configuration": "./language-configuration.json"
             }
         ],
