@@ -6,6 +6,9 @@
     -   attributes at the end of `Condition` instances;
     -   attributes of `Rule` instances;
     -   order one conditions of `whatever` expressions.
+-   yseopml files now have an icon for both dark and light themes
+-   [BREAKING CHANGE] Files with `.yml` extension are not considered as being yseopml files for syntax coloring anymore to avoid collision with YAML files.
+    -   They can be set as being yseopml files by [selecting the appropriate language mode](https://code.visualstudio.com/docs/languages/overview#_changing-the-language-for-the-selected-file).
 
 ## 1.15.0 (2021-09-17)
 

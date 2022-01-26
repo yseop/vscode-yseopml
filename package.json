@@ -205,9 +205,12 @@
                     ".ytextfunction",
                     ".yobject",
                     ".ycomplete",
-                    ".dcl",
-                    ".yml"
+                    ".dcl"
                 ],
+                "icon": {
+                    "light": "./icons/black-icon.svg",
+                    "dark": "./icons/yellow-icon.svg"
+                },
                 "configuration": "./language-configuration.json"
             }
         ],
