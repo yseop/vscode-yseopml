@@ -208,8 +208,8 @@
                     ".dcl"
                 ],
                 "icon": {
-                    "light": "./icons/black-icon.png",
-                    "dark": "./icons/yellow-icon.png"
+                    "light": "./icons/black-icon.svg",
+                    "dark": "./icons/yellow-icon.svg"
                 },
                 "configuration": "./language-configuration.json"
             }
