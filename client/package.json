@@ -21,6 +21,15 @@
         "test": "node ./out/test/runTests.js",
         "test:update": "cross-env JEST_TEST_RUNNER_UPDATE_SNAPSHOTS=true npm test"
     },
+    "jest-junit": {
+        "suiteName": "vscode-yseopml client unit tests",
+        "outputDirectory": "../target/test-reports",
+        "outputName": "junit-client-tests.xml",
+        "classNameTemplate": "{classname}-{title}",
+        "titleTemplate": "{classname}-{title}",
+        "ancestorSeparator": " › ",
+        "usePathForSuiteName": "true"
+    },
     "dependencies": {
         "event-stream": "3.3.4",
         "glob": "^7.1.6",
@@ -28,13 +37,17 @@
         "vscode-languageclient": "^7.0.0"
     },
     "devDependencies": {
+        "@types/chai": "^4.3.0",
         "@types/glob": "^7.1.1",
-        "@types/jest": "^24.9.1",
-        "@types/jest-cli": "^23.6.0",
+        "@types/mocha": "^9.1.0",
         "@types/node": "^12.20.1",
         "@types/vscode": "^1.54.0",
+        "@vscode/test-electron": "^2.1.1",
+        "chai": "^4.3.6",
         "cross-env": "^7.0.2",
-        "jest": "^26.1.0",
+        "jest": "^26.6.3",
+        "jest-runner-mocha": "^0.6.0",
+        "mocha": "^4.1.0",
         "vscode-jest-test-runner": "^1.0.0",
         "vscode-test": "^1.5.2"
     }

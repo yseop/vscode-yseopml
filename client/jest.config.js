@@ -1,7 +1,8 @@
 module.exports = {
     moduleFileExtensions: ["js", "ts"],
     preset: "ts-jest",
-    reporters: ["jest-junit"],
+    reporters: ["default", "jest-junit"],
     testResultsProcessor: "jest-sonar-reporter",
     verbose: true,
+    runner: "jest-runner-mocha"
 };
