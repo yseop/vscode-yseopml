@@ -83,8 +83,8 @@ function checkFormatOnFile(fileName: string, done) {
         })
         .then((formattedFile) => {
             expect(sourceFile.getText()).to.equal(formattedFile.getText());
-            done();
-        });
+        })
+        .then(() => done());
 }
 
 /**
