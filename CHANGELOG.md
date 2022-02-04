@@ -1,5 +1,7 @@
 # Release Notes
 
+## X.X.X (YYYY-MM-DD)
+
 ## 1.16.0 (2022-02-04)
 
 -   Parser improvements. The following expressions are now correctly parsed:

@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Yseop Markup Language support extension − coloring and code folding for YML",
-    "version": "1.16.0",
+    "version": "1.16.1-SNAPSHOT",
     "private": true,
     "author": "Yseop",
     "license": "MIT",
