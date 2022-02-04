@@ -1,5 +1,15 @@
 # Release Notes
 
+## 1.16.0 (2022-02-04)
+
+-   Parser improvements. The following expressions are now correctly parsed:
+    -   attributes at the end of `Condition` instances;
+    -   attributes of `Rule` instances;
+    -   order one conditions of `whatever` expressions.
+-   yseopml files now have an icon for both dark and light themes (requires VSCode ≥ 1.64)
+-   [BREAKING CHANGE] Files with `.yml` extension are not considered as being yseopml files for syntax coloring anymore to avoid collision with YAML files.
+    -   They can be set as being yseopml files by [selecting the appropriate language mode](https://code.visualstudio.com/docs/languages/overview#_changing-the-language-for-the-selected-file).
+
 ## 1.15.0 (2021-09-17)
 
 -   Greatly improved the performances of current parser, as well as the kind of expressions it can parse such as

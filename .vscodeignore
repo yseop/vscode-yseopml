@@ -25,3 +25,15 @@ server/**
 !server/node_modules/vscode-languageserver-types/**
 !server/node_modules/vscode-textbuffer/**
 !server/out/server.js
+
+# Config files that should be in the vsix.
+babel.config.js
+install.sh
+Jenkinsfile
+jest.ci.config.js
+jest.config.js
+list-snippets.sh
+package.json
+release.sh
+sonar-project.properties
+vscode-yseopml.code-workspace

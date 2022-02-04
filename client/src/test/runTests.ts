@@ -1,5 +1,5 @@
+import { runTests } from '@vscode/test-electron';
 import * as path from 'path';
-import { runTests } from 'vscode-test';
 
 async function main() {
     try {
@@ -9,7 +9,7 @@ async function main() {
 
         // The path to the extension test script
         // Passed to --extensionTestsPath
-        const extensionTestsPath = path.resolve(__dirname, '../../node_modules/vscode-jest-test-runner');
+        const extensionTestsPath = path.resolve(__dirname, './index');
 
         const resourcesDirPath = path.resolve(extensionDevelopmentPath, 'client/resources');
         const kbDirPath = path.resolve(resourcesDirPath, 'kb');

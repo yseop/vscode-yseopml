@@ -113,6 +113,7 @@ import { IfExpressionContext } from "./YmlParser";
 import { Instruction_timeCounterContext } from "./YmlParser";
 import { InValueContext } from "./YmlParser";
 import { Instruction_forallContext } from "./YmlParser";
+import { More_conditionalsContext } from "./YmlParser";
 import { Instruction_whileContext } from "./YmlParser";
 import { Instruction_returnContext } from "./YmlParser";
 import { Instruction_chainedCallContext } from "./YmlParser";
@@ -1355,6 +1356,17 @@ export interface YmlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitInstruction_forall?: (ctx: Instruction_forallContext) => void;
+
+	/**
+	 * Enter a parse tree produced by `YmlParser.more_conditionals`.
+	 * @param ctx the parse tree
+	 */
+	enterMore_conditionals?: (ctx: More_conditionalsContext) => void;
+	/**
+	 * Exit a parse tree produced by `YmlParser.more_conditionals`.
+	 * @param ctx the parse tree
+	 */
+	exitMore_conditionals?: (ctx: More_conditionalsContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `YmlParser.instruction_while`.

@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.15.0",
+    "version": "1.16.0",
     "author": "Yseop",
     "license": "MIT",
     "repository": {
@@ -205,9 +205,12 @@
                     ".ytextfunction",
                     ".yobject",
                     ".ycomplete",
-                    ".dcl",
-                    ".yml"
+                    ".dcl"
                 ],
+                "icon": {
+                    "light": "./icons/black-icon.svg",
+                    "dark": "./icons/yellow-icon.svg"
+                },
                 "configuration": "./language-configuration.json"
             }
         ],
@@ -238,20 +241,18 @@
         "compile:server": "tsc -b ./server/tsconfig.json",
         "test": "jest",
         "test:client": "cd client && npm test",
-        "test:ci": "jest --config=\"jest.ci.config.js\"",
+        "test:ci": "cd server && npm run test:ci",
         "watch": "tsc -b -w",
         "clean": "rimraf client/out && rimraf server/out",
         "postinstall": "cd client && npm install --unsafe-perm && cd ../server && npm install --unsafe-perm && cd .."
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.8.3",
-        "@types/jest": "^24.9.1",
-        "@types/jest-cli": "^23.6.0",
         "@types/node": "^12.20.1",
         "antlr4ts-cli": "^0.5.0-alpha.3",
         "jest": "^26.5.0",
         "jest-cli": "^26.5.0",
-        "jest-junit": "^8.0.0",
+        "jest-junit": "^13.0.0",
         "jest-sonar-reporter": "^2.0.0",
         "js-yaml": "^3.13.1",
         "merge-options": "^1.0.1",
@@ -264,22 +265,9 @@
         "tslint-eslint-rules": "^5.4.0",
         "tslint-sonarts": "^1.9.0",
         "typescript": "^3.8.3",
-        "vsce": "^1.95.0",
+        "vsce": "^1.102.0",
         "webpack": "^4.43.0",
-        "webpack-cli": "^3.3.12"
-    },
-    "jestSonar": {
-        "reportPath": "target/tests-results",
-        "reportFile": "sonar-report.xml"
-    },
-    "jest-junit": {
-        "suiteName": "vscode-yseopml unit tests",
-        "outputDirectory": "./target/test-reports",
-        "outputName": "junit-tests.xml",
-        "classNameTemplate": "{classname}-{title}",
-        "titleTemplate": "{classname}-{title}",
-        "ancestorSeparator": " › ",
-        "usePathForSuiteName": "true"
+        "webpack-cli": "^4.9.2"
     },
     "dependencies": {
         "xmldoc": "^1.1.2"
