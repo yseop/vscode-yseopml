@@ -2,7 +2,7 @@
     "name": "vscode-yseopml",
     "displayName": "YML (Yseop Markup Language) support extension",
     "description": "Implementation of YML language server in node.",
-    "version": "1.15.1-SNAPSHOT",
+    "version": "1.16.1-SNAPSHOT",
     "author": "Yseop",
     "license": "MIT",
     "repository": {
@@ -241,15 +241,13 @@
         "compile:server": "tsc -b ./server/tsconfig.json",
         "test": "jest",
         "test:client": "cd client && npm test",
-        "test:ci": "jest --config=\"jest.ci.config.js\"",
+        "test:ci": "cd server && npm run test:ci",
         "watch": "tsc -b -w",
         "clean": "rimraf client/out && rimraf server/out",
         "postinstall": "cd client && npm install --unsafe-perm && cd ../server && npm install --unsafe-perm && cd .."
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.8.3",
-        "@types/jest": "^27.4.0",
-        "@types/jest-cli": "^23.6.0",
         "@types/node": "^12.20.1",
         "antlr4ts-cli": "^0.5.0-alpha.3",
         "jest": "^26.5.0",
@@ -270,19 +268,6 @@
         "vsce": "^1.102.0",
         "webpack": "^4.43.0",
         "webpack-cli": "^4.9.2"
-    },
-    "jestSonar": {
-        "reportPath": "target/tests-results",
-        "reportFile": "sonar-report.xml"
-    },
-    "jest-junit": {
-        "suiteName": "vscode-yseopml unit tests",
-        "outputDirectory": "./target/test-reports",
-        "outputName": "junit-tests.xml",
-        "classNameTemplate": "{classname}-{title}",
-        "titleTemplate": "{classname}-{title}",
-        "ancestorSeparator": " › ",
-        "usePathForSuiteName": "true"
     },
     "dependencies": {
         "xmldoc": "^1.1.2"

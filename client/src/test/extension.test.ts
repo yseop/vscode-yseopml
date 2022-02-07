@@ -1,3 +1,5 @@
+import * as assert from 'assert';
+import { expect } from 'chai';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
@@ -6,72 +8,84 @@ const YML_EXTENSION_ID = 'Yseop.vscode-yseopml';
 // as well as import your extension to test it
 // import * as myExtension from '../extension';
 // Defines a Jest test suite to group tests of similar kind together
-describe('Extension Tests', () => {
-    it('YML extension exists.', () => {
-        expect(
+suite('Extension Tests', () => {
+    test('YML extension exists.', () => {
+        assert.strictEqual(
             vscode.extensions.all.some((extension) => {
                 return extension.id === YML_EXTENSION_ID;
             }),
-        ).toBeTruthy();
+            true,
+        );
     });
 
-    it("not existing extension doesn't exists.", () => {
-        expect(
+    test("not existing extension doesn't exists.", () => {
+        assert.strictEqual(
             vscode.extensions.all.some((extension) => {
                 return extension.id === 'Yseop.notExistingExtension';
             }),
-        ).toBeFalsy();
+            false,
+        );
     });
-    it('YML extension adds YML support.', () => {
+    test('YML extension adds YML support.', (done) => {
         const ymlExtension = vscode.extensions.all.find((extension) => {
             return extension.id === YML_EXTENSION_ID;
         });
-        expect(ymlExtension).toBeDefined();
-        return vscode.languages.getLanguages().then((languages) => {
-            expect(languages).toBeDefined();
-            expect(languages.length).not.toBe(0);
-            expect(languages.indexOf('yml')).not.toBe(-1);
+        expect(ymlExtension).to.not.be.undefined;
+        vscode.languages.getLanguages().then((languages) => {
+            expect(languages).to.not.be.undefined;
+            expect(languages).to.not.be.empty;
+            expect(languages).to.contain('yml');
+            done();
         });
     });
-    test.each(['documentFormat.dcl', 'otherDocumentFormat.dcl', 'collectionsAndIfElse.dcl'])(
-        'should format %s as expected',
-        (fileName) => {
-            const baseFolder = vscode.workspace.workspaceFolders[0];
-            const baseForlderPath = baseFolder.uri.path;
-            const sourceUri = vscode.Uri.parse(path.resolve(baseForlderPath, '_technical/toFormat', fileName));
-            const targetUri = vscode.Uri.parse(path.resolve(baseForlderPath, '_technical/formatted', fileName));
-            let sourceFile: vscode.TextDocument;
-            return vscode.workspace
-                .openTextDocument(sourceUri)
-                .then((document) => {
-                    sourceFile = document;
-                    return document.uri;
-                })
-                .then((docUri) => {
-                    return formatDocument(docUri);
-                })
-                .then((editList) => {
-                    expect(editList).toBeTruthy();
-                    const workEdits = new vscode.WorkspaceEdit();
-                    workEdits.set(sourceUri, editList); // give the edits
-                    return workEdits;
-                })
-                .then((workEdits) => {
-                    // apply the edits
-                    return vscode.workspace.applyEdit(workEdits);
-                })
-                .then((editsApplied) => {
-                    expect(editsApplied).toBeTruthy();
-                })
-                .then(() => {
-                    return vscode.workspace.openTextDocument(targetUri);
-                })
-                .then((formattedFile) => {
-                    expect(sourceFile.getText()).toBe(formattedFile.getText());
-                });
-        },
-    );
+
+    test(`should format 'documentFormat.dcl'} as expected`, (done) => {
+        checkFormatOnFile('documentFormat.dcl', done);
+    });
+    test(`should format 'otherDocumentFormat.dcl'} as expected`, (done) => {
+        checkFormatOnFile('otherDocumentFormat.dcl', done);
+    });
+    test(`should format 'collectionsAndIfElse.dcl'} as expected`, (done) => {
+        checkFormatOnFile('collectionsAndIfElse.dcl', done);
+    });
 });
+
+function checkFormatOnFile(fileName: string, done) {
+    const baseFolder = vscode.workspace.workspaceFolders[0];
+    const baseForlderPath = baseFolder.uri.path;
+    const sourceUri = vscode.Uri.parse(path.resolve(baseForlderPath, '_technical/toFormat', fileName));
+    const targetUri = vscode.Uri.parse(path.resolve(baseForlderPath, '_technical/formatted', fileName));
+    let sourceFile: vscode.TextDocument;
+    vscode.workspace
+        .openTextDocument(sourceUri)
+        .then((document) => {
+            sourceFile = document;
+            return document.uri;
+        })
+        .then((docUri) => {
+            return formatDocument(docUri);
+        })
+        .then((editList) => {
+            expect(editList).to.not.be.null;
+            const workEdits = new vscode.WorkspaceEdit();
+            workEdits.set(sourceUri, editList); // give the edits
+            return workEdits;
+        })
+        .then((workEdits) => {
+            // apply the edits
+            return vscode.workspace.applyEdit(workEdits);
+        })
+        .then((editsApplied) => {
+            expect(editsApplied).to.be.true;
+        })
+        .then(() => {
+            return vscode.workspace.openTextDocument(targetUri);
+        })
+        .then((formattedFile) => {
+            expect(sourceFile.getText()).to.equal(formattedFile.getText());
+        })
+        .then(() => done());
+}
 
 /**
  * Sends to the server a request to format the document at `docUri`.
