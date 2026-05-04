@@ -6,4 +6,4 @@ name: 'Check pull request conventional commits'
 
 jobs:
   check_pr_compliance:
-    uses: yseop/github-actions-library/.github/workflows/check-pr-compliance.yaml@v1.0.2
+    uses: yseop/github-actions-library/.github/workflows/check-pr-compliance.yaml@fc5bfb2240617d52a27df50dc070c83e495d207a # v1.1.0
