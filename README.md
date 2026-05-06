@@ -1,3 +1,7 @@
+> [!WARNING]
+> This repository has been archived for this ticket https://yseop-knowledge.atlassian.net/browse/AAC-45640
+> Which is part of this epic: https://yseop-knowledge.atlassian.net/browse/AAC-45544
+
 # Yseop Markup Language for VS Code
 
 This extension provides support for Yseop Markup Language (YML).
