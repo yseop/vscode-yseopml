@@ -9,7 +9,7 @@ import { DEFAULT_DOC_FORMAT_SETTINGS, IDocumentFormatSettings } from '../setting
 import { YmlKaoFileVisitor } from '../visitors';
 
 export function buildDocumentEditList(document: TextDocument, documentFormatSettings: IDocumentFormatSettings) {
-    if (documentFormatSettings?.enableDocumentFormat === 'no') {
+    if (!document || documentFormatSettings?.enableDocumentFormat === 'no') {
         return [];
     }
     const inputStream = CharStreams.fromString(document.getText(), document.uri);
